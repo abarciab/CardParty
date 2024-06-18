@@ -22,7 +22,6 @@ public class Fade : MonoBehaviour
     {
         gameObject.SetActive(true);
         _img.raycastTarget = true;
-        StopAllCoroutines();
         AnimateFade(false);
     }
 
@@ -30,23 +29,22 @@ public class Fade : MonoBehaviour
     {
         gameObject.SetActive(true);
         _img.raycastTarget = false;
-        StopAllCoroutines();
         AnimateFade(true);
     }
 
-    private async void AnimateFade(bool reverse)
+    private async void AnimateFade(bool isReversed)
     {
         float timePassed = 0;
         while (timePassed < FadeTime) {
             float progress = timePassed / FadeTime;
-            if (reverse) progress = 1 - progress;
+            if (isReversed) progress = 1 - progress;
 
             _img.color = _fadeGradient.Evaluate(progress);
 
             timePassed += Time.deltaTime;
             await Task.Yield();
         }
-        _img.color = _fadeGradient.Evaluate(reverse ? 0 : 1);
-        if (reverse) gameObject.SetActive(false);
+        _img.color = _fadeGradient.Evaluate(isReversed ? 0 : 1);
+        if (isReversed) gameObject.SetActive(false);
     }
 }

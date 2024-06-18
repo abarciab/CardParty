@@ -25,6 +25,12 @@ public class pauseMenuController : MonoBehaviour
         _clickSound.Play();
     }
 
+    public void ExitToOverworld()
+    {
+        CardGameManager.i.LoadOverworld();
+        _clickSound.Play();
+    }
+
     public void ToggleSettings()
     {
         _settings.SetActive(!_settings.activeInHierarchy);

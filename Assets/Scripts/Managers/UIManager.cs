@@ -11,6 +11,14 @@ public class UIManager : MonoBehaviour
     public static UIManager i;
     private void Awake() { i = this; }
 
+    [SerializeField] private GameObject _pauseMenu;
+    [SerializeField] private Fade _fade;
+
+    private void Start()
+    {
+        _fade.Disappear();
+    }
+
     private string GetTimeString(int seconds)
     {
         seconds = Mathf.FloorToInt(seconds);
@@ -18,4 +26,16 @@ public class UIManager : MonoBehaviour
         string timeString = string.Format("{0:D2}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
         return timeString;
     }
+
+    public void SetPaused(bool isPaused)
+    {
+        _pauseMenu.SetActive(isPaused);
+    }
+
+    public void FadeToBlack()
+    {
+        _fade.Appear();
+    }
+
+    public float GetFadeTime() => _fade.FadeTime;
 }

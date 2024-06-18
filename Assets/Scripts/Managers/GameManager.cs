@@ -4,15 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(InputController))]
 public class GameManager : MonoBehaviour
 {
     public static GameManager i;
-    private void Awake() { i = this; }
+    protected virtual void Awake() { print("setting up"); i = this; }
 
-    [SerializeField] GameObject _pauseMenu;
-    [SerializeField] Fade _fade;
-    [SerializeField] MusicPlayer _music;
+    [SerializeField] protected MusicPlayer Music;
     public Transform Camera;
 
     private void Update()
@@ -26,22 +23,16 @@ public class GameManager : MonoBehaviour
         else Pause();
     }
 
-
-    private void Start()
-    {
-        _fade.Disappear();
-    }
-
     public void Resume()
     {
-        _pauseMenu.SetActive(false);
+        UIManager.i.SetPaused(false);
         Time.timeScale = 1;
         AudioManager.i.Resume();
     }
 
     public void Pause()
     {
-        _pauseMenu.SetActive(true);
+        UIManager.i.SetPaused(true);
         Time.timeScale = 0;
         AudioManager.i.Pause();
     }
@@ -49,6 +40,7 @@ public class GameManager : MonoBehaviour
     [ButtonMethod]
     public void LoadMenu()
     {
+        print("loading menu");
         Resume();
         StartCoroutine(FadeThenLoadScene(0));
     }
@@ -57,16 +49,16 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         Resume();
-        StartCoroutine(FadeThenLoadScene(2));
+        StartCoroutine(FadeThenLoadScene(3));
     }
 
-    IEnumerator FadeThenLoadScene(int num)
+    protected IEnumerator FadeThenLoadScene(int num)
     {
-        _fade.Appear(); 
-        _music.FadeOutCurrent(_fade.FadeTime);
-        yield return new WaitForSeconds(_fade.FadeTime + 0.5f);
+        UIManager.i.FadeToBlack();
+        var fadeTime = UIManager.i.GetFadeTime();
+        Music.FadeOutCurrent(fadeTime);
+        yield return new WaitForSeconds(fadeTime + 0.5f);
         Destroy(AudioManager.i.gameObject);
         SceneManager.LoadScene(num);
     }
-
 }

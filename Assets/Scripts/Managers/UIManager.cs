@@ -37,5 +37,10 @@ public class UIManager : MonoBehaviour
         _fade.Appear();
     }
 
+    public void FadeFromBlack()
+    {
+        _fade.Disappear();
+    }
+
     public float GetFadeTime() => _fade.FadeTime;
 }

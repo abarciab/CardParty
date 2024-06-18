@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [SelectionBase]
@@ -8,28 +9,14 @@ public class TileController : MonoBehaviour
     [SerializeField] private GameObject _interactable;
     private TileGridController _gridController;
     public Vector2Int ID { get; private set; }
-    [SerializeField] private Transform _upEntranceLoc;
-    [SerializeField] private Transform _rightEntranceLoc;
-    [SerializeField] private Transform _downEntranceLoc;
-    [SerializeField] private Transform _leftEntranceLoc;
+    [SerializeField] private List<EntranceData> _entraces = new List<EntranceData>();
+    private bool _isUnlocked;
+    private Direction _initialEntranceDir;
 
-    private void Start()
-    {
-        if (Random.Range(0, 1f) < 0.5f) _interactable.SetActive(false);
-    }
 
-    public void ClickOnInteractable()
+    private void OnValidate()
     {
-        OverworldManager.i.LoadCardGame();
-    }
-
-    public Vector3 GetEntrancePos(Direction dir)
-    {
-        if (dir == Direction.Up) return _upEntranceLoc.position;
-        if (dir == Direction.Right) return _rightEntranceLoc.position;
-        if (dir == Direction.Down) return _downEntranceLoc.position;
-        if (dir == Direction.Left) return _leftEntranceLoc.position;
-        return Vector3.zero;
+        foreach (var e in _entraces) e.Name = e.Dir.ToString();
     }
 
     public void Initialize(int x, int y, bool _isMiddle, TileGridController gridController)
@@ -38,7 +25,54 @@ public class TileController : MonoBehaviour
         _gridController = gridController;
         gameObject.name = "tile (" + x + ", " + y + ")" + (_isMiddle ? "(Middle)" : "");
         if (_isMiddle) OverworldManager.i.Player.SetCurrentTile(this);
+
+        if (_isMiddle) {
+            ShowAllEntrances();
+            _interactable.SetActive(false);
+        }
+        else HideAllEntrances();
     }
+
+    private void ShowAllEntrances()
+    {
+        _isUnlocked = true;
+        foreach (var e in _entraces) e.Door.SetActive(true);
+    }
+
+    private void HideAllEntrances()
+    {
+        foreach (var e in _entraces) e.Door.SetActive(false);
+    }
+
+    public void EnterTile(Direction entranceDir)
+    {
+        OverworldManager.i.Player.MoveToNewTile(this, entranceDir);
+        _initialEntranceDir = entranceDir;
+        UpdateEntranceVisuals();
+    }
+
+    private void UpdateEntranceVisuals()
+    {
+        foreach (var e in _entraces) e.Door.SetActive(_isUnlocked || e.Dir == _initialEntranceDir); 
+    }
+
+    public void ClickOnInteractable()
+    {
+        OverworldManager.i.LoadCardGame();
+        _isUnlocked = true;
+    }
+
+    private void OnEnable()
+    {
+        UpdateEntranceVisuals();
+        _interactable.SetActive(!_isUnlocked);
+    }
+
+    public Vector3 GetEntrancePos(Direction dir)
+    {
+        return _entraces.Where(x => x.Dir == dir).First().TpPoint.position;
+    }
+
 
     public void PressUp() => PressNavigationButton(Direction.Up);
     public void PressRight() => PressNavigationButton(Direction.Right);
@@ -47,6 +81,7 @@ public class TileController : MonoBehaviour
 
     private void PressNavigationButton(Direction dir)
     {
+        if (!_isUnlocked && dir != _initialEntranceDir) return;
         var nextTile = _gridController.GetTileInDirection(ID, dir);
         if (nextTile != null) MovePlayerToTile(nextTile, dir);
     }
@@ -54,7 +89,6 @@ public class TileController : MonoBehaviour
     private void MovePlayerToTile(TileController nextTile, Direction exitDir)
     {
         Direction entranceDir = (Direction)(((int)exitDir + 2) % 4);
-
-        OverworldManager.i.Player.MoveToNewTile(nextTile, entranceDir);
+        nextTile.EnterTile(entranceDir);
     }
 }

@@ -10,7 +10,7 @@ public class OverworldManager : GameManager
     public static new OverworldManager i;
     protected override void Awake() { base.Awake(); i = this; }
 
-    public Transform Player;
+    public OverworldPlayer Player;
     public CameraController CameraController;
 
     public void LoadCardGame() => StartCoroutine(FadeThenLoadScene(2));

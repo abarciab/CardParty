@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        _player = OverworldManager.i.Player;
+        _player = OverworldManager.i.Player.transform;
         _currentTilePos = transform.position - _tileOffset;
     }
 

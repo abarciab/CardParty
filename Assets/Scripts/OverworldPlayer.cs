@@ -1,6 +1,7 @@
 using MyBox;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class OverworldPlayer : MonoBehaviour
@@ -15,13 +16,21 @@ public class OverworldPlayer : MonoBehaviour
     [SerializeField] private AnimationCurve _speedCurve;
     [SerializeField, ConditionalField(nameof(_showDebug))] private float _distThreshold = 0.05f;
 
+    [Header("Sounds")]
+    [SerializeField] private Sound _playerMoveSound;
+    [SerializeField] private Sound _moveTileSound;
+
     private Vector3 _currentTarget;
     private float _speed;
     private float _originalDistanceToTarget;
     private float _distanceToTarget;
+    private TileController _currentTile;
 
     private void Start()
     {
+        _playerMoveSound = Instantiate(_playerMoveSound);
+        _moveTileSound = Instantiate(_moveTileSound);
+
         _currentTarget = transform.position;
     }
 
@@ -30,6 +39,22 @@ public class OverworldPlayer : MonoBehaviour
         CheckForNewWalkTarget();
         CalculateSpeed();
         if (DistanceToTarget() > _distThreshold) MoveTowardTarget();
+    }
+
+    public void MoveToNewTile(TileController newTile, Direction dir)
+    {
+        _moveTileSound.Play();
+        var entrancePos = newTile.GetEntrancePos(dir);
+        entrancePos.y = transform.position.y;
+        transform.position = entrancePos;
+        _currentTarget = transform.position;
+        SetCurrentTile(newTile);
+    }
+
+    public void SetCurrentTile(TileController newTile)
+    {
+        _currentTile = newTile;
+        OverworldManager.i.CameraController.MoveToFocusOnNewTile(newTile.transform.position);
     }
 
     private void CalculateSpeed()
@@ -54,7 +79,9 @@ public class OverworldPlayer : MonoBehaviour
         if (!hitPoint) return;
 
         var tile = hitData.collider.GetComponentInParent<TileController>();
-        if (tile) OverworldManager.i.CameraController.MoveToFocusOnNewTile(tile.transform.position);
+        if (tile != _currentTile) return;
+
+        _playerMoveSound.Play();
         _currentTarget = hitData.point;
         _originalDistanceToTarget = DistanceToTarget();
     }

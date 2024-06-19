@@ -40,7 +40,7 @@ public class OverworldPlayer : MonoBehaviour
     private void Update()
     {
         SetDistanceToTarget();
-        if (!_isBeingControlled) CheckForNewWalkTarget();
+        if (!_isBeingControlled && !UIManager.i.IsBusy) CheckForNewWalkTarget();
         CalculateSpeed();
         if (_distanceToTarget > _distThreshold) MoveTowardTarget();
         else if (_isBeingControlled) FinishControl();

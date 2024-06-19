@@ -19,7 +19,7 @@ public class OnClickOnCollider : MonoBehaviour
 
     void Update()
     {
-        CheckIfClickedOn();    
+        if (!UIManager.i.IsBusy) CheckIfClickedOn();    
     }
 
     private void CheckIfClickedOn()

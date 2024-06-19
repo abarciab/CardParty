@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d779d4715048234dbbf2415be188cb0, type: 3}
+  m_Name: spookyScarySkeletons
+  m_EditorClassIdentifier: 
+  Title: spooky scary skeletons
+  Prompt: They dance. You find their rythm compelling
+  Sprite: {fileID: 21300000, guid: 4d31e84cf0dd4bc4a9cbf4b1890ee6ba, type: 3}
+  ChoicesToDisplay: 2
+  Choices:
+  - Text: Join in
+    SuccessChance: 0.741
+    _successText: befriend
+    SuccessText: u dance so well! they're big fans and heal your weakest adventurer
+    FailText: they do not like the way you move. big thumbs down and you get kicked
+      out
+  - Text: dance battle!
+    SuccessChance: 0
+    _successText: riches
+    SuccessText: they agree to the battle and you crush them. they hand over their
+      bounty and you bask in your success
+    FailText: They mockingly accept your challenge but absolutely destroy you. No
+      chance you were going to win that one. You hand over the agreed-upon amount
+  - Text: refuse their invitiation
+    SuccessChance: 0
+    _successText: escape
+    SuccessText: They let you go... for now...
+    FailText: They shoot arrows at you as you leave, damaging one of your adventurers

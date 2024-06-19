@@ -13,7 +13,6 @@ public class TileController : MonoBehaviour
     private bool _isUnlocked;
     private Direction _initialEntranceDir;
 
-
     private void OnValidate()
     {
         foreach (var e in _entraces) e.Name = e.Dir.ToString();
@@ -60,10 +59,17 @@ public class TileController : MonoBehaviour
 
     public void ClickOnInteractable()
     {
-        OverworldManager.i.Player.MoveToTargetWithCallback(_interactable.transform.position, () =>OverworldManager.i.LoadCardGame());
-        //OverworldManager.i.Player.MoveToTargetWithCallback(_interactable.transform.position, () =>OverworldUIManager.i.LoadCardGame());
+        //OverworldManager.i.Player.MoveToTargetWithCallback(_interactable.transform.position, () =>OverworldManager.i.LoadCardGame());
+        OverworldManager.i.Player.MoveToTargetWithCallback(_interactable.transform.position, StartEventFromInteractable);
 
         _isUnlocked = true;
+    }
+
+    private void StartEventFromInteractable()
+    {
+        OverworldUIManager.i.StartRandomEvent();
+        UpdateEntranceVisuals();
+        _interactable.SetActive(!_isUnlocked);
     }
 
     private void OnEnable()

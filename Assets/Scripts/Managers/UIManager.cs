@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private Fade _fade;
+    public bool IsBusy => OpenMenus > 0;
+    protected int OpenMenus;
 
     private void Start()
     {
@@ -29,6 +31,7 @@ public class UIManager : MonoBehaviour
 
     public void SetPaused(bool isPaused)
     {
+        OpenMenus += isPaused ? 1 : -1;
         _pauseMenu.SetActive(isPaused);
     }
 

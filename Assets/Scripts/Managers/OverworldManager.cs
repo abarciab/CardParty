@@ -34,6 +34,7 @@ public class OverworldManager : GameManager
         RestoreSingletons();
 
         UIManager.i.FadeFromBlack();
+        Player.enabled = true;
     }
 
     private void RestoreSingletons()
@@ -45,6 +46,7 @@ public class OverworldManager : GameManager
 
     public void LoadCardGame()
     {
+        Player.enabled = false;
         UIManager.i.FadeToBlack();
         StartCoroutine(HideAndLoadCardGameAfterFade());
     }

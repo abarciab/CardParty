@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class TileGridController : MonoBehaviour
 {
     private List<TileController> _tiles = new List<TileController>();
+    [SerializeField] private Transform _fogOfWar;
 
     public void SetTiles(List<TileController> tiles) => _tiles = tiles;
 
@@ -20,5 +22,12 @@ public class TileGridController : MonoBehaviour
         var targetTile = _tiles.Where(x => x.ID == TargetID).ToList();
         if (targetTile.Count > 0) return targetTile[0];
         else return null;
+    }
+
+    public async void UpdateAllTiles(TileController newPlayerTile)
+    {
+        foreach (var t in _tiles) t.UpdateEntranceVisuals();
+        await Task.Delay(500);
+        _fogOfWar.transform.position = newPlayerTile.transform.position;
     }
 }

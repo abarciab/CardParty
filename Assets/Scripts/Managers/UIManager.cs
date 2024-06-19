@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager i;
-    private void Awake() { i = this; }
+    protected virtual void Awake() { i = this; }
 
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private Fade _fade;

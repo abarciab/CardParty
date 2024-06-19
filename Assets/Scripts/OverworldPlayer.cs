@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class OverworldPlayer : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class OverworldPlayer : MonoBehaviour
     private float _originalDistanceToTarget;
     private float _distanceToTarget;
     private TileController _currentTile;
+    private bool _isBeingControlled;
+    private UnityAction _callbackOnTargetReached;
 
     private void Start()
     {
@@ -36,9 +39,29 @@ public class OverworldPlayer : MonoBehaviour
 
     private void Update()
     {
-        CheckForNewWalkTarget();
+        SetDistanceToTarget();
+        if (!_isBeingControlled) CheckForNewWalkTarget();
         CalculateSpeed();
-        if (DistanceToTarget() > _distThreshold) MoveTowardTarget();
+        if (_distanceToTarget > _distThreshold) MoveTowardTarget();
+        else if (_isBeingControlled) FinishControl();
+    }
+
+    public TileController GetCurrentTile() => _currentTile;
+
+    private void FinishControl()
+    {
+        if (_callbackOnTargetReached != null) _callbackOnTargetReached.Invoke();
+        _callbackOnTargetReached = null;
+        _isBeingControlled = false;
+    }
+
+    public void MoveToTargetWithCallback(Vector3 newTarget, UnityAction callback)
+    {
+        _playerMoveSound.Play();
+        _isBeingControlled = true;
+        newTarget.y = transform.position.y;
+        _currentTarget = newTarget;
+        _callbackOnTargetReached = callback;
     }
 
     public void MoveToNewTile(TileController newTile, Direction dir)
@@ -59,14 +82,19 @@ public class OverworldPlayer : MonoBehaviour
 
     private void CalculateSpeed()
     {
-        float progress = _distanceToTarget / _originalDistanceToTarget;
+        float progress = _distanceToTarget / Mathf.Max(_originalDistanceToTarget, 0.001f);
         float speedMod = _speedCurve.Evaluate(progress);
         _speed = speedMod * (_maxSpeed - _minSpeed) + _minSpeed;
     }
 
-    private float DistanceToTarget()
+    private void SetDistanceToTarget()
     {
-        _distanceToTarget = Mathf.Max(_distThreshold /2,  Vector3.Distance(transform.position, _currentTarget));
+        _distanceToTarget = Mathf.Max(_distThreshold / 2, Vector3.Distance(transform.position, _currentTarget));
+    }
+
+    private float GetDistanceToTarget()
+    {
+        SetDistanceToTarget();
         return _distanceToTarget;
     }
 
@@ -83,13 +111,14 @@ public class OverworldPlayer : MonoBehaviour
 
         _playerMoveSound.Play();
         _currentTarget = hitData.point;
-        _originalDistanceToTarget = DistanceToTarget();
+        _originalDistanceToTarget = GetDistanceToTarget();
     }
 
     private void MoveTowardTarget()
     {
         var dir = (_currentTarget - transform.position).normalized;
-        transform.position += _speed * Time.deltaTime * dir;
+        var delta = _speed * Time.deltaTime * dir;
+        transform.position += delta;
     }
 
     private void OnDrawGizmosSelected()

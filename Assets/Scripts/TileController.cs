@@ -48,17 +48,21 @@ public class TileController : MonoBehaviour
     {
         OverworldManager.i.Player.MoveToNewTile(this, entranceDir);
         _initialEntranceDir = entranceDir;
+        _gridController.UpdateAllTiles(this);
         UpdateEntranceVisuals();
     }
 
-    private void UpdateEntranceVisuals()
+    public void UpdateEntranceVisuals()
     {
-        foreach (var e in _entraces) e.Door.SetActive(_isUnlocked || e.Dir == _initialEntranceDir); 
+        if (OverworldManager.i.Player.GetCurrentTile() != this) HideAllEntrances();
+        else foreach (var e in _entraces) e.Door.SetActive(_isUnlocked || e.Dir == _initialEntranceDir); 
     }
 
     public void ClickOnInteractable()
     {
-        OverworldManager.i.LoadCardGame();
+        OverworldManager.i.Player.MoveToTargetWithCallback(_interactable.transform.position, () =>OverworldManager.i.LoadCardGame());
+        //OverworldManager.i.Player.MoveToTargetWithCallback(_interactable.transform.position, () =>OverworldUIManager.i.LoadCardGame());
+
         _isUnlocked = true;
     }
 
@@ -73,7 +77,6 @@ public class TileController : MonoBehaviour
         return _entraces.Where(x => x.Dir == dir).First().TpPoint.position;
     }
 
-
     public void PressUp() => PressNavigationButton(Direction.Up);
     public void PressRight() => PressNavigationButton(Direction.Right);
     public void PressDown() => PressNavigationButton(Direction.Down);
@@ -83,7 +86,10 @@ public class TileController : MonoBehaviour
     {
         if (!_isUnlocked && dir != _initialEntranceDir) return;
         var nextTile = _gridController.GetTileInDirection(ID, dir);
-        if (nextTile != null) MovePlayerToTile(nextTile, dir);
+        if (nextTile != null) {
+            var exitPos = _entraces.Where(x => x.Dir == dir).First().Door.transform.position;
+            OverworldManager.i.Player.MoveToTargetWithCallback(exitPos, () => MovePlayerToTile(nextTile, dir));
+        }
     }
 
     private void MovePlayerToTile(TileController nextTile, Direction exitDir)

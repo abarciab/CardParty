@@ -19,17 +19,37 @@ MonoBehaviour:
   ChoicesToDisplay: 2
   Choices:
   - Text: buy his wares
-    _successChance: 0.686
+    SuccessChance: 1
     _successText: equipment
-    SuccessText: 
-    FailText: 
+    SuccessText: he's got just what you want, and at a reasonable price too :) +1
+      new item
+    SucessOutcomes:
+    - Type: 2
+      _moneyDelta: 0
+      _equipment: {fileID: 11400000, guid: 359fe01e39dc7b446a08605805765fca, type: 2}
+    FailText: He's all out today, unfortunately
+    FailureOutcomes: []
   - Text: steal from him
-    _successChance: 0.221
+    SuccessChance: 0.2
     _successText: loot
-    SuccessText: 
-    FailText: 
+    SuccessText: Your great distraction is enough to steal his profits. + lots of
+      money
+    SucessOutcomes:
+    - Type: 1
+      _moneyDelta: 200
+      _equipment: {fileID: 0}
+    FailText: He catches you in the act. prepare for a fight!
+    FailureOutcomes:
+    - Type: 3
+      _moneyDelta: 0
+      _equipment: {fileID: 0}
   - Text: threaten him
-    _successChance: 0.479
+    SuccessChance: 0.689
     _successText: info
-    SuccessText: 
-    FailText: 
+    SuccessText: He cowers and tells you some info about the woods ahead. (NOT IMPLEMENTED)
+    SucessOutcomes: []
+    FailText: he calls your bluff. fight time!
+    FailureOutcomes:
+    - Type: 3
+      _moneyDelta: 0
+      _equipment: {fileID: 0}

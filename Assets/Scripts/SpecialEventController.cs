@@ -14,6 +14,7 @@ public class SpecialEventController : MonoBehaviour
     [SerializeField] private GameObject _continueButton;
 
     private List<SpecialEventChoiceData> _currentChoices = new List<SpecialEventChoiceData>();
+    private List<SpecialEventOutcome> _decidedOutcomes = new List<SpecialEventOutcome>();
 
     public void ShowEvent(SpecialEventData data)
     {
@@ -49,6 +50,7 @@ public class SpecialEventController : MonoBehaviour
         var selectedChoice = _currentChoices[index];
         bool succeeded = Random.Range(0, 1f) < selectedChoice.SuccessChance;
 
+        _decidedOutcomes = succeeded ? selectedChoice.SucessOutcomes : selectedChoice.FailureOutcomes;
         _titleText.text = succeeded ? "Success" : "Failure";
         _promptText.text = succeeded ? selectedChoice.SuccessText : selectedChoice.FailText;
         foreach (var b in _choices) b.gameObject.SetActive(false);
@@ -57,7 +59,8 @@ public class SpecialEventController : MonoBehaviour
 
     public void PressContinue()
     {
-        OverworldUIManager.i.CloseSpecialEvent();
+        OverworldUIManager.i.CloseSpecialEvent(); 
+        foreach (var o in _decidedOutcomes) o.Trigger();
     }
 
     public void Close()

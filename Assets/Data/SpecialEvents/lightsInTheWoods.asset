@@ -18,23 +18,35 @@ MonoBehaviour:
   ChoicesToDisplay: 2
   Choices:
   - Text: YES PLSSSS slay (me)
-    SuccessChance: 0.224
+    SuccessChance: 0.548
     _successText: win
     SuccessText: 'You went into the woods and whorshipped the lights very well :)
 
       they
       reward you with millions of dollars'
-    FailText: they slay one of your adventurueres. damn that sucks ass
+    SucessOutcomes:
+    - Type: 1
+      _moneyDelta: 550
+      _equipment: {fileID: 0}
+    FailText: they slay one of your adventurueres. damn that sucks ass (NOT IMPLEMENTED)
+    FailureOutcomes: []
   - Text: ohnoes not today!
     SuccessChance: 0.727
     _successText: get out!
     SuccessText: you escape!
+    SucessOutcomes: []
     FailText: 'you try to run but they cartch you anways. ooh that doesn''t look
       good for you. The lights steal some of your money and laugh as you walk away. '
+    FailureOutcomes:
+    - Type: 1
+      _moneyDelta: -75
+      _equipment: {fileID: 0}
   - Text: shoot the lights
     SuccessChance: 0.401
     _successText: win
     SuccessText: the lights are actually just fireflies, but your excellent aim impresses
-      a bystander. here's a rfee adventurer if you'd like
+      a bystander. here's a free adventurer if you'd like (NOT IMPLEMENTED)
+    SucessOutcomes: []
     FailText: your bullets bounce and hit all of your adventurers. they all take
-      damage
+      damage (NOT IMPLEMENTED)
+    FailureOutcomes: []

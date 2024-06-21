@@ -11,6 +11,7 @@ public class OverworldUIManager : UIManager
 
     [SerializeField] private Animator _wipe;
     [SerializeField] private SpecialEventController _eventController;
+    [SerializeField] private InventoryUI _inventory;
 
     [Header("TEMP")]
     [SerializeField, DisplayInspector] private List<SpecialEventData> _specialEvents = new List<SpecialEventData>();
@@ -32,5 +33,17 @@ public class OverworldUIManager : UIManager
     {
         OpenMenus -= 1;
         _eventController.Close();
+    }
+
+    public void OpenInventory()
+    {
+        _inventory.Show();
+        OpenMenus += 1;
+    }
+
+    public void CloseInventory()
+    {
+        OpenMenus -= 1;
+        _inventory.gameObject.SetActive(false);
     }
  }

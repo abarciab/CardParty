@@ -39,11 +39,21 @@ public class OverworldPlayer : MonoBehaviour
 
     private void Update()
     {
+        if (UIManager.i.IsBusy) {
+            Stop();
+            return;
+        }
+
         SetDistanceToTarget();
         if (!_isBeingControlled && !UIManager.i.IsBusy) CheckForNewWalkTarget();
         CalculateSpeed();
         if (_distanceToTarget > _distThreshold) MoveTowardTarget();
         else if (_isBeingControlled) FinishControl();
+    }
+
+    private void Stop()
+    {
+        _currentTarget = transform.position;
     }
 
     public TileController GetCurrentTile() => _currentTile;

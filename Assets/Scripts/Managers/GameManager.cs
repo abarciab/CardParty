@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager i;
-    protected virtual void Awake() { i = this; }
+    protected virtual void Awake() { i = this; PlayerInfo.InitializeEmpty();  }
 
     [SerializeField] protected MusicPlayer Music;
     public Transform Camera;

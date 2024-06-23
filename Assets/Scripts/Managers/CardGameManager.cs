@@ -10,44 +10,6 @@ public class CardGameManager : GameManager
     public new static CardGameManager i;
     public Combat testCombat;
     public Party testParty;
-    protected override void Awake() { base.Awake(); i = this; StartCoroutine(StartCombat(testCombat, testParty)); }
-
-    void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            Ray ray = Camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit)) {
-                print(hit.collider.gameObject.name);
-                Creature creature = hit.collider.gameObject.GetComponent<Creature>();
-                if (creature) {
-                    if (CardGameManager.i.selectedCreatures.Contains(creature)) {
-                        creature.Deselect();
-                    } else {
-                        creature.Select();
-                    }
-                }
-            }
-        }
-    }
-
-    public void LoadOverworld()
-    {
-        Resume();
-        StartCoroutine(FadeThenShowOverworld());
-    }
-
-    private IEnumerator FadeThenShowOverworld()
-    {
-        float fadeTime = UIManager.i.GetFadeTime();
-        Music.FadeOutCurrent(fadeTime);
-        yield return new WaitForSeconds(fadeTime);
-        Camera.GetComponent<AudioListener>().enabled = false;
-        var unloadingTask = SceneManager.UnloadSceneAsync(2);
-        //while (!unloadingTask.isDone) yield return null;
-
-        if (OverworldManager.i) OverworldManager.i.ShowOverworldObjects();
-        else SceneManager.LoadScene(1);
-    }
 
     const float BUFFER_TIME = 1f;
     const float CREATURE_SPACING = 10f;
@@ -75,14 +37,56 @@ public class CardGameManager : GameManager
 
     public Transform enemyContainer;
     public Transform adventurerContainer;
-
     public List<Creature> selectedCreatures = new List<Creature>();
     public GameObject selectedCreatureHighlight;
     public List<Adventurer> adventurers = new List<Adventurer>();
     public List<Enemy> enemies = new List<Enemy>();
     public CardData currPlayedCard;
+    protected override void Awake() {
+        base.Awake();
+        i = this;
+        StartCoroutine(StartCombat(testCombat, testParty)); 
+    }
+
+    void Update() {
+        if (currCombatState == CombatState.SelectTargets) {
+            if (Input.GetMouseButtonDown(0)) {
+                Ray ray = Camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if(Physics.Raycast(ray, out hit)) {
+                    Creature creature = hit.collider.gameObject.GetComponent<Creature>();
+                    if (creature) {
+                        if (CardGameManager.i.selectedCreatures.Contains(creature)) {
+                            creature.Deselect();
+                        } else {
+                            creature.Select();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void LoadOverworld()
+    {
+        Resume();
+        StartCoroutine(FadeThenShowOverworld());
+    }
+
+    private IEnumerator FadeThenShowOverworld()
+    {
+        float fadeTime = UIManager.i.GetFadeTime();
+        Music.FadeOutCurrent(fadeTime);
+        yield return new WaitForSeconds(fadeTime);
+        Camera.GetComponent<AudioListener>().enabled = false;
+        var unloadingTask = SceneManager.UnloadSceneAsync(2);
+        //while (!unloadingTask.isDone) yield return null;
+
+        if (OverworldManager.i) OverworldManager.i.ShowOverworldObjects();
+        else SceneManager.LoadScene(1);
+    }
+    
     public IEnumerator StartCombat(Combat combat, Party party) {
-        print("combat starting");
         //spawn enemies
         float absBound = ((float)combat.enemies.Length - 1) / 2 * CREATURE_SPACING;
         for (int i = 0; i < combat.enemies.Length; i++) {
@@ -113,9 +117,7 @@ public class CardGameManager : GameManager
 
         yield return new WaitForSeconds(BUFFER_TIME / 2);
 
-        for (int i = 0; i < 7; i++) {
-            yield return StartCoroutine(deck.DrawCard());
-        }
+        yield return StartCoroutine(deck.DrawCard(7));
 
         StartPlayerTurn();
     }

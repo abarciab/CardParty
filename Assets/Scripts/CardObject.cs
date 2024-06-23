@@ -24,9 +24,9 @@ public class CardObject: MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     void Update()
     {
         if (dragging) {
-            Vector3 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePoint.z = 0;
-            transform.position = mousePoint;
+            //Vector3 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //mousePoint.z = 0;
+            transform.position = Input.mousePosition;
         }
     }
 

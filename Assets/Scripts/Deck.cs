@@ -18,9 +18,14 @@ public class Deck : MonoBehaviour
         yield return 0;
     }
 
-    public IEnumerator DrawCard() {
-        yield return StartCoroutine(CardGameManager.i.hand.AddCard(cards[0]));
+    public IEnumerator DrawCard(int count = 1) {
+        List<CardData> tempList = new List<CardData>();
+        for(int i = 0; i < count; i++) {
+            if (cards.Count == 0) break;
+            tempList.Add(cards[0]);
+            cards.RemoveAt(0);
+        }
 
-        cards.RemoveAt(0);
+        yield return StartCoroutine(CardGameManager.i.hand.AddCard(tempList));
     }
 }

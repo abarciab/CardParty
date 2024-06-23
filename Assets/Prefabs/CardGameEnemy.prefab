@@ -449,11 +449,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 8993101643681928157}
   healthSlider: {fileID: 5153128187678830978}
-  health: 0
-  maxHealth: 0
+  health: 100
+  maxHealth: 100
   blockSlider: {fileID: 5916237639070223711}
   block: 0
-  maxBlock: 0
+  maxBlock: 100
   selectedCreatureHighlight: {fileID: 173222225718064266, guid: 8710a4673c11f054f8ed088df341f64d, type: 3}
 --- !u!1 &6384429990764305690
 GameObject:

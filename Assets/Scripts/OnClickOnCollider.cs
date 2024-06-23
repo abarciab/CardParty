@@ -17,6 +17,12 @@ public class OnClickOnCollider : MonoBehaviour
         OnPointerExit.AddListener(() => { _isMouseOver = false; });
     }
 
+    public void OverrideOnClickOn(UnityAction callback)
+    {
+        OnClickOn = new UnityEvent();
+        OnClickOn.AddListener(callback);
+    }
+
     void Update()
     {
         if (!UIManager.i.IsBusy) CheckIfClickedOn();    

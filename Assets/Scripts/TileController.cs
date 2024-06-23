@@ -1,3 +1,4 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,10 @@ using UnityEngine;
 public class TileController : MonoBehaviour
 {
     [SerializeField] private GameObject _interactable;
+    public WFCSTileInfo WFCInfo;
+
     private TileGridController _gridController;
-    public Vector2Int ID { get; private set; }
+    public Vector2Int GridPos { get; private set; }
     [SerializeField] private List<EntranceData> _entraces = new List<EntranceData>();
     private bool _isUnlocked;
     private Direction _initialEntranceDir;
@@ -18,9 +21,35 @@ public class TileController : MonoBehaviour
         foreach (var e in _entraces) e.Name = e.Dir.ToString();
     }
 
-    public void Initialize(int x, int y, bool _isMiddle, TileGridController gridController)
+    private void Start()
     {
-        ID = new Vector2Int(x, y);
+        _interactable.SetActive(false);
+        FixEntranceButtons();
+    }
+
+    [ButtonMethod]
+    private void FixEntranceButtons()
+    {
+        var doors = GetComponentsInChildren<OnClickOnCollider>();
+        foreach (var d in doors)
+        {
+            if (d.name.Contains("able")) continue;
+            d.OverrideOnClickOn(() => PressButton(d.gameObject));
+        }
+    }
+
+    [ButtonMethod]
+    private void FixDataTile()
+    {
+        WFCInfo = GetComponentInChildren<WFCSTileInfo>();
+        var transf = WFCInfo.transform;
+        transf.localPosition = new Vector3(0, -2.87f, 0);
+        transf.localScale = Vector3.one * 3;
+    }
+
+    public void Initialize(int x, int y, bool _isMiddle, TileGridController gridController, Quaternion rot)
+    {
+        GridPos = new Vector2Int(x, y);
         _gridController = gridController;
         gameObject.name = "tile (" + x + ", " + y + ")" + (_isMiddle ? "(Middle)" : "");
         if (_isMiddle) OverworldManager.i.Player.SetCurrentTile(this);
@@ -30,6 +59,30 @@ public class TileController : MonoBehaviour
             _interactable.SetActive(false);
         }
         else HideAllEntrances();
+
+        SetRotation(rot);
+        WFCInfo.Rotate(rot);
+    }
+
+    private void SetRotation(Quaternion rot)
+    {
+        if (rot == Quaternion.identity) return;
+        if (Vector3.Distance(rot.eulerAngles, new Vector3(0, 90, 0)) < 0.1f) RotateEntrances(1);
+        if (Vector3.Distance(rot.eulerAngles, new Vector3(0, 180, 0)) < 0.1f) RotateEntrances(2);
+        if (Vector3.Distance(rot.eulerAngles, new Vector3(0, 270, 0)) < 0.1f) RotateEntrances(3);
+
+        _entraces[0].Dir = Direction.Up;
+        _entraces[1].Dir = Direction.Right;
+        _entraces[2].Dir = Direction.Down;
+        _entraces[3].Dir = Direction.Left;
+    }
+
+    private void RotateEntrances(int numTimes)
+    {
+        for (int i = 0; i < numTimes; i++) {
+            _entraces.Insert(0, _entraces[3]);
+            _entraces.RemoveAt(4);
+        }
     }
 
     private void ShowAllEntrances()
@@ -49,6 +102,7 @@ public class TileController : MonoBehaviour
         _initialEntranceDir = entranceDir;
         _gridController.UpdateAllTiles(this);
         UpdateEntranceVisuals();
+        _interactable.SetActive(!_isUnlocked);
     }
 
     public void UpdateEntranceVisuals()
@@ -59,10 +113,18 @@ public class TileController : MonoBehaviour
 
     public void ClickOnInteractable()
     {
-        //OverworldManager.i.Player.MoveToTargetWithCallback(_interactable.transform.position, () =>OverworldManager.i.LoadCardGame());
-        OverworldManager.i.Player.MoveToTargetWithCallback(_interactable.transform.position, StartEventFromInteractable);
-
         _isUnlocked = true;
+
+        //OverworldManager.i.Player.MoveToTargetWithCallback(_interactable.transform.position, () =>OverworldManager.i.LoadCardGame());
+        //OverworldManager.i.Player.MoveToTargetWithCallback(_interactable.transform.position, StartEventFromInteractable);
+        OverworldManager.i.Player.MoveToTargetWithCallback(_interactable.transform.position, OpenShopInteractable);
+    }
+
+    private void OpenShopInteractable()
+    {
+        OverworldUIManager.i.OpenShop();
+        UpdateEntranceVisuals();
+        _interactable.SetActive(!_isUnlocked);
     }
 
     private void StartEventFromInteractable()
@@ -83,15 +145,15 @@ public class TileController : MonoBehaviour
         return _entraces.Where(x => x.Dir == dir).First().TpPoint.position;
     }
 
-    public void PressUp() => PressNavigationButton(Direction.Up);
-    public void PressRight() => PressNavigationButton(Direction.Right);
-    public void PressDown() => PressNavigationButton(Direction.Down);
-    public void PressLeft() => PressNavigationButton(Direction.Left);
+    public void PressButton(GameObject door)
+    {
+        foreach (var e in _entraces) if (e.Door == door) PressNavigationButton(e.Dir);
+    }
 
     private void PressNavigationButton(Direction dir)
     {
         if (!_isUnlocked && dir != _initialEntranceDir) return;
-        var nextTile = _gridController.GetTileInDirection(ID, dir);
+        var nextTile = _gridController.GetTileInDirection(GridPos, dir);
         if (nextTile != null) {
             var exitPos = _entraces.Where(x => x.Dir == dir).First().Door.transform.position;
             OverworldManager.i.Player.MoveToTargetWithCallback(exitPos, () => MovePlayerToTile(nextTile, dir));

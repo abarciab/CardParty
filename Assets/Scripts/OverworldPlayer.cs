@@ -112,12 +112,17 @@ public class OverworldPlayer : MonoBehaviour
     {
         if (!Input.GetMouseButtonDown(0)) return;
 
+
         var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool hitPoint = Physics.Raycast(mouseRay, out var hitData, 300, _walkableLayers);
         if (!hitPoint) return;
 
+        //print("recieved click, but no tile");
+
         var tile = hitData.collider.GetComponentInParent<TileController>();
         if (tile != _currentTile) return;
+
+        //print("recieved click");
 
         _playerMoveSound.Play();
         _currentTarget = hitData.point;

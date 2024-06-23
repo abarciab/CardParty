@@ -6,6 +6,7 @@ using UnityEngine;
 public class Equipment : ScriptableObject
 {
     public string Name;
+    public int Cost;
 
     public override string ToString()
     {

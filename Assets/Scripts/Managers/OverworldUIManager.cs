@@ -12,6 +12,7 @@ public class OverworldUIManager : UIManager
     [SerializeField] private Animator _wipe;
     [SerializeField] private SpecialEventController _eventController;
     [SerializeField] private InventoryUI _inventory;
+    [SerializeField] private ShopController _shop;
 
     [Header("TEMP")]
     [SerializeField, DisplayInspector] private List<SpecialEventData> _specialEvents = new List<SpecialEventData>();
@@ -27,6 +28,18 @@ public class OverworldUIManager : UIManager
     {
         OpenMenus += 1;
         _eventController.ShowEvent(_specialEvents[Random.Range(0, _specialEvents.Count)]);
+    }
+
+    public void OpenShop()
+    {
+        _shop.OpenShop();
+        OpenMenus += 1;
+    }
+
+    public void CloseShop()
+    {
+        OpenMenus -= 1;
+        _shop.gameObject.SetActive(false);
     }
 
     public void CloseSpecialEvent()

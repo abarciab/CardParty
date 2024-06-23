@@ -10,5 +10,6 @@ public static class PlayerInfo
     public static void InitializeEmpty()
     {
         Stats = new PlayerStats();
+        Inventory = new PlayerInventory();
     }
 }

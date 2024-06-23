@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Amulet
   m_EditorClassIdentifier: 
   Name: Amulet
+  Cost: 25

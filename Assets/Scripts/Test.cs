@@ -6,10 +6,12 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
+    [SerializeField] private int _moneyDelta;
+
     [ButtonMethod]
     private void IncrementMoney()
     {
-        PlayerInfo.Stats.Money += 1;
+        PlayerInfo.Stats.Money += _moneyDelta;
         print("money: " + PlayerInfo.Stats.Money);
     }
 

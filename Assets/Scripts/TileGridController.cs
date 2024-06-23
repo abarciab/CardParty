@@ -19,7 +19,7 @@ public class TileGridController : MonoBehaviour
         if (dir == Direction.Down) TargetID.y -= 1;
         if (dir == Direction.Left) TargetID.x -= 1;
 
-        var targetTile = _tiles.Where(x => x.ID == TargetID).ToList();
+        var targetTile = _tiles.Where(x => x.GridPos == TargetID).ToList();
         if (targetTile.Count > 0) return targetTile[0];
         else return null;
     }

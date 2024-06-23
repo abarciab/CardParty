@@ -530,6 +530,14 @@ PrefabInstance:
       propertyPath: _wipeDuration
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 2625207772274359055, guid: 9bd64474d09df4846b33d3428abaa2dc, type: 3}
+      propertyPath: m_Antialiasing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2625207772274359055, guid: 9bd64474d09df4846b33d3428abaa2dc, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3234960615811927873, guid: 9bd64474d09df4846b33d3428abaa2dc, type: 3}
       propertyPath: m_Name
       value: Camera
@@ -771,6 +779,38 @@ PrefabInstance:
       propertyPath: _prefabTiles.Array.data[21]
       value: 
       objectReference: {fileID: 3446277853018002120, guid: ace7d618d5dca064e8aaec9739eb156e, type: 3}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.data[0].Name
+      value: shop
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.data[0].Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.data[1].Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.data[2].Type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.data[0].Outcome
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.data[1].Outcome
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.data[2].Outcome
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7996114323278379004, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: ColorModule.enabled
       value: 1
@@ -1229,7 +1269,11 @@ PrefabInstance:
       value: -50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4978404334098074770, guid: 00cd81b21769e6d4d95c9ba644738e91, type: 3}
+    - {fileID: 5214059429685642431, guid: 00cd81b21769e6d4d95c9ba644738e91, type: 3}
+    - {fileID: 8406811131104189645, guid: 00cd81b21769e6d4d95c9ba644738e91, type: 3}
+    - {fileID: 6691138703180934035, guid: 00cd81b21769e6d4d95c9ba644738e91, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00cd81b21769e6d4d95c9ba644738e91, type: 3}
@@ -1241,6 +1285,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3691094374765369482, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3691094374765369482, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2559574
+      objectReference: {fileID: 0}
+    - target: {fileID: 3691094374765369482, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3691094374765369482, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4017085539935175288, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
       propertyPath: m_Name
       value: player

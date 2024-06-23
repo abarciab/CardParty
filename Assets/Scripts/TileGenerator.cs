@@ -2,11 +2,7 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Timeline;
-using UnityEngine.UIElements;
 
 
 [RequireComponent(typeof(TileGridController))]
@@ -21,7 +17,10 @@ public class TileGenerator : MonoBehaviour
 
     [Header("Probabilities")]
     [SerializeField, Range(0, 1)] private float _clampPathChance = 0.75f; 
-    [SerializeField, Range(0, 1)] private float _largePatchChance = 0.5f; 
+    [SerializeField, Range(0, 1)] private float _largePatchChance = 0.5f;
+
+    [Header("Interactables")]
+    [SerializeField] private List<TileInteractableData> _tileInteractableOptions = new List<TileInteractableData>();
 
     private TileController[,] _tileGrid;
 
@@ -34,18 +33,17 @@ public class TileGenerator : MonoBehaviour
     {
         _transform = transform;
         _gridController = GetComponent<TileGridController>();
-        ClearGrid();
-        GenerateGridAsync();
+        RegenerateGrid();
     }
 
     [ButtonMethod]
     private void RegenerateGrid()
     {
         ClearGrid();
-        GenerateGridAsync();
+        GenerateGrid();
     }
 
-    private void GenerateGridAsync()
+    private void GenerateGrid()
     {
         _tileGrid = new TileController[(int)_gridDimenstions.x + 1, (int)_gridDimenstions.y + 1];
 
@@ -81,18 +79,20 @@ public class TileGenerator : MonoBehaviour
         _placedTiles.Clear();
     }
 
-    private void PlaceTile(int x, int y, bool center)
+    private void PlaceTile(int x, int y, bool isCenter)
     {
         var pos = _transform.TransformPoint(x * _tileWidth, 0, y * _tileWidth);
         var halfDist = new Vector3(_gridDimenstions.x - 1, 0, _gridDimenstions.y - 1) * (_tileWidth / 2);
         pos -= halfDist;
 
-        var prefabData = SelectPrefab(x, y, center);
+        var prefabData = SelectPrefab(x, y, isCenter);
+        var selectedInteractable = _tileInteractableOptions[Random.Range(0, _tileInteractableOptions.Count)]; 
 
         var newTileObj = Instantiate(prefabData.Item1, pos, prefabData.Item2, _transform);
         var newTile = newTileObj.GetComponent<TileController>();
-        bool _isMiddleTile = (x == Mathf.Floor(_gridDimenstions.x / 2)) && (y == Mathf.Floor(_gridDimenstions.y / 2));
-        newTile.Initialize(x, y, _isMiddleTile, _gridController, prefabData.Item2);
+        
+        newTile.Initialize(x, y, isCenter, _gridController, prefabData.Item2, selectedInteractable);
+
         _placedTiles.Add(newTile);
         _tileGrid[x,y] = newTile;
         CountPaths();
@@ -104,10 +104,10 @@ public class TileGenerator : MonoBehaviour
         foreach (var t in _placedTiles) {
             var pos = t.GridPos;
             var edges = GetEdgesOfHole(pos);
-            if (GetTileAt(pos + Vector2Int.up) == null) foundPaths += CountPathsInEdge(pos, Direction.Up);
-            if (GetTileAt(pos + Vector2Int.right) == null) foundPaths += CountPathsInEdge(pos, Direction.Right);
-            if (GetTileAt(pos + Vector2Int.down) == null) foundPaths += CountPathsInEdge(pos, Direction.Down);
-            if (GetTileAt(pos + Vector2Int.left) == null) foundPaths += CountPathsInEdge(pos, Direction.Left);
+            if (GetTileAt(pos + Vector2Int.up) == null) foundPaths += CountPathsInEdge(pos, Direction.UP);
+            if (GetTileAt(pos + Vector2Int.right) == null) foundPaths += CountPathsInEdge(pos, Direction.RIGHT);
+            if (GetTileAt(pos + Vector2Int.down) == null) foundPaths += CountPathsInEdge(pos, Direction.DOWN);
+            if (GetTileAt(pos + Vector2Int.left) == null) foundPaths += CountPathsInEdge(pos, Direction.LEFT);
         }
         _numPaths = foundPaths;
     }
@@ -236,10 +236,10 @@ public class TileGenerator : MonoBehaviour
     private List<string> GetEdgesOfHole(int x, int y)
     {
         var edges = new List<string>();
-        edges.Add(GetEdgeAt(x, y + 1, Direction.Down, true));
-        edges.Add(GetEdgeAt(x + 1, y, Direction.Left, true));
-        edges.Add(GetEdgeAt(x, y - 1, Direction.Up, true));
-        edges.Add(GetEdgeAt(x - 1, y, Direction.Right, true));
+        edges.Add(GetEdgeAt(x, y + 1, Direction.DOWN, true));
+        edges.Add(GetEdgeAt(x + 1, y, Direction.LEFT, true));
+        edges.Add(GetEdgeAt(x, y - 1, Direction.UP, true));
+        edges.Add(GetEdgeAt(x - 1, y, Direction.RIGHT, true));
         return edges;
     }
 

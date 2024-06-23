@@ -14,10 +14,10 @@ public class TileGridController : MonoBehaviour
     public TileController GetTileInDirection(Vector2Int ID, Direction dir)
     {
         Vector2Int TargetID = new Vector2Int(ID.x, ID.y);
-        if (dir == Direction.Up) TargetID.y += 1;
-        if (dir == Direction.Right) TargetID.x += 1;
-        if (dir == Direction.Down) TargetID.y -= 1;
-        if (dir == Direction.Left) TargetID.x -= 1;
+        if (dir == Direction.UP) TargetID.y += 1;
+        if (dir == Direction.RIGHT) TargetID.x += 1;
+        if (dir == Direction.DOWN) TargetID.y -= 1;
+        if (dir == Direction.LEFT) TargetID.x -= 1;
 
         var targetTile = _tiles.Where(x => x.GridPos == TargetID).ToList();
         if (targetTile.Count > 0) return targetTile[0];

@@ -112,10 +112,10 @@ public class WFCSTileInfo : MonoBehaviour
 
     public string GetEdgeAt(Direction dir)
     {
-        if (dir == Direction.Up) return _top;
-        if (dir == Direction.Right) return _right;
-        if (dir == Direction.Down) return _down;
-        if (dir == Direction.Left) return _left;
+        if (dir == Direction.UP) return _top;
+        if (dir == Direction.RIGHT) return _right;
+        if (dir == Direction.DOWN) return _down;
+        if (dir == Direction.LEFT) return _left;
         return "";
     }
 

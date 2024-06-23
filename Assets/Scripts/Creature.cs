@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEditor;
 using UnityEngine.EventSystems;
 
-public class Creature : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
+public class Creature : MonoBehaviour
 {
     public Canvas canvas;
     public Slider healthSlider;
@@ -16,14 +16,6 @@ public class Creature : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     [SerializeField] int maxBlock;
 
     public GameObject selectedCreatureHighlight;
- 
-    public virtual void OnPointerUp(PointerEventData eventData) {
-        //right click to display info
-    }
-
-    public virtual void OnPointerDown(PointerEventData eventData) {
-        //right click to display info
-    }
 
     public void Select() {
         CardGameManager.i.SelectCreature(this);
@@ -34,13 +26,13 @@ public class Creature : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     }
 
     public virtual IEnumerator Attack(float damage, Creature target) {
-        StartCoroutine(Utilities.LerpToAndBack(gameObject, target.transform.position));
+        yield return StartCoroutine(Utilities.LerpToAndBack(gameObject, target.transform.position));
         target.TakeDamage(damage);
         yield return null;
     }
 
     public virtual IEnumerator Block(float damage, Creature target) {
-        StartCoroutine(Utilities.LerpToAndBack(gameObject, target.transform.position));
+        yield return StartCoroutine(Utilities.LerpToAndBack(gameObject, target.transform.position));
         target.AddBlock(damage);
         yield return null;
     }
@@ -55,11 +47,13 @@ public class Creature : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
         blockSlider.value = ((float)block / (float)maxBlock);
 
         if (health <= 0) {
-            Die();
+            StartCoroutine(Die());
         }
     }
 
-    public virtual void Die() {
+    public virtual IEnumerator Die() {
+        yield return StartCoroutine(Utilities.LerpScale(gameObject, Vector3.zero));
+        yield return new WaitForSeconds(0.5f);
         CardGameManager.i.RemoveCreature(this);
         Destroy(gameObject);
     }

@@ -5,7 +5,7 @@ using System;
 
 public class CardData : ScriptableObject
 {
-    public CardObject cardObject;
+    public CardObject cardObject = null;
     public Sprite cardGraphic;
     public IEnumerator currCardCoroutine;
     protected IEnumerator currSelectTargets;

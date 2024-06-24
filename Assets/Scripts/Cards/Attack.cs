@@ -22,7 +22,7 @@ public class Attack : CardData
     }
 
     public override IEnumerator CancelPlayCard() {
-        CardGameManager.i.StopCoroutine(currSelectTargets);
+        if (currSelectTargets != null) CardGameManager.i.StopCoroutine(currSelectTargets);
         yield return null;
     }
 }

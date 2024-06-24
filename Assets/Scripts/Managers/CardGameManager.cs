@@ -8,6 +8,7 @@ using System.Linq;
 public class CardGameManager : GameManager
 {
     public new static CardGameManager i;
+    public Camera cam;
     public Combat testCombat;
     public Party testParty;
 
@@ -49,18 +50,17 @@ public class CardGameManager : GameManager
     }
 
     void Update() {
-        if (currCombatState == CombatState.SelectTargets) {
-            if (Input.GetMouseButtonDown(0)) {
-                Ray ray = Camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if(Physics.Raycast(ray, out hit)) {
-                    Creature creature = hit.collider.gameObject.GetComponent<Creature>();
-                    if (creature) {
-                        if (CardGameManager.i.selectedCreatures.Contains(creature)) {
-                            creature.Deselect();
-                        } else {
-                            creature.Select();
-                        }
+        //selecting creatures
+        if (Input.GetMouseButtonDown(0)) {
+            Ray ray = Camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if(Physics.Raycast(ray, out hit)) {
+                Creature creature = hit.collider.gameObject.GetComponent<Creature>();
+                if (creature) {
+                    if (CardGameManager.i.selectedCreatures.Contains(creature)) {
+                        creature.Deselect();
+                    } else {
+                        creature.Select();
                     }
                 }
             }
@@ -111,7 +111,11 @@ public class CardGameManager : GameManager
         //construct deck
         foreach (AdventurerData data in party.adventurerData) {
             foreach (CardData card in data.cards) {
-                yield return StartCoroutine(deck.AddCard(card));
+                CardData newCard = (CardData)ScriptableObject.CreateInstance(card.GetType());
+                foreach (System.Reflection.FieldInfo fieldInfo in card.GetType().GetFields()) {
+                    fieldInfo.SetValue(newCard, fieldInfo.GetValue(card));
+                }
+                yield return StartCoroutine(deck.AddCard(newCard));
             }
         }
 
@@ -119,7 +123,7 @@ public class CardGameManager : GameManager
 
         yield return StartCoroutine(deck.DrawCard(7));
 
-        StartPlayerTurn();
+        StartCoroutine(StartPlayerTurn());
     }
 
     public void EndCombat(bool won) {
@@ -148,7 +152,7 @@ public class CardGameManager : GameManager
         victoryScreen.SetActive(false);
         defeatScreen.SetActive(false);
 
-        //GameManager.i.ExitCombat();
+        // add combat rewards here
         print("exiting combat");
     }
 
@@ -157,32 +161,17 @@ public class CardGameManager : GameManager
 
         instructionsText.text = "Player Turn!";
         actions = 3;
-        while (hand.cards.Count < hand.maxHandSize) {
-            yield return StartCoroutine(deck.DrawCard());
-        }
-
-        //StartCoroutine(PlayerTurn());
-    }
-
-    IEnumerator PlayerTurn() {
-        //not used; select targets stuff handles. need to refactor to move behavior into this routine
-        yield return null;
+        yield return StartCoroutine(deck.DrawCard(hand.maxHandSize - hand.cards.Count));
     }
 
     public void EndPlayerTurn() {
         currCombatState = CombatState.Idle;
 
-        instructionsText.text = "";
-
-        StartEnemyTurn();
+        StartCoroutine(StartEnemyTurn());
     }
 
-    public void StartEnemyTurn() {
+    public IEnumerator StartEnemyTurn() {
         currCombatState = CombatState.EnemyTurn;
-        StartCoroutine(EnemyTurn());
-    }
-
-    IEnumerator EnemyTurn() {
 
         instructionsText.text = "Enemy Turn!";
 
@@ -192,17 +181,9 @@ public class CardGameManager : GameManager
             yield return new WaitForSeconds(BUFFER_TIME);
         }
 
-        currCombatState = CombatState.PlayerTurn;
-
-        EndEnemyTurn();
-    }
-
-    public void EndEnemyTurn() {
         currCombatState = CombatState.Idle;
 
-        instructionsText.text = "";
-
-        StartPlayerTurn();
+        StartCoroutine(StartPlayerTurn());
     }
 
     public void PlayCard() {
@@ -210,6 +191,8 @@ public class CardGameManager : GameManager
         
         DeselectAllCreatures();
         actions--;
+
+        instructionsText.text = "";
 
         if (actions == 0) {
             EndPlayerTurn();
@@ -223,12 +206,10 @@ public class CardGameManager : GameManager
         yield return StartCoroutine(hand.MoveFromPlayedCardDisplay(currPlayedCard.cardObject));
 
         currPlayedCard = null;
-        currCombatState = CombatState.PlayerTurn;
     }
 
     public IEnumerator SelectTargets(List<System.Type> requiredTargets) {
-        instructionsText.text = "Choose Targets";
-        CardGameManager.i.currCombatState = CombatState.SelectTargets;
+        instructionsText.text = "Select Targets";
         //wait until exactly the correct types of targets are selected
         while(!CompareListsByType<Creature>(requiredTargets, selectedCreatures)) yield return 0;
         
@@ -278,7 +259,5 @@ public class CardGameManager : GameManager
 public enum CombatState {
         PlayerTurn,
         EnemyTurn,
-        SelectTargets,
-        Idle,
-        Waiting
+        Idle, //in between states
     }

@@ -16,8 +16,8 @@ public class CardObject: MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     bool isHover = false;
     bool dragging = false;
     bool playing = false;
-    bool isShaking = false;
-    bool interactable = true;
+    public bool isShaking = false;
+    public bool interactable = true;
     IEnumerator currPlayedCardCoroutine;
     public CardObject currPlaceHolderCard;
  
@@ -38,8 +38,6 @@ public class CardObject: MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             }
         }
     }
-
-    //drag and drop
  
     public void OnPointerExit(PointerEventData eventData) {
         isHover = false;
@@ -47,16 +45,22 @@ public class CardObject: MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
  
     public void OnPointerDown(PointerEventData eventData) {
         if (!playing) {
-            if (interactable && isHover && !isShaking) StartDrag();
-        } else if (CardGameManager.i.currCombatState == CombatState.SelectTargets) {
-            StartCoroutine(CancelPlayCard());
+            if (interactable && isHover && !isShaking) {
+                if (CardGameManager.i.currPlayedCard) {
+                    StartCoroutine(CardGameManager.i.currPlayedCard.cardObject.CancelPlayCard());
+                }
+                StartDrag();
+            }
+        } else {
+            //if card is already in the display
+            if (CardGameManager.i.currPlayedCard) StartCoroutine(CancelPlayCard());
         }
     }
  
     public void OnPointerUp(PointerEventData eventData) {
         if (interactable) {
             if (dragging) {
-                if (CardGameManager.i.hoveredPlayZone && CardGameManager.i.currCombatState == CombatState.PlayerTurn) {
+                if (CardGameManager.i.hoveredPlayZone && !CardGameManager.i.currPlayedCard && CardGameManager.i.currCombatState == CombatState.PlayerTurn) {
                     EndDrag();
                     StartCoroutine(PlayCard());
                 } else {
@@ -82,12 +86,13 @@ public class CardObject: MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public IEnumerator Shake() {
         isShaking = true;
         yield return StartCoroutine(Utilities.ShakeObject(graphic));
-        yield return null;
         isShaking = false;
     }
 
     IEnumerator PlayCard() {
         if (!playing && CardGameManager.i.currCombatState == CombatState.PlayerTurn) {
+
+            //print("just called play card on: " + gameObject.name);
 
             playing = true;
             interactable = false;
@@ -97,7 +102,9 @@ public class CardObject: MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             yield return StartCoroutine(CardGameManager.i.hand.MoveToPlayedCardDisplay(this));
 
             //effect of the card being played - starts targeting, performs play effect
+            // print("just set currPlayedCard equal to the cardData for: " + gameObject.name);
             CardGameManager.i.currPlayedCard = cardData;
+            // print("value of currPlayedCard.cardData.cardObject: " + CardGameManager.i.currPlayedCard.cardObject.gameObject.name);
             cardData.currCardCoroutine = cardData.PlayCard();
             yield return StartCoroutine(CardGameManager.i.currPlayedCard.PlayCard());
 

@@ -15,6 +15,7 @@ public class Hand : MonoBehaviour
     public Deck deck;
     public GameObject cardPrefab;
     public Transform playedCardDisplayTransform;
+    public bool isPlaying = false;
 
     //width of a card
     float evenHandSizeOffset = 100;
@@ -76,8 +77,8 @@ public class Hand : MonoBehaviour
             GameObject newPlaceHolderCard = GameObject.Instantiate(placeHolderCardPrefab, transform);
             placeHolderCards.Add(newPlaceHolderCard);
             cards.Add(newPlaceHolderCard.GetComponent<CardObject>());
-            ReorganizeHand();
         }
+        ReorganizeHand();
 
         for (int i = 0; i < cardData.Count; i++) {
             //initialize card
@@ -91,6 +92,7 @@ public class Hand : MonoBehaviour
 
             StartCoroutine(ReplacePlaceHolderWithCard(newCard, placeHolderCards[i].GetComponent<CardObject>()));
         }
+
         //need to wait for all shake coroutines to finish, but they are a fixed length? not sure if there's a cleaner way to wait
         //must be > Utilities.OBJECT_SHAKE_TIME because Utilities.ShakeObject() waits deltaTime so it isn't consistently the same length
 
@@ -105,15 +107,13 @@ public class Hand : MonoBehaviour
 
         //replace placeholder with new card
         cards[cards.IndexOf(placeHolder.GetComponent<CardObject>())] = newCard.GetComponent<CardObject>();
-        Destroy(placeHolder);
+        Destroy(placeHolder.gameObject);
 
         //enable script
         newCard.GetComponent<CardObject>().enabled = true;
 
-        //shake cards!
-        // foreach (CardObject card in cards) {
-        //     StartCoroutine(card.Shake());
-        // }
+        //shake :)
+        StartCoroutine(newCard.GetComponent<CardObject>().Shake());
     }
 
     public IEnumerator AddCard(CardObject cardObject) {
@@ -121,23 +121,17 @@ public class Hand : MonoBehaviour
         cards.Add(cardObject);
         ReorganizeHand();
 
-        //shake cards!
         foreach (CardObject card in cards) {
-            //StartCoroutine(card.Shake());
+            StartCoroutine(card.Shake());
         }
 
         //need to wait for all shake coroutines to finish, but they are a fixed length? not sure if there's a cleaner way to wait
         yield return new WaitForSeconds(Utilities.OBJECT_SHAKE_TIME);
     }
 
-    public void RemoveCard(CardObject cardObject) {
-        StartCoroutine(RemoveCardCoroutine(cardObject));
-    }
-
-    IEnumerator RemoveCardCoroutine(CardObject cardObject) {
+    void RemoveCard(CardObject cardObject) {
         cards.Remove(cardObject);
         ReorganizeHand();
-        yield return null;
     }
 
     public IEnumerator PlayCard(CardObject cardObject) {
@@ -153,8 +147,7 @@ public class Hand : MonoBehaviour
 
     public IEnumerator MoveFromPlayedCardDisplay(CardObject cardObject) {
         cardObject.transform.SetParent(transform);
-        StartCoroutine(AddCard(cardObject));
-        yield return null;
+        yield return StartCoroutine(AddCard(cardObject));
     }
 
 }

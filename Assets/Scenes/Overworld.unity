@@ -642,7 +642,7 @@ PrefabInstance:
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _startTile
       value: 
-      objectReference: {fileID: 3446277853018002120, guid: df4edb92ba141cd46b14e16573c85d5c, type: 3}
+      objectReference: {fileID: 3446277853018002120, guid: 4d34c0c1c9b67eb46bd2d415ed666183, type: 3}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _clampPathChance
       value: 0.919

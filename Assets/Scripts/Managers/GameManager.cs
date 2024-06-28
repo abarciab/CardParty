@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] protected MusicPlayer Music;
     public Transform Camera;
 
-    private void Update()
+    protected virtual void Update()
     {
         if (InputController.GetDown(Control.PAUSE)) TogglePause();
     }

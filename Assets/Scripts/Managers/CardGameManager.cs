@@ -12,7 +12,8 @@ public class CardGameManager : GameManager
     public Party testParty;
     protected override void Awake() { base.Awake(); i = this; StartCoroutine(StartCombat(testCombat, testParty)); }
 
-    void Update() {
+    protected override void Update() {
+        base.Update();
         if (Input.GetMouseButtonDown(0)) {
             Ray ray = Camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;

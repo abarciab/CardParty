@@ -15,6 +15,7 @@ public class Hand : MonoBehaviour
     public Deck deck;
     public GameObject cardPrefab;
     public Transform playedCardDisplayTransform;
+    public bool isPlaying = false;
 
     //width of a card
     float evenHandSizeOffset = 100;
@@ -69,38 +70,50 @@ public class Hand : MonoBehaviour
         }
     }
 
-    public IEnumerator AddCard(CardData cardData) {
-        //put placeholder card in hand
-        GameObject newPlaceHolderCard = GameObject.Instantiate(placeHolderCardPrefab, transform);
-        cards.Add(newPlaceHolderCard.GetComponent<CardObject>());
+    public IEnumerator AddCard(List<CardData> cardData) {
+        //put placeholder cards in hand
+        List<GameObject> placeHolderCards = new List<GameObject>();
+        foreach(CardData c in cardData) {
+            GameObject newPlaceHolderCard = GameObject.Instantiate(placeHolderCardPrefab, transform);
+            placeHolderCards.Add(newPlaceHolderCard);
+            cards.Add(newPlaceHolderCard.GetComponent<CardObject>());
+        }
         ReorganizeHand();
 
-        //initialize card
-        GameObject newCard = GameObject.Instantiate(cardPrefab, transform);
-        newCard.GetComponent<CardObject>().graphic.GetComponent<Image>().sprite = cardData.cardGraphic;
-        newCard.GetComponent<CardObject>().cardData = cardData;
-        newCard.GetComponent<CardObject>().cardData.cardObject = newCard.GetComponent<CardObject>();
-        newCard.GetComponent<CardObject>().localOriginPosition = newPlaceHolderCard.GetComponent<CardObject>().localOriginPosition;
-        newCard.GetComponent<CardObject>().localOriginRotation = newPlaceHolderCard.GetComponent<CardObject>().localOriginRotation;
-        newCard.transform.position = deck.transform.position;
+        for (int i = 0; i < cardData.Count; i++) {
+            //initialize card
+            GameObject newCard = GameObject.Instantiate(cardPrefab, transform);
+            newCard.GetComponent<CardObject>().graphic.GetComponent<Image>().sprite = cardData[i].cardGraphic;
+            newCard.GetComponent<CardObject>().cardData = cardData[i];
+            newCard.GetComponent<CardObject>().cardData.cardObject = newCard.GetComponent<CardObject>();
+            newCard.GetComponent<CardObject>().localOriginPosition = placeHolderCards[i].GetComponent<CardObject>().localOriginPosition;
+            newCard.GetComponent<CardObject>().localOriginRotation = placeHolderCards[i].GetComponent<CardObject>().localOriginRotation;
+            newCard.transform.position = deck.transform.position;
 
+            StartCoroutine(ReplacePlaceHolderWithCard(newCard, placeHolderCards[i].GetComponent<CardObject>()));
+        }
+
+        //need to wait for all shake coroutines to finish, but they are a fixed length? not sure if there's a cleaner way to wait
+        //must be > Utilities.OBJECT_SHAKE_TIME because Utilities.ShakeObject() waits deltaTime so it isn't consistently the same length
+
+        //note - not sure if this was the issue, but you need to wait for the travel time and then the shake time
+        yield return new WaitForSeconds(Utilities.OBJECT_LERP_TIME);
+        yield return new WaitForSeconds(Utilities.OBJECT_SHAKE_TIME * 1.2f);
+    }
+
+    IEnumerator ReplacePlaceHolderWithCard(GameObject newCard, CardObject placeHolder) {
         //move new card to placeholder's position
-        yield return StartCoroutine(Utilities.LerpObject(newCard, newPlaceHolderCard.transform, time: Utilities.OBJECT_LERP_TIME / 2));
+        yield return StartCoroutine(Utilities.LerpObject(newCard, placeHolder.transform, time: Utilities.OBJECT_LERP_TIME / 2));
 
         //replace placeholder with new card
-        cards[cards.IndexOf(newPlaceHolderCard.GetComponent<CardObject>())] = newCard.GetComponent<CardObject>();
-        Destroy(newPlaceHolderCard);
+        cards[cards.IndexOf(placeHolder.GetComponent<CardObject>())] = newCard.GetComponent<CardObject>();
+        Destroy(placeHolder.gameObject);
 
         //enable script
         newCard.GetComponent<CardObject>().enabled = true;
 
-        //shake cards!
-        foreach (CardObject card in cards) {
-            StartCoroutine(card.Shake());
-        }
-        //need to wait for all shake coroutines to finish, but they are a fixed length? not sure if there's a cleaner way to wait
-        //must be > Utilities.OBJECT_SHAKE_TIME because Utilities.ShakeObject() waits deltaTime so it isn't consistently the same length
-        yield return new WaitForSeconds(Utilities.OBJECT_SHAKE_TIME * 1.2f);
+        //shake :)
+        StartCoroutine(newCard.GetComponent<CardObject>().Shake());
     }
 
     public IEnumerator AddCard(CardObject cardObject) {
@@ -108,23 +121,17 @@ public class Hand : MonoBehaviour
         cards.Add(cardObject);
         ReorganizeHand();
 
-        //shake cards!
         foreach (CardObject card in cards) {
-            //StartCoroutine(card.Shake());
+            StartCoroutine(card.Shake());
         }
 
         //need to wait for all shake coroutines to finish, but they are a fixed length? not sure if there's a cleaner way to wait
         yield return new WaitForSeconds(Utilities.OBJECT_SHAKE_TIME);
     }
 
-    public void RemoveCard(CardObject cardObject) {
-        StartCoroutine(RemoveCardCoroutine(cardObject));
-    }
-
-    IEnumerator RemoveCardCoroutine(CardObject cardObject) {
+    void RemoveCard(CardObject cardObject) {
         cards.Remove(cardObject);
         ReorganizeHand();
-        yield return null;
     }
 
     public IEnumerator PlayCard(CardObject cardObject) {
@@ -140,8 +147,7 @@ public class Hand : MonoBehaviour
 
     public IEnumerator MoveFromPlayedCardDisplay(CardObject cardObject) {
         cardObject.transform.SetParent(transform);
-        StartCoroutine(AddCard(cardObject));
-        yield return null;
+        yield return StartCoroutine(AddCard(cardObject));
     }
 
 }

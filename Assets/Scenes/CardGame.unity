@@ -935,7 +935,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 266}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &438202550
 MonoBehaviour:
@@ -1109,37 +1109,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 458654539}
   m_CullTransparentMesh: 1
---- !u!1 &462657944
+--- !u!1 &483475073 stripped
 GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 8793712921560076685, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
+  m_PrefabInstance: {fileID: 4477373111428093605}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 462657945}
-  m_Layer: 0
-  m_Name: BillboardTarget
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &462657945
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 462657944}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1043325381}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &527702946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1584,7 +1558,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -180}
+  m_AnchoredPosition: {x: 0, y: -215}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &851059116
@@ -1601,10 +1575,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placeHolderCardPrefab: {fileID: 804451578509972675, guid: 98932652b4490444ebd918ae90b17be6, type: 3}
   cards: []
-  maxHandSize: 6
+  maxHandSize: 7
   deck: {fileID: 1650817591}
   cardPrefab: {fileID: 427983652942066555, guid: 74c1c9fdcfb12f049b63f465b36114ab, type: 3}
   playedCardDisplayTransform: {fileID: 548439509}
+  isPlaying: 0
 --- !u!1 &886959559
 GameObject:
   m_ObjectHideFlags: 0
@@ -2088,8 +2063,7 @@ Transform:
   m_LocalPosition: {x: -1.07, y: 23.09, z: -16.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 462657945}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!114 &1043325382
@@ -2298,7 +2272,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1197826587}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4477373111428093606}
+        m_TargetAssemblyTypeName: CardGameManager, Assembly-CSharp
+        m_MethodName: ExitCombatScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 483475073}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1197826587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2813,7 +2811,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1547082784}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4477373111428093606}
+        m_TargetAssemblyTypeName: CardGameManager, Assembly-CSharp
+        m_MethodName: ExitCombatScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1547082784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3190,13 +3200,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1861002805}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.5735764, y: 0, z: 0, w: 0.8191521}
   m_LocalPosition: {x: 0, y: 2, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1300685290}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 70, y: 0, z: 0}
 --- !u!114 &1861002808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3761,6 +3771,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2416307582939499252, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 1043325380}
+    - target: {fileID: 2416307582939499252, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
       propertyPath: deck
       value: 
       objectReference: {fileID: 1650817591}
@@ -3909,6 +3923,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
+--- !u!114 &4477373111428093606 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2416307582939499252, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
+  m_PrefabInstance: {fileID: 4477373111428093605}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483475073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3d42acfe4e0b6f44a1a337b2bcd8319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

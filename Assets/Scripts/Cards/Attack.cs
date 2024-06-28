@@ -1,3 +1,4 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,51 @@ public class Attack : CardData
 
         yield return CardGameManager.i.StartCoroutine(attacker.Attack(50, defender));
     }
+
+    /*
+    private void PlayCard(){
+        base.Play()
+        CardGameManager.PassInCardMoveData({Adventurer, Enemy}, TYPE.ATTACK, Damage)
+    }
+    */
+
+    /*
+    
+    string name
+    private ID owner (character, equipment)
+    private enum basicFunction {ATTACK, BLOCK, ATTACKBLOCK, SPECIAL}
+    [conditionField (if ATTACK)] float Damage
+    [conditionField (if ATTACK)] float poisonDamage
+    [conditionField (if BLOCK)] float blockAmount
+    [conditionField (if SPECIAL)] SPECIALATTACKDATA specialData
+     
+    public void PlayCard(){
+        DoParentStuff()
+        
+        if (type == ATTACK) ATTACK()
+        if (type == BLOCK) BLOCK()
+        if (type == ATTACKBLOCK) {BLOCK(); ATTACK();}
+        if (type == SPECIAL) specialData.Activate()
+    }
+     
+    */
+
+
+    /*
+    
+    public enum Type {BUFF, STUN, DEBUF}
+
+    public void ACTIVATE(){
+        if (type == BUFF) BUFF()
+        if (type == STUN) STUN()
+        if (type == DEBUF) DEBUF()
+    }
+
+    private void STUN() =>CardGameManager.PassInCardMoveData({Adventurer, Enemy}, TYPE.STUN, Amount)
+
+
+    */
+
 
     public override IEnumerator CancelPlayCard() {
         if (currSelectTargets != null) CardGameManager.i.StopCoroutine(currSelectTargets);

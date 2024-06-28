@@ -1,3 +1,4 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,4 +13,16 @@ public class Equipment : ScriptableObject
     {
         return Name;
     }
+
+    /*
+
+    OnTurnStart(){
+        if (!HasStartTurnBehavior) return;
+
+        if (TURNSTARTBEHAV == HEALALLDUDES) HEALALLDUDES()
+    }
+
+    HEALALLDUDES() => GMan.healalldudes(amount)
+
+    */
 }

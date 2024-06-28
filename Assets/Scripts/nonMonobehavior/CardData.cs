@@ -9,6 +9,7 @@ public class CardData : ScriptableObject
     public Sprite cardGraphic;
     public IEnumerator currCardCoroutine;
     protected IEnumerator currSelectTargets;
+
     public virtual IEnumerator PlayCard() {
         if (currCardCoroutine == null) currCardCoroutine = PlayCard();
         yield return null;

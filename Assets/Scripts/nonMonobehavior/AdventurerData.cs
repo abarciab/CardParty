@@ -6,6 +6,6 @@ using System;
 [Serializable]
 public class AdventurerData
 {
-    public GameObject prefab;
+    public GameObject Adventurer;
     public CardData[] cards;
 }

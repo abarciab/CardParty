@@ -4,20 +4,25 @@ using UnityEngine;
 using System;
 using MyBox;
 
+[CreateAssetMenu(fileName = "CardData")]
 public class CardData : ScriptableObject
 {
-    public string _name = "undefined";
+    public string _name = "";
     public CardObject CardObject = null;
     public Sprite CardGraphic;
     [SerializeField] private Function _function;
-    /*[ConditionalField (_function == Function.ATTACK)] */float Damage;
-    /*[ConditionalField (_function == Function.BLOCK)] */float Block;
+    /*[ConditionalField (_function == Function.ATTACK)] */float Damage = 50;
+    /*[ConditionalField (_function == Function.BLOCK)] */float Block = 50;
     /*[ConditionalField (_function == Function.SPECIAL)] */float SpecialData;
 
     private IEnumerator _currCardCoroutine;
     private IEnumerator _currSelectTargets;
 
     private Adventurer _owner = null;
+
+    public void Init(AdventurerData data) {
+        _owner = data.Adventurer.GetComponent<Adventurer>();
+    }
 
     public void Play() {
         _currCardCoroutine = Play_Coroutine();

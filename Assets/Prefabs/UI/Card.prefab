@@ -45,13 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dfa8d9dc9dd8cd4f93741be5be99bb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphic: {fileID: 9124470439814903283}
-  localOriginPosition: {x: 0, y: 0, z: 0}
-  localOriginRotation: {x: 0, y: 0, z: 0, w: 0}
-  cardData: {fileID: 0}
-  isShaking: 0
-  interactable: 1
-  currPlaceHolderCard: {fileID: 0}
+  Graphic: {fileID: 9124470439814903283}
+  CardData: {fileID: 0}
+  LocalOriginPosition: {x: 0, y: 0, z: 0}
+  LocalOriginRotation: {x: 0, y: 0, z: 0, w: 0}
+  CurrPlaceHolderCard: {fileID: 0}
 --- !u!1 &9124470439814903283
 GameObject:
   m_ObjectHideFlags: 0

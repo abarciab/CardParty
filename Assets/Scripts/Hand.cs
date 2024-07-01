@@ -124,7 +124,7 @@ public class Hand : MonoBehaviour
     }
 
     public void DrawUntilFull() {
-        _deck.Draw(_maxHandSize - _cards.Count);
+        if (_maxHandSize > _cards.Count) _deck.Draw(_maxHandSize - _cards.Count);
     }
 
     void RemoveCard(CardObject cardObject) {

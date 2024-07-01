@@ -14,11 +14,11 @@ public class CardGameManager : GameManager
     const float BUFFER_TIME = 1f;
     const float CREATURE_SPACING = 10f;
     public CombatState CurrCombatState;
-    private Hand _hand;
     public Deck Deck;
     public Canvas UICanvas;
     public CardObject DraggedCard;
     public PlayZone HoveredPlayZone;
+    [SerializeField] private Hand _hand;
     [SerializeField] private TMP_Text _instructionsText;
     [SerializeField] private TMP_Text _actionsCounter;
     [SerializeField] private TMP_Text _actionsLabel;
@@ -101,11 +101,11 @@ public class CardGameManager : GameManager
         List<AdventurerData> adventurerData = party.adventurerData;
         absBound = ((float)adventurerData.Count - 1) / 2 * CREATURE_SPACING;
         for (int i = 0; i < adventurerData.Count; i++) {
-            GameObject newAdventurer = GameObject.Instantiate(adventurerData[i].prefab, _adventurerContainer);
+            adventurerData[i].Adventurer = GameObject.Instantiate(adventurerData[i].Adventurer, _adventurerContainer);
             // evenly distribute across enemy container
             float newAdventurerPosX = Mathf.Lerp(-absBound, absBound, adventurerData.Count != 1 ? i / ((float)adventurerData.Count - 1) : 0.5f);
-            newAdventurer.transform.localPosition = new Vector3(newAdventurerPosX, 0, 0);
-            _adventurers.Add(newAdventurer.GetComponent<Adventurer>());
+            adventurerData[i].Adventurer.transform.localPosition = new Vector3(newAdventurerPosX, 0, 0);
+            _adventurers.Add(adventurerData[i].Adventurer.GetComponent<Adventurer>());
         }
 
         //construct deck
@@ -115,6 +115,7 @@ public class CardGameManager : GameManager
                 foreach (System.Reflection.FieldInfo fieldInfo in card.GetType().GetFields()) {
                     fieldInfo.SetValue(newCard, fieldInfo.GetValue(card));
                 }
+                newCard.Init(data);
                 Deck.AddCard(newCard);
             }
         }

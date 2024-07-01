@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a99e6fac7148ab341bcb7e2d4e25b60b, type: 3}
+  m_Script: {fileID: 11500000, guid: a0a82f428b23c4e40b3a2fd4a3f84be8, type: 3}
   m_Name: Block
   m_EditorClassIdentifier: 
-  cardObject: {fileID: 0}
-  cardGraphic: {fileID: 21300000, guid: f82c045a894fbea45a4d6c9a058a080f, type: 3}
+  _name: Block
+  CardObject: {fileID: 0}
+  CardGraphic: {fileID: 21300000, guid: f82c045a894fbea45a4d6c9a058a080f, type: 3}
+  _function: 1

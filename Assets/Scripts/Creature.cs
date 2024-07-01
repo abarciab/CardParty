@@ -7,13 +7,13 @@ using UnityEngine.EventSystems;
 
 public class Creature : MonoBehaviour
 {
-    public Canvas canvas;
-    public Slider healthSlider;
-    [SerializeField] int health;
-    [SerializeField] int maxHealth;
-    public Slider blockSlider;
-    [SerializeField] int block = 0;
-    [SerializeField] int maxBlock;
+    public Canvas Canvas;
+    [SerializeField] private Slider _healthSlider;
+    [SerializeField] private Slider _blockSlider;
+    [SerializeField] private int _health;
+    [SerializeField] private int _maxHealth;
+    [SerializeField] private int _block = 0;
+    [SerializeField] private int _maxBlock;
 
     public GameObject selectedCreatureHighlight;
 
@@ -25,41 +25,31 @@ public class Creature : MonoBehaviour
         CardGameManager.i.DeselectCreature(this);
     }
 
-    public virtual IEnumerator Attack(float damage, Creature target) {
-        yield return StartCoroutine(Utilities.LerpToAndBack(gameObject, target.transform.position));
-        target.TakeDamage(damage);
-        yield return null;
-    }
-
-    public virtual IEnumerator Block(float damage, Creature target) {
-        yield return StartCoroutine(Utilities.LerpToAndBack(gameObject, target.transform.position));
-        target.AddBlock(damage);
-        yield return null;
-    }
-
     public virtual void TakeDamage(float damage) {
-        block = block - (int)damage;
-        if (block < 0) {
-            health += block;
-            block = 0;
+        _block = _block - (int)damage;
+        if (_block < 0) {
+            _health += _block;
+            _block = 0;
         }
-        healthSlider.value = ((float)health / (float)maxHealth);
-        blockSlider.value = ((float)block / (float)maxBlock);
+        _healthSlider.value = ((float)_health / (float)_maxHealth);
+        _blockSlider.value = ((float)_block / (float)_maxBlock);
 
-        if (health <= 0) {
-            StartCoroutine(Die());
+        if (_health <= 0) {
+            Die();
         }
     }
 
-    public virtual IEnumerator Die() {
+    public virtual void AddBlock(float block) {
+        _block += (int)block;
+        _blockSlider.value = ((float)_block / (float)_maxBlock);
+    }
+
+    public void Die() { StartCoroutine(Die_Coroutine()); }
+
+    protected virtual IEnumerator Die_Coroutine() {
         yield return StartCoroutine(Utilities.LerpScale(gameObject, Vector3.zero));
         yield return new WaitForSeconds(0.5f);
         CardGameManager.i.RemoveCreature(this);
         Destroy(gameObject);
-    }
-
-    public virtual void AddBlock(float block) {
-        block += (int)block;
-        blockSlider.value = ((float)block / (float)maxBlock);
     }
 }

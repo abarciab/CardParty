@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class BillboardCameraPlane : MonoBehaviour
 {
+    [SerializeField] private Camera _cam;
+
+    void Awake() {
+        _cam = Camera.main;
+    }
     void Update() {
-        transform.rotation = CardGameManager.i.cam.transform.rotation;
+        transform.rotation = _cam.transform.rotation;
     }
 }

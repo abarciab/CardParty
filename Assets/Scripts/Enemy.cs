@@ -7,8 +7,12 @@ using System.Linq;
 
 public class Enemy : Creature
 {
-    public virtual IEnumerator Action(List<Adventurer> adventurers, List<Enemy> enemies) {
+
+    public IEnumerator Action(List<Adventurer> adventurers, List<Enemy> enemies) {
         //what the enemy does on their turn in combat
-        yield return StartCoroutine(Attack(1, adventurers[Random.Range(0, adventurers.Count)]));
+        Adventurer target = adventurers[Random.Range(0, adventurers.Count)];
+
+        yield return StartCoroutine(Utilities.LerpToAndBack(gameObject, target.transform.position));
+        target.TakeDamage(50);
     }
 }

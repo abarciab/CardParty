@@ -7,7 +7,10 @@ using UnityEngine;
 public class Equipment : ScriptableObject
 {
     public string Name;
+    [TextArea(3, 10)] public string Description;
+    public EquipmentSlot Slot;
     public int Cost;
+    [SerializeField, DisplayInspector] private List<CardData> _cards = new List<CardData>();
 
     public override string ToString()
     {

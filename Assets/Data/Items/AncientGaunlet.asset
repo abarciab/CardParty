@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Ancient Gauntlet
   Cost: 92
+  _cards:
+  - {fileID: 0}

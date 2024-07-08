@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: HealingAmulet
   m_EditorClassIdentifier: 
   Name: Amulet Of Healing
+  Description: This ancient amulet holds great and secret power. It seems to shimmer
+    in the moonlight
   Cost: 62
+  _cards:
+  - {fileID: 11400000, guid: d3844d201f2e06c41b11c75315d320b2, type: 2}

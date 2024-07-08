@@ -21,6 +21,8 @@ public class Utilities
         return new Vector3(Mathf.Pow(vec.x, pow), Mathf.Pow(vec.y, pow), Mathf.Pow(vec.z, pow));
     }
 
+    public static string Parenthize<t>(t input) => "(" + input + ")";
+
     public static IEnumerator LerpToAndBack(GameObject obj, Vector3 target, float time = OBJECT_LERP_TIME) {
         Vector3 initObjPos = obj.transform.position;
         Quaternion initObjRot = obj.transform.rotation;

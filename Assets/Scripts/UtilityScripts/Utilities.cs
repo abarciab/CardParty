@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Utilities
 {
+    public static int Id = 0;
     public const float OBJECT_LERP_TIME = 0.1f;
     public const float OBJECT_SHAKE_TIME = 0.05f;
     const float OBJECT_SHAKE_MAGNITUDE = 0.01f;

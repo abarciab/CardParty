@@ -447,13 +447,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d30ceba0d4f4ca4793b0aa98f6653da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 8993101643681928157}
-  healthSlider: {fileID: 5153128187678830978}
-  health: 100
-  maxHealth: 100
-  blockSlider: {fileID: 5916237639070223711}
-  block: 0
-  maxBlock: 100
+  Canvas: {fileID: 8993101643681928157}
+  _healthSlider: {fileID: 5153128187678830978}
+  _blockSlider: {fileID: 5916237639070223711}
+  _health: 100
+  _maxHealth: 100
+  _block: 0
+  _maxBlock: 100
   selectedCreatureHighlight: {fileID: 173222225718064266, guid: 8710a4673c11f054f8ed088df341f64d, type: 3}
 --- !u!1 &6384429990764305690
 GameObject:
@@ -646,6 +646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a526616d7de25bc4ba1acb7fe835140f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cam: {fileID: 0}
 --- !u!1 &8741069789898946794
 GameObject:
   m_ObjectHideFlags: 0

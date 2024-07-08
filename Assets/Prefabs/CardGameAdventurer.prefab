@@ -447,13 +447,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d519fd4a66c0fb4093ff54009c2242f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 6178386165471232781}
-  healthSlider: {fileID: 5476003989177157573}
-  health: 100
-  maxHealth: 100
-  blockSlider: {fileID: 8216858110455906267}
-  block: 0
-  maxBlock: 100
+  Canvas: {fileID: 6178386165471232781}
+  _healthSlider: {fileID: 5476003989177157573}
+  _blockSlider: {fileID: 8216858110455906267}
+  _health: 100
+  _maxHealth: 100
+  _block: 100
+  _maxBlock: 100
   selectedCreatureHighlight: {fileID: 173222225718064266, guid: 8710a4673c11f054f8ed088df341f64d, type: 3}
   adventurerData:
     prefab: {fileID: 0}
@@ -724,3 +724,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a526616d7de25bc4ba1acb7fe835140f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cam: {fileID: 0}

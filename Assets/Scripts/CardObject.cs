@@ -7,24 +7,25 @@ using UnityEditor;
 
 public class CardObject: MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
-    public GameObject graphic;
-    public Vector3 localOriginPosition;
-    public Quaternion localOriginRotation;
-    public CardData cardData;
+    public static int interactionTimeoutIdStream = 0;
+    private List<int> interactionTimeoutIds = new List<int>();
+    public GameObject Graphic;
+    public CardData CardData;
 
-    //drag and drop
+    public Vector3 LocalOriginPosition;
+    public Quaternion LocalOriginRotation;
 
-    bool isHover = false;
-    bool isBeingdragged = false;
-    bool isBeingPlayed = false;
-    public bool isShaking = false;
-    public bool isInteractable = true;
-    private IEnumerator currPlayedCardCoroutine;
-    public CardObject currPlaceHolderCard;
+    private bool _isHover = false;
+    private bool _isBeingdragged = false;
+    private bool _isBeingPlayed = false;
+    private bool _isShaking = false;
+    private bool _isInteractable = true;
+    private IEnumerator _currPlayedCardCoroutine;
+    public CardObject CurrPlaceHolderCard;
  
     void Update()
     {
-        if (isBeingdragged) {
+        if (_isBeingdragged) {
             //Vector3 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //mousePoint.z = 0;
             transform.position = Input.mousePosition;
@@ -32,124 +33,95 @@ public class CardObject: MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        if (isInteractable) {
-            isHover = true;
-            if (!isBeingPlayed && !isShaking) {
+        if (_isInteractable) {
+            _isHover = true;
+            if (!_isBeingPlayed && !_isShaking) {
                 StartCoroutine(Shake());
             }
         }
     }
  
     public void OnPointerExit(PointerEventData eventData) {
-        isHover = false;
+        _isHover = false;
     }
  
     public void OnPointerDown(PointerEventData eventData) {
-        if (!isBeingPlayed) {
-            if (isInteractable && isHover && !isShaking) {
-                if (CardGameManager.i.currPlayedCard) {
-                    StartCoroutine(CardGameManager.i.currPlayedCard.cardObject.CancelPlayCard());
+        if (!_isBeingPlayed) {
+            if (_isInteractable && _isHover && !_isShaking) {
+                if (CardGameManager.i.CurrPlayedCard) {
+                    CardGameManager.i.CurrPlayedCard.CardObject.CancelPlay();
                 }
                 StartDrag();
             }
         } else {
             //if card is already in the display
-            if (CardGameManager.i.currPlayedCard) StartCoroutine(CancelPlayCard());
+            if (CardGameManager.i.CurrPlayedCard) CancelPlay();
         }
     }
  
     public void OnPointerUp(PointerEventData eventData) {
-        if (!isInteractable || !isBeingdragged) return;
+        if (!_isInteractable || !_isBeingdragged) return;
         
-        if (CardGameManager.i.hoveredPlayZone && !CardGameManager.i.currPlayedCard && CardGameManager.i.currCombatState == CombatState.PlayerTurn) {
+        if (CardGameManager.i.HoveredPlayZone && !CardGameManager.i.CurrPlayedCard && CardGameManager.i.CurrCombatState == CombatState.PlayerTurn) {
             EndDrag();
             StartCoroutine(PlayCard());
         } else {
-            transform.localPosition = localOriginPosition;
+            transform.localPosition = LocalOriginPosition;
             EndDrag();
         }
     }
 
     void StartDrag() {
-        isBeingdragged = true;
-        CardGameManager.i.draggedCard = this;
-        graphic.GetComponent<Image>().raycastTarget = false;
+        _isBeingdragged = true;
+        CardGameManager.i.DraggedCard = this;
+        Graphic.GetComponent<Image>().raycastTarget = false;
     }
 
     void EndDrag() {
-        isBeingdragged = false;
-        CardGameManager.i.draggedCard = null;
-        graphic.GetComponent<Image>().raycastTarget = true;
+        _isBeingdragged = false;
+        CardGameManager.i.DraggedCard = null;
+        Graphic.GetComponent<Image>().raycastTarget = true;
     }
 
     public IEnumerator Shake() {
-        isShaking = true;
-        yield return StartCoroutine(Utilities.ShakeObject(graphic));
-        isShaking = false;
+        _isShaking = true;
+        yield return StartCoroutine(Utilities.ShakeObject(Graphic));
+        _isShaking = false;
     }
 
     private IEnumerator PlayCard() {
-        if (isBeingPlayed || CardGameManager.i.currCombatState != CombatState.PlayerTurn) yield break;
+        if (_isBeingPlayed || CardGameManager.i.CurrCombatState != CombatState.PlayerTurn) yield break;
 
-        //print("just called play card on: " + gameObject.name);
-
-        isBeingPlayed = true;
-        isInteractable = false;
-
-        // move the card off to the side of the screen while it evaluates
+        _isBeingPlayed = true;
+        _isInteractable = false;
         EndDrag();
-        yield return StartCoroutine(CardGameManager.i.hand.MoveToPlayedCardDisplay(this));
 
-        //effect of the card being played - starts targeting, performs play effect
-        // print("just set currPlayedCard equal to the cardData for: " + gameObject.name);
-        CardGameManager.i.currPlayedCard = cardData;
-        
-        // print("value of currPlayedCard.cardData.cardObject: " + CardGameManager.i.currPlayedCard.cardObject.gameObject.name);
-        cardData.currCardCoroutine = cardData.PlayCard();
-        yield return StartCoroutine(CardGameManager.i.currPlayedCard.PlayCard());
-
-        //handling the card object
-        yield return StartCoroutine(CardGameManager.i.hand.PlayCard(this));
-
-        //combat manager does play card stuff
-        CardGameManager.i.PlayCard();
-
-        Destroy(gameObject);
-        
+        CardGameManager.i.CardStartsPlay(this);
     }
 
-    /*
-    
-    class2: 
-    {
-        SomeFunction()
-        {
-            doAllInternalStuff()
-            Class1.PlayCard()
-        }
-
+    public void CancelPlay() {
+        CardData.CancelPlay();
     }
 
+    public void MoveFromDisplay() {
+        _isBeingPlayed = false;
+        _isInteractable = true;
 
-    public void PlayCard() => StartCoroutine(PlayCardInternal())
-
-    private Ienumerator PlayCardInternal(float time = 1){
-        yield return AnimateCard()
-        PlayCardStep1()
-    }
-     
-    PlayCardStep1(){
-        gameManager.PlayCard()
-    }
-     */
-
-    IEnumerator CancelPlayCard() {
-        yield return StartCoroutine(cardData.CancelPlayCard());
-        yield return StartCoroutine(CardGameManager.i.CancelPlayCard());
-
-        isBeingPlayed = false;
-        isInteractable = true;
+        CardGameManager.i.MoveCardFromDisplay();
     }
 
+    public void DisableInteractionForSeconds(float duration) {
+        _isInteractable = false;
 
+        int newInteractionTimeoutId = interactionTimeoutIdStream++;
+        interactionTimeoutIds.Add(newInteractionTimeoutId);
+        StartCoroutine(DisableInteractionForSeconds_Timeout(duration, newInteractionTimeoutId));
+    }
+
+    private IEnumerator DisableInteractionForSeconds_Timeout(float duration, int interactionTimeoutId) {
+        yield return new WaitForSeconds(duration);
+        interactionTimeoutIds.Remove(interactionTimeoutId);
+
+        if (interactionTimeoutIds.Count == 0) _isInteractable = true;
+    }
 }

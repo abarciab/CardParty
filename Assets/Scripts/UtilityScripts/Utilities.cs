@@ -8,6 +8,14 @@ public class Utilities
     public const float OBJECT_SHAKE_TIME = 0.05f;
     const float OBJECT_SHAKE_MAGNITUDE = 0.01f;
 
+    public static int QuaternionToTurnCount(Quaternion quat)
+    {
+        if (Vector3.Distance(quat.eulerAngles, new Vector3(0, 270, 0)) < 0.1f) return 3;
+        if (Vector3.Distance(quat.eulerAngles, new Vector3(0, 180, 0)) < 0.1f) return 2;
+        if (Vector3.Distance(quat.eulerAngles, new Vector3(0, 90, 0)) < 0.1f) return 1;
+        return 0;
+    }
+
     public static Vector3 Vec3Pow(Vector3 vec, float pow) {
         return new Vector3(Mathf.Pow(vec.x, pow), Mathf.Pow(vec.y, pow), Mathf.Pow(vec.z, pow));
     }

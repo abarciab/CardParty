@@ -29,6 +29,8 @@ public class TileGenerator : MonoBehaviour
     private int _targetPathNum = 4;
     private Transform _transform;
 
+    public Vector2Int Dimensions => new Vector2Int((int)_gridDimenstions.x, (int)_gridDimenstions.y);
+
     private void Start()
     {
         _transform = transform;
@@ -39,6 +41,7 @@ public class TileGenerator : MonoBehaviour
     [ButtonMethod]
     private void RegenerateGrid()
     {
+        OverworldUIManager.i.Createmap();
         ClearGrid();
         GenerateGrid();
     }
@@ -56,7 +59,6 @@ public class TileGenerator : MonoBehaviour
         var changeDirCount = 0;
         var total = _gridDimenstions.x * _gridDimenstions.y;
         for (int i = 0; i < total; i++) {
-
             PlaceTile(current.x, current.y, current == center);
 
             current.x += directions[dirIndex].x;

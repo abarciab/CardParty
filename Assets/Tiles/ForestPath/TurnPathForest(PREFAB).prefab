@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WFCInfo: {fileID: 7477415179429284038}
+  _mapSprites:
+  - {fileID: 21300000, guid: 3e94471e8ac01c048ae26bb628ec9547, type: 3}
   _entraces:
   - Name: UP
     Dir: 0
@@ -65,6 +67,7 @@ MonoBehaviour:
     Dir: 3
     TpPoint: {fileID: 7508277862969944037}
     Door: {fileID: 5312537644708652042}
+  _turns: 0
 --- !u!1 &3854689719153832722
 GameObject:
   m_ObjectHideFlags: 0

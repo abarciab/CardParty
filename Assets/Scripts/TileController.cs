@@ -12,12 +12,16 @@ public class TileController : MonoBehaviour
     public WFCSTileInfo WFCInfo;
     public Vector2Int GridPos { get; private set; }
 
+    [SerializeField] private List<Sprite> _mapSprites = new List<Sprite>();
+
     [SerializeField] private List<EntranceData> _entraces = new List<EntranceData>();
 
     private TileGridController _gridController;
     private TileInteractable _interactable;
     private Direction _initialEntranceDir;
     private bool _isUnlocked;
+
+    [SerializeField, ReadOnly] private int _turns; 
 
     private void OnValidate()
     {
@@ -34,6 +38,13 @@ public class TileController : MonoBehaviour
     private void Start()
     {
         _interactable.gameObject.SetActive(false);
+    }
+
+    public void ShowOnMap()
+    {
+        int turns = Utilities.QuaternionToTurnCount(transform.rotation);
+        OverworldUIManager.i.RevealMapSprite(GridPos, _mapSprites[Random.Range(0, _mapSprites.Count)], turns);
+        _turns = turns;
     }
 
     [ButtonMethod]
@@ -55,6 +66,9 @@ public class TileController : MonoBehaviour
         if (_isCenter) {
             ShowAllEntrances();
             _interactable.gameObject.SetActive(false);
+
+            ShowOnMap();
+            OverworldUIManager.i.EnterTileOnMap(GridPos);
         }
         else HideAllEntrances();
 
@@ -65,10 +79,8 @@ public class TileController : MonoBehaviour
 
     private void SetRotation(Quaternion rot)
     {
-        if (rot == Quaternion.identity) return;
-        if (Vector3.Distance(rot.eulerAngles, new Vector3(0, 90, 0)) < 0.1f) RotateEntrances(1);
-        if (Vector3.Distance(rot.eulerAngles, new Vector3(0, 180, 0)) < 0.1f) RotateEntrances(2);
-        if (Vector3.Distance(rot.eulerAngles, new Vector3(0, 270, 0)) < 0.1f) RotateEntrances(3);
+        var turnCount = Utilities.QuaternionToTurnCount(rot);
+        RotateEntrances(turnCount);
 
         _entraces[0].Dir = Direction.UP;
         _entraces[1].Dir = Direction.RIGHT;
@@ -102,6 +114,9 @@ public class TileController : MonoBehaviour
         _gridController.UpdateAllTiles(this);
         UpdateEntranceVisuals();
         _interactable.gameObject.SetActive(!_isUnlocked);
+
+        OverworldUIManager.i.EnterTileOnMap(GridPos);
+        ShowOnMap();
     }
 
     public void UpdateEntranceVisuals()

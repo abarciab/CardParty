@@ -9,6 +9,6 @@ public class HUDController : MonoBehaviour
 
     private void Update()
     {
-        _moneyText.text = "Money: " + PlayerInfo.Stats.Money;
+        _moneyText.text = PlayerInfo.Stats.Money.ToString();
     }
 }

@@ -15,4 +15,9 @@ public class PlayerInventory
     {
         Equipment.Add(Object.Instantiate(equipment));
     }
+
+    public void LoadItemList(List<Equipment> equipmentList)
+    {
+        Equipment = new List<Equipment>(equipmentList);
+    }
 }

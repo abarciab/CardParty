@@ -15,7 +15,7 @@ public class Creature : MonoBehaviour
     [SerializeField] private int _block = 0;
     [SerializeField] private int _maxBlock;
 
-    public GameObject selectedCreatureHighlight;
+    public GameObject SelectedCreatureHighlight;
 
     public void Select() {
         CardGameManager.i.SelectCreature(this);

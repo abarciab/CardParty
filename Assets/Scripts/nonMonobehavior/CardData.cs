@@ -10,7 +10,7 @@ public class CardData : ScriptableObject
     public string _name = "";
     public CardObject CardObject = null;
     public Sprite CardGraphic;
-    [SerializeField] private Function _function;
+    [SerializeField] public Function _function;
     /*[ConditionalField (_function == Function.ATTACK)] */float Damage = 50;
     /*[ConditionalField (_function == Function.BLOCK)] */float Block = 50;
     /*[ConditionalField (_function == Function.SPECIAL)] */float SpecialData;
@@ -93,7 +93,7 @@ public class CardData : ScriptableObject
     }
 }
 
-enum Function {
+public enum Function {
     ATTACK,
     BLOCK,
     SPECIAL

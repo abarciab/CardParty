@@ -38,6 +38,7 @@ public class CardGameManager : GameManager
     [SerializeField] private Transform _enemyContainer;
     [SerializeField] private Transform _adventurerContainer;
     public List<Creature> SelectedCreatures = new List<Creature>();
+    private List<System.Type> _currValidSelectTargets = new List<System.Type>();
     [SerializeField] private GameObject _selectedCreatureHighlight;
     [SerializeField] private List<Adventurer> _adventurers = new List<Adventurer>();
     [SerializeField] private List<Enemy> _enemies = new List<Enemy>();
@@ -209,6 +210,8 @@ public class CardGameManager : GameManager
     public IEnumerator SelectTargets(List<System.Type> requiredTargets) {
         _instructionsText.text = "Select Targets";
         //wait until exactly the correct types of targets are selected
+        DeselectAllCreatures();
+        _currValidSelectTargets = requiredTargets;
         while(!CompareListsByType<Creature>(requiredTargets, SelectedCreatures)) yield return 0;
         
         yield return SelectedCreatures;
@@ -222,15 +225,22 @@ public class CardGameManager : GameManager
     }
 
     public void SelectCreature(Creature creature) {
+        if (_currValidSelectTargets.Count == 0) return;
+
+        // if you've already selected enough creatures of this type, deselect the oldest
+        if (SelectedCreatures.Count > 0 && SelectedCreatures.Count(x => x.GetType() == creature.GetType()) >= _currValidSelectTargets.Count(x => x.GetType() == creature.GetType())) {
+            DeselectCreature(SelectedCreatures.FirstOrDefault(x => x.GetType() == creature.GetType()));
+        }
+
         SelectedCreatures.Add(creature);
         
-        creature.selectedCreatureHighlight = GameObject.Instantiate(_selectedCreatureHighlight, creature.Canvas.gameObject.transform);
+        creature.SelectedCreatureHighlight = GameObject.Instantiate(_selectedCreatureHighlight, creature.Canvas.gameObject.transform);
     }
     
     public void DeselectCreature(Creature creature) {
         SelectedCreatures.Remove(creature);
 
-        Destroy(creature.selectedCreatureHighlight);
+        Destroy(creature.SelectedCreatureHighlight);
     }
 
     public void DeselectAllCreatures() {

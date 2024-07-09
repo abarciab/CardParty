@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: RodOfGod
   m_EditorClassIdentifier: 
   Name: Rod of God
+  Sprite: {fileID: 21300000, guid: 939c60571c166364c9353b7acff85fc7, type: 3}
+  Description: big spikey ball. dropped from space, ig
+  WornByString: used by
+  Slot: 2
   Cost: 82
+  Cards: []

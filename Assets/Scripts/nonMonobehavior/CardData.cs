@@ -30,6 +30,13 @@ public class CardData : ScriptableObject
         _owner = data.Adventurer.GetComponent<Adventurer>();
     }
 
+    public override bool Equals(object other)
+    {
+        var otherCard = other as CardData;
+        if (otherCard == null) return false;
+        return string.Equals(ToString(), other.ToString());
+    }
+
     public string GetMoveData()
     {
         List<string> output = new List<string>();

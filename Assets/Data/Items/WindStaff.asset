@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: WindStaff
   m_EditorClassIdentifier: 
   Name: Wind Staff
+  Sprite: {fileID: 21300000, guid: 275db74ee5a99434fa01e7deda820776, type: 3}
+  Description: woosh! missed :(
+  WornByString: weilded By
+  Slot: 2
   Cost: 34
+  Cards: []

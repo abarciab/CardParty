@@ -15,9 +15,9 @@ public class CardSpecialData
     {
         List<string> output = new List<string>();
         if (_type == SpecialType.HEAL) output.Add("Heal target " + Utilities.Parenthize(_amount));
-        if (_type == SpecialType.HEAL) output.Add("Stun target for " + Utilities.Parenthize(_amount) + " turns");
-        if (_type == SpecialType.HEAL) output.Add("Burn " + Utilities.Parenthize(_amount));
-        if (_type == SpecialType.HEAL) output.Add("Draw " + Utilities.Parenthize(_amount) + " cards");
+        if (_type == SpecialType.STUN) output.Add("Stun target for " + Utilities.Parenthize(_amount) + " turns");
+        if (_type == SpecialType.BURN) output.Add("Burn " + Utilities.Parenthize(_amount));
+        if (_type == SpecialType.DRAW_CARDS) output.Add("Draw " + Utilities.Parenthize(_amount) + " cards");
         return output;
     }
 }

@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: RecurveBow
   m_EditorClassIdentifier: 
   Name: Recurve Bow
+  Sprite: {fileID: 21300000, guid: 2a40514333eed144a973ddb345bc5a45, type: 3}
+  Description: legolas lookin ass
+  WornByString: used by
+  Slot: 2
   Cost: 18
+  Cards: []

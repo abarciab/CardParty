@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: GodlyCoin
   m_EditorClassIdentifier: 
   Name: Godly Coin
+  Sprite: {fileID: 21300000, guid: 8f700d08144c2ab4da80cc8b94a70a5d, type: 3}
+  Description: rubbing it fills you with faith. it's so shiny
+  WornByString: held by
+  Slot: 0
   Cost: 117
+  Cards: []

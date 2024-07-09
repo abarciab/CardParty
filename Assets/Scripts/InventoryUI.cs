@@ -15,6 +15,7 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _pageSelectorText;
     [SerializeField] private SelectableItem _prevPage;
     [SerializeField] private SelectableItem _nextPage;
+    [SerializeField] private InventorySelectedCard _selectedCardController;
 
     private List<InventoryGridItem> _gridItems = new List<InventoryGridItem>();
     private List<InventoryGridItem> _filteredList = new List<InventoryGridItem>();
@@ -36,12 +37,6 @@ public class InventoryUI : MonoBehaviour
         }
         if (order == SortOrderType.VALUE) {
             sortedList = unsortedList.OrderByDescending(x => x.Data.Cost).ToList();
-            print("sortedByCost:");
-            foreach (var s in sortedList) print(s.Data.Name + ": " + s.Data.Cost);
-        }
-        if (order == SortOrderType.RECENCY) {
-            print("not yet implemented!");
-            return;
         }
 
         _filtering = true;
@@ -145,8 +140,9 @@ public class InventoryUI : MonoBehaviour
         foreach (var item in _gridItems) item.gameObject.SetActive(false);
     }
 
-    public void ShowItemDetails()
+    public void ShowItemDetails(Equipment equipment)
     {
         _itemSelection.SetActive(true);
+        _selectedCardController.Initialize(equipment);
     }
 }

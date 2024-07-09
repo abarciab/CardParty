@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: stick
   m_EditorClassIdentifier: 
   Name: stick
+  Sprite: {fileID: 21300000, guid: 6967e0cd0f81c984a81a93163ca433c5, type: 3}
+  Description: where did you even get this? there's no trees yet dumbass
+  WornByString: weilded by
+  Slot: 2
   Cost: 146
+  Cards: []

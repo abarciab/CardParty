@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: HealingAmulet
   m_EditorClassIdentifier: 
   Name: Amulet Of Healing
+  Sprite: {fileID: 21300000, guid: f27cc9eb5cbb5934ba2b9afe92a83141, type: 3}
   Description: This ancient amulet holds great and secret power. It seems to shimmer
     in the moonlight
+  WornByString: Worn By
+  Slot: 0
   Cost: 62
-  _cards:
+  Cards:
   - {fileID: 11400000, guid: d3844d201f2e06c41b11c75315d320b2, type: 2}

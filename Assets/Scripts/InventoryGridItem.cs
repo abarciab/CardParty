@@ -39,7 +39,7 @@ public class InventoryGridItem : MonoBehaviour
 
     public void ClickOn()
     {
-        _inventoryUI.ShowItemDetails();
+        _inventoryUI.ShowItemDetails(Data);
     }
 
 }

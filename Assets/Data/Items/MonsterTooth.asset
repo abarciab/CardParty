@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: MonsterTooth
   m_EditorClassIdentifier: 
   Name: Monster Tooth
+  Sprite: {fileID: 21300000, guid: 0f0074827c411c04083602637f1ef8d3, type: 3}
+  Description: wow edfinitly not a shark!
+  WornByString: held by
+  Slot: 0
   Cost: 115
+  Cards: []

@@ -14,6 +14,7 @@ public class OverworldUIManager : UIManager
     [SerializeField] private InventoryUI _inventory;
     [SerializeField] private ShopController _shop;
     [SerializeField] private MapController _map;
+    [SerializeField] private GameObject _party;
 
     [Header("TEMP")]
     [SerializeField, DisplayInspector] private List<SpecialEventData> _specialEvents = new List<SpecialEventData>();
@@ -32,6 +33,18 @@ public class OverworldUIManager : UIManager
     {
         OpenMenus -= 1;
         _map.CloseMap();
+    }
+
+    public void OpenParty()
+    {
+        OpenMenus += 1;
+        _party.SetActive(true);
+    }
+
+    public void CloseParty()
+    {
+        OpenMenus -= 1;
+        _party.SetActive(false);
     }
 
     public async Task WipeScreen(float duration)

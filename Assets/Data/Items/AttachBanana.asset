@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: AttachBanana
   m_EditorClassIdentifier: 
   Name: Attack Banana
+  Sprite: {fileID: 21300000, guid: e53c000d73201c040ad5c09609a8337c, type: 3}
+  Description: get attacked! now u have too much potassium
+  WornByString: weilded by
+  Slot: 2
   Cost: 85
+  Cards: []

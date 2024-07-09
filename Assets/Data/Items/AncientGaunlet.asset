@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: AncientGaunlet
   m_EditorClassIdentifier: 
   Name: Ancient Gauntlet
+  Sprite: {fileID: 21300000, guid: 29d9dcb038d4cfb4ca4fb8111260dfa2, type: 3}
+  Description: damn so freaking old! crazyyy
+  WornByString: Worn By
+  Slot: 1
   Cost: 92
-  _cards:
-  - {fileID: 0}
+  Cards: []

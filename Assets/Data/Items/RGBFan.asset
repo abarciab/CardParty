@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: RGBFan
   m_EditorClassIdentifier: 
   Name: RGB Fan
+  Sprite: {fileID: 21300000, guid: 3e10239c68644e84a8004a15ca3d157a, type: 3}
+  Description: doesn't look like anything to me
+  WornByString: held by
+  Slot: 0
   Cost: 117
+  Cards: []

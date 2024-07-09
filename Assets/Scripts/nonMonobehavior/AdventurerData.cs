@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[Serializable]
-public class AdventurerData
+[CreateAssetMenu(fileName = "Adventurer")]
+public class AdventurerData : ScriptableObject
 {
+    public string Name;
     public GameObject Adventurer;
-    public CardData[] cards;
+    public List<CardData> Cards = new List<CardData>();
 }

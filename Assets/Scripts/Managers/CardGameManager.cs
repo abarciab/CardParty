@@ -99,7 +99,7 @@ public class CardGameManager : GameManager
         }
 
         //spawn adventurers
-        List<AdventurerData> adventurerData = party.adventurerData;
+        List<AdventurerData> adventurerData = party.Adventurers;
         absBound = ((float)adventurerData.Count - 1) / 2 * CREATURE_SPACING;
         for (int i = 0; i < adventurerData.Count; i++) {
             adventurerData[i].Adventurer = GameObject.Instantiate(adventurerData[i].Adventurer, _adventurerContainer);
@@ -110,8 +110,8 @@ public class CardGameManager : GameManager
         }
 
         //construct deck
-        foreach (AdventurerData data in party.adventurerData) {
-            foreach (CardData card in data.cards) {
+        foreach (AdventurerData data in party.Adventurers) {
+            foreach (CardData card in data.Cards) {
                 CardData newCard = (CardData)ScriptableObject.CreateInstance(card.GetType());
                 foreach (System.Reflection.FieldInfo fieldInfo in card.GetType().GetFields()) {
                     fieldInfo.SetValue(newCard, fieldInfo.GetValue(card));

@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: CheeseGrater
   m_EditorClassIdentifier: 
   Name: cheese grater
+  Sprite: {fileID: 21300000, guid: 8751fc96a0649774c8f1de58faf829dd, type: 3}
+  Description: who's the real chese?
+  WornByString: used by
+  Slot: 2
   Cost: 87
+  Cards: []

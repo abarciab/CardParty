@@ -13,4 +13,10 @@ MonoBehaviour:
   m_Name: Cannonball
   m_EditorClassIdentifier: 
   Name: cannonball
+  Sprite: {fileID: 21300000, guid: cf01459beaad41749a6d18e37c5f3a57, type: 3}
+  Description: comes with a cannon!
+  WornByString: held by
+  Slot: 2
   Cost: 13
+  Cards:
+  - {fileID: 11400000, guid: 466f0b52e9c8ced4ea2d7bed51a9e9ee, type: 2}

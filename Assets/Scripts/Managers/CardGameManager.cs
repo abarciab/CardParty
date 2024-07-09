@@ -110,6 +110,7 @@ public class CardGameManager : GameManager
         }
 
         //construct deck
+<<<<<<< Updated upstream
         foreach (AdventurerData data in party.Adventurers) {
             foreach (CardData card in data.Cards) {
                 CardData newCard = (CardData)ScriptableObject.CreateInstance(card.GetType());
@@ -118,6 +119,11 @@ public class CardGameManager : GameManager
                 }
                 newCard.Init(data);
                 Deck.AddCard(newCard);
+=======
+        foreach (AdventurerData data in party.adventurerData) {
+            foreach (CardData card in data.cards) {
+                Deck.AddCard(card);
+>>>>>>> Stashed changes
             }
         }
 

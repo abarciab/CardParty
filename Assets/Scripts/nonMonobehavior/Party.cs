@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -8,6 +9,24 @@ public class Party
     public List<AdventurerData> Adventurers = new List<AdventurerData>();
 
     private Dictionary<AdventurerData, List<Equipment>> _equipmentDict = new Dictionary<AdventurerData, List<Equipment>>();
+    private const int _ornamentIndex = 0;
+    private const int _armorIndex = 1;
+    private const int _mainIndex = 2;
+
+    public List<Equipment> GetAllEquippedItems()
+    {
+        var list = new List<Equipment>();
+        foreach (var equipmentList in _equipmentDict.Values) {
+            foreach (var e in equipmentList) if (e != null) list.Add(e); 
+        }
+        return list;
+    }
+
+    public Equipment GetCurrentEquipment(AdventurerData adventurer, EquipmentSlot slot)
+    {
+        int index = SlotToIndex(slot);
+        return _equipmentDict[adventurer][index];
+    }
 
     public AdventurerData GetOwner(Equipment equipment)
     {
@@ -27,6 +46,41 @@ public class Party
 
     public void SetParty(List<AdventurerData> adventurers)
     {
-        Adventurers = adventurers;
+        Adventurers.Clear();
+        foreach (var a in adventurers) AddAdventurer(a);
+    }
+
+    public void AddAdventurer(AdventurerData adventurer)
+    {
+        Adventurers.Add(adventurer);
+        _equipmentDict.Add(adventurer, new List<Equipment>(){null, null, null});
+    }
+
+    public List<Equipment> GetEquipment(AdventurerData adventurer)
+    {
+        return _equipmentDict[adventurer];
+    }
+
+    public void SetEquipment(AdventurerData adventurer, Equipment equipment, EquipmentSlot slot)
+    {
+        foreach (var entry in _equipmentDict) {
+            for (int i = 0; i < entry.Value.Count; i++) {
+                if (entry.Value[i] == equipment) entry.Value[i] = null;
+            }
+        }
+
+        int index = SlotToIndex(slot);
+        if (index == -1) return;
+
+        _equipmentDict[adventurer][index] = equipment;
+    }
+
+    private int SlotToIndex(EquipmentSlot slot )
+    {
+        int index = -1;
+        if (slot == EquipmentSlot.ORNAMENT) index = _ornamentIndex;
+        if (slot == EquipmentSlot.ARMOR) index = _armorIndex;
+        if (slot == EquipmentSlot.MAIN) index = _mainIndex;
+        return index;
     }
 }

@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7696431937586535731}
   - component: {fileID: 9000020951951081706}
+  - component: {fileID: 6403114532973060985}
+  - component: {fileID: 6754991719003561309}
   m_Layer: 5
   m_Name: partyMenuAdventurer
   m_TagString: Untagged
@@ -30,8 +32,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9126715971358984151}
-  - {fileID: 4328015220350895878}
   - {fileID: 6889703189771470638}
+  - {fileID: 4328015220350895878}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -47,6 +49,80 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351850293952742748}
   m_CullTransparentMesh: 1
+--- !u!114 &6403114532973060985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351850293952742748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7df8449f80adee44848856dfe2fc9d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _portrait: {fileID: 8035898814132496540}
+  _nameText: {fileID: 5340593400790552772}
+  _data: {fileID: 0}
+--- !u!114 &6754991719003561309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351850293952742748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1535fa11d0c2c7f478f67f2e638db560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectOnClick: 1
+  _toggleOnClick: 1
+  _deselectOnClick: 0
+  _selectOnHover: 0
+  _deselectOnExit: 1
+  _hasHoverCooldown: 0
+  _hoverCooldown: 0.05
+  _data:
+  - Name: backing
+    _type: 0
+    _target: {fileID: 8285037127853625080}
+    _normalColor: {r: 0.37254903, g: 0.42745098, b: 0.49803922, a: 0.2}
+    _hoveredColor: {r: 0.37254903, g: 0.42745098, b: 0.49803922, a: 0.6}
+    _selectedColor: {r: 0.37254903, g: 0.427451, b: 0.49803925, a: 1}
+    _disabledColor: {r: 1, g: 1, b: 1, a: 1}
+    _obj: {fileID: 0}
+    _normalState: 0
+    _hoveredState: 0
+    _selectedState: 1
+    _disabledState: 0
+  _hasAnimation: 0
+  _animator: {fileID: 0}
+  _animationBool: Selected
+  _hoverSound: {fileID: 11400000, guid: 992e814cddd8325409c37e9132445321, type: 2}
+  _selectSound: {fileID: 0}
+  _deselectSound: {fileID: 0}
+  OnSelect:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6403114532973060985}
+        m_TargetAssemblyTypeName: PartyAdventurerUI, Assembly-CSharp
+        m_MethodName: Select
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnHover:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeselect:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3012455373750780158
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +285,7 @@ GameObject:
   - component: {fileID: 4360709835636927607}
   - component: {fileID: 5340593400790552772}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

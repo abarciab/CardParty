@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerInventory
@@ -19,5 +20,11 @@ public class PlayerInventory
     public void LoadItemList(List<Equipment> equipmentList)
     {
         Equipment = new List<Equipment>(equipmentList);
+    }
+    
+    public List<Equipment> GetValidItems(EquipmentSlot slot)
+    {
+        var list = Equipment.Where(x => x.Slot == slot).ToList();
+        return list; 
     }
 }

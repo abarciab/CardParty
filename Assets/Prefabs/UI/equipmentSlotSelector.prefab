@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8500035883091926377}
+  - component: {fileID: 3100155080161239483}
   m_Layer: 5
   m_Name: top
   m_TagString: Untagged
@@ -40,6 +41,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.0009727478}
   m_SizeDelta: {x: 100, y: 100.00205}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3100155080161239483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289219012241736046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1535fa11d0c2c7f478f67f2e638db560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectOnClick: 1
+  _toggleOnClick: 0
+  _deselectOnClick: 0
+  _selectOnHover: 0
+  _deselectOnExit: 1
+  _hasHoverCooldown: 0
+  _hoverCooldown: 0.05
+  _data:
+  - Name: backing
+    _type: 0
+    _target: {fileID: 7518129496055045471}
+    _normalColor: {r: 0.37254903, g: 0.427451, b: 0.49803925, a: 1}
+    _hoveredColor: {r: 0.5218049, g: 0.63195866, b: 0.7735849, a: 1}
+    _selectedColor: {r: 1, g: 1, b: 1, a: 1}
+    _disabledColor: {r: 1, g: 1, b: 1, a: 1}
+    _obj: {fileID: 0}
+    _normalState: 0
+    _hoveredState: 0
+    _selectedState: 1
+    _disabledState: 0
+  _hasAnimation: 0
+  _animator: {fileID: 0}
+  _animationBool: Selected
+  _hoverSound: {fileID: 11400000, guid: 992e814cddd8325409c37e9132445321, type: 2}
+  _selectSound: {fileID: 0}
+  _deselectSound: {fileID: 0}
+  OnSelect:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHover:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeselect:
+    m_PersistentCalls:
+      m_Calls: []
+  _printSelections: 0
 --- !u!1 &614530940772437446
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,6 +517,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8618487549635869371}
   - component: {fileID: 8103022292421562304}
+  - component: {fileID: 2164659489155929238}
   m_Layer: 5
   m_Name: equipmentSlotSelector
   m_TagString: Untagged
@@ -504,6 +554,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5226928515253545477}
   m_CullTransparentMesh: 1
+--- !u!114 &2164659489155929238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5226928515253545477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc4a910879038964ba5c7c16fd5c4fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemImg: {fileID: 8255855317769214469}
+  _nameText: {fileID: 6840835356130320872}
+  _cardDisplay: {fileID: 8401474310305435393}
 --- !u!1 &6324677929867948128
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,3 +758,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7279250997030398736, guid: 8c2415aaf8db44840b428eb85c601ca1, type: 3}
   m_PrefabInstance: {fileID: 177731258455900467}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8401474310305435393 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8570180748964531762, guid: 8c2415aaf8db44840b428eb85c601ca1, type: 3}
+  m_PrefabInstance: {fileID: 177731258455900467}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88f5aa0b7c003af499dec490c6927ced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

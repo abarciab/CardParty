@@ -34,7 +34,7 @@ public class CardData : ScriptableObject
     {
         var otherCard = other as CardData;
         if (otherCard == null) return false;
-        return string.Equals(ToString(), other.ToString());
+        return Sprite = otherCard.Sprite;
     }
 
     public string GetMoveData()

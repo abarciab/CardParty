@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de658ed930c5b946bd1c0d823ae7916, type: 3}
+  m_Name: JohnTheSmith
+  m_EditorClassIdentifier: 
+  Name: John the Smith
+  portrait: {fileID: 21300000, guid: 13bf5a103cd864e46a88d4a79467238d, type: 3}
+  Description: John was alive in the before ages when everything was bad but also
+    right now when things are better
+  Adventurer: {fileID: 0}
+  Cards:
+  - {fileID: 11400000, guid: 5c5bd6a4277b0bd4db247e558b170b07, type: 2}

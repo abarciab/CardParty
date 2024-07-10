@@ -108,6 +108,9 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public UnityEvent OnHover;
     public UnityEvent OnDeselect;
 
+    [Header("Debug")]
+    [SerializeField] private bool _printSelections;
+
     public bool Selected { get; private set; }
     public bool Hovered { get; private set; }
     public bool Disabled { get; private set; }
@@ -147,6 +150,7 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void Select()
     {
+        if (_printSelections) print(gameObject.name + " selected");
         OnSelect.Invoke();
         if (_selectSound) _selectSound.Play(); 
         SetState(true);

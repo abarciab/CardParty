@@ -29,10 +29,6 @@ public class Party
             }
         }
 
-        var deckNames = new List<string>();
-        foreach (var card in deck) deckNames.Add(card.Name + Utilities.Parenthize(card.name));
-        Debug.Log("Deck: " + string.Join(", ", deckNames));
-
         return deck;
     }
 

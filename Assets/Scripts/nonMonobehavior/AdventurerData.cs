@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Adventurer")]
@@ -14,7 +15,13 @@ public class AdventurerData : ScriptableObject
     public List<CardData> GetInnateCards(int total)
     {
         var list = new List<CardData>(Cards);
-        while (list.Count < total) list.Add(Cards[Random.Range(0, Cards.Count)]);
+        while (list.Count < total) {
+            foreach (var card in Cards) {
+                if (list.Count < total) list.Add(card);
+            }
+        }
+        list = list.OrderBy(x => x.Name).ToList();
+
         return list;
     }
 }

@@ -2,6 +2,7 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -9,7 +10,6 @@ using UnityEngine;
 public class TileGenerator : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _prefabTiles = new List<GameObject>();
-    [SerializeField] private GameObject _startTile;
     [SerializeField] private Vector2 _gridDimenstions = new Vector2(20, 20);
     [SerializeField] private float _tileWidth = 20;
 
@@ -22,12 +22,20 @@ public class TileGenerator : MonoBehaviour
     [Header("Interactables")]
     [SerializeField] private List<TileInteractableData> _tileInteractableOptions = new List<TileInteractableData>();
 
+    [Header("Special tiles")]
+    [SerializeField] private GameObject _startTile;
+    [SerializeField] private GameObject _winTile;
+    [SerializeField] private float _winTileMinDist; 
+
     private TileController[,] _tileGrid;
 
     private TileGridController _gridController;
     private int _numPaths;
     private int _targetPathNum = 4;
     private Transform _transform;
+    private bool _placedWinTile;
+
+    private Vector2Int _centerPos => new Vector2Int((int)_gridDimenstions.x / 2, (int)_gridDimenstions.y / 2);
 
     public Vector2Int Dimensions => new Vector2Int((int)_gridDimenstions.x, (int)_gridDimenstions.y);
 
@@ -50,16 +58,17 @@ public class TileGenerator : MonoBehaviour
     {
         _tileGrid = new TileController[(int)_gridDimenstions.x + 1, (int)_gridDimenstions.y + 1];
 
-        var center = new Vector2Int((int)_gridDimenstions.x / 2, (int)_gridDimenstions.y / 2);
-        var current = new Vector2Int(center.x, center.y); 
+        var current = new Vector2Int(_centerPos.x, _centerPos.y); 
+
         List<Vector2Int> directions = new List<Vector2Int>() { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
         var dirIndex = 0;
         var steps = 1;
         var stepsCount = 0;
         var changeDirCount = 0;
         var total = _gridDimenstions.x * _gridDimenstions.y;
+
         for (int i = 0; i < total; i++) {
-            PlaceTile(current.x, current.y, current == center);
+            PlaceTile(current.x, current.y, current == _centerPos);
 
             current.x += directions[dirIndex].x;
             current.y += directions[dirIndex].y;
@@ -79,6 +88,7 @@ public class TileGenerator : MonoBehaviour
     {
         foreach (var t in _placedTiles) Destroy(t.gameObject);
         _placedTiles.Clear();
+        _placedWinTile = false;
     }
 
     private void PlaceTile(int x, int y, bool isCenter)
@@ -130,6 +140,11 @@ public class TileGenerator : MonoBehaviour
     private (GameObject, Quaternion) SelectPrefab(int x, int y, bool center)
     {
         if (center) return new(_startTile, Quaternion.identity);
+        else if (ShouldPlaceWinTile(x, y)) {
+            _placedWinTile = true;
+            return new(_winTile, Quaternion.identity);
+        }
+
 
         var hole = GetEdgesOfHole(x, y);
         var validTiles = new List<(GameObject, Quaternion)>();
@@ -141,6 +156,14 @@ public class TileGenerator : MonoBehaviour
 
         if (validTiles.Count == 0) Debug.LogError("Couldn't find valid tile for hole: " + string.Join("|", hole));
         return validTiles[Random.Range(0, validTiles.Count)];
+    }
+
+    private bool ShouldPlaceWinTile(int x, int y) {
+        if (_placedWinTile) return false;
+        var distance = Vector2Int.Distance(new Vector2Int(x, y), _centerPos);
+        if (distance < _winTileMinDist) return false;
+        if (x == _gridDimenstions.x - 1 && y == _gridDimenstions.y - 1) return true;
+        else return (Random.Range(0f, 1) < 0.1f);
     }
 
     private void AddAllPossibleValidTiles(ref List<(GameObject, Quaternion)> validTiles, List<string> hole)

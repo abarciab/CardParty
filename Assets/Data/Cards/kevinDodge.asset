@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: kevinDodge
   m_EditorClassIdentifier: 
   Name: Dodge
-  Sprite: {fileID: 21300000, guid: c5a7fc812eeeadb4c837230130aa1db4, type: 3}
+  Sprite: {fileID: 21300000, guid: b1b3eb5287f8f1646b3ad8bb618aa117, type: 3}
   Description: DAMN UR THE ONE KEVIN.
   _function: 2
   _amount: 80

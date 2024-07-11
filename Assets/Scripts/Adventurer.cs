@@ -7,5 +7,5 @@ using System.Linq;
 
 public class Adventurer : Creature
 {
-    public AdventurerData adventurerData;
+    public AdventurerData AdventurerData;
 }

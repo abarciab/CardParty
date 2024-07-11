@@ -3804,15 +3804,15 @@ PrefabInstance:
     - target: {fileID: 2416307582939499252, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
       propertyPath: TestParty.Adventurers.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: cd12d66e6eb777e43b560fbd07e90cc3, type: 2}
+      objectReference: {fileID: 11400000, guid: cded5a12027e75947998ef4bdc2b218a, type: 2}
     - target: {fileID: 2416307582939499252, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
       propertyPath: TestParty.Adventurers.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: cd12d66e6eb777e43b560fbd07e90cc3, type: 2}
+      objectReference: {fileID: 11400000, guid: cded5a12027e75947998ef4bdc2b218a, type: 2}
     - target: {fileID: 2416307582939499252, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
       propertyPath: TestParty.Adventurers.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: cd12d66e6eb777e43b560fbd07e90cc3, type: 2}
+      objectReference: {fileID: 11400000, guid: cded5a12027e75947998ef4bdc2b218a, type: 2}
     - target: {fileID: 2416307582939499252, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
       propertyPath: TestParty.adventurerData.Array.size
       value: 3

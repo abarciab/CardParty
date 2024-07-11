@@ -107,6 +107,7 @@ public class CardGameManager : GameManager
             float newAdventurerPosX = Mathf.Lerp(-absBound, absBound, adventurerData.Count != 1 ? i / ((float)adventurerData.Count - 1) : 0.5f);
             newAdventurer.transform.localPosition = new Vector3(newAdventurerPosX, 0, 0);
             _adventurers.Add(newAdventurer.GetComponent<Adventurer>());
+            newAdventurer.GetComponent<Adventurer>().AdventurerData = adventurerData[i];
         }
 
         //construct deck
@@ -193,7 +194,7 @@ public class CardGameManager : GameManager
 
                 Creature defender = ((List<Creature>)currSelectTargets.Current).Find(x => x.GetType() == typeof(Enemy));
 
-                yield return StartCoroutine(Utilities.LerpToAndBack(data.Owner.Adventurer, defender.transform.position));
+                yield return StartCoroutine(Utilities.LerpToAndBack(data.Owner.gameObject, defender.transform.position));
                 defender.TakeDamage(data.Amount);
             }
             break;
@@ -206,7 +207,7 @@ public class CardGameManager : GameManager
 
                 Creature defendee = ((List<Creature>)currSelectTargets.Current).Find(x => x.GetType() == typeof(Adventurer));
 
-                yield return StartCoroutine(Utilities.LerpToAndBack(data.Owner.Adventurer, defendee.transform.position));
+                yield return StartCoroutine(Utilities.LerpToAndBack(data.Owner.gameObject, defendee.transform.position));
                 defendee.AddBlock(data.Amount);
             }
             break;
@@ -298,7 +299,17 @@ public class CardGameManager : GameManager
     }
 
     public Adventurer GetOwnerAdventurer(CardObject cardObject) {
-        
+        foreach (Adventurer dude in _adventurers) {
+            if (dude.AdventurerData.Cards.Contains(cardObject.CardData)) return dude;
+        }
+        return null;
+    }
+
+    public Adventurer GetOwnerAdventurer(CardData cardData) {
+        foreach (Adventurer dude in _adventurers) {
+            if (dude.AdventurerData.Cards.Contains(cardData)) return dude;
+        }
+        return null;
     }
 }
 

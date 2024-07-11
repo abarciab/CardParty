@@ -4,6 +4,22 @@ using UnityEngine;
 using System;
 using MyBox;
 
+public enum Function { NONE, ATTACK, BLOCK, SPECIAL }
+
+public class CardPlayData {
+    public AdventurerData Owner;
+    public Function Function;
+    public float Amount;
+    public Action SpecialData;
+
+    public CardPlayData(AdventurerData newOwner, Function newFunction, int newAmount, Action newSpecialData = null) {
+        Owner = newOwner;
+        Function = newFunction;
+        Amount = newAmount;
+        SpecialData = newSpecialData;
+    }
+}
+
 [CreateAssetMenu(fileName = "CardData")]
 public class CardData : ScriptableObject
 {
@@ -69,6 +85,29 @@ public class CardData : ScriptableObject
         }
 
         yield return null;
+    public override bool Equals(object other)
+    {
+        var otherCard = other as CardData;
+        if (otherCard == null) return false;
+        return string.Equals(ToString(), other.ToString());
+    }
+
+    public string GetMoveData()
+    {
+        List<string> output = new List<string>();
+        if (_function == Function.ATTACK) output.Add("Attack " + Utilities.Parenthize(_amount));
+        if (_function == Function.BLOCK) output.Add("Block " + Utilities.Parenthize(_amount));
+        output.AddRange(_specialData.GetMoveData());
+        if (_exhaust) output.Add("Exhaust");
+        return string.Join("\n", output);
+    }
+
+    public CardPlayData GetPlayData() {
+        if (_function == Function.SPECIAL) {
+            return new CardPlayData(PlayerInfo.Party.GetOwner(this), _function, 0);
+        }
+
+        return new CardPlayData(PlayerInfo.Party.GetOwner(this), _function, 50);
     }
 
     public void CancelPlay() {

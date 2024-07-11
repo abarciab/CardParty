@@ -102,22 +102,17 @@ public class CardGameManager : GameManager
         List<AdventurerData> adventurerData = party.adventurerData;
         absBound = ((float)adventurerData.Count - 1) / 2 * CREATURE_SPACING;
         for (int i = 0; i < adventurerData.Count; i++) {
-            adventurerData[i].Adventurer = GameObject.Instantiate(adventurerData[i].Adventurer, _adventurerContainer);
+            GameObject newAdventurer = GameObject.Instantiate(adventurerData[i].Adventurer, _adventurerContainer);
             // evenly distribute across enemy container
             float newAdventurerPosX = Mathf.Lerp(-absBound, absBound, adventurerData.Count != 1 ? i / ((float)adventurerData.Count - 1) : 0.5f);
-            adventurerData[i].Adventurer.transform.localPosition = new Vector3(newAdventurerPosX, 0, 0);
-            _adventurers.Add(adventurerData[i].Adventurer.GetComponent<Adventurer>());
+            newAdventurer.transform.localPosition = new Vector3(newAdventurerPosX, 0, 0);
+            _adventurers.Add(newAdventurer.GetComponent<Adventurer>());
         }
 
         //construct deck
-        foreach (AdventurerData data in party.adventurerData) {
-            foreach (CardData card in data.cards) {
-                CardData newCard = (CardData)ScriptableObject.CreateInstance(card.GetType());
-                foreach (System.Reflection.FieldInfo fieldInfo in card.GetType().GetFields()) {
-                    fieldInfo.SetValue(newCard, fieldInfo.GetValue(card));
-                }
-                newCard.Init(data);
-                Deck.AddCard(newCard);
+        foreach (AdventurerData data in party.Adventurers) {
+            foreach (CardData card in data.Cards) {
+                Deck.AddCard(card);
             }
         }
 
@@ -181,6 +176,44 @@ public class CardGameManager : GameManager
     public void CardStartsPlay(CardObject cardObject) {
         CurrPlayedCard = cardObject.CardData;
         _hand.MoveToDisplayAndPlay(cardObject);
+    }
+
+    public void CardPlayFunction(CardObject cardObject, CardPlayData data) {
+        StartCoroutine(CardPlayFunction_Coroutine(cardObject, data));
+    }
+
+    public IEnumerator CardPlayFunction_Coroutine(CardObject cardObject, CardPlayData data) {
+        switch (data.Function) {
+            case Function.ATTACK: {
+                List<System.Type> requiredTargets = new List<System.Type>() {typeof(Enemy)};
+
+                IEnumerator currSelectTargets = SelectTargets(requiredTargets);
+                yield return StartCoroutine(currSelectTargets);
+
+                Creature defender = ((List<Creature>)currSelectTargets.Current).Find(x => x.GetType() == typeof(Enemy));
+
+                yield return StartCoroutine(Utilities.LerpToAndBack(data.Owner.Adventurer, defender.transform.position));
+                defender.TakeDamage(data.Amount);
+            }
+            break;
+                
+            case Function.BLOCK: {
+                List<System.Type> requiredTargets = new List<System.Type>() {typeof(Adventurer)};
+
+                IEnumerator currSelectTargets = SelectTargets(requiredTargets);
+                yield return StartCoroutine(currSelectTargets);
+
+                Creature defendee = ((List<Creature>)currSelectTargets.Current).Find(x => x.GetType() == typeof(Adventurer));
+
+                yield return StartCoroutine(Utilities.LerpToAndBack(data.Owner.Adventurer, defendee.transform.position));
+                defendee.AddBlock(data.Amount);
+            }
+            break;
+        }
+
+        //DoSpecial();
+
+        CardEndsPlay(cardObject);
     }
 
     public void CardEndsPlay(CardObject cardObject) {
@@ -262,10 +295,14 @@ public class CardGameManager : GameManager
             }
         }
     }
+
+    public Adventurer GetOwnerAdventurer(CardObject cardObject) {
+        
+    }
 }
 
 public enum CombatState {
-        PlayerTurn,
-        EnemyTurn,
-        Idle, //in between states
-    }
+    PlayerTurn,
+    EnemyTurn,
+    Idle, //in between states
+}

@@ -1,3 +1,4 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,12 @@ public class TileGridController : MonoBehaviour
     [SerializeField] private Transform _fogOfWar;
 
     public void SetTiles(List<TileController> tiles) => _tiles = tiles;
+
+    [ButtonMethod]
+    private void RevealEntireMap()
+    {
+        foreach (var t in _tiles) t.ShowOnMap();
+    }
 
     public TileController GetTileInDirection(Vector2Int ID, Direction dir)
     {

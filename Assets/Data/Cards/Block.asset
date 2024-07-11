@@ -12,7 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a82f428b23c4e40b3a2fd4a3f84be8, type: 3}
   m_Name: Block
   m_EditorClassIdentifier: 
-  _name: Block
+  Name: Defend
+  Sprite: {fileID: 21300000, guid: f82c045a894fbea45a4d6c9a058a080f, type: 3}
+  Description: not today, batman!
+  _function: 2
+  _amount: 50
+  _hasSpecial: 0
+  _specialData:
+    _type: 0
+    _amount: 0
+  _exhaust: 0
   CardObject: {fileID: 0}
-  CardGraphic: {fileID: 21300000, guid: f82c045a894fbea45a4d6c9a058a080f, type: 3}
-  _function: 1

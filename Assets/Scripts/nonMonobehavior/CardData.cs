@@ -23,13 +23,17 @@ public class CardPlayData {
 [CreateAssetMenu(fileName = "CardData")]
 public class CardData : ScriptableObject
 {
-    public string _name = "";
-    public CardObject CardObject = null;
-    public Sprite CardGraphic;
-    [SerializeField] public Function _function;
-    /*[ConditionalField (_function == Function.ATTACK)] */float Damage = 50;
-    /*[ConditionalField (_function == Function.BLOCK)] */float Block = 50;
-    /*[ConditionalField (_function == Function.SPECIAL)] */float SpecialData;
+    public string Name;
+    public Sprite Sprite;
+    [TextArea(3, 10)] public string Description;
+    [SerializeField] private Function _function;
+    [ConditionalField (nameof(_function), inverse:true, Function.NONE), SerializeField] private float _amount = 50;
+    [SerializeField] private CardSpecialData _specialData;
+
+    [Header("Other Behvaiors")]
+    [SerializeField] private bool _exhaust;
+
+    [HideInInspector] public CardObject CardObject = null;
 
     private IEnumerator _currCardCoroutine;
     private IEnumerator _currSelectTargets;
@@ -38,6 +42,23 @@ public class CardData : ScriptableObject
 
     public void Init(AdventurerData data) {
         _owner = data.Adventurer.GetComponent<Adventurer>();
+    }
+
+    public override bool Equals(object other)
+    {
+        var otherCard = other as CardData;
+        if (otherCard == null) return false;
+        return string.Equals(ToString(), other.ToString());
+    }
+
+    public string GetMoveData()
+    {
+        List<string> output = new List<string>();
+        if (_function == Function.ATTACK) output.Add("Attack " + Utilities.Parenthize(_amount));
+        if (_function == Function.BLOCK) output.Add("Block " + Utilities.Parenthize(_amount));
+        output.AddRange(_specialData.GetMoveData());
+        if (_exhaust) output.Add("Exhaust");
+        return string.Join("\n", output);
     }
 
     public void Play() {
@@ -57,7 +78,7 @@ public class CardData : ScriptableObject
                 Creature defender = ((List<Creature>)_currSelectTargets.Current).Find(x => x.GetType() == typeof(Enemy));
 
                 yield return _owner.StartCoroutine(Utilities.LerpToAndBack(_owner.gameObject, defender.transform.position));
-                defender.TakeDamage(Damage);
+                defender.TakeDamage(_amount);
 
                 CardGameManager.i.CardEndsPlay(CardObject);
             }
@@ -73,16 +94,14 @@ public class CardData : ScriptableObject
                 Creature defendee = ((List<Creature>)_currSelectTargets.Current).Find(x => x.GetType() == typeof(Adventurer));
 
                 yield return _owner.StartCoroutine(Utilities.LerpToAndBack(_owner.gameObject, defendee.transform.position));
-                defendee.AddBlock(Damage);
+                defendee.AddBlock(_amount);
 
                 CardGameManager.i.CardEndsPlay(CardObject);
             }
             break;
-            
-            case Function.SPECIAL: {
-            }
-            break;
         }
+
+        //DoSpecial();
 
         yield return null;
     public override bool Equals(object other)
@@ -128,12 +147,6 @@ public class CardData : ScriptableObject
     }
 
     public override string ToString() {
-        return "name: " + _name + "\nfunction: " + _function + "\nowner: " + _owner;
+        return "name: " + Name + "\nfunction: " + _function + "\nowner: " + _owner;
     }
-}
-
-public enum Function {
-    ATTACK,
-    BLOCK,
-    SPECIAL
 }

@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: HornedHelm
   m_EditorClassIdentifier: 
   Name: Horned Helm
-  Cost: 56
+  Sprite: {fileID: 21300000, guid: 1c602614270e999448637f5f2700f344, type: 3}
+  Description: vikings didnt wear these
+  WornByString: Worn By
+  Slot: 1
+  Cost: 131
+  Cards: []

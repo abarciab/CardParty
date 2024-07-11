@@ -13,9 +13,39 @@ public class OverworldUIManager : UIManager
     [SerializeField] private SpecialEventController _eventController;
     [SerializeField] private InventoryUI _inventory;
     [SerializeField] private ShopController _shop;
+    [SerializeField] private MapController _map;
+    [SerializeField] private GameObject _party;
 
     [Header("TEMP")]
     [SerializeField, DisplayInspector] private List<SpecialEventData> _specialEvents = new List<SpecialEventData>();
+
+    public void RevealMapSprite(Vector2Int ID, Sprite sprite, int turns) => _map.RevealTile(ID, sprite, turns);
+    public void EnterTileOnMap(Vector2Int ID) => _map.UpdatePlayerPosition(ID);
+    public void Createmap() => _map.Initialize();
+
+    public void OpenMap()
+    {
+        OpenMenus += 1;
+        _map.OpenMap();
+    }
+
+    public void CloseMap()
+    {
+        OpenMenus -= 1;
+        _map.CloseMap();
+    }
+
+    public void OpenParty()
+    {
+        OpenMenus += 1;
+        _party.SetActive(true);
+    }
+
+    public void CloseParty()
+    {
+        OpenMenus -= 1;
+        _party.SetActive(false);
+    }
 
     public async Task WipeScreen(float duration)
     {

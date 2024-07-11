@@ -82,7 +82,7 @@ public class Hand : MonoBehaviour
         for (int i = 0; i < cardData.Count; i++) {
             //initialize card
             GameObject newCard = GameObject.Instantiate(_cardPrefab, transform);
-            newCard.GetComponent<CardObject>().Graphic.GetComponent<Image>().sprite = cardData[i].CardGraphic;
+            newCard.GetComponent<CardObject>().Graphic.GetComponent<Image>().sprite = cardData[i].Sprite;
             newCard.GetComponent<CardObject>().CardData = cardData[i];
             newCard.GetComponent<CardObject>().CardData.CardObject = newCard.GetComponent<CardObject>();
             newCard.GetComponent<CardObject>().LocalOriginPosition = placeHolderCards[i].GetComponent<CardObject>().LocalOriginPosition;

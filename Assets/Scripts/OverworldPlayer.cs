@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class OverworldPlayer : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class OverworldPlayer : MonoBehaviour
 
     private void Update()
     {
-        if (UIManager.i.IsBusy) {
+        if (UIManager.i.IsBusy || EventSystem.current.IsPointerOverGameObject()) {
             Stop();
             return;
         }

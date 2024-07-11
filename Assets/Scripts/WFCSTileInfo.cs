@@ -50,14 +50,13 @@ public class WFCSTileInfo : MonoBehaviour
 
     public void Rotate(Quaternion rot)
     {
-        if (rot == Quaternion.identity) return;
-        if (Vector3.Distance(rot.eulerAngles, new Vector3(0, 90, 0)) < 0.1f) RotatePublicEdges(1);
-        if (Vector3.Distance(rot.eulerAngles, new Vector3(0, 180, 0)) < 0.1f) RotatePublicEdges(2);
-        if (Vector3.Distance(rot.eulerAngles, new Vector3(0, 270, 0)) < 0.1f) RotatePublicEdges(3);
+        var turnCount = Utilities.QuaternionToTurnCount(rot);
+        RotatePublicEdges(turnCount);
     }
 
     private void RotatePublicEdges(int numTimes)
     {
+        if (numTimes == 0) return;
         var edges = new List<string>() { _top, _right, _down, _left };
         for (int i = 0; i < numTimes; i++) rotateEdges(ref edges);
         _top = edges[0];

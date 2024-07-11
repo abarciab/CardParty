@@ -26,6 +26,8 @@ public class CardData : ScriptableObject
 
     private Adventurer _owner = null;
 
+    public AdventurerData Owner => PlayerInfo.Party.GetOwner(this);
+
     public void Init(AdventurerData data) {
         _owner = data.Adventurer.GetComponent<Adventurer>();
     }
@@ -34,7 +36,7 @@ public class CardData : ScriptableObject
     {
         var otherCard = other as CardData;
         if (otherCard == null) return false;
-        return Sprite = otherCard.Sprite;
+        return Sprite == otherCard.Sprite && otherCard.name == name;
     }
 
     public string GetMoveData()

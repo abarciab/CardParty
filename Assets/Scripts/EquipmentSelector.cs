@@ -13,9 +13,12 @@ public class EquipmentSelector : MonoBehaviour
 
     private void OpenSelector (EquipmentSlot slot)
     {
-        var equipmentList = PlayerInfo.Inventory.GetValidItems(slot);
+        var equipmentList = new List<Equipment> (PlayerInfo.Inventory.GetValidItems(slot));
         var currentlyEquipped = PlayerInfo.Party.GetCurrentEquipment(_controller.CurrentAdventurer, slot);
-        if (currentlyEquipped != null) equipmentList.Remove(currentlyEquipped);
+        if (currentlyEquipped != null) {
+            print("currently equipped: " +  currentlyEquipped);
+            equipmentList.Remove(currentlyEquipped);
+        }
 
         for (int i = 0; i < _selectableCoordinators.Count; i++) {
             if (i >= equipmentList.Count) {

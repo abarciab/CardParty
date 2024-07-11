@@ -19,6 +19,6 @@ MonoBehaviour:
     he a real one frfr'
   Adventurer: {fileID: 0}
   Cards:
-  - {fileID: 11400000, guid: 5c5bd6a4277b0bd4db247e558b170b07, type: 2}
-  - {fileID: 11400000, guid: 094c27eb9a52c434f8ba3906d4473327, type: 2}
-  - {fileID: 11400000, guid: 466f0b52e9c8ced4ea2d7bed51a9e9ee, type: 2}
+  - {fileID: 11400000, guid: a7ac4db8edc4ef34eb432024a9389173, type: 2}
+  - {fileID: 11400000, guid: 6a2f7f135417fe649a65ba2774eb6b71, type: 2}
+  - {fileID: 11400000, guid: f505c27f8bdf25c44848d77d6a6ebc64, type: 2}

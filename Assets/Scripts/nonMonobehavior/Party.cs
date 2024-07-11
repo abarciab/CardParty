@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,6 +13,28 @@ public class Party
     private const int _ornamentIndex = 0;
     private const int _armorIndex = 1;
     private const int _mainIndex = 2;
+    private const int _innateCardTotal = 6;
+
+    public List<CardData> GetDeck()
+    {
+        var deck = new List<CardData>();
+
+        foreach (var entry in _equipmentDict) {
+            var adventurer = entry.Key;
+            var equipmentList = entry.Value; 
+            
+            deck.AddRange(adventurer.GetInnateCards(_innateCardTotal));
+            foreach (var equipment in equipmentList) {
+                if (equipment != null) deck.AddRange(equipment.Cards);
+            }
+        }
+
+        var deckNames = new List<string>();
+        foreach (var card in deck) deckNames.Add(card.Name + Utilities.Parenthize(card.name));
+        Debug.Log("Deck: " + string.Join(", ", deckNames));
+
+        return deck;
+    }
 
     public List<Equipment> GetAllEquippedItems()
     {
@@ -38,8 +61,15 @@ public class Party
 
     public AdventurerData GetOwner(CardData card)
     {
-        foreach (var adventurer in Adventurers) {
+        foreach (var entry in _equipmentDict) {
+            var adventurer = entry.Key;
+            var equipmentList = entry.Value;
+
             if (adventurer.Cards.Contains(card)) return adventurer;
+            foreach (var equipment in equipmentList) {
+                if (equipment == null) continue;
+                if (equipment.Cards.Contains(card)) return adventurer;
+            }
         }
         return null;
     }

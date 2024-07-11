@@ -623,6 +623,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7279250997030398736}
   - component: {fileID: 8570180748964531762}
+  - component: {fileID: 8199559788375023895}
   m_Layer: 5
   m_Name: playableCard
   m_TagString: Untagged
@@ -672,6 +673,56 @@ MonoBehaviour:
   _movesText: {fileID: 1512746001042666227}
   _descriptionText: {fileID: 5177420387615062935}
   _itemText: {fileID: 7481666748114317635}
+  _canBeClicked: 0
+  _seletable: {fileID: 8199559788375023895}
+--- !u!114 &8199559788375023895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4559910838515727001}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1535fa11d0c2c7f478f67f2e638db560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectOnClick: 1
+  _toggleOnClick: 0
+  _deselectOnClick: 0
+  _selectOnHover: 0
+  _deselectOnExit: 1
+  _hasHoverCooldown: 0
+  _hoverCooldown: 0.05
+  _data:
+  - Name: backing
+    _type: 0
+    _target: {fileID: 5410530029730059147}
+    _normalColor: {r: 0.17254902, g: 0.36862746, b: 0.23137257, a: 1}
+    _hoveredColor: {r: 0.2809274, g: 0.5566038, b: 0.3636303, a: 1}
+    _selectedColor: {r: 1, g: 1, b: 1, a: 1}
+    _disabledColor: {r: 1, g: 1, b: 1, a: 1}
+    _obj: {fileID: 0}
+    _normalState: 0
+    _hoveredState: 0
+    _selectedState: 1
+    _disabledState: 0
+  _hasAnimation: 0
+  _animator: {fileID: 0}
+  _animationBool: Selected
+  _hoverSound: {fileID: 11400000, guid: 992e814cddd8325409c37e9132445321, type: 2}
+  _selectSound: {fileID: 0}
+  _deselectSound: {fileID: 0}
+  OnSelect:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHover:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeselect:
+    m_PersistentCalls:
+      m_Calls: []
+  _printSelections: 0
 --- !u!1 &7883845473485904914
 GameObject:
   m_ObjectHideFlags: 0

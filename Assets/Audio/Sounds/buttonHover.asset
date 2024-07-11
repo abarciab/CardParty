@@ -18,7 +18,7 @@ MonoBehaviour:
   - Name: buttonHover
     Clip: {fileID: 8300000, guid: 1b57bd2fa5d3c8543a3b1271a1d63f21, type: 3}
     Looping: 0
-  _volume: 0.522
+  _volume: 0.159
   _pitch: 1
   _randomizePitch: 1
   _pitchRandomizeAmount: 0.058

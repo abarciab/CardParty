@@ -15,6 +15,7 @@ public class OverworldUIManager : UIManager
     [SerializeField] private ShopController _shop;
     [SerializeField] private MapController _map;
     [SerializeField] private OverworldPartyController _party;
+    [SerializeField] private OverworldDeckController _deck;
 
     [Header("TEMP")]
     [SerializeField, DisplayInspector] private List<SpecialEventData> _specialEvents = new List<SpecialEventData>();
@@ -22,6 +23,18 @@ public class OverworldUIManager : UIManager
     public void RevealMapSprite(Vector2Int ID, Sprite sprite, int turns) => _map.RevealTile(ID, sprite, turns);
     public void EnterTileOnMap(Vector2Int ID) => _map.UpdatePlayerPosition(ID);
     public void Createmap() => _map.Initialize();
+
+    public void OpenDeck()
+    {
+        OpenMenus += 1;
+        _deck.Open();
+    }
+
+    public void CloseDeck()
+    {
+        OpenMenus -= 1;
+        _deck.Close();
+    }
 
     public void OpenMap()
     {

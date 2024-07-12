@@ -10,12 +10,15 @@ public class OverworldPartyController : MonoBehaviour
     [SerializeField] private List<PartyAdventurerUI> _adventurerCoordinators = new List<PartyAdventurerUI>();
 
     [Header("Equipment Tab")]
+    [SerializeField] private SelectableItem _equipmentHeaderButton;
     [SerializeField] private List<PartyEquipmentUI> _equipmentCoordinators = new List<PartyEquipmentUI>();
 
     [Header("Innate Tab")]
+    [SerializeField] private SelectableItem _innateHeaderButton;
     [SerializeField] List<PlayableCardDisplay> _innateCards = new List<PlayableCardDisplay>();
 
     [Header("Details Tab")]
+    [SerializeField] private SelectableItem _detailsHeaderButton;
     [SerializeField] private TextMeshProUGUI _detailsName;
     [SerializeField] private Image _detailsPortrait;
     [SerializeField] private TextMeshProUGUI _detailsDescription;
@@ -34,6 +37,8 @@ public class OverworldPartyController : MonoBehaviour
         for (int i = 0; i < _adventurerCoordinators.Count; i++) DisplayAdventurerInList(i < adventurers.Count ? adventurers[i] : null, i);
         CurrentAdventurer = adventurers[0];
         _adventurerCoordinators[0].GetComponent<SelectableItem>().Select();
+
+        _detailsHeaderButton.Select();
 
         UpdateDisplay();
 

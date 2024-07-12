@@ -18,4 +18,5 @@ MonoBehaviour:
   WornByString: weilded by
   Slot: 2
   Cost: 146
-  Cards: []
+  Cards:
+  - {fileID: 11400000, guid: 51b50695d3756d449851f3563b670459, type: 2}

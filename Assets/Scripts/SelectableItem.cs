@@ -6,6 +6,7 @@ using MyBox;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEditor.ShaderGraph.Internal;
+using System.Xml.Serialization;
 
 public enum SelectableItemDataType { GRAPHIC, GAMEOBJECT}
 
@@ -91,6 +92,7 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField, ConditionalField(nameof(_selectOnHover))] private bool _deselectOnExit = true;
     [SerializeField] private bool _hasHoverCooldown;
     [SerializeField, ConditionalField(nameof(_hasHoverCooldown))] private float _hoverCooldown = 0.05f;
+    [SerializeField] private bool _deselectOnStart = true;
 
     [Header("data")]
     [SerializeField] private List<SelectableItemData> _data = new List<SelectableItemData>();
@@ -129,7 +131,13 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (_deselectSound) _deselectSound = Instantiate(_deselectSound);
 
         Disabled = false;
-        Deselect();
+        if (_deselectOnStart) Deselect();
+    }
+
+    [ButtonMethod]
+    private void printTest()
+    {
+        print("buttonStatus: seleted: " + Selected);
     }
 
     [ButtonMethod]
@@ -157,6 +165,7 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     public void Deselect()
     {
+        if (_printSelections) print(gameObject.name + " deselected");
         OnDeselect.Invoke();
         if (_deselectSound) _deselectSound.Play();
         SetState(false);

@@ -17,6 +17,7 @@ public class CardData : ScriptableObject
     [SerializeField] private CardSpecialData _specialData;
 
     [Header("Other Behvaiors")]
+    [SerializeField] private bool _targetAll;
     [SerializeField] private bool _exhaust;
 
     [HideInInspector] public CardObject CardObject = null;
@@ -42,7 +43,7 @@ public class CardData : ScriptableObject
     public string GetMoveData()
     {
         List<string> output = new List<string>();
-        if (_function == Function.ATTACK) output.Add("Attack " + Utilities.Parenthize(_amount));
+        if (_function == Function.ATTACK) output.Add("Attack " + (_targetAll ? "all " : "") + Utilities.Parenthize(_amount));
         if (_function == Function.BLOCK) output.Add("Block " + Utilities.Parenthize(_amount));
         output.AddRange(_specialData.GetMoveData());
         if (_exhaust) output.Add("Exhaust");

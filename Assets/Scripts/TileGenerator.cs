@@ -25,7 +25,7 @@ public class TileGenerator : MonoBehaviour
     [Header("Special tiles")]
     [SerializeField] private GameObject _startTile;
     [SerializeField] private GameObject _winTile;
-    [SerializeField] private float _winTileMinDist; 
+    [SerializeField] private float _winTileMinDist;
 
     private TileController[,] _tileGrid;
 
@@ -34,6 +34,9 @@ public class TileGenerator : MonoBehaviour
     private int _targetPathNum = 4;
     private Transform _transform;
     private bool _placedWinTile;
+    private bool _failed;
+    private const int _maxTries = 10;
+    private int _numFails;
 
     private Vector2Int _centerPos => new Vector2Int((int)_gridDimenstions.x / 2, (int)_gridDimenstions.y / 2);
 
@@ -69,6 +72,10 @@ public class TileGenerator : MonoBehaviour
 
         for (int i = 0; i < total; i++) {
             PlaceTile(current.x, current.y, current == _centerPos);
+            if (_failed) {
+                RegenerateGrid();
+                return;
+            }
 
             current.x += directions[dirIndex].x;
             current.y += directions[dirIndex].y;
@@ -82,6 +89,8 @@ public class TileGenerator : MonoBehaviour
             }
         }
         _gridController.SetTiles(_placedTiles);
+
+        if (_numFails > 0) print("Failed: " + _numFails + " times");
     }
 
     private void ClearGrid()
@@ -89,6 +98,7 @@ public class TileGenerator : MonoBehaviour
         foreach (var t in _placedTiles) Destroy(t.gameObject);
         _placedTiles.Clear();
         _placedWinTile = false;
+        _failed = false;
     }
 
     private void PlaceTile(int x, int y, bool isCenter)
@@ -98,6 +108,10 @@ public class TileGenerator : MonoBehaviour
         pos -= halfDist;
 
         var prefabData = SelectPrefab(x, y, isCenter);
+        if (prefabData.Item1 == null) {
+            _failed = true;
+            return;
+        }
         var selectedInteractable = _tileInteractableOptions[Random.Range(0, _tileInteractableOptions.Count)]; 
 
         var newTileObj = Instantiate(prefabData.Item1, pos, prefabData.Item2, _transform);
@@ -140,11 +154,6 @@ public class TileGenerator : MonoBehaviour
     private (GameObject, Quaternion) SelectPrefab(int x, int y, bool center)
     {
         if (center) return new(_startTile, Quaternion.identity);
-        else if (ShouldPlaceWinTile(x, y)) {
-            _placedWinTile = true;
-            return new(_winTile, Quaternion.identity);
-        }
-
 
         var hole = GetEdgesOfHole(x, y);
         var validTiles = new List<(GameObject, Quaternion)>();
@@ -154,8 +163,18 @@ public class TileGenerator : MonoBehaviour
         if (Random.Range(0f, 1) < _clampPathChance) LimitPathNum(ref validTiles, pos);
         if (Random.Range(0f, 1) < _largePatchChance) LimitLargePatch(ref validTiles, pos, hole);
 
-        if (validTiles.Count == 0) Debug.LogError("Couldn't find valid tile for hole: " + string.Join("|", hole));
-        return validTiles[Random.Range(0, validTiles.Count)];
+        if (validTiles.Count == 0) {
+            Debug.Log("Couldn't find valid tile for hole: " + string.Join("|", hole));
+            return new (null, Quaternion.identity);
+        }
+        var chosenTile = validTiles[Random.Range(0, validTiles.Count)];
+
+        if (ShouldPlaceWinTile(x, y)) {
+            _placedWinTile = true;
+            chosenTile.Item1 = _winTile;
+        }
+
+        return chosenTile;
     }
 
     private bool ShouldPlaceWinTile(int x, int y) {

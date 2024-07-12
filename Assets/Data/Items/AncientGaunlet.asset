@@ -18,4 +18,5 @@ MonoBehaviour:
   WornByString: Worn By
   Slot: 1
   Cost: 92
-  Cards: []
+  Cards:
+  - {fileID: 11400000, guid: 0261add6aa655cb4d8531c42169aaeaf, type: 2}

@@ -15,6 +15,7 @@ public class TileController : MonoBehaviour
     [SerializeField] private List<Sprite> _mapSprites = new List<Sprite>();
 
     [SerializeField] private List<EntranceData> _entraces = new List<EntranceData>();
+    public List<EntranceData> Entrances => _entraces;
 
     private TileGridController _gridController;
     private TileInteractable _interactable;

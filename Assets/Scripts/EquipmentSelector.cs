@@ -16,7 +16,6 @@ public class EquipmentSelector : MonoBehaviour
         var equipmentList = new List<Equipment> (PlayerInfo.Inventory.GetValidItems(slot));
         var currentlyEquipped = PlayerInfo.Party.GetCurrentEquipment(_controller.CurrentAdventurer, slot);
         if (currentlyEquipped != null) {
-            print("currently equipped: " +  currentlyEquipped);
             equipmentList.Remove(currentlyEquipped);
         }
 

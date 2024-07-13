@@ -11,6 +11,7 @@ public class AdventurerData : ScriptableObject
     [TextArea(3,10)] public string Description;
     public GameObject Adventurer;
     public List<CardData> Cards = new List<CardData>();
+    public int MaxHealth;
 
     public List<CardData> GetInnateCards(int total)
     {

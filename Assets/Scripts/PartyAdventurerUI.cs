@@ -9,6 +9,8 @@ public class PartyAdventurerUI : MonoBehaviour
 {
     [SerializeField] private Image _portrait;
     [SerializeField] private TextMeshProUGUI _nameText;
+    [SerializeField] private Slider _hpSlider;
+
     private OverworldPartyController _controller;
     private AdventurerData _data;
 
@@ -17,6 +19,7 @@ public class PartyAdventurerUI : MonoBehaviour
         _controller = controller;
         _data = data;
 
+        _hpSlider.value = PlayerInfo.Party.GetHealthPercent(data);
         _portrait.sprite = data.portrait;
         _nameText.text = data.Name;
         gameObject.SetActive(true);

@@ -10,10 +10,21 @@ public class Party
     public List<AdventurerData> Adventurers = new List<AdventurerData>();
 
     private Dictionary<AdventurerData, List<Equipment>> _equipmentDict = new Dictionary<AdventurerData, List<Equipment>>();
+    private Dictionary<AdventurerData, AdventurerStats> _statsDict = new Dictionary<AdventurerData, AdventurerStats>();
+
     private const int _ornamentIndex = 0;
     private const int _armorIndex = 1;
     private const int _mainIndex = 2;
     private const int _innateCardTotal = 6;
+
+    public float GetHealthPercent(AdventurerData adventurer) {
+        var stats = _statsDict[adventurer];
+        return stats.MaxHealth / (float)stats.CurrentHealth;
+    }
+
+    public AdventurerStats GetStats(AdventurerData adventurer) {
+
+    }
 
     public List<CardData> GetDeck()
     {
@@ -80,6 +91,7 @@ public class Party
     {
         Adventurers.Add(adventurer);
         _equipmentDict.Add(adventurer, new List<Equipment>(){null, null, null});
+        _statsDict.Add(adventurer, new AdventurerStats(adventurer.MaxHealth));
     }
 
     public List<Equipment> GetEquipment(AdventurerData adventurer)

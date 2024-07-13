@@ -12,6 +12,8 @@ public class Test : MonoBehaviour
     [SerializeField] private string _inputString = "banana";
     [SerializeField] private string _searchTerm = "b";
 
+    [SerializeField] private int _testDamage;
+
     private void Start()
     {
         LoadTestData();
@@ -26,5 +28,11 @@ public class Test : MonoBehaviour
         foreach (var equipment in _testEquipmentLoad) {
             PlayerInfo.Party.SetEquipment(_testAdventurerList[0], equipment, equipment.Slot);
         }
+    }
+
+    [ButtonMethod]
+    private void DamageFirstAdventurer()
+    {
+        PlayerInfo.Party.Adventurers[0].Stats.CurrentHealth -= _testDamage;
     }
 }

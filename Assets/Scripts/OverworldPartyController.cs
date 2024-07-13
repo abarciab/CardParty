@@ -27,8 +27,6 @@ public class OverworldPartyController : MonoBehaviour
 
     public AdventurerData CurrentAdventurer { get; private set; }
 
-    public AdventurerStats Stats => PlayerInfo.Party.GetStats(this);
-
     public void SetEquipmentForCurrentAdventurer(Equipment data)
     {
         PlayerInfo.Party.SetEquipment(CurrentAdventurer, data, data.Slot);
@@ -77,7 +75,8 @@ public class OverworldPartyController : MonoBehaviour
         _detailsName.text = CurrentAdventurer.Name;
         _detailsPortrait.sprite = CurrentAdventurer.portrait;
         _detailsDescription.text = CurrentAdventurer.Description;
-        _detailsHealthSlider.value = 
+        _detailsHealthText.text = CurrentAdventurer.Stats.HealthString;
+        _detailsHealthSlider.value = CurrentAdventurer.Stats.HealthPercent;
     }
 
     private void DisplayAdventurerInList(AdventurerData adventurer, int i)

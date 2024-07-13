@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: 9000020951951081706}
   - component: {fileID: 6403114532973060985}
   - component: {fileID: 6754991719003561309}
+  - component: {fileID: 4650573590563076496}
   m_Layer: 5
   m_Name: partyMenuAdventurer
   m_TagString: Untagged
@@ -102,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _portrait: {fileID: 8035898814132496540}
   _nameText: {fileID: 5340593400790552772}
+  _hpSlider: {fileID: 8635767070150256514}
 --- !u!114 &6754991719003561309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,54 +125,23 @@ MonoBehaviour:
   _hoverCooldown: 0.05
   _deselectOnStart: 1
   _data:
-  - Name: unselected
-    _type: 0
+  - Name: partyMenuAdventurer
+    _type: 2
     _target: {fileID: 8285037127853625080}
-    _normalColor: {r: 0.37254903, g: 0.42745098, b: 0.49803922, a: 0.2}
-    _hoveredColor: {r: 0.37254903, g: 0.42745098, b: 0.49803922, a: 0.6}
-    _selectedColor: {r: 0.37254903, g: 0.427451, b: 0.49803925, a: 1}
-    _disabledColor: {r: 1, g: 1, b: 1, a: 1}
-    _obj: {fileID: 0}
-    _normalState: 0
-    _hoveredState: 0
-    _selectedState: 1
-    _disabledState: 0
-  - Name: portrait
-    _type: 0
-    _target: {fileID: 8035898814132496540}
-    _normalColor: {r: 1, g: 1, b: 1, a: 0.2509804}
-    _hoveredColor: {r: 1, g: 1, b: 1, a: 0.5019608}
-    _selectedColor: {r: 1, g: 1, b: 1, a: 1}
-    _disabledColor: {r: 1, g: 1, b: 1, a: 1}
-    _obj: {fileID: 0}
-    _normalState: 0
-    _hoveredState: 0
-    _selectedState: 1
-    _disabledState: 0
-  - Name: name
-    _type: 0
-    _target: {fileID: 5340593400790552772}
-    _normalColor: {r: 1, g: 1, b: 1, a: 0.2509804}
-    _hoveredColor: {r: 1, g: 1, b: 1, a: 0.5019608}
-    _selectedColor: {r: 1, g: 1, b: 1, a: 1}
-    _disabledColor: {r: 1, g: 1, b: 1, a: 1}
-    _obj: {fileID: 0}
-    _normalState: 0
-    _hoveredState: 0
-    _selectedState: 1
-    _disabledState: 0
-  - Name: backing
-    _type: 1
-    _target: {fileID: 5340593400790552772}
     _normalColor: {r: 1, g: 1, b: 1, a: 1}
     _hoveredColor: {r: 1, g: 1, b: 1, a: 1}
     _selectedColor: {r: 1, g: 1, b: 1, a: 1}
     _disabledColor: {r: 1, g: 1, b: 1, a: 1}
-    _obj: {fileID: 710451296686518658}
+    _obj: {fileID: 0}
     _normalState: 0
     _hoveredState: 0
     _selectedState: 1
     _disabledState: 0
+    _group: {fileID: 4650573590563076496}
+    _normalAlpha: 0.3
+    _hoveredAlpha: 0.6
+    _selectedAlpha: 1
+    _disabledAlpha: 0.2
   _hasAnimation: 0
   _animator: {fileID: 0}
   _animationBool: Selected
@@ -199,6 +170,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _printSelections: 0
+--- !u!225 &4650573590563076496
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351850293952742748}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2372592170284966399
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +199,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5464788421569520098
 RectTransform:
   m_ObjectHideFlags: 0
@@ -233,7 +216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -5.7891}
+  m_AnchoredPosition: {x: 0, y: -2.1}
   m_SizeDelta: {x: -2.4221, y: 6.7925}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7626086062013969026
@@ -383,8 +366,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.000030517578, y: -4.469993}
-  m_SizeDelta: {x: -8.049, y: -8.939999}
+  m_AnchoredPosition: {x: -0.000030517578, y: -0.000019073486}
+  m_SizeDelta: {x: -8.049, y: -0.000030518}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3639858569962770452
 CanvasRenderer:
@@ -535,8 +518,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 22.3, y: 0}
-  m_SizeDelta: {x: 16.098, y: 69.793}
+  m_AnchoredPosition: {x: 22.3, y: 2.2093}
+  m_SizeDelta: {x: 16.098, y: 60.9559}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8635767070150256514
 MonoBehaviour:
@@ -585,7 +568,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.36
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

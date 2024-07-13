@@ -13,6 +13,8 @@ public class AdventurerData : ScriptableObject
     public List<CardData> Cards = new List<CardData>();
     public int MaxHealth;
 
+    public AdventurerStats Stats => PlayerInfo.Party.GetStats(this);
+
     public List<CardData> GetInnateCards(int total)
     {
         var list = new List<CardData>(Cards);

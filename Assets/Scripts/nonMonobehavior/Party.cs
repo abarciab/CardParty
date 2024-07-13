@@ -17,13 +17,8 @@ public class Party
     private const int _mainIndex = 2;
     private const int _innateCardTotal = 6;
 
-    public float GetHealthPercent(AdventurerData adventurer) {
-        var stats = _statsDict[adventurer];
-        return stats.MaxHealth / (float)stats.CurrentHealth;
-    }
-
     public AdventurerStats GetStats(AdventurerData adventurer) {
-
+        return _statsDict[adventurer];
     }
 
     public List<CardData> GetDeck()

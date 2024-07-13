@@ -7,8 +7,9 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEditor.ShaderGraph.Internal;
 using System.Xml.Serialization;
+using UnityEditorInternal;
 
-public enum SelectableItemDataType { GRAPHIC, GAMEOBJECT}
+public enum SelectableItemDataType { GRAPHIC, GAMEOBJECT, CANVASGROUP}
 
 [System.Serializable]
 public class SelectableItemData
@@ -28,25 +29,46 @@ public class SelectableItemData
     [ConditionalField(nameof(_type), false, false, SelectableItemDataType.GAMEOBJECT), SerializeField] private bool _selectedState = true;
     [ConditionalField(nameof(_type), false, false, SelectableItemDataType.GAMEOBJECT), SerializeField] private bool _disabledState = false;
 
+
+    [ConditionalField(nameof(_type), false, false, SelectableItemDataType.CANVASGROUP), SerializeField] private CanvasGroup _group;
+    [ConditionalField(nameof(_type), false, false, SelectableItemDataType.CANVASGROUP), SerializeField, Range(0, 1)] private float _normalAlpha = 0.3f;
+    [ConditionalField(nameof(_type), false, false, SelectableItemDataType.CANVASGROUP), SerializeField, Range(0, 1)] private float _hoveredAlpha = 0.6f;
+    [ConditionalField(nameof(_type), false, false, SelectableItemDataType.CANVASGROUP), SerializeField, Range(0, 1)] private float _selectedAlpha = 1;
+    [ConditionalField(nameof(_type), false, false, SelectableItemDataType.CANVASGROUP), SerializeField, Range(0, 1)] private float _disabledAlpha = 0.2f;
+
     private bool _isGraphic => _type == SelectableItemDataType.GRAPHIC;
     private bool _isGameObject => _type == SelectableItemDataType.GAMEOBJECT;
+    private bool _isGroup => _type == SelectableItemDataType.CANVASGROUP;
 
     public void OnValidate()
     {
-        if ((_isGraphic && !_target) || (_isGameObject && !_obj)) Initialize();
-        else Name = _isGraphic ? _target.gameObject.name : _obj.name;
+        if ((_isGraphic && !_target) || (_isGameObject && !_obj) || (_isGroup && !_group)) Initialize();
+        else SetName();
+    }
+
+    private void SetName()
+    {
+        if (_isGraphic) Name = _target.gameObject.name;
+        if (_isGameObject) Name = _obj.name;
+        if (_isGroup) Name = _group.gameObject.name;
     }
 
     private void Initialize()
     {
-        _selectedColor = Color.white;
-        _hoveredColor = Color.white;
         _normalColor = Color.white;
+        _hoveredColor = Color.white;
+        _selectedColor = Color.white;
         _disabledColor = Color.white;
-        _selectedState = true;
-        _hoveredState = false;
+
         _normalState = false;
+        _hoveredState = false;
+        _selectedState = true;
         _disabledState = false;
+
+        _normalAlpha = 0.3f;
+        _hoveredAlpha = 0.6f;
+        _selectedAlpha = 1;
+        _disabledAlpha = 0.2f;
     }
 
     public void Update(bool selected, bool hovered, bool disabled)
@@ -59,26 +81,30 @@ public class SelectableItemData
 
     private void Select()
     {
-        if (_type == SelectableItemDataType.GRAPHIC) _target.color = _selectedColor;
-        else _obj.SetActive(_selectedState);
+        if (_isGraphic) _target.color = _selectedColor;
+        if (_isGroup) _group.alpha = _selectedAlpha;
+        if (_isGameObject) _obj.SetActive(_selectedState);
     }
 
     private void Hover()
     {
-        if (_type == SelectableItemDataType.GRAPHIC) _target.color = _hoveredColor;
-        else _obj.SetActive(_hoveredState);
+        if (_isGraphic) _target.color = _hoveredColor;
+        if (_isGroup) _group.alpha = _hoveredAlpha;
+        if (_isGameObject) _obj.SetActive(_hoveredState);
     }
 
     private void Deselect()
     {
-        if (_type == SelectableItemDataType.GRAPHIC) _target.color = _normalColor;
-        else _obj.SetActive(_normalState);
+        if (_isGraphic) _target.color = _normalColor;
+        if (_isGroup) _group.alpha = _normalAlpha;
+        if (_isGameObject) _obj.SetActive(_normalState);
     }
 
     private void Disable()
     {
-        if (_type == SelectableItemDataType.GRAPHIC) _target.color = _disabledColor;
-        else _obj.SetActive(_disabledState);
+        if (_isGraphic) _target.color = _disabledColor;
+        if (_isGroup) _group.alpha = _disabledAlpha;
+        if (_isGameObject) _obj.SetActive(_disabledState);
     }
 }
 

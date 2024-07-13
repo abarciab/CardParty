@@ -19,7 +19,7 @@ public class PartyAdventurerUI : MonoBehaviour
         _controller = controller;
         _data = data;
 
-        _hpSlider.value = PlayerInfo.Party.GetHealthPercent(data);
+        _hpSlider.value = data.Stats.HealthPercent;
         _portrait.sprite = data.portrait;
         _nameText.text = data.Name;
         gameObject.SetActive(true);

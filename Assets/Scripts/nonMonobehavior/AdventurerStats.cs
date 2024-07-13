@@ -10,6 +10,10 @@ public class AdventurerStats
     private int _currentHealth;
     public int CurrentHealth { get { return _currentHealth; } set { SetHealth(value); } }
 
+    public string HealthString => "Health: " + _currentHealth + "/" + MaxHealth;
+
+    public float HealthPercent => _currentHealth / (float) MaxHealth;
+
     private void SetHealth(int value) {
         _currentHealth = Mathf.Clamp(value, 0, MaxHealth);
     }

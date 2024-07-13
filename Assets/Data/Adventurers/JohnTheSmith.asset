@@ -19,3 +19,4 @@ MonoBehaviour:
   Adventurer: {fileID: 0}
   Cards:
   - {fileID: 11400000, guid: 1d034c8a4b4430549928dec5dbbd1b8a, type: 2}
+  MaxHealth: 110

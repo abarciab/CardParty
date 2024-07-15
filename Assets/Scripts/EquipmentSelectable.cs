@@ -26,6 +26,8 @@ public class EquipmentSelectable : MonoBehaviour
             return;
         }
         _playableCard.Initialize(data.Cards[0]);
+
+        gameObject.SetActive(true);
     }
 
     public void Select()

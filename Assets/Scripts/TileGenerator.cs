@@ -73,6 +73,7 @@ public class TileGenerator : MonoBehaviour
         for (int i = 0; i < total; i++) {
             PlaceTile(current.x, current.y, current == _centerPos);
             if (_failed) {
+                _numFails += 1;
                 RegenerateGrid();
                 return;
             }
@@ -117,7 +118,7 @@ public class TileGenerator : MonoBehaviour
         var newTileObj = Instantiate(prefabData.Item1, pos, prefabData.Item2, _transform);
         var newTile = newTileObj.GetComponent<TileController>();
         
-        newTile.Initialize(x, y, isCenter, _gridController, prefabData.Item2, selectedInteractable);
+        newTile.Initialize(x, y, isCenter, _gridController, prefabData.Item2, new TileInteractableData(selectedInteractable));
 
         _placedTiles.Add(newTile);
         _tileGrid[x,y] = newTile;

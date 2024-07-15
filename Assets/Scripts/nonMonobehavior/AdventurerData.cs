@@ -1,3 +1,4 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ public class AdventurerData : ScriptableObject
     public Sprite portrait;
     [TextArea(3,10)] public string Description;
     public GameObject Adventurer;
-    public List<CardData> Cards = new List<CardData>();
+    [DisplayInspector] public List<CardData> Cards = new List<CardData>();
     public int MaxHealth;
 
     public AdventurerStats Stats => PlayerInfo.Party.GetStats(this);

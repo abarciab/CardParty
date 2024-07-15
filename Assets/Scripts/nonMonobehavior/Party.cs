@@ -17,6 +17,23 @@ public class Party
     private const int _mainIndex = 2;
     private const int _innateCardTotal = 6;
 
+    public void KillRandomAdventurer()
+    {
+        FireAdventurer(Adventurers[Random.Range(0, Adventurers.Count)]);
+    }
+
+    public void FireAdventurer(AdventurerData adventuer)
+    {
+        _equipmentDict.Remove(adventuer);
+        _statsDict.Remove(adventuer);
+        Adventurers.Remove(adventuer);
+    }
+
+    public void HealAllAdventurers()
+    {
+        foreach (var stat in _statsDict.Values) stat.CurrentHealth = stat.MaxHealth;
+    }
+
     public AdventurerStats GetStats(AdventurerData adventurer) {
         return _statsDict[adventurer];
     }
@@ -80,6 +97,11 @@ public class Party
     {
         Adventurers.Clear();
         foreach (var a in adventurers) AddAdventurer(a);
+    }
+
+    public void DamageAll(int amount)
+    {
+        foreach (var stat in _statsDict.Values) stat.CurrentHealth = Mathf.Max(1, stat.CurrentHealth - amount);
     }
 
     public void AddAdventurer(AdventurerData adventurer)

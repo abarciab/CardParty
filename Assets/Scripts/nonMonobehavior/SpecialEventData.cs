@@ -10,12 +10,20 @@ public class SpecialEventOutcome
     public EventOutcomeType Type;
     [SerializeField, ConditionalField(nameof(Type), false, false, EventOutcomeType.MONEY)] private int _moneyDelta;
     [SerializeField, ConditionalField(nameof(Type), false, false, EventOutcomeType.EQUIPMENT)] private Equipment _equipment;
+    [SerializeField, ConditionalField(nameof(Type), false, false, EventOutcomeType.ADVENTURER_HIRE)] private AdventurerData _newHire;
+    [SerializeField, ConditionalField(nameof(Type), false, false, EventOutcomeType.ADVENTURER_DAMAGE)] private int _damageAmount;
+    [SerializeField, ConditionalField(nameof(Type), false, false, EventOutcomeType.MAP_REVEAL)] private int _numMapTiles;
 
     public void Trigger()
     {
         if (Type == EventOutcomeType.MONEY) PlayerInfo.Stats.Money += _moneyDelta;
         if (Type == EventOutcomeType.EQUIPMENT) PlayerInfo.Inventory.AddEquipment(_equipment);
         if (Type == EventOutcomeType.FIGHT) OverworldManager.i.LoadCardGame();
+        if (Type == EventOutcomeType.ADVENTURER_KILL) PlayerInfo.Party.KillRandomAdventurer();
+        if (Type == EventOutcomeType.ADVENTURER_HIRE) PlayerInfo.Party.AddAdventurer(_newHire);
+        if (Type == EventOutcomeType.ADVENTURER_DAMAGE) PlayerInfo.Party.DamageAll(_damageAmount);
+        if (Type == EventOutcomeType.PARTY_FULL_HEAL) PlayerInfo.Party.HealAllAdventurers();
+        if (Type == EventOutcomeType.MAP_REVEAL) OverworldUIManager.i.RevealRandomMapTiles(_numMapTiles);
     }
 }
 

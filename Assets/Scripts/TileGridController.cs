@@ -18,6 +18,11 @@ public class TileGridController : MonoBehaviour
         foreach (var t in _tiles) t.ShowOnMap();
     }
 
+    public TileController GetTile(Vector2Int ID)
+    {
+        return _tiles.Where(x => x.GridPos == ID).FirstOrDefault();
+    }
+
     public TileController GetTileInDirection(Vector2Int ID, Direction dir)
     {
         Vector2Int TargetID = new Vector2Int(ID.x, ID.y);

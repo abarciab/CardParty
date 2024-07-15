@@ -16,4 +16,6 @@ MonoBehaviour:
   portrait: {fileID: 21300000, guid: 78faae142e0131d4d829d255de97cf2f, type: 3}
   Description: steph for short, stephaninininininininininininine for long
   Adventurer: {fileID: 0}
-  Cards: []
+  Cards:
+  - {fileID: 11400000, guid: f924227f3b0b7734eb244ee916772c53, type: 2}
+  MaxHealth: 800

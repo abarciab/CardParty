@@ -16,4 +16,6 @@ MonoBehaviour:
   portrait: {fileID: 21300000, guid: d4e1140089c612442be491f796d98d41, type: 3}
   Description: angry boyyy
   Adventurer: {fileID: 0}
-  Cards: []
+  Cards:
+  - {fileID: 11400000, guid: 4bbae371923e07648a0129dc424926b9, type: 2}
+  MaxHealth: 50

@@ -2,6 +2,7 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(InputController))]
@@ -12,10 +13,13 @@ public class OverworldManager : GameManager
 
     public OverworldPlayer Player;
     public CameraController CameraController;
+    public TileGridController TileController;
     [SerializeField] private Transform _hider;
 
     private UIManager _UIManager;
     private AudioManager _AudioManager;
+
+    [HideInInspector] public UnityEvent OnNewTileEntered;
 
     private void Start()
     {

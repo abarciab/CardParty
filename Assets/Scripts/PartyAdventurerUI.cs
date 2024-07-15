@@ -27,6 +27,6 @@ public class PartyAdventurerUI : MonoBehaviour
 
     public void Select()
     {
-        _controller.SwitchAdventurer(_data);
+        if (_controller) _controller.SwitchAdventurer(_data);
     }
 }

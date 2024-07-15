@@ -25,6 +25,6 @@ public class PlayerInventory
     public List<Equipment> GetValidItems(EquipmentSlot slot)
     {
         var list = Equipment.Where(x => x.Slot == slot).ToList();
-        return list; 
+        return new List<Equipment>(list); 
     }
 }

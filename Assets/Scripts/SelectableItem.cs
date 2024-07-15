@@ -134,6 +134,7 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [Header("Events")]
     public UnityEvent OnSelect;
     public UnityEvent OnHover;
+    public UnityEvent OnEndHover;
     public UnityEvent OnDeselect;
 
     [Header("Debug")]
@@ -220,6 +221,7 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (Disabled) return;
         if (Selected && (!_toggleOnClick || !_deselectOnClick)) return;
+        OnHover.Invoke();
 
         if (_hasHoverCooldown) {
             var timeSinceLastHover = Time.time - _lastHoverTime;
@@ -236,6 +238,8 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public void OnPointerExit(PointerEventData eventData)
     {
         if (Disabled) return;
+        if (Hovered) OnEndHover.Invoke();
+
         Hovered = false;
         if (_selectOnHover && _deselectOnExit) Deselect();
         else UpdateVisuals();

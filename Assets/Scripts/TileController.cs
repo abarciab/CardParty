@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.Events;
 
 [SelectionBase]
 public class TileController : MonoBehaviour
@@ -126,16 +127,20 @@ public class TileController : MonoBehaviour
         else foreach (var e in _entraces) e.Door.SetActive(_isUnlocked || e.Dir == _initialEntranceDir); 
     }
 
-    public void ClickOnInteractable()
-    { 
+    public void ClickOnInteractable(TileInteractableData data)
+    {
         _isUnlocked = true;
 
         var pos = _interactable.GetCurrentObjPos();
-        var outcome = _interactable.Data.Outcome;
+        var outcome = data.Outcome;
+        UnityAction callback = null;
+        var player = OverworldManager.i.Player;
 
-        if (outcome == TileInteractableOutcome.FIGHT) OverworldManager.i.Player.MoveToTargetWithCallback(pos, StartFightFromInteractable);
-        if (outcome == TileInteractableOutcome.EVENT) OverworldManager.i.Player.MoveToTargetWithCallback(pos, StartEventFromInteractable);
-        if (outcome == TileInteractableOutcome.SHOP) OverworldManager.i.Player.MoveToTargetWithCallback(pos, OpenShopFromInteractable);
+        if (outcome == TileInteractableOutcome.FIGHT) callback = StartFightFromInteractable;
+        if (outcome == TileInteractableOutcome.EVENT) callback = StartEventFromInteractable;
+        if (outcome == TileInteractableOutcome.SHOP) callback = () => OpenShopFromInteractable(data.ShopData);
+
+        player.MoveToTargetWithCallback(pos, callback);
     }
 
     private void StartFightFromInteractable()
@@ -145,11 +150,11 @@ public class TileController : MonoBehaviour
         OverworldManager.i.LoadCardGame();
     }
 
-    private void OpenShopFromInteractable()
+    private void OpenShopFromInteractable(ShopData data)
     {
         UpdateEntranceVisuals();
-        _interactable.gameObject.SetActive(!_isUnlocked);
-        OverworldUIManager.i.OpenShop();
+        //_interactable.gameObject.SetActive(!_isUnlocked);
+        OverworldUIManager.i.OpenShop(data);
     }
 
     private void StartEventFromInteractable()

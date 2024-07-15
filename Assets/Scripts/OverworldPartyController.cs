@@ -24,19 +24,34 @@ public class OverworldPartyController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _detailsDescription;
     [SerializeField] private TextMeshProUGUI _detailsHealthText;
     [SerializeField] private Slider _detailsHealthSlider;
+    [SerializeField] private GameObject _fireButton;
 
     public AdventurerData CurrentAdventurer { get; private set; }
 
-    public void SetEquipmentForCurrentAdventurer(Equipment data)
+    public void FireCurrentAdventurer()
     {
-        PlayerInfo.Party.SetEquipment(CurrentAdventurer, data, data.Slot);
+        PlayerInfo.Party.FireAdventurer(CurrentAdventurer);
+        if (PlayerInfo.Party.Adventurers.Count == 0) {
+            return;
+        }
+
+        var adventurers = PlayerInfo.Party.Adventurers;
+        UpdateAdventuerers();
+        CurrentAdventurer = adventurers[0];
+        _adventurerCoordinators[0].GetComponent<SelectableItem>().Select();
+
+        UpdateDisplay();
+    }
+
+    public void SetEquipmentForCurrentAdventurer(Equipment data = null)
+    {
+        if (data != null) PlayerInfo.Party.SetEquipment(CurrentAdventurer, data, data.Slot);
         UpdateDisplay();
     }
 
     public void OpenParty()
     {
         var adventurers = PlayerInfo.Party.Adventurers;
-        for (int i = 0; i < _adventurerCoordinators.Count; i++) DisplayAdventurerInList(i < adventurers.Count ? adventurers[i] : null, i);
         CurrentAdventurer = adventurers[0];
         _adventurerCoordinators[0].GetComponent<SelectableItem>().Select();
 
@@ -49,9 +64,16 @@ public class OverworldPartyController : MonoBehaviour
 
     private void UpdateDisplay()
     {
+        UpdateAdventuerers();
         UpdateEquipmentTab();
         UpdateInnateTab();
         UpdateDetailsTab();
+    }
+
+    private void UpdateAdventuerers()
+    {
+        var adventurers = PlayerInfo.Party.Adventurers;
+        for (int i = 0; i < _adventurerCoordinators.Count; i++) DisplayAdventurerInList(i < adventurers.Count ? adventurers[i] : null, i);
     }
 
     private void UpdateEquipmentTab()
@@ -77,6 +99,7 @@ public class OverworldPartyController : MonoBehaviour
         _detailsDescription.text = CurrentAdventurer.Description;
         _detailsHealthText.text = CurrentAdventurer.Stats.HealthString;
         _detailsHealthSlider.value = CurrentAdventurer.Stats.HealthPercent;
+        _fireButton.SetActive(PlayerInfo.Party.Adventurers.Count > 1);
     }
 
     private void DisplayAdventurerInList(AdventurerData adventurer, int i)

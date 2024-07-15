@@ -83,6 +83,7 @@ public class OverworldPlayer : MonoBehaviour
         transform.position = entrancePos;
         _currentTarget = transform.position;
         SetCurrentTile(newTile);
+        OverworldManager.i.OnNewTileEntered.Invoke();
     }
 
     public void SetCurrentTile(TileController newTile)

@@ -20,6 +20,7 @@ public class OverworldUIManager : UIManager
     [Header("TEMP")]
     [SerializeField, DisplayInspector] private List<SpecialEventData> _specialEvents = new List<SpecialEventData>();
 
+    public void RevealRandomMapTiles(int numTiles) => _map.revealRandomTiles(numTiles);
     public void RevealMapSprite(Vector2Int ID, Sprite sprite, int turns) => _map.RevealTile(ID, sprite, turns);
     public void EnterTileOnMap(Vector2Int ID) => _map.UpdatePlayerPosition(ID);
     public void Createmap() => _map.Initialize();
@@ -73,9 +74,9 @@ public class OverworldUIManager : UIManager
         _eventController.ShowEvent(_specialEvents[Random.Range(0, _specialEvents.Count)]);
     }
 
-    public void OpenShop()
+    public void OpenShop(ShopData data)
     {
-        _shop.OpenShop();
+        _shop.OpenShop(data);
         OpenMenus += 1;
     }
 

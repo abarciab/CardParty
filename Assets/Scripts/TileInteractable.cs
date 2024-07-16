@@ -49,6 +49,7 @@ public class TileInteractable : MonoBehaviour
     [SerializeField] private List<InteractableTypeGameObjectWrapper> _objects = new List<InteractableTypeGameObjectWrapper>();
     [ReadOnly] public TileInteractableData Data;
     [SerializeField] private Transform _label;
+    private OnClickOnCollider _collider;
 
     private void OnValidate()
     {
@@ -84,7 +85,8 @@ public class TileInteractable : MonoBehaviour
             o.GameObject.SetActive(o.Type == data.Type);
         }
 
-        GetComponent<OnClickOnCollider>().OverrideOnClickOn(() => controller.ClickOnInteractable(data));
+        if (!_collider) _collider = transform.parent.GetComponentInChildren<OnClickOnCollider>();
+        _collider.OverrideOnClickOn(() => controller.ClickOnInteractable(data));
     }
 
     public void PointerEnter() => SetHighlightVisiblity(true);

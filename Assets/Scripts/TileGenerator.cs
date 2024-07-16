@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.Assertions;
 
 [RequireComponent(typeof(TileGridController))]
 public class TileGenerator : MonoBehaviour
@@ -117,7 +117,7 @@ public class TileGenerator : MonoBehaviour
 
         var newTileObj = Instantiate(prefabData.Item1, pos, prefabData.Item2, _transform);
         var newTile = newTileObj.GetComponent<TileController>();
-        
+
         newTile.Initialize(x, y, isCenter, _gridController, prefabData.Item2, new TileInteractableData(selectedInteractable));
 
         _placedTiles.Add(newTile);

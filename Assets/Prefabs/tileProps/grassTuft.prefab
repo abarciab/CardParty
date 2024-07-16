@@ -318,6 +318,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _axis: {x: 1, y: 0, z: 0}
   _constant: 0
-  _speed: 2
-  _amplitude: 0.3
+  _speed: 1
+  _amplitude: 0.15
   _randomStart: 1

@@ -59,6 +59,7 @@ public class TileGenerator : MonoBehaviour
 
     private void GenerateGrid()
     {
+        print("Generating grid");
         _tileGrid = new TileController[(int)_gridDimenstions.x + 1, (int)_gridDimenstions.y + 1];
 
         var current = new Vector2Int(_centerPos.x, _centerPos.y); 
@@ -73,6 +74,7 @@ public class TileGenerator : MonoBehaviour
         for (int i = 0; i < total; i++) {
             PlaceTile(current.x, current.y, current == _centerPos);
             if (_failed) {
+                print("failed, trying again...");
                 _numFails += 1;
                 RegenerateGrid();
                 return;
@@ -104,6 +106,7 @@ public class TileGenerator : MonoBehaviour
 
     private void PlaceTile(int x, int y, bool isCenter)
     {
+        print("placing tile");
         var pos = _transform.TransformPoint(x * _tileWidth, 0, y * _tileWidth);
         var halfDist = new Vector3(_gridDimenstions.x - 1, 0, _gridDimenstions.y - 1) * (_tileWidth / 2);
         pos -= halfDist;

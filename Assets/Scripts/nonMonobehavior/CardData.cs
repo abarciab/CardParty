@@ -87,14 +87,7 @@ public class CardData : ScriptableObject
             case Function.BLOCK: {
                 List<System.Type> requiredTargets = new List<System.Type>() {typeof(Adventurer)};
 
-                // wait until valid targets have been selected
-                _currSelectTargets = CardGameManager.i.SelectTargets(requiredTargets);
-                yield return CardGameManager.i.StartCoroutine(_currSelectTargets);
-
-                Creature defendee = ((List<Creature>)_currSelectTargets.Current).Find(x => x.GetType() == typeof(Adventurer));
-
-                yield return _owner.StartCoroutine(Utilities.LerpToAndBack(_owner.gameObject, defendee.transform.position));
-                defendee.AddBlock(_amount);
+                _owner.AddBlock(_amount);
 
                 CardGameManager.i.CardEndsPlay(CardObject);
             }

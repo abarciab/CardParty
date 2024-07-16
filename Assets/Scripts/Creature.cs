@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class Creature : MonoBehaviour
 {
     public Canvas Canvas;
+    public CombatSlot CombatSlot;
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _blockSlider;
     [SerializeField] private int _health;

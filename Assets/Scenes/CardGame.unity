@@ -3778,6 +3778,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 438202550}
     - target: {fileID: 2416307582939499252, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
+      propertyPath: _combatSlotPrefab
+      value: 
+      objectReference: {fileID: 4769872348960886797, guid: 1c4f840b90ab4114d8877a8aa5d6a339, type: 3}
+    - target: {fileID: 2416307582939499252, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
       propertyPath: _instructionsText
       value: 
       objectReference: {fileID: 438202550}

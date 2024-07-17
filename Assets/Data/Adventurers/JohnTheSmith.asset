@@ -16,7 +16,7 @@ MonoBehaviour:
   portrait: {fileID: 21300000, guid: 13bf5a103cd864e46a88d4a79467238d, type: 3}
   Description: John was alive in the before ages when everything was bad but also
     right now when things are better
-  Adventurer: {fileID: 0}
+  Adventurer: {fileID: 4531924361357938381, guid: bde5a3648f035e040a8fd508f2cba98c, type: 3}
   Cards:
   - {fileID: 11400000, guid: 1d034c8a4b4430549928dec5dbbd1b8a, type: 2}
   MaxHealth: 110

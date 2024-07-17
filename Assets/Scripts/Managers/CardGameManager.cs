@@ -50,7 +50,11 @@ public class CardGameManager : GameManager
     protected override void Awake() {
         base.Awake();
         i = this;
-        if (true) StartCoroutine(StartCombat(TestCombat, TestParty)); 
+        if (PlayerInfo.Party.Adventurers.Count > 0) {
+            StartCoroutine(StartCombat(TestCombat, PlayerInfo.Party));
+        } else {
+            StartCoroutine(StartCombat(TestCombat, TestParty));
+        }
     }
 
     protected override void Update() {

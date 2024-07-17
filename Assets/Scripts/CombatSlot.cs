@@ -12,22 +12,20 @@ public class CombatSlot : MonoBehaviour
     public void SetCreature(Creature creature, CombatSlot targetSlot = null) {
         if (!targetSlot) targetSlot = this;
 
+        CombatSlot oldSlot = creature.CombatSlot;
+        oldSlot.Creature = null;
         if (targetSlot.Creature) {
-            creature.CombatSlot.Creature = targetSlot.Creature;
-            targetSlot.Creature.CombatSlot = creature.CombatSlot;
-            targetSlot.Creature.CombatSlot.Creature = null;
-            targetSlot.Creature.transform.SetParent(targetSlot.Creature.CombatSlot.transform);
-            targetSlot.Creature.transform.localPosition = Vector3.zero;
+            SetCreature(targetSlot.Creature, oldSlot);
         }
 
         targetSlot.Creature = creature;
-        creature.CombatSlot = this;
-        creature.transform.SetParent(transform);
-        creature.transform.localPosition = Vector3.zero;
+        creature.CombatSlot = targetSlot;
 
-        if (IsBlockSlot) {
-            CardGameManager.i.UpdateAttackArrow(targetSlot);
-        }
+        creature.transform.SetParent(targetSlot.transform);
+        creature.transform.localPosition = Vector3.zero;
+        
+        if (targetSlot.IsBlockSlot) CardGameManager.i.UpdateAttackArrow(targetSlot);
+        if (oldSlot.IsBlockSlot) CardGameManager.i.UpdateAttackArrow(oldSlot);
     }
 
     public void MoveCreature() {

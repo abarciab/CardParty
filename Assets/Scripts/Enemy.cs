@@ -54,6 +54,10 @@ public class Enemy : Creature
         return new EnemyAction(EnemyActionType.None, null);
     }
 
+    public CombatSlot GetTarget() {
+        return _nextAction.TargetSlot;
+    }
+
     public void SetTargetSlot(CombatSlot newTargetSlot) {
         if (!_nextAction.TargetSlot) return;
 

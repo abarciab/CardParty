@@ -358,11 +358,13 @@ public class CardGameManager : GameManager
         return newCombatSlot.GetComponent<CombatSlot>();
     }
 
-    public void UpdateAttackArrow(CombatSlot blockSlot) {
-        if (!blockSlot.Creature) return;
-        
-        blockSlot.AttackArrow.SetArrow(blockSlot.AttackArrow.Owner.transform.position, blockSlot.transform.position);
-        
+    public void UpdateAttackArrow(CombatSlot blockSlot) {       
+        blockSlot.gameObject.name = "block slot being cehecked"; 
+        if (blockSlot.Creature) {
+            blockSlot.AttackArrow.SetArrow(blockSlot.AttackArrow.Owner.transform.position, blockSlot.transform.position);
+        } else {
+            blockSlot.AttackArrow.SetArrow(blockSlot.AttackArrow.Owner.transform.position, blockSlot.AttackArrow.Owner.GetTarget().transform.position);
+        }
     }
 }
 

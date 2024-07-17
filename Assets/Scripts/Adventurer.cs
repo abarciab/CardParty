@@ -12,7 +12,7 @@ public class Adventurer : Creature
 
     private void Update() {
         if (Input.GetMouseButtonDown(0)) {
-            if (CardGameManager.i.CurrCombatState == CombatState.PlayerTurn && IsHover()) {
+            if (CardGameManager.i.CurrCombatState == CombatState.PlayerTurn && !CardGameManager.i.CurrPlayedCard && IsHover()) {
                 StartDrag();
             }
         }

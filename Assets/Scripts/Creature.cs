@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class Creature : MonoBehaviour
 {
     public Canvas Canvas;
+    public CombatSlot CombatSlot;
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _blockSlider;
     [SerializeField] private int _health;
@@ -26,6 +27,7 @@ public class Creature : MonoBehaviour
     }
 
     public virtual void TakeDamage(float damage) {
+        print(damage);
         _block = _block - (int)damage;
         if (_block < 0) {
             _health += _block;

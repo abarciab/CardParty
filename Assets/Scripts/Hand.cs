@@ -147,7 +147,7 @@ public class Hand : MonoBehaviour
         cardObject.transform.SetParent(_playedCardDisplayTransform);
         yield return StartCoroutine(Utilities.LerpObject(cardObject.gameObject, _playedCardDisplayTransform));
 
-        cardObject.CardData.Play();
+        CardGameManager.i.CardPlayFunction(cardObject, cardObject.CardData.GetPlayData());
     }
 
     public void MoveFromDisplay(CardObject cardObject) {

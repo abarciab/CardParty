@@ -37,7 +37,7 @@ public class TileGridController : MonoBehaviour
 
     public async void UpdateAllTiles(TileController newPlayerTile)
     {
-        foreach (var t in _tiles) t.UpdateEntranceVisuals();
+        foreach (var t in _tiles) if (t) t.UpdateEntranceVisuals();
         await Task.Delay(500);
         _fogOfWar.transform.position = newPlayerTile.transform.position;
     }

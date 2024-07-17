@@ -141,6 +141,14 @@ PrefabInstance:
       propertyPath: WFCInfo
       value: 
       objectReference: {fileID: 4308395900448597680}
+    - target: {fileID: 8314717325882425086, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
+      propertyPath: _mapSprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8314717325882425086, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
+      propertyPath: _mapSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 76f4f79ad800da14db4254d007623a7b, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4489613068293135468, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}

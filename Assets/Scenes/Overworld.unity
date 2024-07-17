@@ -1843,6 +1843,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1776979176}
   m_CullTransparentMesh: 1
+--- !u!114 &1845834835 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 334271943268738049, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+  m_PrefabInstance: {fileID: 4160762321552051826}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 818179d69039745418811aebae22274d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1930355794 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8357521029357625117, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
@@ -2337,7 +2348,7 @@ PrefabInstance:
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _startTile
       value: 
-      objectReference: {fileID: 3446277853018002120, guid: df4edb92ba141cd46b14e16573c85d5c, type: 3}
+      objectReference: {fileID: 145412442339733037, guid: df4edb92ba141cd46b14e16573c85d5c, type: 3}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _winTileMinDist
       value: 15
@@ -2356,11 +2367,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _gridDimenstions.x
-      value: 2
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _gridDimenstions.y
-      value: 2
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tiles.Array.data[0]
@@ -2839,6 +2850,10 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 1930355794}
+    - target: {fileID: 5550743852453499992, guid: 6d871f64d8314b44394bebcf07543d0d, type: 3}
+      propertyPath: TileController
+      value: 
+      objectReference: {fileID: 1845834835}
     - target: {fileID: 5550743852453499992, guid: 6d871f64d8314b44394bebcf07543d0d, type: 3}
       propertyPath: CameraController
       value: 
@@ -3448,29 +3463,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3691094374765369482, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3691094374765369482, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.2559574
-      objectReference: {fileID: 0}
-    - target: {fileID: 3691094374765369482, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3691094374765369482, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4017085539935175288, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
       propertyPath: m_Name
       value: player
-      objectReference: {fileID: 0}
-    - target: {fileID: 4017085539935175288, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8085928205908684674, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3511,38 +3506,6 @@ PrefabInstance:
     - target: {fileID: 8085928205908684674, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8357521029357625117, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: _maxSpeed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8357521029357625117, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: _minSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8357521029357625117, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: _moveTileSound
-      value: 
-      objectReference: {fileID: 11400000, guid: be4fc4ebe1a02a64cb699d4e6469d145, type: 2}
-    - target: {fileID: 8357521029357625117, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: _playerMoveSound
-      value: 
-      objectReference: {fileID: 11400000, guid: f3537e3588170c34db4081a9a64ac096, type: 2}
-    - target: {fileID: 8357521029357625117, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: _speedCurve.m_Curve.Array.data[0].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8357521029357625117, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: _speedCurve.m_Curve.Array.data[1].inSlope
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8357521029357625117, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: _speedCurve.m_Curve.Array.data[0].outSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8357521029357625117, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
-      propertyPath: _speedCurve.m_Curve.Array.data[1].outSlope
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

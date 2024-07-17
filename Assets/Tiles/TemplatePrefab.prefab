@@ -196,6 +196,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2541243863930127399}
   - component: {fileID: 3024567123959146315}
+  - component: {fileID: 1283265885414422954}
   m_Layer: 0
   m_Name: interactable
   m_TagString: Untagged
@@ -255,6 +256,53 @@ MonoBehaviour:
   OnPointerExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1283265885414422954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2349999059653535968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ce534b10c3ae3942a1a3eba62b99567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objects:
+  - name: NONE
+    Type: 0
+    _fromDown: {fileID: 7004046163186611736}
+    _altViewVersions: 0
+    _fromRight: {fileID: 0}
+    _fromTop: {fileID: 0}
+    _fromLeft: {fileID: 0}
+  - name: GREMLIN
+    Type: 2
+    _fromDown: {fileID: 330417244935601687}
+    _altViewVersions: 0
+    _fromRight: {fileID: 0}
+    _fromTop: {fileID: 0}
+    _fromLeft: {fileID: 0}
+  - name: GREMLIN
+    Type: 2
+    _fromDown: {fileID: 1005221058829560141}
+    _altViewVersions: 0
+    _fromRight: {fileID: 0}
+    _fromTop: {fileID: 0}
+    _fromLeft: {fileID: 0}
+  - name: CRATE
+    Type: 3
+    _fromDown: {fileID: 4023103527776707096}
+    _altViewVersions: 0
+    _fromRight: {fileID: 0}
+    _fromTop: {fileID: 0}
+    _fromLeft: {fileID: 0}
+  Data:
+    Name: 
+    Type: 0
+    Outcome: 0
+    ShopData: {fileID: 0}
+  _label: {fileID: 0}
 --- !u!1 &3446277853018002120
 GameObject:
   m_ObjectHideFlags: 0

@@ -101,6 +101,26 @@ PrefabInstance:
       propertyPath: WFCInfo
       value: 
       objectReference: {fileID: 4308395900448597680}
+    - target: {fileID: 6824351949714489883, guid: ace7d618d5dca064e8aaec9739eb156e, type: 3}
+      propertyPath: _mapSprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824351949714489883, guid: ace7d618d5dca064e8aaec9739eb156e, type: 3}
+      propertyPath: _mapSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: a8cf51187bda26f4ca985f88058a78ff, type: 3}
+    - target: {fileID: 6824351949714489883, guid: ace7d618d5dca064e8aaec9739eb156e, type: 3}
+      propertyPath: _mapSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 76f4f79ad800da14db4254d007623a7b, type: 3}
+    - target: {fileID: 6824351949714489883, guid: ace7d618d5dca064e8aaec9739eb156e, type: 3}
+      propertyPath: _mapSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: f85e825b5dcfb3c4a91c76060fc67425, type: 3}
+    - target: {fileID: 6824351949714489883, guid: ace7d618d5dca064e8aaec9739eb156e, type: 3}
+      propertyPath: _mapSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 286a7b6a973f37f4a8eae10de0005d50, type: 3}
     - target: {fileID: 8784575041182995491, guid: ace7d618d5dca064e8aaec9739eb156e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -76,6 +76,10 @@ public class TileGenerator : MonoBehaviour
             if (_failed) {
                 print("failed, trying again...");
                 _numFails += 1;
+                if (_numFails == _maxTries) {
+                    print("Failed 10 times :(");
+                    return;
+                }
                 RegenerateGrid();
                 return;
             }
@@ -106,7 +110,6 @@ public class TileGenerator : MonoBehaviour
 
     private void PlaceTile(int x, int y, bool isCenter)
     {
-        print("placing tile");
         var pos = _transform.TransformPoint(x * _tileWidth, 0, y * _tileWidth);
         var halfDist = new Vector3(_gridDimenstions.x - 1, 0, _gridDimenstions.y - 1) * (_tileWidth / 2);
         pos -= halfDist;

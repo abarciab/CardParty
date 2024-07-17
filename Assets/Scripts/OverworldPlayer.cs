@@ -17,6 +17,7 @@ public class OverworldPlayer : MonoBehaviour
     [SerializeField] private float _minSpeed = 2;
     [SerializeField] private AnimationCurve _speedCurve;
     [SerializeField, ConditionalField(nameof(_showDebug))] private float _distThreshold = 0.05f;
+    [SerializeField] private Transform _model;
 
     [Header("Sounds")]
     [SerializeField] private Sound _playerMoveSound;
@@ -136,6 +137,24 @@ public class OverworldPlayer : MonoBehaviour
         var dir = (_currentTarget - transform.position).normalized;
         var delta = _speed * Time.deltaTime * dir;
         transform.position += delta;
+        FaceMoveDir(delta.normalized);
+        PlaceModelOnGround();
+    }
+
+    private void PlaceModelOnGround()
+    {
+        Physics.Raycast(transform.position + Vector3.up * 2, Vector3.down, out var hitInfo, _walkableLayers, 200);
+        var pos = _model.transform.position;
+        pos.y = hitInfo.point.y;
+        _model.transform.position = pos;
+    }
+
+    private void FaceMoveDir(Vector3 normalizedDelta)
+    {
+        var euluer = _model.localEulerAngles;
+        _model.LookAt(transform.position + normalizedDelta);
+        euluer.y = _model.localEulerAngles.y;
+        _model.localEulerAngles = euluer;
     }
 
     private void OnDrawGizmosSelected()

@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: WFCInfo
       value: 
       objectReference: {fileID: 6135769374223176787}
+    - target: {fileID: 6824351949714489883, guid: df4edb92ba141cd46b14e16573c85d5c, type: 3}
+      propertyPath: _mapSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 4364798153715734998221bd21907d37, type: 3}
     - target: {fileID: 8784575041182995491, guid: df4edb92ba141cd46b14e16573c85d5c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

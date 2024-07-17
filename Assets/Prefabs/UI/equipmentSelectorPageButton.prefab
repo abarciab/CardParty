@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &62669876461116249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1609197237255851802}
+  - component: {fileID: 2440450889933240963}
+  - component: {fileID: 7853947749167570514}
+  - component: {fileID: 5527913115612314475}
+  m_Layer: 5
+  m_Name: equipmentSelectorPageButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1609197237255851802
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62669876461116249}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.35477, y: 0.35477, z: 0.35477}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 358.7, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2440450889933240963
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62669876461116249}
+  m_CullTransparentMesh: 1
+--- !u!114 &7853947749167570514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62669876461116249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: 9bb378aaa28fdbe42957b269a41d35f6, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a302615e464d4a448bd8ad16983fbbdd, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5527913115612314475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62669876461116249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1535fa11d0c2c7f478f67f2e638db560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectOnClick: 1
+  _toggleOnClick: 0
+  _deselectOnClick: 0
+  _selectOnHover: 0
+  _deselectOnExit: 1
+  _hasHoverCooldown: 0
+  _hoverCooldown: 0.05
+  _deselectOnStart: 1
+  _data:
+  - Name: equipmentSelectorPageButton
+    _type: 0
+    _target: {fileID: 7853947749167570514}
+    _normalColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    _hoveredColor: {r: 1, g: 1, b: 1, a: 0.8509804}
+    _selectedColor: {r: 1, g: 1, b: 1, a: 1}
+    _disabledColor: {r: 1, g: 1, b: 1, a: 1}
+    _obj: {fileID: 0}
+    _normalState: 0
+    _hoveredState: 0
+    _selectedState: 1
+    _disabledState: 0
+    _group: {fileID: 0}
+    _normalAlpha: 0.3
+    _hoveredAlpha: 0.6
+    _selectedAlpha: 1
+    _disabledAlpha: 0.2
+  _hasAnimation: 0
+  _animator: {fileID: 0}
+  _animationBool: Selected
+  _hoverSound: {fileID: 11400000, guid: 992e814cddd8325409c37e9132445321, type: 2}
+  _selectSound: {fileID: 0}
+  _deselectSound: {fileID: 0}
+  OnSelect:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHover:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEndHover:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeselect:
+    m_PersistentCalls:
+      m_Calls: []
+  _printSelections: 0

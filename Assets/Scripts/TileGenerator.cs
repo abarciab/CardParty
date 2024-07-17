@@ -2,14 +2,14 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.Assertions;
 
 [RequireComponent(typeof(TileGridController))]
 public class TileGenerator : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _prefabTiles = new List<GameObject>();
-    [SerializeField] private GameObject _startTile;
     [SerializeField] private Vector2 _gridDimenstions = new Vector2(20, 20);
     [SerializeField] private float _tileWidth = 20;
 
@@ -22,12 +22,23 @@ public class TileGenerator : MonoBehaviour
     [Header("Interactables")]
     [SerializeField] private List<TileInteractableData> _tileInteractableOptions = new List<TileInteractableData>();
 
+    [Header("Special tiles")]
+    [SerializeField] private GameObject _startTile;
+    [SerializeField] private GameObject _winTile;
+    [SerializeField] private float _winTileMinDist;
+
     private TileController[,] _tileGrid;
 
     private TileGridController _gridController;
     private int _numPaths;
     private int _targetPathNum = 4;
     private Transform _transform;
+    private bool _placedWinTile;
+    private bool _failed;
+    private const int _maxTries = 10;
+    private int _numFails;
+
+    private Vector2Int _centerPos => new Vector2Int((int)_gridDimenstions.x / 2, (int)_gridDimenstions.y / 2);
 
     public Vector2Int Dimensions => new Vector2Int((int)_gridDimenstions.x, (int)_gridDimenstions.y);
 
@@ -48,18 +59,26 @@ public class TileGenerator : MonoBehaviour
 
     private void GenerateGrid()
     {
+        print("Generating grid");
         _tileGrid = new TileController[(int)_gridDimenstions.x + 1, (int)_gridDimenstions.y + 1];
 
-        var center = new Vector2Int((int)_gridDimenstions.x / 2, (int)_gridDimenstions.y / 2);
-        var current = new Vector2Int(center.x, center.y); 
+        var current = new Vector2Int(_centerPos.x, _centerPos.y); 
+
         List<Vector2Int> directions = new List<Vector2Int>() { Vector2Int.right, Vector2Int.up, Vector2Int.left, Vector2Int.down };
         var dirIndex = 0;
         var steps = 1;
         var stepsCount = 0;
         var changeDirCount = 0;
         var total = _gridDimenstions.x * _gridDimenstions.y;
+
         for (int i = 0; i < total; i++) {
-            PlaceTile(current.x, current.y, current == center);
+            PlaceTile(current.x, current.y, current == _centerPos);
+            if (_failed) {
+                print("failed, trying again...");
+                _numFails += 1;
+                RegenerateGrid();
+                return;
+            }
 
             current.x += directions[dirIndex].x;
             current.y += directions[dirIndex].y;
@@ -73,27 +92,36 @@ public class TileGenerator : MonoBehaviour
             }
         }
         _gridController.SetTiles(_placedTiles);
+
+        if (_numFails > 0) print("Failed: " + _numFails + " times");
     }
 
     private void ClearGrid()
     {
         foreach (var t in _placedTiles) Destroy(t.gameObject);
         _placedTiles.Clear();
+        _placedWinTile = false;
+        _failed = false;
     }
 
     private void PlaceTile(int x, int y, bool isCenter)
     {
+        print("placing tile");
         var pos = _transform.TransformPoint(x * _tileWidth, 0, y * _tileWidth);
         var halfDist = new Vector3(_gridDimenstions.x - 1, 0, _gridDimenstions.y - 1) * (_tileWidth / 2);
         pos -= halfDist;
 
         var prefabData = SelectPrefab(x, y, isCenter);
+        if (prefabData.Item1 == null) {
+            _failed = true;
+            return;
+        }
         var selectedInteractable = _tileInteractableOptions[Random.Range(0, _tileInteractableOptions.Count)]; 
 
         var newTileObj = Instantiate(prefabData.Item1, pos, prefabData.Item2, _transform);
         var newTile = newTileObj.GetComponent<TileController>();
-        
-        newTile.Initialize(x, y, isCenter, _gridController, prefabData.Item2, selectedInteractable);
+
+        newTile.Initialize(x, y, isCenter, _gridController, prefabData.Item2, new TileInteractableData(selectedInteractable));
 
         _placedTiles.Add(newTile);
         _tileGrid[x,y] = newTile;
@@ -139,8 +167,26 @@ public class TileGenerator : MonoBehaviour
         if (Random.Range(0f, 1) < _clampPathChance) LimitPathNum(ref validTiles, pos);
         if (Random.Range(0f, 1) < _largePatchChance) LimitLargePatch(ref validTiles, pos, hole);
 
-        if (validTiles.Count == 0) Debug.LogError("Couldn't find valid tile for hole: " + string.Join("|", hole));
-        return validTiles[Random.Range(0, validTiles.Count)];
+        if (validTiles.Count == 0) {
+            Debug.Log("Couldn't find valid tile for hole: " + string.Join("|", hole));
+            return new (null, Quaternion.identity);
+        }
+        var chosenTile = validTiles[Random.Range(0, validTiles.Count)];
+
+        if (ShouldPlaceWinTile(x, y)) {
+            _placedWinTile = true;
+            chosenTile.Item1 = _winTile;
+        }
+
+        return chosenTile;
+    }
+
+    private bool ShouldPlaceWinTile(int x, int y) {
+        if (_placedWinTile) return false;
+        var distance = Vector2Int.Distance(new Vector2Int(x, y), _centerPos);
+        if (distance < _winTileMinDist) return false;
+        if (x == _gridDimenstions.x - 1 && y == _gridDimenstions.y - 1) return true;
+        else return (Random.Range(0f, 1) < 0.1f);
     }
 
     private void AddAllPossibleValidTiles(ref List<(GameObject, Quaternion)> validTiles, List<string> hole)

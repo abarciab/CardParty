@@ -28,8 +28,17 @@ MonoBehaviour:
     - Type: 1
       _moneyDelta: 550
       _equipment: {fileID: 0}
-    FailText: they slay one of your adventurueres. damn that sucks ass (NOT IMPLEMENTED)
-    FailureOutcomes: []
+      _newHire: {fileID: 0}
+      _damageAmount: 0
+      _numMapTiles: 0
+    FailText: 'they slay one of your adventurueres. damn that sucks ass '
+    FailureOutcomes:
+    - Type: 4
+      _moneyDelta: 0
+      _equipment: {fileID: 0}
+      _newHire: {fileID: 0}
+      _damageAmount: 0
+      _numMapTiles: 0
   - Text: ohnoes not today!
     SuccessChance: 0.727
     _successText: get out!
@@ -41,12 +50,27 @@ MonoBehaviour:
     - Type: 1
       _moneyDelta: -75
       _equipment: {fileID: 0}
+      _newHire: {fileID: 0}
+      _damageAmount: 0
+      _numMapTiles: 0
   - Text: shoot the lights
     SuccessChance: 0.401
     _successText: win
     SuccessText: the lights are actually just fireflies, but your excellent aim impresses
-      a bystander. here's a free adventurer if you'd like (NOT IMPLEMENTED)
-    SucessOutcomes: []
+      a bystander. here's a free adventurer if you'd like
+    SucessOutcomes:
+    - Type: 6
+      _moneyDelta: 0
+      _equipment: {fileID: 0}
+      _newHire: {fileID: 11400000, guid: c966d071a36a69046b98aa1f1d4a9096, type: 2}
+      _damageAmount: 0
+      _numMapTiles: 0
     FailText: your bullets bounce and hit all of your adventurers. they all take
-      damage (NOT IMPLEMENTED)
-    FailureOutcomes: []
+      damage
+    FailureOutcomes:
+    - Type: 8
+      _moneyDelta: 0
+      _equipment: {fileID: 0}
+      _newHire: {fileID: 0}
+      _damageAmount: 65
+      _numMapTiles: 0

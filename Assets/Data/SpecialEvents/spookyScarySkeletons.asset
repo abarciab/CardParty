@@ -20,17 +20,22 @@ MonoBehaviour:
   - Text: Join in
     SuccessChance: 0.369
     _successText: befriend
-    SuccessText: u dance so well! they're big fans and heal your weakest adventurer
-      (NOT IMPLEMENTED)
+    SuccessText: u dance so well! they're big fans and heal all your adventurers
     SucessOutcomes:
-    - Type: 0
+    - Type: 5
       _moneyDelta: 0
       _equipment: {fileID: 0}
+      _newHire: {fileID: 0}
+      _damageAmount: 0
+      _numMapTiles: 0
     FailText: they do not like the way you move. They want to fight you
     FailureOutcomes:
     - Type: 3
       _moneyDelta: 0
       _equipment: {fileID: 0}
+      _newHire: {fileID: 0}
+      _damageAmount: 0
+      _numMapTiles: 0
   - Text: dance battle!
     SuccessChance: 0.804
     _successText: riches
@@ -40,17 +45,28 @@ MonoBehaviour:
     - Type: 1
       _moneyDelta: 150
       _equipment: {fileID: 0}
+      _newHire: {fileID: 0}
+      _damageAmount: 0
+      _numMapTiles: 0
     FailText: They mockingly accept your challenge but absolutely destroy you. No
       chance you were going to win that one. You hand over the agreed-upon amount
     FailureOutcomes:
     - Type: 1
       _moneyDelta: -150
       _equipment: {fileID: 0}
+      _newHire: {fileID: 0}
+      _damageAmount: 0
+      _numMapTiles: 0
   - Text: refuse their invitiation
     SuccessChance: 0.871
     _successText: escape
     SuccessText: They let you go... for now...
     SucessOutcomes: []
-    FailText: They shoot arrows at you as you leave, damaging one of your adventurers
-      (NOT IMPLEMENTED)
-    FailureOutcomes: []
+    FailText: They shoot arrows at you as you leave, damaging all of your adventurers
+    FailureOutcomes:
+    - Type: 8
+      _moneyDelta: 0
+      _equipment: {fileID: 0}
+      _newHire: {fileID: 0}
+      _damageAmount: 15
+      _numMapTiles: 0

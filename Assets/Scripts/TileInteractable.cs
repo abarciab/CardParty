@@ -47,9 +47,9 @@ public class InteractableTypeGameObjectWrapper
 public class TileInteractable : MonoBehaviour
 {
     [SerializeField] private List<InteractableTypeGameObjectWrapper> _objects = new List<InteractableTypeGameObjectWrapper>();
-    public TileInteractableData Data { get; private set; }
+    [ReadOnly] public TileInteractableData Data;
     [SerializeField] private Transform _label;
-
+    private OnClickOnCollider _collider;
 
     private void OnValidate()
     {
@@ -70,6 +70,7 @@ public class TileInteractable : MonoBehaviour
     public void Initialize(TileInteractableData data, TileController controller, Quaternion rot)
     {
         Data = data;
+
         foreach (var o in _objects) {
             if (o.Type == Data.Type) {
                 o.Initialize(rot);
@@ -83,7 +84,9 @@ public class TileInteractable : MonoBehaviour
             o.HideAll();
             o.GameObject.SetActive(o.Type == data.Type);
         }
-        GetComponent<OnClickOnCollider>().OverrideOnClickOn(controller.ClickOnInteractable);
+
+        if (!_collider) _collider = transform.parent.GetComponentInChildren<OnClickOnCollider>();
+        _collider.OverrideOnClickOn(() => controller.ClickOnInteractable(data));
     }
 
     public void PointerEnter() => SetHighlightVisiblity(true);

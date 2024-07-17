@@ -19,7 +19,7 @@ public class MapController : MonoBehaviour
     private Vector3 _oldMousePos;
 
     [SerializeField, ReadOnly] private Image[,] _imageGrid;
-
+    private Vector2Int _dimensions => _tileGenerator.Dimensions;
     private void Update()
     {
         ZoomMap();
@@ -82,10 +82,9 @@ public class MapController : MonoBehaviour
 
     private void GenerateBlankMap()
     {
-        var dimensions = _tileGenerator.Dimensions;
-        _imageGrid = new Image[dimensions.x + 1, dimensions.y + 1];
-        for (int x = 0; x < dimensions.x; x++) {
-            for (int y = dimensions.y - 1; y >= 0; y--) {
+        _imageGrid = new Image[_dimensions.x + 1, _dimensions.y + 1];
+        for (int x = 0; x < _dimensions.x; x++) {
+            for (int y = _dimensions.y - 1; y >= 0; y--) {
                 var newTile = Instantiate(_gridTilePrefab, _gridParent);
                 newTile.transform.SetSiblingIndex(1);
                 newTile.name = x + ", " + y;
@@ -99,6 +98,21 @@ public class MapController : MonoBehaviour
         var currentTile = _imageGrid[ID.x, ID.y].transform;
         _playerTile.SetParent(currentTile);
         _playerTile.transform.localPosition = Vector3.zero;
+    }
+
+    public void revealRandomTiles(int numTiles)
+    {
+        var IDs = new List<Vector2Int>();
+        while (IDs.Count < numTiles) {
+            var option = new Vector2Int(Random.Range(0, _dimensions.x), Random.Range(0, _dimensions.y));
+            if (!IDs.Contains(option)) IDs.Add(option);
+        }
+        foreach (var ID in IDs) RevealTile(ID);
+    }
+
+    public void RevealTile(Vector2Int ID)
+    {
+        _tileGenerator.GetComponent<TileGridController>().GetTile(ID).ShowOnMap();
     }
 
     public void RevealTile(Vector2Int ID, Sprite sprite, int turns)

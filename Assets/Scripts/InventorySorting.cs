@@ -26,7 +26,6 @@ public class InventorySorting : MonoBehaviour
     {
         await Task.Delay(10);
         var searchTerm = _searchBoxText.text;
-        print("searching with new term: " + searchTerm);
         _controller.SetSearchTerm(searchTerm.ToUpper());
     }
 

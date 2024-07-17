@@ -14,6 +14,8 @@ public class Equipment : ScriptableObject
     public int Cost;
     [DisplayInspector] public List<CardData> Cards = new List<CardData>();
 
+    public AdventurerData Owner => PlayerInfo.Party.GetOwner(this);
+
     public override string ToString()
     {
         return Name;

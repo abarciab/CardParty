@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44892d4b8dcb154408f7912a8210bb18, type: 3}
+  m_Name: MonsterTooth
+  m_EditorClassIdentifier: 
+  Name: Monster Tooth
+  Sprite: {fileID: 21300000, guid: 0f0074827c411c04083602637f1ef8d3, type: 3}
+  Description: wow edfinitly not a shark!
+  WornByString: held by
+  Slot: 0
+  Cost: 115
+  Cards:
+  - {fileID: 11400000, guid: dfef465f16cd3c24e85f1ce13b55d029, type: 2}

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44892d4b8dcb154408f7912a8210bb18, type: 3}
+  m_Name: GodlyCoin
+  m_EditorClassIdentifier: 
+  Name: Godly Coin
+  Sprite: {fileID: 21300000, guid: 8f700d08144c2ab4da80cc8b94a70a5d, type: 3}
+  Description: rubbing it fills you with faith. it's so shiny
+  WornByString: held by
+  Slot: 0
+  Cost: 117
+  Cards:
+  - {fileID: 11400000, guid: 7430e2e4646a6604899d0a3ddba96d04, type: 2}

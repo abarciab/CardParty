@@ -41,7 +41,9 @@ public class CardGameManager : GameManager
     [SerializeField] private GameObject _selectedCreatureHighlight;
     [SerializeField] private List<Adventurer> _adventurers = new List<Adventurer>();
     [SerializeField] private List<Enemy> _enemies = new List<Enemy>();
-    [SerializeField] private List<CombatSlot> _combatSlots;
+    [SerializeField] private List<CombatSlot> _adventurerCombatSlots;
+    [SerializeField] private List<CombatSlot> _enemyCombatSlots;
+    [SerializeField] private List<CombatSlot> _blockCombatSlots;
     [SerializeField] private GameObject _combatSlotPrefab;
     public CardData CurrPlayedCard;
     private System.Random _r = new System.Random();
@@ -95,7 +97,7 @@ public class CardGameManager : GameManager
         for (int i = 0; i < combat.enemies.Length; i++) {
             GameObject newCombatSlot = GameObject.Instantiate(_combatSlotPrefab, _enemyContainer);
             GameObject newEnemy = GameObject.Instantiate(combat.enemies[i], newCombatSlot.transform);
-            _combatSlots.Add(newCombatSlot.GetComponent<CombatSlot>());
+            _enemyCombatSlots.Add(newCombatSlot.GetComponent<CombatSlot>());
             newCombatSlot.GetComponent<CombatSlot>().Creature = newEnemy.GetComponent<Creature>();
             newEnemy.GetComponent<Enemy>().CombatSlot = newCombatSlot.GetComponent<CombatSlot>();
             // evenly distribute across enemy container
@@ -110,7 +112,7 @@ public class CardGameManager : GameManager
         for (int i = 0; i < adventurerData.Count; i++) {
             GameObject newCombatSlot = GameObject.Instantiate(_combatSlotPrefab, _adventurerContainer);
             GameObject newAdventurer = GameObject.Instantiate(adventurerData[i].Adventurer, newCombatSlot.transform);
-            _combatSlots.Add(newCombatSlot.GetComponent<CombatSlot>());
+            _adventurerCombatSlots.Add(newCombatSlot.GetComponent<CombatSlot>());
             newCombatSlot.GetComponent<CombatSlot>().Creature = newAdventurer.GetComponent<Creature>();
             newAdventurer.GetComponent<Adventurer>().CombatSlot = newCombatSlot.GetComponent<CombatSlot>();
             // evenly distribute across enemy container
@@ -327,33 +329,33 @@ public class CardGameManager : GameManager
     }
 
     public CombatSlot GetRandomAdventurerSlot(bool empty = false) {
-        List<Adventurer> adventurers = _adventurers.OrderBy(x => _r.Next()).ToList();
+        List<CombatSlot> adventurerCombatSlots = _adventurerCombatSlots.OrderBy(x => _r.Next()).ToList();
         if (empty) {
-            foreach(Adventurer adventurer in adventurers) {
-                if (adventurer.CombatSlot && !adventurer.CombatSlot.Creature) return adventurer.CombatSlot;
+            foreach(CombatSlot combatSlot in adventurerCombatSlots) {
+                if (combatSlot && !combatSlot.Creature) return combatSlot;
             }
             return null;
         }
-        return adventurers[0].CombatSlot;
+        return adventurerCombatSlots[0];
     }
 
     public CombatSlot GetRandomEnemySlot(bool empty = false) {
-        List<Enemy> enemies = _enemies.OrderBy(x => _r.Next()).ToList();
+        List<CombatSlot> enemyCombatSlots = _enemyCombatSlots.OrderBy(x => _r.Next()).ToList();
         if (empty) {
-            foreach(Enemy enemy in enemies) {
-                if (!enemy.CombatSlot.Creature) return enemy.CombatSlot;
+            foreach(CombatSlot combatSlot in enemyCombatSlots) {
+                if (!combatSlot.Creature) return combatSlot;
             }
             return null;
         }
 
-        return enemies[0].CombatSlot;
+        return enemyCombatSlots[0];
     }
 
     public CombatSlot SpawnBlockSlot(Vector3 position) {
         GameObject newCombatSlot = GameObject.Instantiate(_combatSlotPrefab, _enemyContainer);
         newCombatSlot.transform.position = position;
         newCombatSlot.GetComponent<CombatSlot>().IsBlockSlot = true;
-        _combatSlots.Add(newCombatSlot.GetComponent<CombatSlot>());
+        _blockCombatSlots.Add(newCombatSlot.GetComponent<CombatSlot>());
 
         return newCombatSlot.GetComponent<CombatSlot>();
     }

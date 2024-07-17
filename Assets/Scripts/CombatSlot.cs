@@ -30,6 +30,7 @@ public class CombatSlot : MonoBehaviour
 
     public void MoveCreature() {
         if (!Creature) return;
+        print(CardGameManager.i.GetRandomAdventurerSlot(empty: true));
         SetCreature(Creature, targetSlot: CardGameManager.i.GetRandomAdventurerSlot(empty: true));
     }
 }

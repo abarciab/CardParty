@@ -26,6 +26,7 @@ public class Enemy : Creature
         switch(_nextAction.Action) {
             case EnemyActionType.Attack: {
                 Adventurer target = (Adventurer)_nextAction.TargetSlot.Creature;
+                if (AttackArrow.BlockSlot.Creature) target = (Adventurer)AttackArrow.BlockSlot.Creature;
 
                 yield return StartCoroutine(Utilities.LerpToAndBack(gameObject, target.transform.position));
                 target.TakeDamage(_attackDamage);

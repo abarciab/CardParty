@@ -27,6 +27,7 @@ public class Creature : MonoBehaviour
     }
 
     public virtual void TakeDamage(float damage) {
+        print(damage);
         _block = _block - (int)damage;
         if (_block < 0) {
             _health += _block;

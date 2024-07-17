@@ -55,9 +55,9 @@ public class CardGameManager : GameManager
         base.Update();
         //selecting creatures
         if (CurrPlayedCard && Input.GetMouseButtonDown(0)) {
-            Ray ray = Camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit)) {
+            RaycastHit[] hits = Physics.RaycastAll(Camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition), 50);
+
+            foreach(RaycastHit hit in hits) {
                 Creature creature = hit.collider.gameObject.GetComponent<Creature>();
                 if (creature) {
                     if (CardGameManager.i.SelectedCreatures.Contains(creature)) {
@@ -359,7 +359,6 @@ public class CardGameManager : GameManager
     }
 
     public void UpdateAttackArrow(CombatSlot blockSlot) {       
-        blockSlot.gameObject.name = "block slot being cehecked"; 
         if (blockSlot.Creature) {
             blockSlot.AttackArrow.SetArrow(blockSlot.AttackArrow.Owner.transform.position, blockSlot.transform.position);
         } else {

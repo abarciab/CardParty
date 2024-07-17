@@ -41,7 +41,7 @@ public class OverworldPlayer : MonoBehaviour
 
     private void Update()
     {
-        if (UIManager.i.IsBusy || EventSystem.current.IsPointerOverGameObject()) {
+        if (!_isBeingControlled && (UIManager.i.IsBusy || EventSystem.current.IsPointerOverGameObject())) {
             Stop();
             return;
         }

@@ -69,24 +69,10 @@ public class WFCSTileInfo : MonoBehaviour
     {
         var edges = new List<string>() { _top, _right, _down, _left };
 
-        if (FitsInHole(edges, hole)) {
-            rot = Quaternion.identity;
-            return true;
-        }
-        rotateEdges(ref edges);
-        if (FitsInHole(edges, hole)) {
-            rot = Quaternion.Euler(0, 90, 0);
-            return true;
-        }
-        rotateEdges(ref edges);
-        if (FitsInHole(edges, hole)) {
-            rot = Quaternion.Euler(0, 180, 0);
-            return true;
-        }
-        rotateEdges(ref edges);
-        if (FitsInHole(edges, hole)) {
-            rot = Quaternion.Euler(0, 270, 0);
-            return true;
+        for (int i = 0; i < 4; i++) {
+            rot = Quaternion.Euler(0, 90 * i, 0);
+            if (FitsInHole(edges, hole)) return true;
+            rotateEdges(ref edges);
         }
 
         rot = Quaternion.identity;

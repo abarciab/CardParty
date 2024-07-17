@@ -269,8 +269,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objects:
-  - name: NONE
-    Type: 0
+  - name: FARM_STAND
+    Type: 1
     _fromDown: {fileID: 7004046163186611736}
     _altViewVersions: 0
     _fromRight: {fileID: 0}
@@ -283,16 +283,9 @@ MonoBehaviour:
     _fromRight: {fileID: 0}
     _fromTop: {fileID: 0}
     _fromLeft: {fileID: 0}
-  - name: GREMLIN
-    Type: 2
-    _fromDown: {fileID: 1005221058829560141}
-    _altViewVersions: 0
-    _fromRight: {fileID: 0}
-    _fromTop: {fileID: 0}
-    _fromLeft: {fileID: 0}
   - name: CRATE
     Type: 3
-    _fromDown: {fileID: 4023103527776707096}
+    _fromDown: {fileID: 1005221058829560141}
     _altViewVersions: 0
     _fromRight: {fileID: 0}
     _fromTop: {fileID: 0}
@@ -302,7 +295,7 @@ MonoBehaviour:
     Type: 0
     Outcome: 0
     ShopData: {fileID: 0}
-  _label: {fileID: 0}
+  _label: {fileID: 5460287350144168986}
 --- !u!1 &3446277853018002120
 GameObject:
   m_ObjectHideFlags: 0
@@ -1108,7 +1101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1120,15 +1113,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PressRight
+      value: PressButton
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: TileController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
+      propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 8811107134328025537}
+    - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5789233707094253561, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: m_IsActive
@@ -1214,7 +1211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1226,15 +1223,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PressLeft
+      value: PressButton
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: TileController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
+      propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 5312537644708652042}
+    - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5789233707094253561, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: m_IsActive
@@ -1405,7 +1406,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1417,15 +1418,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PressDown
+      value: PressButton
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: TileController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
+      propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 964644642763694200}
+    - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5789233707094253561, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: m_IsActive
@@ -1745,7 +1750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1757,15 +1762,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PressUp
+      value: PressButton
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: TileController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
+      propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1424644145638359067}
+    - target: {fileID: 4466598749754791770, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: OnClickOn.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5789233707094253561, guid: 43e3ea2307672974881b76eea270e0fe, type: 3}
       propertyPath: m_IsActive

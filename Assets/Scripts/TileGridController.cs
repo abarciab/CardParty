@@ -7,10 +7,10 @@ using UnityEngine;
 
 public class TileGridController : MonoBehaviour
 {
-    private List<TileController> _tiles = new List<TileController>();
+    private TileController[,] _tiles;
     [SerializeField] private Transform _fogOfWar;
 
-    public void SetTiles(List<TileController> tiles) => _tiles = tiles;
+    public void SetTiles(TileController[,] tiles) => _tiles = tiles;
 
     [ButtonMethod]
     private void RevealEntireMap()
@@ -20,20 +20,19 @@ public class TileGridController : MonoBehaviour
 
     public TileController GetTile(Vector2Int ID)
     {
-        return _tiles.Where(x => x.GridPos == ID).FirstOrDefault();
+        return _tiles[ID.x, ID.y];
     }
 
     public TileController GetTileInDirection(Vector2Int ID, Direction dir)
     {
-        Vector2Int TargetID = new Vector2Int(ID.x, ID.y);
-        if (dir == Direction.UP) TargetID.y += 1;
-        if (dir == Direction.RIGHT) TargetID.x += 1;
-        if (dir == Direction.DOWN) TargetID.y -= 1;
-        if (dir == Direction.LEFT) TargetID.x -= 1;
+        Vector2Int targetID = new Vector2Int(ID.x, ID.y);
+        if (dir == Direction.UP) targetID.y += 1;
+        if (dir == Direction.RIGHT) targetID.x += 1;
+        if (dir == Direction.DOWN) targetID.y -= 1;
+        if (dir == Direction.LEFT) targetID.x -= 1;
 
-        var targetTile = _tiles.Where(x => x.GridPos == TargetID).ToList();
-        if (targetTile.Count > 0) return targetTile[0];
-        else return null;
+        if (targetID.x >= _tiles.GetLength(0) || targetID.y >= _tiles.GetLength(1) || targetID.x == 0 || targetID.y == 0) return null;
+        return _tiles[targetID.x, targetID.y];
     }
 
     public async void UpdateAllTiles(TileController newPlayerTile)

@@ -2,7 +2,6 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -12,8 +11,6 @@ public class TileGenerator : MonoBehaviour
     [SerializeField] private List<GameObject> _prefabTiles = new List<GameObject>();
     [SerializeField] private Vector2 _gridDimenstions = new Vector2(20, 20);
     [SerializeField] private float _tileWidth = 20;
-
-    [SerializeField, ReadOnly] private List<TileController> _placedTiles = new List<TileController>();
 
     [Header("Probabilities")]
     [SerializeField, Range(0, 1)] private float _clampPathChance = 0.75f; 
@@ -59,7 +56,6 @@ public class TileGenerator : MonoBehaviour
 
     private void GenerateGrid()
     {
-        print("Generating grid");
         _tileGrid = new TileController[(int)_gridDimenstions.x + 1, (int)_gridDimenstions.y + 1];
 
         var current = new Vector2Int(_centerPos.x, _centerPos.y); 
@@ -95,15 +91,14 @@ public class TileGenerator : MonoBehaviour
                 if (changeDirCount % 2 == 0) steps += 1;
             }
         }
-        _gridController.SetTiles(_placedTiles);
+        _gridController.SetTiles(_tileGrid);
 
         if (_numFails > 0) print("Failed: " + _numFails + " times");
     }
 
     private void ClearGrid()
     {
-        foreach (var t in _placedTiles) Destroy(t.gameObject);
-        _placedTiles.Clear();
+        if (_tileGrid != null) foreach (var t in _tileGrid) if (t) Destroy(t.gameObject);
         _placedWinTile = false;
         _failed = false;
     }
@@ -126,7 +121,6 @@ public class TileGenerator : MonoBehaviour
 
         newTile.Initialize(x, y, isCenter, _gridController, prefabData.Item2, new TileInteractableData(selectedInteractable));
 
-        _placedTiles.Add(newTile);
         _tileGrid[x,y] = newTile;
         CountPaths();
     }
@@ -134,7 +128,8 @@ public class TileGenerator : MonoBehaviour
     private void CountPaths()
     {
         int foundPaths = 0;
-        foreach (var t in _placedTiles) {
+        foreach (var t in _tileGrid) {  //could keep track of edge tiles within spiral and loop over just those
+            if (t == null) continue;
             var pos = t.GridPos;
             var edges = GetEdgesOfHole(pos);
             if (GetTileAt(pos + Vector2Int.up) == null) foundPaths += CountPathsInEdge(pos, Direction.UP);
@@ -195,8 +190,8 @@ public class TileGenerator : MonoBehaviour
     private void AddAllPossibleValidTiles(ref List<(GameObject, Quaternion)> validTiles, List<string> hole)
     {
         foreach (var t in _prefabTiles) {
-            var WFC = t.GetComponent<TileController>().WFCInfo;
-            if (WFC.GetValidRotation(hole, out Quaternion rot)) validTiles.Add((t, rot));
+            var dataCoord = t.GetComponent<TileController>().WFCInfo;
+            if (dataCoord.GetValidRotation(hole, out Quaternion rot)) validTiles.Add((t, rot));
         }
     }
 

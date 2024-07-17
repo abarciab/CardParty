@@ -4,7 +4,21 @@ using UnityEngine;
 using System;
 using MyBox;
 
-public enum Function { NONE, ATTACK, BLOCK }
+public enum Function { NONE, ATTACK, BLOCK, SPECIAL }
+
+public class CardPlayData {
+    public Adventurer Owner;
+    public Function Function;
+    public float Amount;
+    public Action SpecialData;
+
+    public CardPlayData(Adventurer newOwner, Function newFunction, int newAmount, Action newSpecialData = null) {
+        Owner = newOwner;
+        Function = newFunction;
+        Amount = newAmount;
+        SpecialData = newSpecialData;
+    }
+}
 
 [CreateAssetMenu(fileName = "CardData")]
 public class CardData : ScriptableObject
@@ -76,14 +90,7 @@ public class CardData : ScriptableObject
             case Function.BLOCK: {
                 List<System.Type> requiredTargets = new List<System.Type>() {typeof(Adventurer)};
 
-                // wait until valid targets have been selected
-                _currSelectTargets = CardGameManager.i.SelectTargets(requiredTargets);
-                yield return CardGameManager.i.StartCoroutine(_currSelectTargets);
-
-                Creature defendee = ((List<Creature>)_currSelectTargets.Current).Find(x => x.GetType() == typeof(Adventurer));
-
-                yield return _owner.StartCoroutine(Utilities.LerpToAndBack(_owner.gameObject, defendee.transform.position));
-                defendee.AddBlock(_amount);
+                _owner.AddBlock(_amount);
 
                 CardGameManager.i.CardEndsPlay(CardObject);
             }
@@ -93,6 +100,14 @@ public class CardData : ScriptableObject
         //DoSpecial();
 
         yield return null;
+    }
+
+    public CardPlayData GetPlayData() {
+        if (_function == Function.SPECIAL) {
+            return new CardPlayData(CardGameManager.i.GetOwnerAdventurer(CardObject), _function, 0);
+        }
+
+        return new CardPlayData(CardGameManager.i.GetOwnerAdventurer(CardObject), _function, 50);
     }
 
     public void CancelPlay() {

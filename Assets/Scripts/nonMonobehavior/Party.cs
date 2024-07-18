@@ -109,6 +109,7 @@ public class Party
         Adventurers.Add(adventurer);
         _equipmentDict.Add(adventurer, new List<Equipment>(){null, null, null});
         _statsDict.Add(adventurer, new AdventurerStats(adventurer.MaxHealth));
+        Debug.Log(Adventurers.Count);
     }
 
     public List<Equipment> GetEquipment(AdventurerData adventurer)

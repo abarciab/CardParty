@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Martrax
   portrait: {fileID: 21300000, guid: d4e1140089c612442be491f796d98d41, type: 3}
   Description: angry boyyy
-  Adventurer: {fileID: 0}
+  Adventurer: {fileID: 4531924361357938381, guid: bde5a3648f035e040a8fd508f2cba98c, type: 3}
   Cards:
   - {fileID: 11400000, guid: 4bbae371923e07648a0129dc424926b9, type: 2}
   MaxHealth: 50

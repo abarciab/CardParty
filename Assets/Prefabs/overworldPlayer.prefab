@@ -167,8 +167,8 @@ MonoBehaviour:
   _walkableLayers:
     serializedVersion: 2
     m_Bits: 8
-  _maxSpeed: 3
-  _minSpeed: 2
+  _maxSpeed: 1.2
+  _minSpeed: 0.6
   _speedCurve:
     serializedVersion: 2
     m_Curve:
@@ -195,6 +195,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   _distThreshold: 0.05
   _model: {fileID: 3691094374765369482}
+  _turnLerpFactor: 5
+  _animator: {fileID: 2153412505722224430}
+  _walkingAnimBool: walking
   _playerMoveSound: {fileID: 11400000, guid: f3537e3588170c34db4081a9a64ac096, type: 2}
   _moveTileSound: {fileID: 11400000, guid: be4fc4ebe1a02a64cb699d4e6469d145, type: 2}
 --- !u!1 &6530219919783933698
@@ -240,15 +243,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e1cdfd0020e7b9741b848a21421d458a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 4.427593
+      value: 1.0620025
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e1cdfd0020e7b9741b848a21421d458a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 4.427593
+      value: 1.0620025
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e1cdfd0020e7b9741b848a21421d458a, type: 3}
       propertyPath: m_LocalScale.z
-      value: 4.427593
+      value: 1.0620025
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e1cdfd0020e7b9741b848a21421d458a, type: 3}
       propertyPath: m_LocalPosition.x

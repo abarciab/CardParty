@@ -2,6 +2,7 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro.EditorUtilities;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -18,6 +19,15 @@ public class OverworldPlayer : MonoBehaviour
     [SerializeField] private AnimationCurve _speedCurve;
     [SerializeField, ConditionalField(nameof(_showDebug))] private float _distThreshold = 0.05f;
     [SerializeField] private Transform _model;
+    [SerializeField] private float _turnLerpFactor = 5;
+
+    [Header("Animation")]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private string _walkingAnimBool = "walking";
+
+    [Header("Misc")]
+    [SerializeField] private Transform _walkTargetVisual;
+
 
     [Header("Sounds")]
     [SerializeField] private Sound _playerMoveSound;
@@ -49,12 +59,16 @@ public class OverworldPlayer : MonoBehaviour
         SetDistanceToTarget();
         if (!_isBeingControlled && !UIManager.i.IsBusy) CheckForNewWalkTarget();
         CalculateSpeed();
-        if (_distanceToTarget > _distThreshold) MoveTowardTarget();
+        bool notAtTarget = _distanceToTarget > _distThreshold;
+        _animator.SetBool(_walkingAnimBool, notAtTarget);
+        _walkTargetVisual.gameObject.SetActive(notAtTarget);
+        if (notAtTarget) MoveTowardTarget();
         else if (_isBeingControlled) FinishControl();
     }
 
     private void Stop()
     {
+        _animator.SetBool(_walkingAnimBool, false);
         _currentTarget = transform.position;
     }
 
@@ -127,6 +141,7 @@ public class OverworldPlayer : MonoBehaviour
 
         //print("recieved click");
 
+        _walkTargetVisual.position = hitData.point;
         _playerMoveSound.Play();
         _currentTarget = hitData.point;
         _originalDistanceToTarget = GetDistanceToTarget();
@@ -155,7 +170,7 @@ public class OverworldPlayer : MonoBehaviour
         var target = _model.localEulerAngles;
         _model.LookAt(transform.position + normalizedDelta);
         target.y = _model.localEulerAngles.y;
-        var newRot = Quaternion.Lerp(Quaternion.Euler(euler), Quaternion.Euler(target), 3 * Time.deltaTime);
+        var newRot = Quaternion.Lerp(Quaternion.Euler(euler), Quaternion.Euler(target), _turnLerpFactor * Time.deltaTime);
         _model.localRotation = newRot;
     }
 

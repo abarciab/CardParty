@@ -151,10 +151,12 @@ public class OverworldPlayer : MonoBehaviour
 
     private void FaceMoveDir(Vector3 normalizedDelta)
     {
-        var euluer = _model.localEulerAngles;
+        var euler = _model.localEulerAngles;
+        var target = _model.localEulerAngles;
         _model.LookAt(transform.position + normalizedDelta);
-        euluer.y = _model.localEulerAngles.y;
-        _model.localEulerAngles = euluer;
+        target.y = _model.localEulerAngles.y;
+        var newRot = Quaternion.Lerp(Quaternion.Euler(euler), Quaternion.Euler(target), 3 * Time.deltaTime);
+        _model.localRotation = newRot;
     }
 
     private void OnDrawGizmosSelected()

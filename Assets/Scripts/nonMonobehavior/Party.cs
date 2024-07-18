@@ -95,8 +95,15 @@ public class Party
 
     public void SetParty(List<AdventurerData> adventurers)
     {
-        Adventurers.Clear();
+        ClearData();
         foreach (var a in adventurers) AddAdventurer(a);
+    }
+
+    private void ClearData()
+    {
+        Adventurers.Clear();
+        _equipmentDict = new Dictionary<AdventurerData, List<Equipment>>();
+        _statsDict = new Dictionary<AdventurerData, AdventurerStats>();
     }
 
     public void DamageAll(int amount)
@@ -106,10 +113,10 @@ public class Party
 
     public void AddAdventurer(AdventurerData adventurer)
     {
+        if (Adventurers.Contains(adventurer)) return;
         Adventurers.Add(adventurer);
         _equipmentDict.Add(adventurer, new List<Equipment>(){null, null, null});
         _statsDict.Add(adventurer, new AdventurerStats(adventurer.MaxHealth));
-        Debug.Log(Adventurers.Count);
     }
 
     public List<Equipment> GetEquipment(AdventurerData adventurer)

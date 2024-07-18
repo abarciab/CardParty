@@ -1966,7 +1966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2058364420
 Transform:
   m_ObjectHideFlags: 0
@@ -2515,7 +2515,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[1].Type
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[2].Type
@@ -2527,7 +2527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[1].Outcome
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[2].Outcome

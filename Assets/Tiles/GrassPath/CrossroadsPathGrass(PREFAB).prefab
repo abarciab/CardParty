@@ -64,6 +64,38 @@ PrefabInstance:
       propertyPath: _mapSprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: 5248a2da397c4514c973ac02e617525a, type: 3}
+    - target: {fileID: 8596360519526411197, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596360519526411197, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.055
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596360519526411197, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596360519526411197, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.36415657
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596360519526411197, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596360519526411197, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9313377
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596360519526411197, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596360519526411197, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 222.711
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4489613068293135468, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}

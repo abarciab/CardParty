@@ -16,7 +16,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: ed5f409533296e64cb4ec216a057fdaa, type: 3}
   Description: never saw it comin
   _function: 1
-  _amount: 10
+  _amount: 11
   _specialData:
     _type: 0
     _amount: 3

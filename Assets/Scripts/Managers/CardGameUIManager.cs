@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class CardGameUIManager : UIManager
 {
@@ -10,10 +11,25 @@ public class CardGameUIManager : UIManager
 
     [Header("References")]
     [SerializeField] private TextMeshProUGUI _instructionsText;
-    [SerializeField] private TextMeshProUGUI _actionsCounter;
-    [SerializeField] private TextMeshProUGUI _actionsLabel;
+    [SerializeField] private GameObject _instructionsParent;
 
     [SerializeField] private Deck _deck;
 
     public void AddToDiscardPile(CardData data) => _deck.AddToDiscard(data);
+
+
+    private void Update()
+    {
+        //TEMP
+        UpdateInstructions();
+    }
+
+    private void UpdateInstructions()
+    {
+        if (_instructionsText.text.Length > 1 && !_instructionsParent.activeInHierarchy) {
+            _instructionsParent.SetActive(true);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_instructionsParent.GetComponent<RectTransform>());
+        }
+        _instructionsParent.SetActive(_instructionsText.text.Length > 0);
+    }
 }

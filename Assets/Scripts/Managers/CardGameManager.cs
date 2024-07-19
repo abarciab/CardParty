@@ -197,6 +197,16 @@ public class CardGameManager : GameManager
 
     public IEnumerator CardPlayFunction_Coroutine(CardObject cardObject, CardPlayData data) {
 
+        //var targets;
+        //await SelectTargets(data.TargetTypes, out targets)
+        //if (Attacks) targets.attack();
+        //if (block) targets.block();
+        //if (burn) targets.block();
+        //if (draw1) targets.block();
+
+        //if (exhaust) targets.block();
+        //discard()
+
         if (data.Function == Function.ATTACK) {
             List<System.Type> requiredTargets = new List<System.Type>() { typeof(Enemy) };
 
@@ -240,6 +250,7 @@ public class CardGameManager : GameManager
             CurrCombatState = CombatState.PlayerTurn;
         }
 
+        CardGameUIManager.i.AddToDiscardPile(cardObject.CardData);
         Destroy(cardObject.gameObject);
     }
 

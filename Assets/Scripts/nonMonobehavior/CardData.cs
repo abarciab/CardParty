@@ -64,44 +64,6 @@ public class CardData : ScriptableObject
         return string.Join("\n", output);
     }
 
-    public void Play() {
-        _currCardCoroutine = Play_Coroutine();
-        CardObject.StartCoroutine(_currCardCoroutine);
-    }
-
-    private IEnumerator Play_Coroutine() {
-        switch (_function) {
-            case Function.ATTACK: {
-                List<System.Type> requiredTargets = new List<System.Type>() {typeof(Enemy)};
-
-                // wait until valid targets have been selected
-                _currSelectTargets = CardGameManager.i.SelectTargets(requiredTargets);
-                yield return CardGameManager.i.StartCoroutine(_currSelectTargets);
-
-                Creature defender = ((List<Creature>)_currSelectTargets.Current).Find(x => x.GetType() == typeof(Enemy));
-
-                yield return _owner.StartCoroutine(Utilities.LerpToAndBack(_owner.gameObject, defender.transform.position));
-                defender.TakeDamage(_amount);
-
-                CardGameManager.i.CardEndsPlay(CardObject);
-            }
-            break;
-                
-            case Function.BLOCK: {
-                List<System.Type> requiredTargets = new List<System.Type>() {typeof(Adventurer)};
-
-                _owner.AddBlock(_amount);
-
-                CardGameManager.i.CardEndsPlay(CardObject);
-            }
-            break;
-        }
-
-        //DoSpecial();
-
-        yield return null;
-    }
-
     public CardPlayData GetPlayData(Adventurer OwnerAdventurer) {
         if (_function == Function.SPECIAL) {
             return new CardPlayData(OwnerAdventurer, _function, 0);

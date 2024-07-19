@@ -10,7 +10,7 @@ public class CardObject: MonoBehaviour
     [Header("Parameters")]
     [SerializeField] private float _hoveredWidth = 550;
     [SerializeField] private Vector2 _randomRotRange = new Vector2(-3, 3);
-    [SerializeField] private float _hoverJumpUpDist = 2;
+    [SerializeField] private float _hoverJumpUpDist = 35;
     [SerializeField, Tag] private string _playZoneTag;
 
     [Header("References")]
@@ -24,8 +24,6 @@ public class CardObject: MonoBehaviour
     [HideInInspector] public CardData CardData { get; private set; }
 
     private bool _isBeingdragged = false;
-    private bool _isBeingPlayed = false;
-    private bool _isInteractable = true;
     private float _startY;
     private float _originalWidth;
     private int _handSiblingIndex;
@@ -87,7 +85,7 @@ public class CardObject: MonoBehaviour
 
     public void Initialize(CardData data, Hand handController)
     {
-        this.CardData = data;
+        CardData = data;
         _handController = handController;
         _display.Initialize(data);
         transform.localScale = Vector3.one;
@@ -133,9 +131,6 @@ public class CardObject: MonoBehaviour
     }
 
     private void PlayCard() {
-        _isBeingPlayed = true;
-        _isInteractable = false;
-
         _handController.RemoveCard(this);
         _handController.MoveToDisplay(this);
         CardGameManager.i.PlayCard(this);
@@ -146,9 +141,6 @@ public class CardObject: MonoBehaviour
     }
 
     public void MoveFromDisplay() {
-        _isBeingPlayed = false;
-        _isInteractable = true;
-
         CardGameManager.i.MoveCardFromDisplay();
     }
 }

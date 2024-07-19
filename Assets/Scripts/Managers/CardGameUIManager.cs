@@ -5,6 +5,9 @@ using TMPro;
 
 public class CardGameUIManager : UIManager
 {
+    public new static CardGameUIManager i;
+    protected override void Awake() { base.Awake(); i = this; }
+
     [Header("References")]
     [SerializeField] private TextMeshProUGUI _instructionsText;
     [SerializeField] private TextMeshProUGUI _actionsCounter;

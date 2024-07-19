@@ -44,6 +44,7 @@ public class CardGameManager : GameManager
     [SerializeField] private GameObject _combatSlotPrefab;
     public CardData CurrPlayedCard;
     private System.Random _r = new System.Random();
+
     protected override void Awake() {
         base.Awake();
         i = this;
@@ -140,7 +141,6 @@ public class CardGameManager : GameManager
         } else {
             _defeatScreen.SetActive(true);
         }
-
     }
 
     public void ExitCombatScreen() {

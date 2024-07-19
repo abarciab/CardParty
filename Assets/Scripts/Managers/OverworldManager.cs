@@ -25,6 +25,9 @@ public class OverworldManager : GameManager
     {
         _UIManager = UIManager.i;
         _AudioManager = AudioManager.i;
+        
+        print("initializing playerInfo");
+        PlayerInfo.InitializeEmpty();
     }
 
     public void ShowOverworldObjects()

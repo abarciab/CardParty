@@ -3,100 +3,142 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEditor;
+using MyBox;
 
-public class CardObject: MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+public class CardObject: MonoBehaviour
 {
-    public static int interactionTimeoutIdStream = 0;
-    private List<int> interactionTimeoutIds = new List<int>();
-    public GameObject Graphic;
-    public CardData CardData;
+    [Header("Parameters")]
+    [SerializeField] private float _hoveredWidth = 550;
+    [SerializeField] private Vector2 _randomRotRange = new Vector2(-3, 3);
+    [SerializeField] private float _hoverJumpUpDist = 2;
+    [SerializeField, Tag] private string _playZoneTag;
 
-    public Vector3 LocalOriginPosition;
-    public Quaternion LocalOriginRotation;
+    [Header("References")]
+    [SerializeField] private SelectableItem _selectable;
+    [SerializeField] private PlayableCardDisplay _display;
 
-    private bool _isHover = false;
+    [Header("Animation")]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private string _shakingAnimString = "shaking";
+
+    [HideInInspector] public CardData CardData { get; private set; }
+
     private bool _isBeingdragged = false;
     private bool _isBeingPlayed = false;
-    private bool _isShaking = false;
     private bool _isInteractable = true;
-    private IEnumerator _currPlayedCardCoroutine;
-    public CardObject CurrPlaceHolderCard;
+    private float _startY;
+    private float _originalWidth;
+    private int _handSiblingIndex;
+
+    private RectTransform _rTransform;
+    private Hand _handController;
+    private Transform _handGridParent;
+
+    private void Start()
+    {
+        _startY = _display.transform.localPosition.y;
+        _rTransform = GetComponent<RectTransform>();
+        _originalWidth = _rTransform.sizeDelta.x;
+
+        _selectable.OnHover.AddListener(StartHover);
+        _selectable.OnEndHover.AddListener(EndHover);
+        _selectable.OnSelect.AddListener(StartDrag);
+    }
+
+    private void EndHover()
+    {
+        _animator.SetBool(_shakingAnimString, false);
+        SetWidth(_originalWidth);
+        SetY(_startY);
+    }
+
+    private void StartHover()
+    {
+        _animator.SetBool(_shakingAnimString, true);
+        SetWidth(_hoveredWidth);
+        SetY(_startY + _hoverJumpUpDist);
+    }
+
+    private void SetY(float y)
+    {
+        var pos = _display.transform.localPosition;
+        pos.y = y;
+        _display.transform.localPosition = pos;
+    }
+
+    private void SetWidth(float width)
+    {
+        var size = _rTransform.sizeDelta;
+        size.x = width;
+        _rTransform.sizeDelta = size;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(transform.parent.GetComponent<RectTransform>());
+    }
  
     void Update()
     {
-        if (_isBeingdragged) {
-            //Vector3 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //mousePoint.z = 0;
-            transform.position = Input.mousePosition;
-        }
+        if (_isBeingdragged) UpdateDrag(); 
     }
 
-    public void OnPointerEnter(PointerEventData eventData) {
-        if (_isInteractable) {
-            _isHover = true;
-            if (!_isBeingPlayed && !_isShaking) {
-                StartCoroutine(Shake());
-            }
-        }
-    }
- 
-    public void OnPointerExit(PointerEventData eventData) {
-        _isHover = false;
-    }
- 
-    public void OnPointerDown(PointerEventData eventData) {
-        if (!_isBeingPlayed) {
-            if (_isInteractable && _isHover && !_isShaking) {
-                if (CardGameManager.i.CurrPlayedCard) {
-                    CardGameManager.i.CurrPlayedCard.CardObject.CancelPlay();
-                }
-                StartDrag();
-            }
-        } else {
-            //if card is already in the display
-            if (CardGameManager.i.CurrPlayedCard) CancelPlay();
-        }
-    }
- 
-    public void OnPointerUp(PointerEventData eventData) {
-        if (!_isInteractable || !_isBeingdragged) return;
-        
-        if (CardGameManager.i.HoveredPlayZone && !CardGameManager.i.CurrPlayedCard && CardGameManager.i.CurrCombatState == CombatState.PlayerTurn) {
-            EndDrag();
-            StartCoroutine(PlayCard());
-        } else {
-            transform.localPosition = LocalOriginPosition;
-            EndDrag();
-        }
+    private void UpdateDrag()
+    {
+        transform.position = Input.mousePosition;
+        if (Input.GetMouseButtonUp(0)) EndDrag();
     }
 
-    void StartDrag() {
+    public void Initialize(CardData data, Hand handController)
+    {
+        this.CardData = data;
+        _handController = handController;
+        _display.Initialize(data);
+        transform.localScale = Vector3.one;
+        transform.localEulerAngles = Vector3.forward * Random.Range(_randomRotRange.x, _randomRotRange.y);
+        _handGridParent = transform.parent;
+    }
+
+    void StartDrag()
+    {
+        EndHover();
+        _handSiblingIndex = transform.GetSiblingIndex();
+        _selectable.SetEnabled(false);
+
         _isBeingdragged = true;
-        CardGameManager.i.DraggedCard = this;
-        Graphic.GetComponent<Image>().raycastTarget = false;
+        transform.SetParent(transform.parent.parent);
     }
 
     void EndDrag() {
         _isBeingdragged = false;
-        CardGameManager.i.DraggedCard = null;
-        Graphic.GetComponent<Image>().raycastTarget = true;
+
+        if (IsCurrentlyInPlayZone()) PlayCard();
+        else ReturnToHand();
     }
 
-    public IEnumerator Shake() {
-        _isShaking = true;
-        yield return StartCoroutine(Utilities.ShakeObject(Graphic));
-        _isShaking = false;
+    private bool IsCurrentlyInPlayZone()
+    {
+        PointerEventData pointerData = new PointerEventData(EventSystem.current);
+        pointerData.position = Input.mousePosition;
+
+        var results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, results);
+        foreach (var r in results) {
+            if (r.gameObject.CompareTag(_playZoneTag)) return true;
+        }
+        return false;
     }
 
-    private IEnumerator PlayCard() {
-        if (_isBeingPlayed || CardGameManager.i.CurrCombatState != CombatState.PlayerTurn) yield break;
+    private void ReturnToHand()
+    {
+        transform.SetParent(_handGridParent);
+        transform.SetSiblingIndex(_handSiblingIndex);
+        _selectable.SetEnabled(true);
+    }
 
+    private void PlayCard() {
         _isBeingPlayed = true;
         _isInteractable = false;
-        EndDrag();
 
-        CardGameManager.i.CardStartsPlay(this);
+        _handController.RemoveCard(this);
+        _handController.MoveToDisplay(this);
+        CardGameManager.i.PlayCard(this);
     }
 
     public void CancelPlay() {
@@ -108,20 +150,5 @@ public class CardObject: MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         _isInteractable = true;
 
         CardGameManager.i.MoveCardFromDisplay();
-    }
-
-    public void DisableInteractionForSeconds(float duration) {
-        _isInteractable = false;
-
-        int newInteractionTimeoutId = interactionTimeoutIdStream++;
-        interactionTimeoutIds.Add(newInteractionTimeoutId);
-        StartCoroutine(DisableInteractionForSeconds_Timeout(duration, newInteractionTimeoutId));
-    }
-
-    private IEnumerator DisableInteractionForSeconds_Timeout(float duration, int interactionTimeoutId) {
-        yield return new WaitForSeconds(duration);
-        interactionTimeoutIds.Remove(interactionTimeoutId);
-
-        if (interactionTimeoutIds.Count == 0) _isInteractable = true;
     }
 }

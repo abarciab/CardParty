@@ -17,6 +17,15 @@ public class Party
     private const int _mainIndex = 2;
     private const int _innateCardTotal = 6;
 
+    public override string ToString()
+    {
+        var output = "";
+        foreach (var Adventurer in Adventurers) {
+            output += Adventurer + ": " + string.Join(", ", _equipmentDict[Adventurer]) + "\n";
+        }
+        return output;
+    }
+
     public void KillRandomAdventurer()
     {
         FireAdventurer(Adventurers[Random.Range(0, Adventurers.Count)]);

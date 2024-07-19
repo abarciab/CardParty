@@ -8,14 +8,11 @@ using System.Linq;
 public class CardGameManager : GameManager
 {
     public new static CardGameManager i;
-    public Combat TestCombat;
-    public Party TestParty;
     const float BUFFER_TIME = 1f;
     const float CREATURE_SPACING = 10f;
     public CombatState CurrCombatState;
     public Deck Deck;
     public Canvas UICanvas;
-    public CardObject DraggedCard;
     public PlayZone HoveredPlayZone;
     [SerializeField] private Hand _hand;
     [SerializeField] private TMP_Text _instructionsText;
@@ -50,12 +47,6 @@ public class CardGameManager : GameManager
     protected override void Awake() {
         base.Awake();
         i = this;
-
-        if (PlayerInfo.Party.Adventurers.Count > 0) {
-            StartCoroutine(StartCombat(TestCombat, PlayerInfo.Party));
-        } else {
-            StartCoroutine(StartCombat(TestCombat, TestParty));
-        }
     }
 
     protected override void Update() {
@@ -67,7 +58,7 @@ public class CardGameManager : GameManager
             foreach(RaycastHit hit in hits) {
                 Creature creature = hit.collider.gameObject.GetComponent<Creature>();
                 if (creature) {
-                    if (CardGameManager.i.SelectedCreatures.Contains(creature)) {
+                    if (SelectedCreatures.Contains(creature)) {
                         creature.Deselect();
                     } else {
                         creature.Select();
@@ -96,6 +87,11 @@ public class CardGameManager : GameManager
         else SceneManager.LoadScene(1);
     }
     
+    public void StartCombat(Combat combat)
+    {
+        StartCoroutine(StartCombat(combat, PlayerInfo.Party));
+    }
+
     public IEnumerator StartCombat(Combat combat, Party party) {
         //spawn enemies
         float absBound = ((float)combat.enemies.Length - 1) / 2 * CREATURE_SPACING;
@@ -124,16 +120,12 @@ public class CardGameManager : GameManager
             float newCombatSlotPosX = Mathf.Lerp(-absBound, absBound, adventurerData.Count != 1 ? i / ((float)adventurerData.Count - 1) : 0.5f);
             newCombatSlot.transform.localPosition = new Vector3(newCombatSlotPosX, 0, 0);
             _adventurers.Add(newAdventurer.GetComponent<Adventurer>());
-            newAdventurer.GetComponent<Adventurer>().AdventurerData = adventurerData[i];
+            newAdventurer.GetComponent<Adventurer>().Initialize(adventurerData[i]);
         }
 
         //construct deck
 
-        foreach (AdventurerData data in party.Adventurers) {
-            foreach (CardData card in data.Cards) {
-                Deck.AddCard(card);
-            }
-        }
+        Deck.Initialize();
 
         yield return new WaitForSeconds(BUFFER_TIME / 2);
 
@@ -157,13 +149,12 @@ public class CardGameManager : GameManager
         _defeatScreen.SetActive(false);
 
         // add combat rewards here
-        print("exiting combat");
     }
 
     public void StartPlayerTurn() {
         CurrCombatState = CombatState.PlayerTurn;
 
-        _instructionsText.text = "Player Turn!";
+        //_instructionsText.text = "Player Turn!";
         Actions = 3;
 
         _hand.DrawUntilFull();
@@ -196,42 +187,38 @@ public class CardGameManager : GameManager
         StartPlayerTurn();
     }
 
-    public void CardStartsPlay(CardObject cardObject) {
-        CurrPlayedCard = cardObject.CardData;
-        _hand.MoveToDisplayAndPlay(cardObject);
-    }
+    public void PlayCard(CardObject cardObject) {
+        var data = cardObject.CardData;
+        CurrPlayedCard = data;
+        var playData = data.GetPlayData(GetOwnerAdventurer(cardObject));
 
-    public void CardPlayFunction(CardObject cardObject, CardPlayData data) {
-        StartCoroutine(CardPlayFunction_Coroutine(cardObject, data));
+        StartCoroutine(CardPlayFunction_Coroutine(cardObject, playData));
     }
 
     public IEnumerator CardPlayFunction_Coroutine(CardObject cardObject, CardPlayData data) {
-        switch (data.Function) {
-            case Function.ATTACK: {
-                List<System.Type> requiredTargets = new List<System.Type>() {typeof(Enemy)};
 
-                IEnumerator currSelectTargets = SelectTargets(requiredTargets);
-                yield return StartCoroutine(currSelectTargets);
+        if (data.Function == Function.ATTACK) {
+            List<System.Type> requiredTargets = new List<System.Type>() { typeof(Enemy) };
 
-                Creature defender = ((List<Creature>)currSelectTargets.Current).Find(x => x.GetType() == typeof(Enemy));
+            IEnumerator currSelectTargets = SelectTargets(requiredTargets);
+            yield return StartCoroutine(currSelectTargets);
 
-                yield return StartCoroutine(Utilities.LerpToAndBack(data.Owner.gameObject, defender.transform.position));
-                defender.TakeDamage(data.Amount);
-            }
-            break;
-                
-            case Function.BLOCK: {
-                List<System.Type> requiredTargets = new List<System.Type>() {typeof(Adventurer)};
+            Creature defender = ((List<Creature>)currSelectTargets.Current).Find(x => x.GetType() == typeof(Enemy));
 
-                IEnumerator currSelectTargets = SelectTargets(requiredTargets);
-                yield return StartCoroutine(currSelectTargets);
+            yield return StartCoroutine(Utilities.LerpToAndBack(data.Owner.gameObject, defender.transform.position));
+            defender.TakeDamage(data.Amount);
+        }
+        else if (data.Function == Function.BLOCK) {
 
-                Creature defendee = ((List<Creature>)currSelectTargets.Current).Find(x => x.GetType() == typeof(Adventurer));
+            List<System.Type> requiredTargets = new List<System.Type>() { typeof(Adventurer) };
 
-                yield return StartCoroutine(Utilities.LerpToAndBack(data.Owner.gameObject, defendee.transform.position));
-                defendee.AddBlock(data.Amount);
-            }
-            break;
+            IEnumerator currSelectTargets = SelectTargets(requiredTargets);
+            yield return StartCoroutine(currSelectTargets);
+
+            Creature defendee = ((List<Creature>)currSelectTargets.Current).Find(x => x.GetType() == typeof(Adventurer));
+
+            yield return StartCoroutine(Utilities.LerpToAndBack(data.Owner.gameObject, defendee.transform.position));
+            defendee.AddBlock(data.Amount);
         }
 
         //DoSpecial();
@@ -319,17 +306,15 @@ public class CardGameManager : GameManager
         }
     }
 
-    public Adventurer GetOwnerAdventurer(CardObject cardObject) {
-        foreach (Adventurer dude in _adventurers) {
-            if (dude.AdventurerData.Cards.Contains(cardObject.CardData)) return dude;
-        }
-        return null;
-    }
+    public Adventurer GetOwnerAdventurer(CardObject cardObject) => GetOwnerAdventurer(cardObject.CardData);
 
     public Adventurer GetOwnerAdventurer(CardData cardData) {
-        foreach (Adventurer dude in _adventurers) {
-            if (dude.AdventurerData.Cards.Contains(cardData)) return dude;
+        var owner = cardData.Owner;
+
+        foreach (Adventurer adventurerCoord in _adventurers) {
+            if (adventurerCoord.AdventurerData == owner) return adventurerCoord;
         }
+        print("didn't find adventurer for data: " + owner);
         return null;
     }
 

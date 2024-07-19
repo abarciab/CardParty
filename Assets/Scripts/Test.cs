@@ -5,4 +5,6 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
+    //public void PRINT() => print("HI");
+
 }

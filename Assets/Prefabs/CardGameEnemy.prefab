@@ -448,17 +448,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 8993101643681928157}
+  CombatSlot: {fileID: 0}
   _healthSlider: {fileID: 5153128187678830978}
   _blockSlider: {fileID: 5916237639070223711}
-  _health: 100
-  _maxHealth: 100
+  _health: 250
+  _maxHealth: 250
   _block: 0
   _maxBlock: 100
   SelectedCreatureHighlight: {fileID: 0}
   EnemyType: 0
   _attackArrowPrefab: {fileID: 8950550944644529447, guid: 014527dbbc63f8040b8f2a1d6d0331f8, type: 3}
   AttackArrow: {fileID: 0}
-  _attackDamage: 0
+  _attackDamage: 10
 --- !u!1 &6384429990764305690
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,20 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OverworldTestHarness : MonoBehaviour
+public class CardGameTestHarness : MonoBehaviour
 {
     [SerializeField] private List<Equipment> _testItemSet = new List<Equipment>();
-    [SerializeField] private List<AdventurerData> _testAdventurerList = new List<AdventurerData>();
+    [SerializeField] private List<AdventurerData> _testParty = new List<AdventurerData>();
+    public Combat TestCombat;
     [SerializeField] private List<Equipment> _testEquipmentLoad = new List<Equipment>();
-
-    [SerializeField] private string _inputString = "banana";
-    [SerializeField] private string _searchTerm = "b";
 
     [SerializeField] private int _testDamage;
 
+    [SerializeField] private bool _startTestEncounterOnStart = true;
+
     private void Start()
     {
-        if (PlayerInfo.Party.Adventurers.Count == 0) LoadTestData();
+        if (!OverworldManager.i) LoadTestData();
+        if (_startTestEncounterOnStart) StartTestEncounter();
+    }
+
+    private void StartTestEncounter()
+    {
+        CardGameManager.i.StartCombat(TestCombat);
     }
 
     [ButtonMethod]
@@ -24,10 +30,10 @@ public class OverworldTestHarness : MonoBehaviour
     {
         PlayerInfo.InitializeEmpty();
         PlayerInfo.Inventory.LoadItemList(_testItemSet);
-        PlayerInfo.Party.SetParty(_testAdventurerList);
+        PlayerInfo.Party.SetParty(_testParty);
 
         foreach (var equipment in _testEquipmentLoad) {
-            PlayerInfo.Party.SetEquipment(_testAdventurerList[0], equipment, equipment.Slot);
+            PlayerInfo.Party.SetEquipment(_testParty[0], equipment, equipment.Slot);
         }
     }
 
@@ -36,4 +42,6 @@ public class OverworldTestHarness : MonoBehaviour
     {
         PlayerInfo.Party.Adventurers[0].Stats.CurrentHealth -= _testDamage;
     }
+
+    [ButtonMethod] private void PrintParty() => print(PlayerInfo.Party.ToString());
 }

@@ -2112,11 +2112,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97b42e1d0a1f9134a8eea6a44a4403ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _testItemSet:
-  - {fileID: 11400000, guid: 359fe01e39dc7b446a08605805765fca, type: 2}
+  _testItemSet: []
   _testAdventurerList:
   - {fileID: 11400000, guid: 18abc88bd85dee948b189dd72b0de879, type: 2}
-  - {fileID: 11400000, guid: b202140e289432e4fafe9afbad030611, type: 2}
   _testEquipmentLoad: []
   _inputString: banana
   _searchTerm: b
@@ -3660,6 +3658,14 @@ PrefabInstance:
     - target: {fileID: 8085928205908684674, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357521029357625117, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
+      propertyPath: _maxSpeed
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8357521029357625117, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
+      propertyPath: _minSpeed
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 8357521029357625117, guid: edef2ab881872e347bb349d3dfb446a6, type: 3}
       propertyPath: _walkTargetVisual

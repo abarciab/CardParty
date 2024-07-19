@@ -102,12 +102,12 @@ public class CardData : ScriptableObject
         yield return null;
     }
 
-    public CardPlayData GetPlayData() {
+    public CardPlayData GetPlayData(Adventurer OwnerAdventurer) {
         if (_function == Function.SPECIAL) {
-            return new CardPlayData(CardGameManager.i.GetOwnerAdventurer(CardObject), _function, 0);
+            return new CardPlayData(OwnerAdventurer, _function, 0);
         }
 
-        return new CardPlayData(CardGameManager.i.GetOwnerAdventurer(CardObject), _function, 50);
+        return new CardPlayData(OwnerAdventurer, _function, 50);
     }
 
     public void CancelPlay() {

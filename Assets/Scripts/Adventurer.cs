@@ -7,7 +7,7 @@ using System.Linq;
 
 public class Adventurer : Creature
 {
-    public AdventurerData AdventurerData;
+    public AdventurerData AdventurerData { get; private set; }
     private bool _isBeingDragged = false;
 
     private void Update() {
@@ -37,6 +37,12 @@ public class Adventurer : Creature
 
             transform.position = new Vector3(P.x, 5, P.z);
         }
+    }
+
+    public void Initialize(AdventurerData data)
+    {
+        AdventurerData = data;
+        gameObject.name = data.name;
     }
 
     private bool IsHover() {

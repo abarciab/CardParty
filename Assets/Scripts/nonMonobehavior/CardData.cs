@@ -5,7 +5,7 @@ using System;
 using MyBox;
 using System.Threading.Tasks;
 
-public enum Function { NONE, ATTACK, BLOCK, DRAW, SPECIAL }
+public enum Function { NONE, ATTACK, BLOCK, DRAW, ADDCARDS, STATUS}
 
 [Serializable]
 public class CardPlayData {
@@ -23,15 +23,9 @@ public class CardPlayData {
 public class CardFunctionData {
     public Function Function;
     [ConditionalField (nameof(Function), inverse:true, Function.NONE)] public float Amount = 50;
-    [ConditionalField (nameof(Function), inverse:true, Function.NONE)] public CardSpecialData CardSpecialData;
-    [ConditionalField (nameof(Function), false, Function.SPECIAL)] public List<System.Type> Targets;
-
-    public CardFunctionData(Function newFunction, int newAmount, List<System.Type> newTargets, CardSpecialData newSpecialData = null) {
-        Function = newFunction;
-        Amount = newAmount;
-        Targets = newTargets;
-        CardSpecialData = newSpecialData;
-    }
+    [ConditionalField (nameof(Function), inverse:false, Function.ADDCARDS)] public CardData CardData;
+    [ConditionalField (nameof(Function), inverse:false, Function.STATUS)] public StatusEffectData StatusEffectData;
+    public List<System.Type> Targets;
 }
 
 [CreateAssetMenu(fileName = "CardData")]
@@ -71,7 +65,6 @@ public class CardData : ScriptableObject
             if (cardFunctionData.Function == Function.ATTACK) output.Add("Attack " + (_targetAll ? "all " : "") + Utilities.Parenthize(cardFunctionData.Amount));
             if (cardFunctionData.Function == Function.BLOCK) output.Add("Block " + Utilities.Parenthize(cardFunctionData.Amount));
             if (cardFunctionData.Function == Function.DRAW) output.Add("Draw  " + Utilities.Parenthize(cardFunctionData.Amount));
-            output.AddRange(cardFunctionData.CardSpecialData.GetMoveData());
         }
         if (_exhaust) output.Add("Exhaust");
         return string.Join("\n", output);
@@ -82,7 +75,7 @@ public class CardData : ScriptableObject
 
         //fill in assumed values, e.g. attacks having one target that is an enemy
         for (int i = 0; i < res.Count; i++) {
-            if (res[i].Function == Function.ATTACK) res[i].Targets = new List<System.Type>(){typeof(Enemy)};
+            if (res[i].Function == Function.ATTACK || res[i].Function == Function.STATUS) res[i].Targets = new List<System.Type>(){typeof(Enemy)};
         }
 
         return new CardPlayData(CardGameManager.i.GetAdventurerObject(Owner), res);

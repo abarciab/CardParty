@@ -27,6 +27,7 @@ public class Enemy : Creature
     public AttackArrow AttackArrow;
     [SerializeField] private float _attackDamage;
     public async Task Action(List<Adventurer> adventurers, List<Enemy> enemies) {
+        if (_isStunned) return;
         switch(_nextAction.Action) {
             case EnemyActionType.Attack: {
                 Adventurer target = (Adventurer)_nextAction.TargetSlot.Creature;

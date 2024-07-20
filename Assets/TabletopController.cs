@@ -120,6 +120,14 @@ public class TabletopController : MonoBehaviour
         return adventurerCombatSlots[0];
     }
 
+    public List<Adventurer> GetAdventurers() {
+        return _adventurerObjs;
+    }
+
+    public List<Enemy> GetEnemies() {
+        return _enemyObjs;
+    }
+
     public void RemoveCreature(Creature creature)
     {
         if (creature.GetType() == typeof(Enemy)) {

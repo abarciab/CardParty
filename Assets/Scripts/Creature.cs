@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine.EventSystems;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 public class Creature : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Creature : MonoBehaviour
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _block = 0;
     [SerializeField] private int _maxBlock;
+    protected bool _isStunned = false;
+    private Dictionary<StatusEffectTriggerTime, List<StatusEffect>> _statusEffects = new Dictionary<StatusEffectTriggerTime, List<StatusEffect>>();
 
     public GameObject SelectedCreatureHighlight;
     protected TabletopController Controller;
@@ -51,10 +54,54 @@ public class Creature : MonoBehaviour
         _blockSlider.value = (_block / (float)_maxBlock);
     }
 
-    public async void Die() { 
+    public virtual async void Die() {
         await Utilities.LerpScale(gameObject, Vector3.zero);
         await Task.Delay(500);
         Controller.RemoveCreature(this);
         Destroy(gameObject);
+    }
+
+    public void AddStatusEffect(StatusEffectData statusEffectData) {
+        StatusEffect newStatus = new StatusEffect(statusEffectData);
+        StatusEffectTriggerTime newTime = newStatus.StatusEffectTriggerTime;
+
+        if (!_statusEffects.Keys.Contains(newTime)) {
+            _statusEffects.Add(newTime, new List<StatusEffect>());
+        } else {
+            for (int i = 0; i < _statusEffects[newTime].Count; i++) {
+                if (newStatus.StatusEffectType == _statusEffects[newTime][i].StatusEffectType) {
+                    _statusEffects[newTime][i] = _statusEffects[newTime][i] + newStatus;
+                    return;
+                }
+            }
+        }
+        _statusEffects[newTime].Add(newStatus);
+        _statusEffects[newTime].OrderBy(x => (int)x.StatusEffectType);
+    }
+
+    private void RemoveStatusEffect(StatusEffect status) {
+        _statusEffects[status.StatusEffectTriggerTime].Remove(status);
+    }
+
+    public void TriggerStatusEffects(StatusEffectTriggerTime time) {
+        if (!_statusEffects.Keys.Contains(time)) return;
+
+        List<StatusEffect> toRemove = new List<StatusEffect>();
+
+        foreach (StatusEffect status in _statusEffects[time]) {
+            if (status.StatusEffectType == StatusEffectType.STUN) {
+                if (status.Duration == 0) {
+                    _isStunned = false;
+                    toRemove.Add(status);
+                } else {
+                    _isStunned = true;
+                    status.Duration--;
+                }
+            }
+        }
+
+        foreach (StatusEffect status in toRemove) {
+            RemoveStatusEffect(status);
+        }
     }
 }

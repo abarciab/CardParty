@@ -25,9 +25,11 @@ public class CardGameManager : GameManager
 
     [HideInInspector] public List<Creature> SelectedCreatures = new List<Creature>();
     [HideInInspector] public CardObject CurrPlayedCard;
-    [HideInInspector] public UnityEvent OnStartCombat;
-    [HideInInspector] public UnityEvent OnStartEnemyTurn;
-    [HideInInspector] public UnityEvent OnStartPlayerTurn;
+    [HideInInspector] public UnityEvent OnStartCombat = new UnityEvent();
+    [HideInInspector] public UnityEvent OnStartEnemyTurn = new UnityEvent();
+    [HideInInspector] public UnityEvent OnStartPlayerTurn = new UnityEvent();
+    [HideInInspector] public UnityEvent OnEndEnemyTurn = new UnityEvent();
+    [HideInInspector] public UnityEvent OnEndPlayerTurn = new UnityEvent();
 
     [HideInInspector] public CombatState CurrCombatState { get; private set; }
     [HideInInspector]public int Actions { get; private set; }
@@ -118,6 +120,7 @@ public class CardGameManager : GameManager
     public void EndPlayerTurn() {
         CurrCombatState = CombatState.Idle;
 
+        OnEndPlayerTurn.Invoke();
         StartEnemyTurn();
     }
 
@@ -129,6 +132,8 @@ public class CardGameManager : GameManager
         await Task.Delay(TURN_WAIT_TIME);
 
         await _tableTop.TakeEnemyActions(TURN_WAIT_TIME);
+
+        OnEndEnemyTurn.Invoke();
 
         CurrCombatState = CombatState.Idle;
 
@@ -157,8 +162,15 @@ public class CardGameManager : GameManager
             else if (cardFunctionData.Function == Function.BLOCK) {
                 cardPlayData.Owner.AddBlock(cardFunctionData.Amount);
             }
-
-            //DoSpecial();
+            else if (cardFunctionData.Function == Function.DRAW) {
+                CardGameUIManager.i.Draw((int)cardFunctionData.Amount);
+            }
+            else if (cardFunctionData.Function == Function.ADDCARDS) {
+                CardGameUIManager.i.AddToDeck(cardFunctionData.CardData, count : (int)cardFunctionData.Amount);
+            }
+            else if (cardFunctionData.Function == Function.STATUS) {
+                selectedTargets[0].AddStatusEffect(cardFunctionData.StatusEffectData);
+            }
         }
 
         CardEndsPlay(cardObject);
@@ -234,7 +246,6 @@ public class CardGameManager : GameManager
     public Adventurer GetOwnerAdventurer(CardData cardData) => _tableTop.GetAdventurerObject(cardData.Owner);
     public Adventurer GetAdventurerObject(AdventurerData ownerData) => _tableTop.GetAdventurerObject(ownerData);
 
-
     public void UpdateAttackArrow(CombatSlot blockSlot) {       
         if (blockSlot.Creature) {
             blockSlot.AttackArrow.SetArrow(blockSlot.AttackArrow.Owner.transform.position, blockSlot.transform.position);
@@ -242,6 +253,10 @@ public class CardGameManager : GameManager
             blockSlot.AttackArrow.SetArrow(blockSlot.AttackArrow.Owner.transform.position, blockSlot.AttackArrow.Owner.GetTarget().transform.position);
         }
     }
+
+    public List<Adventurer> GetAdventurers() => _tableTop.GetAdventurers();
+    public List<Enemy> GetEnemies() => _tableTop.GetEnemies();
+
 }
 
 public enum CombatState {

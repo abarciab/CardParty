@@ -20,10 +20,19 @@ public class Deck : MonoBehaviour
         _discardPileObj.SetActive(false);
     }
 
-    public void AddToDiscard(CardData data)
+    public void AddToDeck(CardData data, int count = 1, bool random = true) {
+        for (int i = 0; i < count; i++) {
+            _cards.Insert(random ? Random.Range(0, _cards.Count) : 0, data);
+        }
+    }
+
+    public void AddToDiscard(CardData data, int count = 1)
     {
-        _discardPile.Add(data);
         _discardPileObj.SetActive(true);
+
+        for (int i = 0; i < count; i++) {
+            _discardPile.Add(data);
+        }
     }
 
     public void Draw(int count = 1) {

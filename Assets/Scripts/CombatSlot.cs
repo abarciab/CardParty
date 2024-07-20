@@ -40,7 +40,6 @@ public class CombatSlot : MonoBehaviour
 
     public void MoveCreature() {
         if (!Creature) return;
-        print(_controller.GetRandomAdventurerSlot(empty: true));
         SetCreature(Creature, targetSlot: _controller.GetRandomAdventurerSlot(empty: true));
     }
 }

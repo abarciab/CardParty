@@ -25,8 +25,10 @@ public class CardGameUIManager : UIManager
     [SerializeField] private PlayableCardDisplay _cardInfo;
 
     private CardGameManager gMan => CardGameManager.i;
-
-    public void AddToDiscardPile(CardData data) => _deck.AddToDiscard(data);
+    
+    public void Draw(int count = 1) => _deck.Draw(count: count);
+    public void AddToDiscardPile(CardData data, int count = 1) => _deck.AddToDiscard(data, count: count);
+    public void AddToDeck(CardData data, int count = 1, bool random = true) => _deck.AddToDeck(data, count: count, random: random);
     public void HideInstructions() => _instructionsParent.SetActive(false);
     public void DisplayVictoryScreen() => _victoryScreen.SetActive(true);
     public void DisplayDefeatScreen() => _defeatScreen.SetActive(true);

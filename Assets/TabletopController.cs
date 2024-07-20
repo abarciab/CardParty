@@ -21,11 +21,13 @@ public class TabletopController : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject _combatSlotPrefab;
 
-    [SerializeField, ReadOnly] private List<Adventurer> _adventurerObjs = new List<Adventurer>();
-    [SerializeField, ReadOnly] private List<Enemy> _enemyObjs = new List<Enemy>();
+    [SerializeField, ReadOnly] private List<AdventurerObject> _adventurerObjs = new List<AdventurerObject>();
+    [SerializeField, ReadOnly] private List<EnemyObject> _enemyObjs = new List<EnemyObject>();
     private List<CombatSlot> _adventurerCombatSlots = new List<CombatSlot>();
     private List<CombatSlot> _enemyCombatSlots = new List<CombatSlot>();
-    private List<CombatSlot> _blockCombatSlots = new List<CombatSlot>();
+    [SerializeField, ReadOnly] private List<CombatSlot> _blockCombatSlots = new List<CombatSlot>();
+
+    private const int MAX_PARTY_SIZE = 3;
 
     private void Start()
     {
@@ -34,17 +36,42 @@ public class TabletopController : MonoBehaviour
 
     public CombatSlot SpawnBlockSlot(Vector3 position)
     {
-        GameObject newCombatSlot = Instantiate(_combatSlotPrefab, _enemyParent);
-        newCombatSlot.transform.position = position;
-        newCombatSlot.GetComponent<CombatSlot>().IsBlockSlot = true;
-        _blockCombatSlots.Add(newCombatSlot.GetComponent<CombatSlot>());
+        foreach (var blockSlot in _blockCombatSlots) {
+            var dist = Vector3.Distance(blockSlot.transform.position, position);
+            if (dist < 0.1f) {
+                print("found overlap");
+                return blockSlot;
+            }
+        }
 
-        return newCombatSlot.GetComponent<CombatSlot>();
+        GameObject newBlocKSlot = Instantiate(_combatSlotPrefab, _enemyParent);
+        newBlocKSlot.transform.position = position;
+        newBlocKSlot.GetComponent<CombatSlot>().IsBlockSlot = true;
+        _blockCombatSlots.Add(newBlocKSlot.GetComponent<CombatSlot>());
+
+        return newBlocKSlot.GetComponent<CombatSlot>();
+    }
+
+    public void ClearBlockSlot(CombatSlot blockSlot)
+    {
+        if (!blockSlot.Creature) return;
+        var emptyslot = GetRandomEmptyAdventurerSlot();
+        emptyslot.SetCreature(blockSlot.Creature);
+    }
+
+    public void UpdateAttackArrows(CombatSlot blockSlot)
+    {
+        if (blockSlot.Creature) {
+            blockSlot.AttackArrow.Initialize(blockSlot.AttackArrow.Owner.transform.position, blockSlot.transform.position);
+        }
+        else {
+            blockSlot.AttackArrow.Initialize(blockSlot.AttackArrow.Owner.transform.position, blockSlot.AttackArrow.Owner.GetTarget().transform.position);
+        }
     }
 
     public async Task TakeEnemyActions(int TURN_WAIT_TIME)
     {
-        foreach (Enemy enemy in _enemyObjs) {
+        foreach (EnemyObject enemy in _enemyObjs) {
             await enemy.Action(_adventurerObjs, _enemyObjs);
             await Task.Delay(TURN_WAIT_TIME);
         }
@@ -52,26 +79,35 @@ public class TabletopController : MonoBehaviour
 
     private void StartPlayerTurn()
     {
-        foreach (var e in _enemyObjs) e.ShowIntent(_adventurerObjs, _enemyObjs);
+        foreach (var e in _enemyObjs) e.ShowIntent();
     }
 
     public void SpawnCombatants(Combat combat)
     {
+        for (int i = 0; i < MAX_PARTY_SIZE; i++) {
+            MakeNewAdventurerSlot();
+            MakeNewEnemySlot();
+        }
+
         foreach (var a in PlayerInfo.Party.Adventurers) AddAdventurerToCombat(a);
         foreach (var e in combat.enemies) AddEnemyToCombat(e);
     }
 
     private void AddAdventurerToCombat(AdventurerData data)
     {
-        var newSlot = MakeNewSlot(_adventurerParent, ref _adventurerCombatSlots, _leftAdventurerLimit, _rightAdventurerLimit);
-        AddCreatureToSlot(newSlot, data.AdventurerPrefab, ref _adventurerObjs);
-        newSlot.Creature.GetComponent<Adventurer>().Initialize(data);
+        var emptySlots = _adventurerCombatSlots.Where(x => !x.Creature).ToList();
+        var slot = emptySlots[0];
+
+        AddCreatureToSlot(slot, data.AdventurerPrefab, ref _adventurerObjs);
+        slot.Creature.GetComponent<AdventurerObject>().Initialize(data);
     }
 
     private void AddEnemyToCombat(GameObject enemyPrefab)
     {
-        var newSlot = MakeNewSlot(_enemyParent, ref _enemyCombatSlots, _leftEnemyLimit, _rightEnemyLimit);
-        AddCreatureToSlot(newSlot, enemyPrefab, ref _enemyObjs);
+        var emptySlots = _enemyCombatSlots.Where(x => !x.Creature).ToList();
+        var slot = emptySlots[Mathf.RoundToInt((emptySlots.Count-1) / 2)];
+
+        AddCreatureToSlot(slot, enemyPrefab, ref _enemyObjs);
     }
 
     private void AddCreatureToSlot<t>(CombatSlot slot, GameObject prefab, ref List<t> list)
@@ -80,6 +116,14 @@ public class TabletopController : MonoBehaviour
         var creature = slot.Creature.GetComponent<t>();
         list.Add(creature);
     }
+
+    private void MakeNewAdventurerSlot() => MakeNewSlot(_adventurerParent, ref _adventurerCombatSlots, _leftAdventurerLimit, _rightAdventurerLimit);
+    private void MakeNewEnemySlot()
+    {
+        var slot = MakeNewSlot(_enemyParent, ref _enemyCombatSlots, _leftEnemyLimit, _rightEnemyLimit);
+        slot.HideVisuals();
+    }
+
 
     private CombatSlot MakeNewSlot(Transform parent, ref List<CombatSlot> slots, Transform leftLimit, Transform rightLimit)
     {
@@ -99,37 +143,46 @@ public class TabletopController : MonoBehaviour
         }
     }
 
-    public Adventurer GetAdventurerObject(AdventurerData adventurerData)
+    public AdventurerObject GetAdventurerObject(AdventurerData adventurerData)
     {
-        foreach (Adventurer adventurer in _adventurerObjs) {
+        foreach (AdventurerObject adventurer in _adventurerObjs) {
             if (adventurer.AdventurerData == adventurerData) return adventurer;
         }
         print("didn't find adventurer for data: " + adventurerData);
         return null;
     }
 
-    public CombatSlot GetRandomAdventurerSlot(bool empty = false)
+    public CombatSlot GetValidAttackTarget(CombatSlot _enemyPos)
     {
-        List<CombatSlot> adventurerCombatSlots = _adventurerCombatSlots.Shuffle().ToList();
-        if (empty) {
-            foreach (CombatSlot combatSlot in adventurerCombatSlots) {
-                if (combatSlot && !combatSlot.Creature) return combatSlot;
-            }
-            return null;
+        var validSlots = new List<CombatSlot>();
+        for (int i = 0; i < _enemyCombatSlots.Count; i++) {
+            if (_enemyCombatSlots[i] != _enemyPos) continue;
+
+            validSlots.Add(_adventurerCombatSlots[i]);
+            if (i > 0) validSlots.Add(_adventurerCombatSlots[i - 1]);
+            if (i < _adventurerCombatSlots.Count - 1) validSlots.Add(_adventurerCombatSlots[i + 1]);
         }
-        return adventurerCombatSlots[0];
+        validSlots = validSlots.Where(x => x.Creature).ToList();
+
+        return validSlots[Random.Range(0, validSlots.Count)];
+    }
+
+    public CombatSlot GetRandomEmptyAdventurerSlot()
+    {
+        List<CombatSlot> adventurerCombatSlots = _adventurerCombatSlots.Where(x => !x.Creature).ToList();
+        return adventurerCombatSlots[Random.Range(0, adventurerCombatSlots.Count)];
     }
 
     public void RemoveCreature(Creature creature)
     {
-        if (creature.GetType() == typeof(Enemy)) {
-            _enemyObjs.Remove((Enemy)creature);
+        if (creature.GetType() == typeof(EnemyObject)) {
+            _enemyObjs.Remove((EnemyObject)creature);
             if (_enemyObjs.Count == 0) {
                 CardGameUIManager.i.DisplayVictoryScreen();
             }
         }
-        else if (creature.GetType() == typeof(Adventurer)) {
-            _adventurerObjs.Remove((Adventurer)creature);
+        else if (creature.GetType() == typeof(AdventurerObject)) {
+            _adventurerObjs.Remove((AdventurerObject)creature);
             if (_adventurerObjs.Count == 0) {
                 CardGameUIManager.i.DisplayDefeatScreen();
             }

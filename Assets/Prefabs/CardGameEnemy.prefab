@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 166360309295752601}
   - component: {fileID: 903179390433090739}
   - component: {fileID: 3836005901863067864}
-  - component: {fileID: 8790609006241324441}
+  - component: {fileID: 2849880944713815048}
   m_Layer: 0
   m_Name: CardGameEnemy
   m_TagString: Untagged
@@ -435,7 +435,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8790609006241324441
+--- !u!114 &2849880944713815048
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -444,22 +444,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 5954159574823729094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d30ceba0d4f4ca4793b0aa98f6653da, type: 3}
+  m_Script: {fileID: 11500000, guid: 87b0d2df837c9f14482556a7582f4b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 8993101643681928157}
   CombatSlot: {fileID: 0}
   _healthSlider: {fileID: 5153128187678830978}
   _blockSlider: {fileID: 5916237639070223711}
-  _health: 250
-  _maxHealth: 250
+  _health: 100
+  _maxHealth: 100
   _block: 0
-  _maxBlock: 100
+  _maxBlock: 0
   SelectedCreatureHighlight: {fileID: 0}
   EnemyType: 0
   _attackArrowPrefab: {fileID: 8950550944644529447, guid: 014527dbbc63f8040b8f2a1d6d0331f8, type: 3}
   AttackArrow: {fileID: 0}
-  _attackDamage: 10
+  _attackDamage: 50
 --- !u!1 &6384429990764305690
 GameObject:
   m_ObjectHideFlags: 0

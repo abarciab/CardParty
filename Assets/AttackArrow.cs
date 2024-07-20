@@ -9,12 +9,12 @@ public class AttackArrow : MonoBehaviour
     [SerializeField] private GameObject head;
     [SerializeField] private GameObject tail;
     public CombatSlot BlockSlot;
-    public Enemy Owner;
+    public EnemyObject Owner;
 
     private Vector3 _posA;
     private Vector3 _posB;
 
-    public void SetArrow(Vector3 posA, Vector3 posB) {
+    public void Initialize(Vector3 posA, Vector3 posB) {
         _posA = posA;
         _posB = posB;
 

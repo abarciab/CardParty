@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Linq;
 
-public class Adventurer : Creature
+public class AdventurerObject : Creature
 {
     public AdventurerData AdventurerData { get; private set; }
     private bool _isBeingDragged = false;
@@ -53,7 +53,7 @@ public class Adventurer : Creature
         RaycastHit[] hits;
         hits = Physics.RaycastAll(ray, 100);
         foreach (RaycastHit hit in hits) {
-            if (hit.transform.gameObject.GetComponent<Adventurer>() == this) return true;
+            if (hit.transform.gameObject.GetComponent<AdventurerObject>() == this) return true;
         }
 
         return false;

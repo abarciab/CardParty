@@ -9,11 +9,11 @@ public enum Function { NONE, ATTACK, BLOCK, DRAW, ADDCARDS, STATUS}
 
 [Serializable]
 public class CardPlayData {
-    public Adventurer Owner;
+    public AdventurerObject Owner;
     
     public List<CardFunctionData> CardFunctionData;
 
-    public CardPlayData(Adventurer newOwner, List<CardFunctionData> newCardFunctionData) {
+    public CardPlayData(AdventurerObject newOwner, List<CardFunctionData> newCardFunctionData) {
         Owner = newOwner;
         CardFunctionData = newCardFunctionData;
     }
@@ -43,12 +43,12 @@ public class CardData : ScriptableObject
     private IEnumerator _currCardCoroutine;
     private IEnumerator _currSelectTargets;
 
-    private Adventurer _owner = null;
+    private AdventurerObject _owner = null;
 
     public AdventurerData Owner => PlayerInfo.Party.GetOwner(this);
 
     public void Init(AdventurerData data) {
-        _owner = data.AdventurerPrefab.GetComponent<Adventurer>();
+        _owner = data.AdventurerPrefab.GetComponent<AdventurerObject>();
     }
 
     public override bool Equals(object other)
@@ -70,7 +70,7 @@ public class CardData : ScriptableObject
         return string.Join("\n", output);
     }
 
-    public CardPlayData GetPlayData(Adventurer OwnerAdventurer) {
+    public CardPlayData GetPlayData(AdventurerObject OwnerAdventurer) {
         List<CardFunctionData> res = new List<CardFunctionData>(_cardFunctionData);
 
         //fill in assumed values, e.g. attacks having one target that is an enemy

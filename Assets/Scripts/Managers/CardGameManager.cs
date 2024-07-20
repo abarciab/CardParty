@@ -38,11 +38,6 @@ public class CardGameManager : GameManager
 
     private List<System.Type> _currValidSelectTargets = new List<System.Type>();
     private System.Random _r = new System.Random();
-    //private List<Adventurer> _adventurers = new List<Adventurer>();
-    //private List<Enemy> _enemies = new List<Enemy>();
-    //private List<CombatSlot> _adventurerCombatSlots = new List<CombatSlot>();
-    //private List<CombatSlot> _enemyCombatSlots = new List<CombatSlot>();
-    //private List<CombatSlot> _blockCombatSlots = new List<CombatSlot>();
 
     private const int TURN_WAIT_TIME = 1000;
     private const float CREATURE_SPACING = 10f;
@@ -93,7 +88,7 @@ public class CardGameManager : GameManager
         Music.FadeOutCurrent(fadeTime);
         await Task.Delay((int)(1000 * fadeTime));
         Camera.GetComponent<AudioListener>().enabled = false;
-        var unloadingTask = SceneManager.UnloadSceneAsync(2);
+        SceneManager.UnloadSceneAsync(2);
 
         if (OverworldManager.i) OverworldManager.i.ShowOverworldObjects();
         else SceneManager.LoadScene(1);
@@ -112,9 +107,7 @@ public class CardGameManager : GameManager
     public void StartPlayerTurn() {
         CurrCombatState = CombatState.PlayerTurn;
         Actions = _maxActions;
-        OnStartPlayerTurn.Invoke();
-
-        
+        OnStartPlayerTurn.Invoke();        
     }
 
     public void EndPlayerTurn() {
@@ -242,21 +235,9 @@ public class CardGameManager : GameManager
         }
     }
 
-    public Adventurer GetOwnerAdventurer(CardObject cardObject) => GetOwnerAdventurer(cardObject.CardData);
-    public Adventurer GetOwnerAdventurer(CardData cardData) => _tableTop.GetAdventurerObject(cardData.Owner);
-    public Adventurer GetAdventurerObject(AdventurerData ownerData) => _tableTop.GetAdventurerObject(ownerData);
-
-    public void UpdateAttackArrow(CombatSlot blockSlot) {       
-        if (blockSlot.Creature) {
-            blockSlot.AttackArrow.SetArrow(blockSlot.AttackArrow.Owner.transform.position, blockSlot.transform.position);
-        } else {
-            blockSlot.AttackArrow.SetArrow(blockSlot.AttackArrow.Owner.transform.position, blockSlot.AttackArrow.Owner.GetTarget().transform.position);
-        }
-    }
-
-    public List<Adventurer> GetAdventurers() => _tableTop.GetAdventurers();
-    public List<Enemy> GetEnemies() => _tableTop.GetEnemies();
-
+    public AdventurerObject GetOwnerAdventurer(CardObject cardObject) => GetOwnerAdventurer(cardObject.CardData);
+    public AdventurerObject GetOwnerAdventurer(CardData cardData) => _tableTop.GetAdventurerObject(cardData.Owner);
+    public AdventurerObject GetAdventurerObject(AdventurerData ownerData) => _tableTop.GetAdventurerObject(ownerData);
 }
 
 public enum CombatState {

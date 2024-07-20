@@ -9,6 +9,7 @@ public class CombatSlot : MonoBehaviour
     public bool IsBlockSlot = false;
     public AttackArrow AttackArrow;
     TabletopController _controller;
+    [SerializeField] private GameObject _model;
 
     public void InitializeWithCreature(GameObject creaturePrefab, TabletopController controller)
     {
@@ -19,27 +20,27 @@ public class CombatSlot : MonoBehaviour
         Creature.CombatSlot = this;
     }
 
-    public void SetCreature(Creature creature, CombatSlot targetSlot = null) {
-        if (!targetSlot) targetSlot = this;
+    public void SetCreature(Creature creature) {
 
         CombatSlot oldSlot = creature.CombatSlot;
         oldSlot.Creature = null;
-        if (targetSlot.Creature) {
-            SetCreature(targetSlot.Creature, oldSlot);
+        if (Creature) {
+            oldSlot.SetCreature(Creature);
         }
 
-        targetSlot.Creature = creature;
-        creature.CombatSlot = targetSlot;
+        Creature = creature;
+        creature.CombatSlot = this;
 
-        creature.transform.SetParent(targetSlot.transform);
+        creature.transform.SetParent(transform);
         creature.transform.localPosition = Vector3.zero;
         
-        if (targetSlot.IsBlockSlot) CardGameManager.i.UpdateAttackArrow(targetSlot);
-        if (oldSlot.IsBlockSlot) CardGameManager.i.UpdateAttackArrow(oldSlot);
+        if (IsBlockSlot) _controller.UpdateAttackArrows(this);
+        if (oldSlot.IsBlockSlot) _controller.UpdateAttackArrows(oldSlot);
     }
 
     public void MoveCreature() {
         if (!Creature) return;
         SetCreature(Creature, targetSlot: _controller.GetRandomAdventurerSlot(empty: true));
     }
+    public void HideVisuals() => _model.SetActive(false);
 }

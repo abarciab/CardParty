@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0a9d4dae0c8be547ba463b992c3a134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Creature: {fileID: 0}
   IsBlockSlot: 0
   AttackArrow: {fileID: 0}
+  _model: {fileID: 6789036315109404533}
 --- !u!65 &4146210070012218282
 BoxCollider:
   m_ObjectHideFlags: 0

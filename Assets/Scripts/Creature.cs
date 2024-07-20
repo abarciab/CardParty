@@ -11,7 +11,7 @@ using System.Linq;
 public class Creature : MonoBehaviour
 {
     public Canvas Canvas;
-    public CombatSlot CombatSlot;
+    [MyBox.ReadOnly] public CombatSlot CombatSlot;
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _blockSlider;
     [SerializeField] private int _health;

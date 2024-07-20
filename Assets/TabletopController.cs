@@ -173,11 +173,11 @@ public class TabletopController : MonoBehaviour
         return adventurerCombatSlots[Random.Range(0, adventurerCombatSlots.Count)];
     }
 
-    public List<Adventurer> GetAdventurers() {
+    public List<AdventurerObject> GetAdventurers() {
         return _adventurerObjs;
     }
 
-    public List<Enemy> GetEnemies() {
+    public List<EnemyObject> GetEnemies() {
         return _enemyObjs;
     }
 

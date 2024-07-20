@@ -40,7 +40,7 @@ public class CombatSlot : MonoBehaviour
 
     public void MoveCreature() {
         if (!Creature) return;
-        SetCreature(Creature, targetSlot: _controller.GetRandomAdventurerSlot(empty: true));
+        SetCreature(Creature);
     }
     public void HideVisuals() => _model.SetActive(false);
 }

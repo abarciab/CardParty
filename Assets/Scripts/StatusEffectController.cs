@@ -13,14 +13,13 @@ public class StatusEffectController : MonoBehaviour
     }
 
     private void TriggerAdventurerStatusEffects(StatusEffectTriggerTime time) {
-        foreach(Adventurer adventurer in CardGameManager.i.GetAdventurers()) {
+        foreach(AdventurerObject adventurer in CardGameManager.i.GetAdventurers()) {
             adventurer.TriggerStatusEffects(time);
         }
     }
 
     private void TriggerEnemyStatusEffects(StatusEffectTriggerTime time) {
-        print("whee");
-        foreach(Enemy enemy in CardGameManager.i.GetEnemies()) {
+        foreach(EnemyObject enemy in CardGameManager.i.GetEnemies()) {
             enemy.TriggerStatusEffects(time);
         }
     }

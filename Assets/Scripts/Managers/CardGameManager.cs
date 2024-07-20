@@ -43,6 +43,11 @@ public class CardGameManager : GameManager
     private const float CREATURE_SPACING = 10f;
 
     private CardGameUIManager ui => CardGameUIManager.i;
+    public AdventurerObject GetOwnerAdventurer(CardObject cardObject) => GetOwnerAdventurer(cardObject.CardData);
+    public AdventurerObject GetOwnerAdventurer(CardData cardData) => _tableTop.GetAdventurerObject(cardData.Owner);
+    public AdventurerObject GetAdventurerObject(AdventurerData ownerData) => _tableTop.GetAdventurerObject(ownerData);
+    public List<AdventurerObject> GetAdventurers() => _tableTop.GetAdventurers();
+    public List<EnemyObject> GetEnemies() => _tableTop.GetEnemies();
 
     protected override void Awake() {
         base.Awake();
@@ -234,10 +239,6 @@ public class CardGameManager : GameManager
             DeselectCreature(SelectedCreatures[0]);
         }
     }
-
-    public AdventurerObject GetOwnerAdventurer(CardObject cardObject) => GetOwnerAdventurer(cardObject.CardData);
-    public AdventurerObject GetOwnerAdventurer(CardData cardData) => _tableTop.GetAdventurerObject(cardData.Owner);
-    public AdventurerObject GetAdventurerObject(AdventurerData ownerData) => _tableTop.GetAdventurerObject(ownerData);
 }
 
 public enum CombatState {

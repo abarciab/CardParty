@@ -75,7 +75,7 @@ public class CardData : ScriptableObject
 
         //fill in assumed values, e.g. attacks having one target that is an enemy
         for (int i = 0; i < res.Count; i++) {
-            if (res[i].Function == Function.ATTACK || res[i].Function == Function.STATUS) res[i].Targets = new List<System.Type>(){typeof(Enemy)};
+            if (res[i].Function == Function.ATTACK || res[i].Function == Function.STATUS) res[i].Targets = new List<System.Type>(){typeof(EnemyObject)};
         }
 
         return new CardPlayData(CardGameManager.i.GetAdventurerObject(Owner), res);

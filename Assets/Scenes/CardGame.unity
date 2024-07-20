@@ -365,7 +365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _testItemSet: []
   _testParty:
-  - {fileID: 11400000, guid: c966d071a36a69046b98aa1f1d4a9096, type: 2}
+  - {fileID: 11400000, guid: 18abc88bd85dee948b189dd72b0de879, type: 2}
   TestCombat: {fileID: 11400000, guid: 6c88b8bf8adddfd4bb984b13f5d81fbb, type: 2}
   _testEquipmentLoad:
   - {fileID: 11400000, guid: 86c8df9cbf0825148a88f6dc530d3114, type: 2}
@@ -1071,7 +1071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9166229695075870613, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -3.600006
+      value: -3.5999756
       objectReference: {fileID: 0}
     - target: {fileID: 9166229695075870613, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
       propertyPath: m_AnchoredPosition.y

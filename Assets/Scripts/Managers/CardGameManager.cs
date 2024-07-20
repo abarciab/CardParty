@@ -219,8 +219,6 @@ public class CardGameManager : GameManager
     }
 
     public async Task CardEndsPlay(CardObject cardObject) {
-        print("got here tho");
-        await Task.Delay(-1);
         CurrPlayedCard = null;
         
         DeselectAllCreatures();

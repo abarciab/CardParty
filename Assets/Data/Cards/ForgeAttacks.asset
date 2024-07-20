@@ -12,15 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a82f428b23c4e40b3a2fd4a3f84be8, type: 3}
   m_Name: ForgeAttacks
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Forge Attacks
   Sprite: {fileID: 0}
   Description: 
-  _function: 0
-  _amount: 50
-  _specialData:
-    _type: 0
-    _amount: 0
-    _targetAll: 0
+  _cardFunctionData: []
   _targetAll: 0
   _exhaust: 0
   CardObject: {fileID: 0}

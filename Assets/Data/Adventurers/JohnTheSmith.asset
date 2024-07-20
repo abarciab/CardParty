@@ -18,5 +18,5 @@ MonoBehaviour:
     right now when things are better
   Adventurer: {fileID: 4531924361357938381, guid: bde5a3648f035e040a8fd508f2cba98c, type: 3}
   Cards:
-  - {fileID: 11400000, guid: 1d034c8a4b4430549928dec5dbbd1b8a, type: 2}
+  - {fileID: 11400000, guid: 5c5bd6a4277b0bd4db247e558b170b07, type: 2}
   MaxHealth: 110

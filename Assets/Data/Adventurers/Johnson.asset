@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Johnson
   portrait: {fileID: 0}
   Description: 
-  Adventurer: {fileID: 4531924361357938381, guid: bde5a3648f035e040a8fd508f2cba98c, type: 3}
+  AdventurerPrefab: {fileID: 4531924361357938381, guid: bde5a3648f035e040a8fd508f2cba98c, type: 3}
   Cards:
   - {fileID: 11400000, guid: 5c5bd6a4277b0bd4db247e558b170b07, type: 2}
   - {fileID: 11400000, guid: 5c5bd6a4277b0bd4db247e558b170b07, type: 2}

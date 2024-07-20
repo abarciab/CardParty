@@ -4,10 +4,20 @@ using UnityEngine;
 
 public class CombatSlot : MonoBehaviour
 {
-    public Creature Creature = null;
+    [HideInInspector] public Creature Creature { get; private set; }
 
     public bool IsBlockSlot = false;
     public AttackArrow AttackArrow;
+    TabletopController _controller;
+
+    public void InitializeWithCreature(GameObject creaturePrefab, TabletopController controller)
+    {
+        _controller = controller;
+        var creatureObject = Instantiate(creaturePrefab, transform);
+        Creature = creatureObject.GetComponent<Creature>();
+        Creature.Initialize(controller);
+        Creature.CombatSlot = this;
+    }
 
     public void SetCreature(Creature creature, CombatSlot targetSlot = null) {
         if (!targetSlot) targetSlot = this;
@@ -30,7 +40,7 @@ public class CombatSlot : MonoBehaviour
 
     public void MoveCreature() {
         if (!Creature) return;
-        print(CardGameManager.i.GetRandomAdventurerSlot(empty: true));
-        SetCreature(Creature, targetSlot: CardGameManager.i.GetRandomAdventurerSlot(empty: true));
+        print(_controller.GetRandomAdventurerSlot(empty: true));
+        SetCreature(Creature, targetSlot: _controller.GetRandomAdventurerSlot(empty: true));
     }
 }

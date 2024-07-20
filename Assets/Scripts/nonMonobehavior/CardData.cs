@@ -54,7 +54,7 @@ public class CardData : ScriptableObject
     public AdventurerData Owner => PlayerInfo.Party.GetOwner(this);
 
     public void Init(AdventurerData data) {
-        _owner = data.Adventurer.GetComponent<Adventurer>();
+        _owner = data.AdventurerPrefab.GetComponent<Adventurer>();
     }
 
     public override bool Equals(object other)

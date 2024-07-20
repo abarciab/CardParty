@@ -19,6 +19,12 @@ public class Creature : MonoBehaviour
     [SerializeField] private int _maxBlock;
 
     public GameObject SelectedCreatureHighlight;
+    protected TabletopController Controller;
+
+    public void Initialize(TabletopController controller)
+    {
+        Controller = controller;
+    }
 
     public void Select() {
         CardGameManager.i.SelectCreature(this);
@@ -34,25 +40,21 @@ public class Creature : MonoBehaviour
             _health += _block;
             _block = 0;
         }
-        _healthSlider.value = ((float)_health / (float)_maxHealth);
-        _blockSlider.value = ((float)_block / (float)_maxBlock);
+        _healthSlider.value = (_health / (float)_maxHealth);
+        _blockSlider.value = (_block / (float)_maxBlock);
 
-        if (_health <= 0) {
-            Die();
-        }
+        if (_health <= 0) Die();
     }
 
     public virtual void AddBlock(float block) {
         _block += (int)block;
-        _blockSlider.value = ((float)_block / (float)_maxBlock);
+        _blockSlider.value = (_block / (float)_maxBlock);
     }
 
-    public void Die() { Die_Coroutine(); }
-
-    protected virtual async Task Die_Coroutine() {
+    public async void Die() { 
         await Utilities.LerpScale(gameObject, Vector3.zero);
         await Task.Delay(500);
-        CardGameManager.i.RemoveCreature(this);
+        Controller.RemoveCreature(this);
         Destroy(gameObject);
     }
 }

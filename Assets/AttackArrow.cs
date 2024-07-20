@@ -10,18 +10,33 @@ public class AttackArrow : MonoBehaviour
     [SerializeField] private GameObject tail;
     public CombatSlot BlockSlot;
     public Enemy Owner;
+
+    private Vector3 _posA;
+    private Vector3 _posB;
+
     public void SetArrow(Vector3 posA, Vector3 posB) {
-        transform.position = posA;
-        head.transform.localPosition = Vector3.zero;
+        _posA = posA;
+        _posB = posB;
 
-        Vector3 vecTowards = posB - posA;
+        transform.position = GetPosAlongLine(0.75f);
 
-        transform.rotation = Quaternion.LookRotation(posB);
-        transform.rotation = Quaternion.Euler(0,transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-        transform.position += transform.forward * vecTowards.magnitude / 2;
+        var euler = transform.localEulerAngles;
+        transform.LookAt(posB);
+        euler.y = transform.localEulerAngles.y;
+        transform.localEulerAngles = euler;
 
-        tail.transform.localScale = new Vector3(tail.transform.localScale.x, tail.transform.localScale.y, vecTowards.magnitude - (2 * BUFFER_DIST));
+        float distance = Vector3.Distance(posA, posB);
+        tail.transform.localScale = new Vector3(tail.transform.localScale.x, tail.transform.localScale.y, distance - (3 * BUFFER_DIST));
+    }
 
-        head.transform.position += (transform.forward * vecTowards.magnitude / 2) - (transform.forward * (HEAD_SIZE));
+    private Vector3 GetPosAlongLine(float percent)
+    {
+        return Vector3.Lerp(_posA, _posB, percent);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawLine(_posA, _posB);
+        Gizmos.DrawWireSphere(_posA, 0.2f);
     }
 }

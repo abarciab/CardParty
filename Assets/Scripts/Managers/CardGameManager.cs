@@ -14,6 +14,10 @@ public class CardGameManager : GameManager
 {
     public new static CardGameManager i;
 
+    [Header("References")]
+    [SerializeField] private TabletopController _tableTop;
+
+    [Space()]
     [SerializeField] private Transform _enemyContainer;
     [SerializeField] private Transform _adventurerContainer;
     [SerializeField] private GameObject _selectedCreatureHighlight;
@@ -32,11 +36,11 @@ public class CardGameManager : GameManager
 
     private List<System.Type> _currValidSelectTargets = new List<System.Type>();
     private System.Random _r = new System.Random();
-    private List<Adventurer> _adventurers = new List<Adventurer>();
-    private List<Enemy> _enemies = new List<Enemy>();
-    private List<CombatSlot> _adventurerCombatSlots = new List<CombatSlot>();
-    private List<CombatSlot> _enemyCombatSlots = new List<CombatSlot>();
-    private List<CombatSlot> _blockCombatSlots = new List<CombatSlot>();
+    //private List<Adventurer> _adventurers = new List<Adventurer>();
+    //private List<Enemy> _enemies = new List<Enemy>();
+    //private List<CombatSlot> _adventurerCombatSlots = new List<CombatSlot>();
+    //private List<CombatSlot> _enemyCombatSlots = new List<CombatSlot>();
+    //private List<CombatSlot> _blockCombatSlots = new List<CombatSlot>();
 
     private const int TURN_WAIT_TIME = 1000;
     private const float CREATURE_SPACING = 10f;
@@ -88,48 +92,14 @@ public class CardGameManager : GameManager
         await Task.Delay((int)(1000 * fadeTime));
         Camera.GetComponent<AudioListener>().enabled = false;
         var unloadingTask = SceneManager.UnloadSceneAsync(2);
-        //while (!unloadingTask.isDone) yield return null;
 
         if (OverworldManager.i) OverworldManager.i.ShowOverworldObjects();
         else SceneManager.LoadScene(1);
     }
     
-    public void StartCombat(Combat combat)
+    public async void StartCombat(Combat combat)
     {
-        StartCombat(combat, PlayerInfo.Party);
-    }
-
-    public async void StartCombat(Combat combat, Party party) {
-        //spawn enemies
-        float absBound = ((float)combat.enemies.Length - 1) / 2 * CREATURE_SPACING;
-        for (int i = 0; i < combat.enemies.Length; i++) {
-            GameObject newCombatSlot = Instantiate(_combatSlotPrefab, _enemyContainer);
-            GameObject newEnemy = Instantiate(combat.enemies[i], newCombatSlot.transform);
-            _enemyCombatSlots.Add(newCombatSlot.GetComponent<CombatSlot>());
-            newCombatSlot.GetComponent<CombatSlot>().Creature = newEnemy.GetComponent<Creature>();
-            newEnemy.GetComponent<Enemy>().CombatSlot = newCombatSlot.GetComponent<CombatSlot>();
-            // evenly distribute across enemy container
-            float newCombatSlotPosX = Mathf.Lerp(-absBound, absBound, combat.enemies.Length != 1 ? i / ((float)combat.enemies.Length - 1) : 0.5f);
-            newCombatSlot.transform.localPosition = new Vector3(newCombatSlotPosX, 0, 0);
-            _enemies.Add(newEnemy.GetComponent<Enemy>());
-        }
-
-        //spawn adventurers
-        List<AdventurerData> adventurerData = party.Adventurers;
-        absBound = ((float)adventurerData.Count - 1) / 2 * CREATURE_SPACING;
-        for (int i = 0; i < adventurerData.Count; i++) {
-            GameObject newCombatSlot = Instantiate(_combatSlotPrefab, _adventurerContainer);
-            GameObject newAdventurer = Instantiate(adventurerData[i].Adventurer, newCombatSlot.transform);
-            _adventurerCombatSlots.Add(newCombatSlot.GetComponent<CombatSlot>());
-            newCombatSlot.GetComponent<CombatSlot>().Creature = newAdventurer.GetComponent<Creature>();
-            newAdventurer.GetComponent<Adventurer>().CombatSlot = newCombatSlot.GetComponent<CombatSlot>();
-            // evenly distribute across enemy container
-            float newCombatSlotPosX = Mathf.Lerp(-absBound, absBound, adventurerData.Count != 1 ? i / ((float)adventurerData.Count - 1) : 0.5f);
-            newCombatSlot.transform.localPosition = new Vector3(newCombatSlotPosX, 0, 0);
-            _adventurers.Add(newAdventurer.GetComponent<Adventurer>());
-            newAdventurer.GetComponent<Adventurer>().Initialize(adventurerData[i]);
-        }
-
+        _tableTop.SpawnCombatants(combat);
 
         OnStartCombat.Invoke();
         await Task.Delay(Mathf.RoundToInt(TURN_WAIT_TIME / 2));
@@ -142,9 +112,7 @@ public class CardGameManager : GameManager
         Actions = _maxActions;
         OnStartPlayerTurn.Invoke();
 
-        foreach (Enemy enemy in _enemies) {
-            enemy.ShowIntent(_adventurers, _enemies);
-        }
+        
     }
 
     public void EndPlayerTurn() {
@@ -160,10 +128,7 @@ public class CardGameManager : GameManager
 
         await Task.Delay(TURN_WAIT_TIME);
 
-        foreach (Enemy enemy in _enemies) {
-            await enemy.Action(_adventurers, _enemies);
-            await Task.Delay(TURN_WAIT_TIME);
-        }
+        await _tableTop.TakeEnemyActions(TURN_WAIT_TIME);
 
         CurrCombatState = CombatState.Idle;
 
@@ -218,7 +183,6 @@ public class CardGameManager : GameManager
     }
 
     public void MoveCardFromDisplay() {
-        ui.HideInstructions();
         ui.MoveCardFromDisplay(CurrPlayedCard);
 
         CurrPlayedCard = null;
@@ -251,7 +215,7 @@ public class CardGameManager : GameManager
 
         SelectedCreatures.Add(creature);
         
-        creature.SelectedCreatureHighlight = GameObject.Instantiate(_selectedCreatureHighlight, creature.Canvas.gameObject.transform);
+        creature.SelectedCreatureHighlight = Instantiate(_selectedCreatureHighlight, creature.Canvas.gameObject.transform);
     }
     
     public void DeselectCreature(Creature creature) {
@@ -266,63 +230,10 @@ public class CardGameManager : GameManager
         }
     }
 
-    public void RemoveCreature(Creature creature) {
-        if (creature.GetType() == typeof(Enemy)) {
-            _enemies.Remove((Enemy)creature);
-            if (_enemies.Count == 0) {
-                ui.DisplayVictoryScreen();
-            }
-        } else if (creature.GetType() == typeof(Adventurer)) {
-            _adventurers.Remove((Adventurer)creature);
-            if (_adventurers.Count == 0) {
-                ui.DisplayDefeatScreen();
-            }
-        }
-    }
-
     public Adventurer GetOwnerAdventurer(CardObject cardObject) => GetOwnerAdventurer(cardObject.CardData);
+    public Adventurer GetOwnerAdventurer(CardData cardData) => _tableTop.GetAdventurerObject(cardData.Owner);
+    public Adventurer GetAdventurerObject(AdventurerData ownerData) => _tableTop.GetAdventurerObject(ownerData);
 
-    public Adventurer GetOwnerAdventurer(CardData cardData) => GetAdventurerObject(cardData.Owner);
-
-    public Adventurer GetAdventurerObject(AdventurerData adventurerData) {
-        foreach (Adventurer adventurer in _adventurers) {
-            if (adventurer.AdventurerData == adventurerData) return adventurer;
-        }
-        print("didn't find adventurer for data: " + adventurerData);
-        return null;
-    }
-
-    public CombatSlot GetRandomAdventurerSlot(bool empty = false) {
-        List<CombatSlot> adventurerCombatSlots = _adventurerCombatSlots.OrderBy(x => _r.Next()).ToList();
-        if (empty) {
-            foreach(CombatSlot combatSlot in adventurerCombatSlots) {
-                if (combatSlot && !combatSlot.Creature) return combatSlot;
-            }
-            return null;
-        }
-        return adventurerCombatSlots[0];
-    }
-
-    public CombatSlot GetRandomEnemySlot(bool empty = false) {
-        List<CombatSlot> enemyCombatSlots = _enemyCombatSlots.OrderBy(x => _r.Next()).ToList();
-        if (empty) {
-            foreach(CombatSlot combatSlot in enemyCombatSlots) {
-                if (!combatSlot.Creature) return combatSlot;
-            }
-            return null;
-        }
-
-        return enemyCombatSlots[0];
-    }
-
-    public CombatSlot SpawnBlockSlot(Vector3 position) {
-        GameObject newCombatSlot = GameObject.Instantiate(_combatSlotPrefab, _enemyContainer);
-        newCombatSlot.transform.position = position;
-        newCombatSlot.GetComponent<CombatSlot>().IsBlockSlot = true;
-        _blockCombatSlots.Add(newCombatSlot.GetComponent<CombatSlot>());
-
-        return newCombatSlot.GetComponent<CombatSlot>();
-    }
 
     public void UpdateAttackArrow(CombatSlot blockSlot) {       
         if (blockSlot.Creature) {

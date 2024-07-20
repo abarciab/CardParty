@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
+using TMPro.EditorUtilities;
 
 public enum EnemyActionType {None, Attack}
 public enum EnemyType {Goblin}
@@ -17,6 +18,7 @@ public class EnemyAction {
         TargetSlot = newTargetSlot;
     }
 }
+
 public class Enemy : Creature
 {
     public EnemyType EnemyType;
@@ -28,6 +30,7 @@ public class Enemy : Creature
         switch(_nextAction.Action) {
             case EnemyActionType.Attack: {
                 Adventurer target = (Adventurer)_nextAction.TargetSlot.Creature;
+                    if (target == null) break;
                 if (AttackArrow.BlockSlot.Creature) target = (Adventurer)AttackArrow.BlockSlot.Creature;
 
                 await Utilities.LerpToAndBack(gameObject, target.transform.position);
@@ -49,9 +52,8 @@ public class Enemy : Creature
     private EnemyAction GetAction() {
         switch(EnemyType) {
             case EnemyType.Goblin: {
-                return new EnemyAction(EnemyActionType.Attack, CardGameManager.i.GetRandomAdventurerSlot());
+                return new EnemyAction(EnemyActionType.Attack, Controller.GetRandomAdventurerSlot());
             }
-            break;
         }
 
         return new EnemyAction(EnemyActionType.None, null);
@@ -67,10 +69,13 @@ public class Enemy : Creature
         _nextAction.TargetSlot = newTargetSlot;
 
         if (!AttackArrow) {
-            AttackArrow = GameObject.Instantiate(_attackArrowPrefab, transform.parent).GetComponent<AttackArrow>();
-            AttackArrow.SetArrow(transform.position, _nextAction.TargetSlot.transform.position);
+            AttackArrow = Instantiate(_attackArrowPrefab, transform.parent).GetComponent<AttackArrow>();
+            var arrowStart = transform.position;
+            var arrowEnd = _nextAction.TargetSlot.transform.position;
+            AttackArrow.SetArrow(arrowStart, arrowEnd);
 
-            CombatSlot newCombatSlot = CardGameManager.i.SpawnBlockSlot(AttackArrow.transform.position);
+            var blockPos = Vector3.Lerp(arrowStart, arrowEnd, 0.5f);
+            CombatSlot newCombatSlot = Controller.SpawnBlockSlot(blockPos);
 
             newCombatSlot.AttackArrow = AttackArrow;
             AttackArrow.BlockSlot = newCombatSlot;

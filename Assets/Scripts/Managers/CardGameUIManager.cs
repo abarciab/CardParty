@@ -30,13 +30,17 @@ public class CardGameUIManager : UIManager
     public void HideInstructions() => _instructionsParent.SetActive(false);
     public void DisplayVictoryScreen() => _victoryScreen.SetActive(true);
     public void DisplayDefeatScreen() => _defeatScreen.SetActive(true);
-    public void MoveCardFromDisplay(CardObject cardObj) => cardObj.ReturnToHand();
+    public void MoveCardFromDisplay(CardObject cardObj)
+    {
+        HideInstructions();
+        cardObj.ReturnToHand();
+    }
 
     private void Start()
     {
-        gMan.OnStartEnemyTurn.AddListener(StartEnemyTurn);
+        gMan.OnStartCombat.AddListener(StartCombat);
         gMan.OnStartPlayerTurn.AddListener(StartPlayerTurn);
-        gMan.OnStartPlayerTurn.AddListener(StartCombat);
+        gMan.OnStartEnemyTurn.AddListener(StartEnemyTurn);
     }
 
     private void StartCombat()

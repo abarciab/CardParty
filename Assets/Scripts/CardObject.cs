@@ -74,6 +74,7 @@ public class CardObject: MonoBehaviour
  
     void Update()
     {
+        if (_selectable.Hovered && Input.GetMouseButtonDown(1)) CardGameUIManager.i.DisplayCardInfo(CardData);
         if (_isBeingdragged) UpdateDrag(); 
     }
 
@@ -123,16 +124,18 @@ public class CardObject: MonoBehaviour
         return false;
     }
 
-    private void ReturnToHand()
+    public void ReturnToHand()
     {
+        _handController.AddCard(this);
         transform.SetParent(_handGridParent);
         transform.SetSiblingIndex(_handSiblingIndex);
         _selectable.SetEnabled(true);
+        transform.localScale = Vector3.one;
     }
 
     private void PlayCard() {
         _handController.RemoveCard(this);
-        _handController.MoveToDisplay(this);
+        CardGameUIManager.i.MoveToDisplay(this);
         CardGameManager.i.PlayCard(this);
     }
 

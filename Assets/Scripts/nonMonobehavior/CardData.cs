@@ -46,8 +46,6 @@ public class CardData : ScriptableObject
     [SerializeField] private bool _targetAll;
     [SerializeField] private bool _exhaust;
 
-    [HideInInspector] public CardObject CardObject = null;
-
     private IEnumerator _currCardCoroutine;
     private IEnumerator _currSelectTargets;
 
@@ -90,14 +88,10 @@ public class CardData : ScriptableObject
         return new CardPlayData(CardGameManager.i.GetAdventurerObject(Owner), res);
     }
 
-    public async Task CancelPlay() {
-        await CancelPlay_Async();
-    }
-
-    private async Task CancelPlay_Async() {
+    public void CancelPlay()
+    {
         if (_currSelectTargets != null) _owner.StopCoroutine(_currSelectTargets);
-
-        CardObject.MoveFromDisplay();
+        Debug.Log("can't cancel play from here, no reference to cardObj");
     }
 
     public override string ToString() {

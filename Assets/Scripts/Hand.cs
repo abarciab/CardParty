@@ -10,16 +10,10 @@ public class Hand : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform _cardListParent;
 
-    //[SerializeField] private AnimationCurve _handCurve;
-
     [SerializeField] private GameObject _playableCardPrefab;
     [SerializeField] private List<CardObject> _cards = new List<CardObject>();
     [SerializeField] private int _maxHandSize = 6;
     [SerializeField] private Deck _deck;
-    [SerializeField] private Transform _playedCardDisplayTransform;
-
-    //width of a card
-    float _evenHandSizeOffset = 100;
 
     public void AddCards(List<CardData> newCards) {
 
@@ -37,6 +31,7 @@ public class Hand : MonoBehaviour
     }
 
     public void AddCard(CardObject cardObject) {
+        if (_cards.Contains(cardObject)) return;
         _cards.Add(cardObject);
     }
 
@@ -46,12 +41,6 @@ public class Hand : MonoBehaviour
 
     public void RemoveCard(CardObject cardObject) {
         _cards.Remove(cardObject);
-    }
-
-    public void MoveToDisplay(CardObject cardObject) {
-        cardObject.transform.SetParent(_playedCardDisplayTransform);
-        cardObject.transform.localPosition = Vector3.zero;
-        cardObject.transform.localScale = Vector3.one;
     }
 
     public void MoveFromDisplay(CardObject cardObject) {

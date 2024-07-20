@@ -3,20 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using MyBox;
+using System.Threading.Tasks;
 
-public enum Function { NONE, ATTACK, BLOCK, SPECIAL }
+public enum Function { NONE, ATTACK, BLOCK, DRAW, SPECIAL }
 
+[Serializable]
 public class CardPlayData {
     public Adventurer Owner;
-    public Function Function;
-    public float Amount;
-    public Action SpecialData;
+    
+    public List<CardFunctionData> CardFunctionData;
 
-    public CardPlayData(Adventurer newOwner, Function newFunction, int newAmount, Action newSpecialData = null) {
+    public CardPlayData(Adventurer newOwner, List<CardFunctionData> newCardFunctionData) {
         Owner = newOwner;
+        CardFunctionData = newCardFunctionData;
+    }
+}
+
+[Serializable]
+public class CardFunctionData {
+    public Function Function;
+    [ConditionalField (nameof(Function), inverse:true, Function.NONE)] public float Amount = 50;
+    [ConditionalField (nameof(Function), inverse:true, Function.NONE)] public CardSpecialData CardSpecialData;
+    [ConditionalField (nameof(Function), false, Function.SPECIAL)] public List<System.Type> Targets;
+
+    public CardFunctionData(Function newFunction, int newAmount, List<System.Type> newTargets, CardSpecialData newSpecialData = null) {
         Function = newFunction;
         Amount = newAmount;
-        SpecialData = newSpecialData;
+        Targets = newTargets;
+        CardSpecialData = newSpecialData;
     }
 }
 
@@ -26,11 +40,9 @@ public class CardData : ScriptableObject
     public string Name;
     public Sprite Sprite;
     [TextArea(3, 10)] public string Description;
-    [SerializeField] private Function _function;
-    [ConditionalField (nameof(_function), inverse:true, Function.NONE), SerializeField] private float _amount = 50;
-    [SerializeField] private CardSpecialData _specialData;
+    [SerializeField] private List<CardFunctionData> _cardFunctionData = new List<CardFunctionData>();
 
-    [Header("Other Behvaiors")]
+    [Header("Other Behaviours")]
     [SerializeField] private bool _targetAll;
     [SerializeField] private bool _exhaust;
 
@@ -57,39 +69,38 @@ public class CardData : ScriptableObject
     public string GetMoveData()
     {
         List<string> output = new List<string>();
-        if (_function == Function.ATTACK) output.Add("Attack " + (_targetAll ? "all " : "") + Utilities.Parenthize(_amount));
-        if (_function == Function.BLOCK) output.Add("Block " + Utilities.Parenthize(_amount));
-        output.AddRange(_specialData.GetMoveData());
+        foreach (CardFunctionData cardFunctionData in _cardFunctionData) {
+            if (cardFunctionData.Function == Function.ATTACK) output.Add("Attack " + (_targetAll ? "all " : "") + Utilities.Parenthize(cardFunctionData.Amount));
+            if (cardFunctionData.Function == Function.BLOCK) output.Add("Block " + Utilities.Parenthize(cardFunctionData.Amount));
+            if (cardFunctionData.Function == Function.DRAW) output.Add("Draw  " + Utilities.Parenthize(cardFunctionData.Amount));
+            output.AddRange(cardFunctionData.CardSpecialData.GetMoveData());
+        }
         if (_exhaust) output.Add("Exhaust");
         return string.Join("\n", output);
     }
 
     public CardPlayData GetPlayData(Adventurer OwnerAdventurer) {
-        if (_function == Function.SPECIAL) {
-            return new CardPlayData(OwnerAdventurer, _function, 0);
+        List<CardFunctionData> res = new List<CardFunctionData>(_cardFunctionData);
+
+        //fill in assumed values, e.g. attacks having one target that is an enemy
+        for (int i = 0; i < res.Count; i++) {
+            if (res[i].Function == Function.ATTACK) res[i].Targets = new List<System.Type>(){typeof(Enemy)};
         }
 
-        return new CardPlayData(OwnerAdventurer, _function, 50);
+        return new CardPlayData(CardGameManager.i.GetAdventurerObject(Owner), res);
     }
 
-    public void CancelPlay() {
-        _owner.StartCoroutine(CancelPlay_Coroutine());
+    public async Task CancelPlay() {
+        await CancelPlay_Async();
     }
 
-    private IEnumerator CancelPlay_Coroutine() {
-        yield return null;
-
-        switch (_function) {
-            case Function.ATTACK:
-            case Function.BLOCK:
-                if (_currSelectTargets != null) _owner.StopCoroutine(_currSelectTargets);
-                    break;
-        }
+    private async Task CancelPlay_Async() {
+        if (_currSelectTargets != null) _owner.StopCoroutine(_currSelectTargets);
 
         CardObject.MoveFromDisplay();
     }
 
     public override string ToString() {
-        return "name: " + Name + "\nfunction: " + _function + "\nowner: " + _owner;
+        return "name: " + Name + "\nowner: " + Owner;
     }
 }

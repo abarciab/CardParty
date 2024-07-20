@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Linq;
+using System;
+using System.Threading.Tasks;
 
 public enum EnemyActionType {None, Attack}
 public enum EnemyType {Goblin}
@@ -22,13 +24,13 @@ public class Enemy : Creature
     [SerializeField] private GameObject _attackArrowPrefab;
     public AttackArrow AttackArrow;
     [SerializeField] private float _attackDamage;
-    public IEnumerator Action(List<Adventurer> adventurers, List<Enemy> enemies) {
+    public async Task Action(List<Adventurer> adventurers, List<Enemy> enemies) {
         switch(_nextAction.Action) {
             case EnemyActionType.Attack: {
                 Adventurer target = (Adventurer)_nextAction.TargetSlot.Creature;
                 if (AttackArrow.BlockSlot.Creature) target = (Adventurer)AttackArrow.BlockSlot.Creature;
 
-                yield return StartCoroutine(Utilities.LerpToAndBack(gameObject, target.transform.position));
+                await Utilities.LerpToAndBack(gameObject, target.transform.position);
                 target.TakeDamage(_attackDamage);
             }
             break;

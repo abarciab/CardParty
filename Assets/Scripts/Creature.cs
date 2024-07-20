@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 using UnityEngine.EventSystems;
+using System;
+using System.Threading.Tasks;
 
 public class Creature : MonoBehaviour
 {
@@ -45,11 +47,11 @@ public class Creature : MonoBehaviour
         _blockSlider.value = ((float)_block / (float)_maxBlock);
     }
 
-    public void Die() { StartCoroutine(Die_Coroutine()); }
+    public void Die() { Die_Coroutine(); }
 
-    protected virtual IEnumerator Die_Coroutine() {
-        yield return StartCoroutine(Utilities.LerpScale(gameObject, Vector3.zero));
-        yield return new WaitForSeconds(0.5f);
+    protected virtual async Task Die_Coroutine() {
+        await Utilities.LerpScale(gameObject, Vector3.zero);
+        await Task.Delay(500);
         CardGameManager.i.RemoveCreature(this);
         Destroy(gameObject);
     }

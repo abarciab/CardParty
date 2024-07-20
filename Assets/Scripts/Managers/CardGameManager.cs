@@ -4,11 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Linq;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine.Events;
 
 public class CardGameManager : GameManager
 {
     public new static CardGameManager i;
-    const float BUFFER_TIME = 1f;
+    const int BUFFER_TIME = 1000;
     const float CREATURE_SPACING = 10f;
     public CombatState CurrCombatState;
     public Deck Deck;
@@ -44,7 +48,6 @@ public class CardGameManager : GameManager
     [SerializeField] private GameObject _combatSlotPrefab;
     public CardData CurrPlayedCard;
     private System.Random _r = new System.Random();
-
     protected override void Awake() {
         base.Awake();
         i = this;
@@ -72,14 +75,14 @@ public class CardGameManager : GameManager
     public void LoadOverworld()
     {
         Resume();
-        StartCoroutine(FadeThenShowOverworld());
+        FadeThenShowOverworld();
     }
 
-    private IEnumerator FadeThenShowOverworld()
+    private async Task FadeThenShowOverworld()
     {
         float fadeTime = UIManager.i.GetFadeTime();
         Music.FadeOutCurrent(fadeTime);
-        yield return new WaitForSeconds(fadeTime);
+        await Task.Delay((int)(1000 * fadeTime));
         Camera.GetComponent<AudioListener>().enabled = false;
         var unloadingTask = SceneManager.UnloadSceneAsync(2);
         //while (!unloadingTask.isDone) yield return null;
@@ -90,10 +93,10 @@ public class CardGameManager : GameManager
     
     public void StartCombat(Combat combat)
     {
-        StartCoroutine(StartCombat(combat, PlayerInfo.Party));
+        StartCombat(combat, PlayerInfo.Party);
     }
 
-    public IEnumerator StartCombat(Combat combat, Party party) {
+    public async Task StartCombat(Combat combat, Party party) {
         //spawn enemies
         float absBound = ((float)combat.enemies.Length - 1) / 2 * CREATURE_SPACING;
         for (int i = 0; i < combat.enemies.Length; i++) {
@@ -128,7 +131,7 @@ public class CardGameManager : GameManager
 
         Deck.Initialize();
 
-        yield return new WaitForSeconds(BUFFER_TIME / 2);
+        await Task.Delay((int)(BUFFER_TIME / 2));
 
         _hand.DrawUntilFull();
 
@@ -141,6 +144,7 @@ public class CardGameManager : GameManager
         } else {
             _defeatScreen.SetActive(true);
         }
+
     }
 
     public void ExitCombatScreen() {
@@ -154,7 +158,6 @@ public class CardGameManager : GameManager
     public void StartPlayerTurn() {
         CurrCombatState = CombatState.PlayerTurn;
 
-        //_instructionsText.text = "Player Turn!";
         Actions = 3;
 
         _hand.DrawUntilFull();
@@ -167,19 +170,19 @@ public class CardGameManager : GameManager
     public void EndPlayerTurn() {
         CurrCombatState = CombatState.Idle;
 
-        StartCoroutine(StartEnemyTurn());
+        StartEnemyTurn();
     }
 
-    public IEnumerator StartEnemyTurn() {
+    public async Task StartEnemyTurn() {
         CurrCombatState = CombatState.EnemyTurn;
 
         _instructionsText.text = "Enemy Turn!";
 
-        yield return new WaitForSeconds(BUFFER_TIME);
+        await Task.Delay(BUFFER_TIME);
 
         foreach (Enemy enemy in _enemies) {
-            yield return StartCoroutine(enemy.Action(_adventurers, _enemies));
-            yield return new WaitForSeconds(BUFFER_TIME);
+            await enemy.Action(_adventurers, _enemies);
+            await Task.Delay(BUFFER_TIME);
         }
 
         CurrCombatState = CombatState.Idle;
@@ -192,51 +195,32 @@ public class CardGameManager : GameManager
         CurrPlayedCard = data;
         var playData = data.GetPlayData(GetOwnerAdventurer(cardObject));
 
-        StartCoroutine(CardPlayFunction_Coroutine(cardObject, playData));
+        CardPlayFunction_Async(cardObject, playData);
     }
 
-    public IEnumerator CardPlayFunction_Coroutine(CardObject cardObject, CardPlayData data) {
+    public async void CardPlayFunction_Async(CardObject cardObject, CardPlayData cardPlayData) {
+        foreach (CardFunctionData cardFunctionData in cardPlayData.CardFunctionData) {
 
-        //var targets;
-        //await SelectTargets(data.TargetTypes, out targets)
-        //if (Attacks) targets.attack();
-        //if (block) targets.block();
-        //if (burn) targets.block();
-        //if (draw1) targets.block();
+            List<System.Type> requiredTargets = cardFunctionData.Targets;
+            List<Creature> selectedTargets = await SelectTargets(requiredTargets);
 
-        //if (exhaust) targets.block();
-        //discard()
+            if (cardFunctionData.Function == Function.ATTACK) {
+                await Utilities.LerpToAndBack(cardPlayData.Owner.gameObject, selectedTargets[0].transform.position);
+                selectedTargets[0].TakeDamage(cardFunctionData.Amount);
+            }
+            else if (cardFunctionData.Function == Function.BLOCK) {
+                cardPlayData.Owner.AddBlock(cardFunctionData.Amount);
+            }
 
-        if (data.Function == Function.ATTACK) {
-            List<System.Type> requiredTargets = new List<System.Type>() { typeof(Enemy) };
-
-            IEnumerator currSelectTargets = SelectTargets(requiredTargets);
-            yield return StartCoroutine(currSelectTargets);
-
-            Creature defender = ((List<Creature>)currSelectTargets.Current).Find(x => x.GetType() == typeof(Enemy));
-
-            yield return StartCoroutine(Utilities.LerpToAndBack(data.Owner.gameObject, defender.transform.position));
-            defender.TakeDamage(data.Amount);
+            //DoSpecial();
         }
-        else if (data.Function == Function.BLOCK) {
-
-            List<System.Type> requiredTargets = new List<System.Type>() { typeof(Adventurer) };
-
-            IEnumerator currSelectTargets = SelectTargets(requiredTargets);
-            yield return StartCoroutine(currSelectTargets);
-
-            Creature defendee = ((List<Creature>)currSelectTargets.Current).Find(x => x.GetType() == typeof(Adventurer));
-
-            yield return StartCoroutine(Utilities.LerpToAndBack(data.Owner.gameObject, defendee.transform.position));
-            defendee.AddBlock(data.Amount);
-        }
-
-        //DoSpecial();
 
         CardEndsPlay(cardObject);
     }
 
-    public void CardEndsPlay(CardObject cardObject) {
+    public async Task CardEndsPlay(CardObject cardObject) {
+        print("got here tho");
+        await Task.Delay(-1);
         CurrPlayedCard = null;
         
         DeselectAllCreatures();
@@ -261,14 +245,14 @@ public class CardGameManager : GameManager
         CurrPlayedCard = null;
     }
 
-    public IEnumerator SelectTargets(List<System.Type> requiredTargets) {
+    public async Task<List<Creature>> SelectTargets(List<System.Type> requiredTargets) {
         _instructionsText.text = "Select Targets";
-        //wait until exactly the correct types of targets are selected
+
         DeselectAllCreatures();
         _currValidSelectTargets = requiredTargets;
-        while(!CompareListsByType<Creature>(requiredTargets, SelectedCreatures)) yield return 0;
+        while(!CompareListsByType<Creature>(requiredTargets, SelectedCreatures)) await Task.Delay(1);
         
-        yield return SelectedCreatures;
+        return SelectedCreatures;
     }
 
     bool CompareListsByType<T>(List<System.Type> listA, List<T> listB) {
@@ -319,13 +303,13 @@ public class CardGameManager : GameManager
 
     public Adventurer GetOwnerAdventurer(CardObject cardObject) => GetOwnerAdventurer(cardObject.CardData);
 
-    public Adventurer GetOwnerAdventurer(CardData cardData) {
-        var owner = cardData.Owner;
+    public Adventurer GetOwnerAdventurer(CardData cardData) => GetAdventurerObject(cardData.Owner);
 
-        foreach (Adventurer adventurerCoord in _adventurers) {
-            if (adventurerCoord.AdventurerData == owner) return adventurerCoord;
+    public Adventurer GetAdventurerObject(AdventurerData adventurerData) {
+        foreach (Adventurer adventurer in _adventurers) {
+            if (adventurer.AdventurerData == adventurerData) return adventurer;
         }
-        print("didn't find adventurer for data: " + owner);
+        print("didn't find adventurer for data: " + adventurerData);
         return null;
     }
 

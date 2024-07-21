@@ -1,27 +1,43 @@
-// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
-// using UnityEngine.Events;
-// //how it would work without this controller
-// unityEvent.AddListener(triggeredEffect);
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using System.Linq;
 
-// public class TriggeredEffectController : MonoBehaviour
-// {
-//     // makes triggered effects trigger in the order they were added
-//     private Dictionary<UnityEvent, List<ref TriggeredEffect>> _effectDict = new Dictionary<UnityEvent, List<TriggeredEffect>>();
+public class TriggeredEffectController : MonoBehaviour
+{
+    private Dictionary<TriggeredEffectTriggerTime, List<TriggeredEffect>> _triggeredEffects = new Dictionary<TriggeredEffectTriggerTime, List<TriggeredEffect>>();
+    void Start() {
+        CardGameManager.i.OnStartPlayerTurn.AddListener(delegate{TriggerEffects(TriggeredEffectTriggerTime.STARTOFPLAYERTURN);});
+        CardGameManager.i.OnStartEnemyTurn.AddListener(delegate{TriggerEffects(TriggeredEffectTriggerTime.STARTOFENEMYTURN);});
+        CardGameManager.i.OnEndPlayerTurn.AddListener(delegate{TriggerEffects(TriggeredEffectTriggerTime.ENDOFPLAYERTURN);});
+        CardGameManager.i.OnEndEnemyTurn.AddListener(delegate{TriggerEffects(TriggeredEffectTriggerTime.ENDOFENEMYTURN);});
+    }
 
-//     public void AddEffect(UnityEvent unityEvent, ref TriggeredEffect triggeredEffect) {
-//         if (!_effectDict.Keys.Contains(unityEvent)) AddEvent(unityEvent);
-//         _effectDict.Add(unityEvent, triggeredEffect);
-//     }
+    public void AddTriggeredEffect(TriggeredEffectData effectData) {
+        TriggeredEffect newEffect = new TriggeredEffect(effectData);
+        TriggeredEffectTriggerTime newTime = newEffect.TriggerTime;
 
-//     private void AddEvent(UnityEvent unityEvent) {
-//         unityEvent.AddListener(TriggerEffects(unityEvent));
-//     }
+        if (!_triggeredEffects.ContainsKey(newEffect.TriggerTime)) {
+            _triggeredEffects.Add(newEffect.TriggerTime, new List<TriggeredEffect>());
+        } else {
+            for (int i = 0; i < _triggeredEffects[newTime].Count; i++) {
+                if (newEffect.Type == _triggeredEffects[newTime][i].Type) {
+                    _triggeredEffects[newTime][i] = _triggeredEffects[newTime][i] + newEffect;
+                    return;
+                }
+            }
+        }
+        _triggeredEffects[newTime].Add(newEffect);
+        _triggeredEffects[newTime].OrderBy(x => (int)x.Type);
+    }
 
-//     private void TriggerEffects(UnityEvent unityEvent) {
-//         foreach (TriggeredEffect triggeredEffect in _effectDict[unityEvent]) {
-//             triggeredEffect.TriggerEffect();
-//         }
-//     }
-// }
+    private void TriggerEffects(TriggeredEffectTriggerTime time) {
+        if (!_triggeredEffects.ContainsKey(time)) {
+            _triggeredEffects.Add(time, new List<TriggeredEffect>());
+        }
+        foreach (TriggeredEffect effect in _triggeredEffects[time]) {
+            effect.Trigger();
+        }
+    }
+}

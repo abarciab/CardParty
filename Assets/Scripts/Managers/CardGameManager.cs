@@ -16,6 +16,7 @@ public class CardGameManager : GameManager
 
     [Header("References")]
     [SerializeField] private TabletopController _tableTop;
+    [SerializeField] private TriggeredEffectController _triggeredEffectController;
 
     [Space()]
     [SerializeField] private Transform _enemyContainer;
@@ -48,6 +49,7 @@ public class CardGameManager : GameManager
     public AdventurerObject GetAdventurerObject(AdventurerData ownerData) => _tableTop.GetAdventurerObject(ownerData);
     public List<AdventurerObject> GetAdventurers() => _tableTop.GetAdventurers();
     public List<EnemyObject> GetEnemies() => _tableTop.GetEnemies();
+    public void AddTriggeredEffect(TriggeredEffectData triggeredEffect) => _triggeredEffectController.AddTriggeredEffect(triggeredEffect);
 
     protected override void Awake() {
         base.Awake();
@@ -168,6 +170,9 @@ public class CardGameManager : GameManager
             }
             else if (cardFunctionData.Function == Function.STATUS) {
                 selectedTargets[0].AddStatusEffect(cardFunctionData.StatusEffectData);
+            }
+            else if (cardFunctionData.Function == Function.TRIGGEREDEFFECT) {
+                CardGameManager.i.AddTriggeredEffect(cardFunctionData.TriggeredEffectData);
             }
         }
 

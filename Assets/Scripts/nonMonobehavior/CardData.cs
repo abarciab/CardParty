@@ -5,7 +5,7 @@ using System;
 using MyBox;
 using System.Threading.Tasks;
 
-public enum Function { NONE, ATTACK, BLOCK, DRAW, ADDCARDS, STATUS}
+public enum Function { NONE, ATTACK, BLOCK, DRAW, ADDCARDS, STATUS, TRIGGEREDEFFECT}
 
 [Serializable]
 public class CardPlayData {
@@ -25,7 +25,8 @@ public class CardFunctionData {
     [ConditionalField (nameof(Function), inverse:true, Function.NONE)] public float Amount = 50;
     [ConditionalField (nameof(Function), inverse:false, Function.ADDCARDS)] public CardData CardData;
     [ConditionalField (nameof(Function), inverse:false, Function.STATUS)] public StatusEffectData StatusEffectData;
-    public List<System.Type> Targets;
+    [ConditionalField (nameof(Function), inverse:false, Function.TRIGGEREDEFFECT)] public TriggeredEffectData TriggeredEffectData;
+    public List<System.Type> Targets = new List<System.Type>();
 }
 
 [CreateAssetMenu(fileName = "CardData")]

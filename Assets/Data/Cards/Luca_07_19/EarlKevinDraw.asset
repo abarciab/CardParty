@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Draw
   Sprite: {fileID: 21300000, guid: e59afbe37c5f3ed489675a1d207dbe1f, type: 3}
-  Description: 
+  Description: kevin magically turns 1 card into 2
   _cardFunctionData:
   - Function: 3
     Amount: 2
     CardData: {fileID: 0}
-    PersistentEffect: {fileID: 0}
+    StatusEffectData: {fileID: 0}
+    TriggeredEffectData: {fileID: 0}
   _targetAll: 0
   _exhaust: 0
-  CardObject: {fileID: 0}

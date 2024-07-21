@@ -36,6 +36,7 @@ public class Deck : MonoBehaviour
     }
 
     public void Draw(int count = 1) {
+        print("drawwinn");
         List<CardData> tempList = new List<CardData>();
         for(int i = 0; i < count; i++) {
             if (_cards.Count == 0) ShuffleDiscardPileIntoDrawPile();

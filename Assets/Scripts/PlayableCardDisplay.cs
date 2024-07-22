@@ -21,7 +21,9 @@ public class PlayableCardDisplay : MonoBehaviour
         if (_seletable) _seletable.enabled = _canBeClicked;
     }
 
-    public void Initialize(CardData card, string equipmentName = "")
+    public void Initialize(CardData card, string equipmentName = "") => Initialize(new CardInstance(card), equipmentName);
+
+    public void Initialize(CardInstance card, string equipmentName = "")
     {
         _nameText.text = card.Name;
         _img.sprite = card.Sprite;

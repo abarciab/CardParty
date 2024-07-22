@@ -27,16 +27,4 @@ public class Equipment : ScriptableObject
         if (otherEquipment == null) return false;
         return string.Equals(ToString(), other.ToString());
     }
-
-    /*
-
-    OnTurnStart(){
-        if (!HasStartTurnBehavior) return;
-
-        if (TURNSTARTBEHAV == HEALALLDUDES) HEALALLDUDES()
-    }
-
-    HEALALLDUDES() => GMan.healalldudes(amount)
-
-    */
 }

@@ -44,8 +44,8 @@ public class CardGameManager : GameManager
     private const float CREATURE_SPACING = 10f;
 
     private CardGameUIManager ui => CardGameUIManager.i;
-    public AdventurerObject GetOwnerAdventurer(CardObject cardObject) => GetOwnerAdventurer(cardObject.CardData);
-    public AdventurerObject GetOwnerAdventurer(CardData cardData) => _tableTop.GetAdventurerObject(cardData.Owner);
+    public AdventurerObject GetOwnerAdventurer(CardObject cardObject) => GetOwnerAdventurer(cardObject.CardInstance);
+    public AdventurerObject GetOwnerAdventurer(CardInstance inst) => _tableTop.GetAdventurerObject(inst.Owner);
     public AdventurerObject GetAdventurerObject(AdventurerData ownerData) => _tableTop.GetAdventurerObject(ownerData);
     public List<AdventurerObject> GetAdventurers() => _tableTop.GetAdventurers();
     public List<EnemyObject> GetEnemies() => _tableTop.GetEnemies();
@@ -143,7 +143,7 @@ public class CardGameManager : GameManager
     public void PlayCard(CardObject cardObject)
     {
         CurrPlayedCard = cardObject;
-        var data = cardObject.CardData;
+        var data = cardObject.CardInstance;
         var playData = data.GetPlayData(GetOwnerAdventurer(cardObject));
 
         CardPlayFunction_Async(cardObject, playData);
@@ -166,7 +166,8 @@ public class CardGameManager : GameManager
                 CardGameUIManager.i.Draw((int)cardFunctionData.Amount);
             }
             else if (cardFunctionData.Function == Function.ADDCARDS) {
-                CardGameUIManager.i.AddToDeck(cardFunctionData.CardData, count : (int)cardFunctionData.Amount);
+                CardInstance newInst = cardObject.CardInstance.Copy(); //just a shallow copy
+                CardGameUIManager.i.AddToDeck(newInst, count : (int)cardFunctionData.Amount);
             }
             else if (cardFunctionData.Function == Function.STATUS) {
                 selectedTargets[0].AddStatusEffect(cardFunctionData.StatusEffectData);
@@ -193,7 +194,7 @@ public class CardGameManager : GameManager
             CurrCombatState = CombatState.PlayerTurn;
         }
 
-        CardGameUIManager.i.AddToDiscardPile(cardObject.CardData);
+        CardGameUIManager.i.AddToDiscardPile(cardObject.CardInstance);
         Destroy(cardObject.gameObject);
     }
 

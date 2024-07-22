@@ -648,8 +648,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _testItemSet: []
   _testParty:
-  - {fileID: 11400000, guid: 18abc88bd85dee948b189dd72b0de879, type: 2}
   - {fileID: 11400000, guid: c966d071a36a69046b98aa1f1d4a9096, type: 2}
+  - {fileID: 11400000, guid: 18abc88bd85dee948b189dd72b0de879, type: 2}
   TestCombat: {fileID: 11400000, guid: 6c88b8bf8adddfd4bb984b13f5d81fbb, type: 2}
   _testEquipmentLoad:
   - {fileID: 11400000, guid: 86c8df9cbf0825148a88f6dc530d3114, type: 2}
@@ -944,6 +944,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1300685290}
   - component: {fileID: 1300685291}
+  - component: {fileID: 1300685292}
+  - component: {fileID: 1300685293}
   m_Layer: 0
   m_Name: Tabletop
   m_TagString: Untagged
@@ -991,6 +993,31 @@ MonoBehaviour:
   _combatSlotPrefab: {fileID: 4769872348960886797, guid: 1c4f840b90ab4114d8877a8aa5d6a339, type: 3}
   _adventurerObjs: []
   _enemyObjs: []
+  _blockCombatSlots: []
+--- !u!114 &1300685292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300685289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b154074876cc3ec4cb15b05e918aa2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1300685293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300685289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f68da46b019de3643a8a817eefffa5df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1350496512 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2908193079930878435, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
@@ -1813,6 +1840,10 @@ PrefabInstance:
       propertyPath: _adventurers.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2416307582939499252, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
+      propertyPath: _triggeredEffectController
+      value: 
+      objectReference: {fileID: 1300685293}
     - target: {fileID: 8793712921560076685, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
       propertyPath: m_Name
       value: CardGameManager

@@ -15,6 +15,7 @@ public class TriggeredEffectController : MonoBehaviour
     }
 
     public void AddTriggeredEffect(TriggeredEffectData effectData) {
+        print("adding triggered effect");
         TriggeredEffect newEffect = new TriggeredEffect(effectData);
         TriggeredEffectTriggerTime newTime = newEffect.TriggerTime;
 
@@ -24,7 +25,6 @@ public class TriggeredEffectController : MonoBehaviour
             for (int i = 0; i < _triggeredEffects[newTime].Count; i++) {
                 if (newEffect.Type == _triggeredEffects[newTime][i].Type) {
                     _triggeredEffects[newTime][i] = _triggeredEffects[newTime][i] + newEffect;
-                    return;
                 }
             }
         }

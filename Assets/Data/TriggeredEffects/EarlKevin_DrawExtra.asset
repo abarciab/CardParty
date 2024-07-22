@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bf5b72f9304524284b0efc178cc540, type: 3}
   m_Name: EarlKevin_DrawExtra
   m_EditorClassIdentifier: 
+  Type: 0
   TriggerTime: 0
   NumTriggers: -1
+  Amount: 1

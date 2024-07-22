@@ -39,7 +39,7 @@ public class TabletopController : MonoBehaviour
         foreach (var blockSlot in _blockCombatSlots) {
             var dist = Vector3.Distance(blockSlot.transform.position, position);
             if (dist < 0.1f) {
-                print("found overlap");
+                //print("found overlap");
                 return blockSlot;
             }
         }
@@ -67,6 +67,13 @@ public class TabletopController : MonoBehaviour
         else {
             blockSlot.AttackArrow.Initialize(blockSlot.AttackArrow.Owner.transform.position, blockSlot.AttackArrow.Owner.GetTarget().transform.position);
         }
+    }
+
+    public void RemoveAttackArrow(AttackArrow arrow) {
+        _blockCombatSlots.Remove(arrow.BlockSlot);
+        ClearBlockSlot(arrow.BlockSlot);
+        if (arrow.BlockSlot) Destroy(arrow.BlockSlot.gameObject);
+        Destroy(arrow.gameObject);
     }
 
     public async Task TakeEnemyActions(int TURN_WAIT_TIME)

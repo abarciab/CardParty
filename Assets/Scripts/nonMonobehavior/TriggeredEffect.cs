@@ -47,6 +47,7 @@ public class TriggeredEffect
 
     public void Trigger() {
         if (Type == TriggeredEffectTriggerType.DRAW) {
+            Debug.Log("draw " + Amount);
             CardGameUIManager.i.Draw(Amount);
         }
     }

@@ -25,7 +25,7 @@ public class CardFunctionData {
     [ConditionalField (nameof(Function), inverse:true, Function.NONE)] public float Amount = 50;
     [ConditionalField (nameof(Function), inverse:false, Function.ADDCARDS)] public CardData CardData;
     [ConditionalField (nameof(Function), inverse:false, Function.STATUS)] public StatusEffectData StatusEffectData;
-    public List<System.Type> Targets;
+    public List<System.Type> Targets = new List<Type>();
 }
 
 [CreateAssetMenu(fileName = "CardData")]

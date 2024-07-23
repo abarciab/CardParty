@@ -27,7 +27,7 @@ public class EnemyObject : Creature
     public AttackArrow AttackArrow;
     [SerializeField] private float _attackDamage;
     public async Task Action(List<AdventurerObject> adventurers, List<EnemyObject> enemies) {
-        if (_isStunned) return;
+        if (_isStunned || _nextAction.Action == EnemyActionType.None) return;
 
         switch(_nextAction.Action) {
             case EnemyActionType.Attack: {
@@ -54,7 +54,9 @@ public class EnemyObject : Creature
     private EnemyAction GetAction() {
         switch(EnemyType) {
             case EnemyType.Goblin: {
-                return new EnemyAction(EnemyActionType.Attack, Controller.GetValidAttackTarget(CombatSlot));
+                    var target = Controller.GetValidAttackTarget(CombatSlot);
+                    if (target == null) break;
+                return new EnemyAction(EnemyActionType.Attack, target);
             }
         }
 
@@ -73,6 +75,8 @@ public class EnemyObject : Creature
 
     private void RotateToFaceTarget()
     {
+        if (!_nextAction.TargetSlot) return;
+
         var euler = transform.localEulerAngles;
         transform.LookAt(_nextAction.TargetSlot.transform.position);
         euler.y = transform.localEulerAngles.y;

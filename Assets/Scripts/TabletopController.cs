@@ -36,6 +36,8 @@ public class TabletopController : MonoBehaviour
 
     public CombatSlot SpawnBlockSlot(Vector3 position)
     {
+        _blockCombatSlots = _blockCombatSlots.Where(x => x != null).ToList();
+
         foreach (var blockSlot in _blockCombatSlots) {
             var dist = Vector3.Distance(blockSlot.transform.position, position);
             if (dist < 0.1f) {
@@ -164,6 +166,7 @@ public class TabletopController : MonoBehaviour
         }
         validSlots = validSlots.Where(x => x.Creature).ToList();
 
+        if (validSlots.Count == 0) return null;
         return validSlots[Random.Range(0, validSlots.Count)];
     }
 

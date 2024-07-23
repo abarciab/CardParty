@@ -7,26 +7,44 @@ using UnityEngine.EventSystems;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using UnityEngine.Events;
+using MyBox;
 
 public class Creature : MonoBehaviour
 {
-    public Canvas Canvas;
-    [MyBox.ReadOnly] public CombatSlot CombatSlot;
-    [SerializeField] private Slider _healthSlider;
-    [SerializeField] private Slider _blockSlider;
-    [SerializeField] private int _health;
+    [SerializeField] private CreatureObjectUIController _ui;
+    [SerializeField, ConditionalField(nameof(_gameRunning)), ReadOnly] private int _health;
     [SerializeField] private int _maxHealth;
-    [SerializeField] private int _block = 0;
+    [SerializeField, ConditionalField(nameof(_gameRunning)), ReadOnly] private int _block = 0;
     [SerializeField] private int _maxBlock;
+
+    [HideInInspector] public CombatSlot CombatSlot;
     protected bool _isStunned = false;
     private Dictionary<StatusEffectTriggerTime, List<StatusEffect>> _statusEffects = new Dictionary<StatusEffectTriggerTime, List<StatusEffect>>();
 
     public GameObject SelectedCreatureHighlight;
     protected TabletopController Controller;
 
+    [SerializeField, HideInInspector] private bool _gameRunning;
+    [HideInInspector] public UnityEvent<float> OnHealthPercentChanged;
+    [HideInInspector] public UnityEvent<float> OnBlockPercentChanged;
+
+    private void OnValidate()
+    {
+        _health = _maxHealth;
+        _block = 0;
+    }
+
+    private void Start()
+    {
+        _gameRunning = true;
+    }
+
     public void Initialize(TabletopController controller)
     {
         Controller = controller;
+        _health = _maxHealth;
+        _ui.Initialize(this);
     }
 
     public void Select() {
@@ -38,20 +56,19 @@ public class Creature : MonoBehaviour
     }
 
     public virtual void TakeDamage(float damage) {
-        _block = _block - (int)damage;
+        _block -= Mathf.RoundToInt(damage);
         if (_block < 0) {
             _health += _block;
             _block = 0;
         }
-        _healthSlider.value = (_health / (float)_maxHealth);
-        _blockSlider.value = (_block / (float)_maxBlock);
+        OnHealthPercentChanged.Invoke(_health / (float) _maxHealth);
 
         if (_health <= 0) Die();
     }
 
-    public virtual void AddBlock(float block) {
-        _block += (int)block;
-        _blockSlider.value = (_block / (float)_maxBlock);
+    public virtual void AddBlock(float blockDelta) {
+        _block += Mathf.RoundToInt(blockDelta);
+        OnBlockPercentChanged.Invoke(_block / (float)_maxBlock);
     }
 
     public virtual async void Die() {

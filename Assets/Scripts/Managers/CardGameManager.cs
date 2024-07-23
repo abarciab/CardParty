@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine.Events;
 using MyBox;
+using Unity.VisualScripting;
 
 public class CardGameManager : GameManager
 {
@@ -142,13 +143,15 @@ public class CardGameManager : GameManager
     {
         CurrPlayedCard = cardObject;
         var data = cardObject.CardData;
-        var playData = data.GetPlayData(GetOwnerAdventurer(cardObject));
+        var owner = GetOwnerAdventurer(cardObject);
+        var playData = data.GetPlayData(owner);
 
         CardPlayFunction_Async(cardObject, playData);
     }
 
     public async void CardPlayFunction_Async(CardObject cardObject, CardPlayData cardPlayData) {
         foreach (CardFunctionData cardFunctionData in cardPlayData.CardFunctionData) {
+            if (!cardPlayData.Owner) break;
 
             List<System.Type> requiredTargets = cardFunctionData.Targets;
             List<Creature> selectedTargets = await SelectTargets(requiredTargets);
@@ -225,7 +228,7 @@ public class CardGameManager : GameManager
 
         SelectedCreatures.Add(creature);
         
-        creature.SelectedCreatureHighlight = Instantiate(_selectedCreatureHighlight, creature.Canvas.gameObject.transform);
+        //creature.SelectedCreatureHighlight = Instantiate(_selectedCreatureHighlight, creature.Canvas.gameObject.transform);
     }
     
     public void DeselectCreature(Creature creature) {

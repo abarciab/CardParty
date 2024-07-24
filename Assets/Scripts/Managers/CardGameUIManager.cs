@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class CardGameUIManager : UIManager
 {
@@ -86,10 +87,15 @@ public class CardGameUIManager : UIManager
         _actionsPointsText.text = gMan.Actions + "/" + gMan.MaxActions;
     }
 
-    public void MoveToDisplay(CardObject cardObject)
+    public async void MoveToDisplay(CardObject cardObject)
     {
+        print("moving card");
         cardObject.transform.SetParent(_currentPlayedCardParent);
+        await Task.Delay(1);
+        if (cardObject == null) return;
+
         cardObject.transform.localPosition = Vector3.zero;
         cardObject.transform.localScale = Vector3.one;
+        cardObject.transform.localEulerAngles = Vector3.zero;
     }
 }

@@ -18,15 +18,12 @@ MonoBehaviour:
   CardFunctionData:
   - Function: 1
     Amount: 50
-    CardInstance:
-      Name: 
-      Sprite: {fileID: 0}
-      Description: 
-      _cardFunctionData: []
-      _targetAll: 0
-      _exhaust: 0
-      Owner: {fileID: 0}
-      CardData: {fileID: 0}
+    CardData: {fileID: 0}
+    StatusEffectData: {fileID: 0}
+    TriggeredEffectData: {fileID: 0}
+  - Function: 1
+    Amount: 50
+    CardData: {fileID: 0}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 0}
   TargetAll: 0

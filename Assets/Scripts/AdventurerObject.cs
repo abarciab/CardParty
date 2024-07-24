@@ -32,14 +32,18 @@ public class AdventurerObject : Creature
 
     private void DoDrag()
     {
-        //https://gist.github.com/SimonDarksideJ/477f5674285b63cba8e752c43950ed7c
-        Ray R = Camera.main.ScreenPointToRay(Input.mousePosition); // Get the ray from mouse position
-        Vector3 PO = transform.position; // Take current position of this draggable object as Plane's Origin
-        Vector3 PN = -Camera.main.transform.forward; // Take current negative camera's forward as Plane's Normal
-        float t = Vector3.Dot(transform.position - R.origin, PN) / Vector3.Dot(R.direction, PN); // plane vs. line intersection in algebric form. It find t as distance from the camera of the new point in the ray's direction.
-        Vector3 P = R.origin + R.direction * t; // Find the new point.
+        var pos = GetMouseRayPoint();
+        transform.position = new Vector3(pos.x, 2, pos.z);
+    }
 
-        transform.position = new Vector3(P.x, 2, P.z);
+    private Vector3 GetMouseRayPoint()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Vector3 currentPos = transform.position;
+        Vector3 camForward = -Camera.main.transform.forward;
+        float rayDist = Vector3.Dot(transform.position - ray.origin, camForward) / Vector3.Dot(ray.direction, camForward);
+        Vector3 pos = ray.origin + ray.direction * rayDist;
+        return pos;
     }
 
     public void Initialize(AdventurerData data)

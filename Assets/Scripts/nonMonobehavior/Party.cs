@@ -89,9 +89,14 @@ public class Party
     }
 
     public AdventurerData GetOwner(CardData data) {
-        foreach (AdventurerData adventurerData in Adventurers) {
-            if (adventurerData.Cards.Contains(data)) return adventurerData;
+        foreach (var adventurer in Adventurers) {
+            if (adventurer.Cards.Contains(data)) return adventurer;
+            foreach (var e in _equipmentDict[adventurer]) {
+                if (e && e.Cards.Contains(data)) return adventurer;
+            }
         }
+
+        Debug.Log("didn't find adventurerOwner for: " + data.Name);
         return null;
     }
 

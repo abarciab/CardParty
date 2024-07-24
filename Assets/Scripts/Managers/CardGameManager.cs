@@ -126,11 +126,13 @@ public class CardGameManager : GameManager
 
     public void PlayCard(CardObject cardObject)
     {
+        print("Playing card: " + cardObject.CardInstance.Name);
+
         CurrentPlayedCard = cardObject;
         var data = cardObject.CardInstance;
         var playData = data.GetPlayData(GetOwnerAdventurer(cardObject));
         _currentCardPlayData = playData;
-        _tableTop.StopAllWiggles();
+        //_tableTop.StopAllWiggles();
 
         StartSelectingTargets(playData);
 

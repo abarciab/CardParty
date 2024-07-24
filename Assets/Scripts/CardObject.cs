@@ -90,7 +90,6 @@ public class CardObject: MonoBehaviour
     {
         CardInstance = inst;
         _handController = handController;
-        print("initializing: " + inst.Name);
         _display.Initialize(inst.CardData, inst.Owner.Name);
         transform.localScale = Vector3.one;
         transform.localEulerAngles = Vector3.forward * Random.Range(_randomRotRange.x, _randomRotRange.y);
@@ -140,9 +139,5 @@ public class CardObject: MonoBehaviour
         _handController.RemoveCard(this);
         CardGameUIManager.i.MoveToDisplay(this);
         CardGameManager.i.PlayCard(this);
-    }
-
-    public void MoveFromDisplay() {
-        CardGameManager.i.MoveCardFromDisplay();
     }
 }

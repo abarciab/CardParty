@@ -10,23 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0a82f428b23c4e40b3a2fd4a3f84be8, type: 3}
-  m_Name: EarlKevin_Block
+  m_Name: John_ForgeAttacks
   m_EditorClassIdentifier: 
-  Name: Block
-  Sprite: {fileID: 21300000, guid: 982a01a80c4af4f4f8ab17ee2645e505, type: 3}
-  Description: Wizard block!
+  Name: Forge Attacks
+  Sprite: {fileID: 21300000, guid: cf933778e6a66ec4db0cec32fceb92dc, type: 3}
+  Description: 
   CardFunctionData:
-  - Function: 2
-    Amount: 50
-    CardInstance:
-      Name: 
-      Sprite: {fileID: 0}
-      Description: 
-      _cardFunctionData: []
-      _targetAll: 0
-      _exhaust: 0
-      Owner: {fileID: 0}
-      CardData: {fileID: 0}
+  - Function: 5
+    Amount: 2
+    CardData: {fileID: 11400000, guid: 03df4fb7d94699441b31992e92f8e007, type: 2}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 0}
   TargetAll: 0

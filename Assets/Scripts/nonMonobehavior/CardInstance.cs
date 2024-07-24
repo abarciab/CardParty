@@ -6,7 +6,7 @@ using MyBox;
 using System.Reflection;
 using System.Threading.Tasks;
 
-public enum Function { NONE, ATTACK, BLOCK, DRAW, ADDCARDS, STATUS, TRIGGEREDEFFECT}
+public enum Function { NONE, ATTACK, BLOCK, DRAW, HEAL, ADDCARDS, STATUS, TRIGGEREDEFFECT}
 
 [Serializable]
 public class CardPlayData {
@@ -26,7 +26,7 @@ public class CardPlayData {
 public class CardFunctionData {
     public Function Function;
     [ConditionalField (nameof(Function), inverse:true, Function.NONE)] public float Amount = 50;
-    [ConditionalField (nameof(Function), inverse:false, Function.ADDCARDS)] public CardInstance CardInstance;
+    [ConditionalField (nameof(Function), inverse:false, Function.ADDCARDS)] public CardData CardData;
     [ConditionalField (nameof(Function), inverse:false, Function.STATUS)] public StatusEffectData StatusEffectData;
     [ConditionalField (nameof(Function), inverse:false, Function.TRIGGEREDEFFECT)] public TriggeredEffectData TriggeredEffectData;
 }
@@ -87,6 +87,8 @@ public class CardInstance
             if (f.Function == Function.ATTACK || f.Function == Function.STATUS) {
                 playData.TargetTypes = new List<System.Type>() { typeof(EnemyObject) };
                 break;
+            } else if (f.Function == Function.HEAL) {
+                playData.TargetTypes = new List<System.Type>() {typeof(AdventurerObject)};
             }
         }
 

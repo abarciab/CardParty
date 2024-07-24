@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0a82f428b23c4e40b3a2fd4a3f84be8, type: 3}
-  m_Name: MartraxTheDestroyer_Stun
+  m_Name: Martrax_Attack
   m_EditorClassIdentifier: 
-  Name: Stun
-  Sprite: {fileID: 21300000, guid: f19a5e993fce26747b6381bb6363cf5f, type: 3}
-  Description: no martrax you can't do that it crashes the game
-  _cardFunctionData:
-  - Function: 5
-    Amount: 0
+  Name: Martrax's Attack
+  Sprite: {fileID: 21300000, guid: 6382e6bc6634c9d42aa2c904ff44e56e, type: 3}
+  Description: 
+  CardFunctionData:
+  - Function: 1
+    Amount: 7
     CardData: {fileID: 0}
-    StatusEffectData: {fileID: 11400000, guid: 65ec2118166971a45b64594aab44eb08, type: 2}
-  _targetAll: 0
-  _exhaust: 0
+    StatusEffectData: {fileID: 0}
+    TriggeredEffectData: {fileID: 0}
+  TargetAll: 0
+  Exhaust: 0

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de658ed930c5b946bd1c0d823ae7916, type: 3}
+  m_Name: MiaOfTheFiveRealms
+  m_EditorClassIdentifier: 
+  Name: Mia of the Five Realms
+  portrait: {fileID: 21300000, guid: e53c000d73201c040ad5c09609a8337c, type: 3}
+  Description: there used to be six but something happened
+  AdventurerPrefab: {fileID: 4531924361357938381, guid: bde5a3648f035e040a8fd508f2cba98c, type: 3}
+  Cards:
+  - {fileID: 11400000, guid: cea181d4f0c5da749b923cded30c647e, type: 2}
+  - {fileID: 11400000, guid: 8d6cde0bd0bf8fc469739a3986c16f18, type: 2}
+  - {fileID: 11400000, guid: e18df151f07a9ab46a3e17dfd92876a3, type: 2}
+  - {fileID: 11400000, guid: bafb2706f7261c64badd5aa4bf5a73e1, type: 2}
+  - {fileID: 11400000, guid: 9abb37138cee3bf469dede22f77df783, type: 2}
+  MaxHealth: 50

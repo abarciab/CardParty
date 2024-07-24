@@ -10,20 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0a82f428b23c4e40b3a2fd4a3f84be8, type: 3}
-  m_Name: JohnTheSmith_GreaterAttack
+  m_Name: Mia_Draw
   m_EditorClassIdentifier: 
-  Name: Greater Attack
-  Sprite: {fileID: 21300000, guid: e81051fdd2e70cc4b9678b719d0866a1, type: 3}
-  Description: 
-  _cardFunctionData:
-  - Function: 1
-    Amount: 5
+  Name: Draw 2
+  Sprite: {fileID: 21300000, guid: e59afbe37c5f3ed489675a1d207dbe1f, type: 3}
+  Description: 2!!!
+  CardFunctionData:
+  - Function: 3
+    Amount: 2
     CardData: {fileID: 0}
-    PersistentEffect: {fileID: 0}
-  - Function: 1
-    Amount: 5
-    CardData: {fileID: 0}
-    PersistentEffect: {fileID: 0}
-  _targetAll: 0
-  _exhaust: 0
-  CardObject: {fileID: 0}
+    StatusEffectData: {fileID: 0}
+    TriggeredEffectData: {fileID: 0}
+  TargetAll: 0
+  Exhaust: 0

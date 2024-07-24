@@ -156,6 +156,9 @@ public class CardGameManager : GameManager
         else if (function.Function == Function.DRAW) {
             ui.Draw((int)function.Amount);
         }
+        else if (function.Function == Function.HEAL) {
+            targets[0].RestoreHealth((int)function.Amount);
+        }
         else if (function.Function == Function.ADDCARDS) {
             CardInstance newInst = CurrentPlayedCard.CardInstance.Copy(); //just a shallow copy
             ui.AddToDeck(newInst, count: (int)function.Amount);

@@ -93,6 +93,10 @@ public class Creature : MonoBehaviour
         _block += Mathf.RoundToInt(blockDelta);
         OnBlockPercentChanged.Invoke(_block / (float)_maxBlock);
     }
+    public virtual void RestoreHealth(int health) {
+        _health += health;
+        _health = Mathf.Clamp(_health, 0, _maxHealth);
+    }
 
     public virtual async void Die() {
         await Utilities.LerpScale(gameObject, Vector3.zero, 0.45f);

@@ -38,6 +38,12 @@ public class Hand : MonoBehaviour
         if (_maxHandSize > _cards.Count) _deck.Draw(_maxHandSize - _cards.Count);
     }
 
+    public void Discard(int count = 1) {
+        CardObject card = _cards[Random.Range(0, _cards.Count)];
+        _cards.Remove(card);
+        Destroy(card.gameObject);
+    }
+
     public void RemoveCard(CardObject cardObject) {
         _cards.Remove(cardObject);
     }

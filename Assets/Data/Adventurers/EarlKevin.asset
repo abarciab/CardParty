@@ -21,7 +21,7 @@ MonoBehaviour:
   Cards:
   - {fileID: 11400000, guid: f9b9e417765754e48860888d982d0c99, type: 2}
   - {fileID: 11400000, guid: f9b9e417765754e48860888d982d0c99, type: 2}
-  - {fileID: 11400000, guid: c7142bb9956e12849a896134fc556a6f, type: 2}
-  - {fileID: 11400000, guid: c7142bb9956e12849a896134fc556a6f, type: 2}
+  - {fileID: 11400000, guid: 1cf247984a4b6c34783455f0ed12b30d, type: 2}
+  - {fileID: 11400000, guid: 1cf247984a4b6c34783455f0ed12b30d, type: 2}
   - {fileID: 11400000, guid: c7142bb9956e12849a896134fc556a6f, type: 2}
   MaxHealth: 50

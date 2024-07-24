@@ -10,12 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3de658ed930c5b946bd1c0d823ae7916, type: 3}
-  m_Name: Stephanie
+  m_Name: StephanieTheUnkillable
   m_EditorClassIdentifier: 
   Name: Stephanie
   portrait: {fileID: 21300000, guid: 78faae142e0131d4d829d255de97cf2f, type: 3}
   Description: steph for short, stephaninininininininininininine for long
   AdventurerPrefab: {fileID: 4531924361357938381, guid: bde5a3648f035e040a8fd508f2cba98c, type: 3}
   Cards:
-  - {fileID: 11400000, guid: f924227f3b0b7734eb244ee916772c53, type: 2}
+  - {fileID: 11400000, guid: 5663b903205f7584db3951d81a9b742e, type: 2}
+  - {fileID: 11400000, guid: 881530bfc33daa841b6c037b6170024b, type: 2}
+  - {fileID: 11400000, guid: 881530bfc33daa841b6c037b6170024b, type: 2}
+  - {fileID: 11400000, guid: 3b4ec710dbb0e6a4d8afd235228aa75c, type: 2}
+  - {fileID: 11400000, guid: 3b4ec710dbb0e6a4d8afd235228aa75c, type: 2}
   MaxHealth: 800

@@ -27,6 +27,7 @@ public class CardGameUIManager : UIManager
     private CardGameManager gMan => CardGameManager.i;
     
     public void Draw(int count = 1) => _deck.Draw(count: count);
+    public void Discard(int count = 1) => _hand.Discard(count: count);
     public void AddToDiscardPile(CardInstance inst, int count = 1) => _deck.AddToDiscard(inst, count: count);
     public void AddToDeck(CardInstance inst, int count = 1, bool random = true) => _deck.AddToDeck(inst, count: count, random: random);
     public void HideInstructions() => _instructionsParent.SetActive(false);

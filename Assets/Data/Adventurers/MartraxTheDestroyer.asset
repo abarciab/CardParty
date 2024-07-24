@@ -17,5 +17,9 @@ MonoBehaviour:
   Description: angry boyyy
   AdventurerPrefab: {fileID: 4531924361357938381, guid: bde5a3648f035e040a8fd508f2cba98c, type: 3}
   Cards:
+  - {fileID: 11400000, guid: 135197dc9d9a77e45ab530448b0ecaa1, type: 2}
+  - {fileID: 11400000, guid: 135197dc9d9a77e45ab530448b0ecaa1, type: 2}
+  - {fileID: 11400000, guid: 135197dc9d9a77e45ab530448b0ecaa1, type: 2}
+  - {fileID: 11400000, guid: 95937bdaa2144704cba2f9b00fe06235, type: 2}
   - {fileID: 11400000, guid: 95937bdaa2144704cba2f9b00fe06235, type: 2}
   MaxHealth: 50

@@ -1,3 +1,4 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +62,7 @@ public class Party
             }
         }
 
-        return deck;
+        return deck.Shuffle().ToList();
     }
 
     public List<Equipment> GetAllEquippedItems()

@@ -19,6 +19,7 @@ public class AttackArrow : MonoBehaviour
         _posB = posB;
 
         transform.position = GetPosAlongLine(0.75f);
+        transform.position += Vector3.up * 2;
 
         var euler = transform.localEulerAngles;
         transform.LookAt(posB);

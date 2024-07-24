@@ -32,6 +32,8 @@ public class CardGameUIManager : UIManager
     public void HideInstructions() => _instructionsParent.SetActive(false);
     public void DisplayVictoryScreen() => _victoryScreen.SetActive(true);
     public void DisplayDefeatScreen() => _defeatScreen.SetActive(true);
+    public void ToggleCameraPerspective() => gMan.ToggleCamera();
+
     public void MoveCardFromDisplay(CardObject cardObj)
     {
         HideInstructions();
@@ -55,7 +57,7 @@ public class CardGameUIManager : UIManager
     public void DisplayCardInfo(CardInstance inst)
     {
         _cardInfoParent.SetActive(true);
-        _cardInfo.Initialize(inst);
+        _cardInfo.Initialize(inst, inst.Owner.Name);
     }
 
     private void StartEnemyTurn()

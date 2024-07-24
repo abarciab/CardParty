@@ -48,6 +48,7 @@ public class CardObject: MonoBehaviour
         _animator.SetBool(_shakingAnimString, false);
         SetWidth(_originalWidth);
         SetY(_startY);
+        CardGameManager.i.StopWiggle(CardInstance.Owner);
     }
 
     private void StartHover()
@@ -55,6 +56,7 @@ public class CardObject: MonoBehaviour
         _animator.SetBool(_shakingAnimString, true);
         SetWidth(_hoveredWidth);
         SetY(_startY + _hoverJumpUpDist);
+        CardGameManager.i.StartWiggle(CardInstance.Owner);
     }
 
     private void SetY(float y)
@@ -80,15 +82,16 @@ public class CardObject: MonoBehaviour
 
     private void UpdateDrag()
     {
-        transform.position = Input.mousePosition;
         if (Input.GetMouseButtonUp(0)) EndDrag();
+        transform.position = Input.mousePosition;
     }
 
     public void Initialize(CardInstance inst, Hand handController)
     {
         CardInstance = inst;
         _handController = handController;
-        _display.Initialize(inst.CardData);
+        print("initializing: " + inst.Name);
+        _display.Initialize(inst.CardData, inst.Owner.Name);
         transform.localScale = Vector3.one;
         transform.localEulerAngles = Vector3.forward * Random.Range(_randomRotRange.x, _randomRotRange.y);
         _handGridParent = transform.parent;

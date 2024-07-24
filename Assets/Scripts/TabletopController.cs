@@ -34,9 +34,22 @@ public class TabletopController : MonoBehaviour
     private List<Creature> _selectedCreatures = new List<Creature>();
     private List<System.Type> _targetSelectedCreatures = new List<System.Type>();
 
+    public void StopWiggle(AdventurerData aData) => GetAdventurerObject(aData).SetWiggle(false);
+
     private void Start()
     {
         CardGameManager.i.OnStartPlayerTurn.AddListener(StartPlayerTurn);
+    }
+
+    public void StartWiggle(AdventurerData aData)
+    {
+        StopAllWiggles();
+        GetAdventurerObject(aData).SetWiggle(true);
+    }
+
+    public void StopAllWiggles()
+    {
+        foreach (var a in _adventurerObjs) a.SetWiggle(false);
     }
 
     public void StartSelectingTargets(List<System.Type> types)
@@ -57,22 +70,25 @@ public class TabletopController : MonoBehaviour
         if (_selectedCreatures.Contains(selected)) return;
 
         _selectedCreatures.Add(selected);
-        //print(selected + " added to selection. currentSelection: " + string.Join(", ", selected));
 
         var types = _selectedCreatures.Select(x => x.GetType()).OrderBy(x => x.Name).ToList();
         if (AreListsEqual(types, _targetSelectedCreatures)) {
             MakeAllCreaturesUnselectable();
             CardGameManager.i.DoCurrentCardFunction(_selectedCreatures);
         }
-        //else print("current selected: " + string.Join(", ", types.Select(x => x.Name)) + ", target: " + string.Join(", ", _targetSelectedCreatures.Select(x => x.Name)));
+    }
+
+    private List<Creature> GetAllCreaturesList()
+    {
+        var allCreatures = new List<Creature>(_enemyObjs);
+        allCreatures.AddRange(_adventurerObjs);
+        return allCreatures;
     }
 
     private void MakeAllCreaturesUnselectable()
     {
-        var allCreadtures = new List<Creature>(_enemyObjs);
-        allCreadtures.AddRange(_adventurerObjs);
-
-        foreach (var c in allCreadtures) c.MakeUnselectable();
+        var allCreatures = GetAllCreaturesList();
+        foreach (var c in allCreatures) c.MakeUnselectable();
     }
 
     private bool AreListsEqual(List<System.Type> list1, List<System.Type> list2)
@@ -123,6 +139,7 @@ public class TabletopController : MonoBehaviour
     }
 
     public void RemoveAttackArrow(AttackArrow arrow) {
+        if (arrow == null) return;
         _blockCombatSlots.Remove(arrow.BlockSlot);
         ClearBlockSlot(arrow.BlockSlot);
         if (arrow.BlockSlot) Destroy(arrow.BlockSlot.gameObject);
@@ -253,6 +270,8 @@ public class TabletopController : MonoBehaviour
     {
         if (creature.GetType() == typeof(EnemyObject)) {
             _enemyObjs.Remove((EnemyObject)creature);
+
+
             if (_enemyObjs.Count == 0) {
                 CardGameUIManager.i.DisplayVictoryScreen();
             }

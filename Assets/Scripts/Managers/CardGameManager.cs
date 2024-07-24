@@ -18,6 +18,7 @@ public class CardGameManager : GameManager
     [Header("References")]
     [SerializeField] private TabletopController _tableTop;
     [SerializeField] private TriggeredEffectController _triggeredEffectController;
+    [SerializeField] private CardGameCameraController _cameraController;
 
     [Header("Stats")]
     [SerializeField] private int _maxActions = 3; //move to playerInfo.Stats eventually
@@ -31,7 +32,7 @@ public class CardGameManager : GameManager
     [HideInInspector] public UnityEvent OnEndEnemyTurn = new UnityEvent();
 
     [HideInInspector] public CombatState CurrCombatState { get; private set; }
-    [HideInInspector]public int Actions { get; private set; }
+    [HideInInspector] public int Actions { get; private set; }
     [HideInInspector] public int MaxActions => _maxActions;
 
     private CardPlayData _currentCardPlayData;
@@ -45,8 +46,12 @@ public class CardGameManager : GameManager
     public List<AdventurerObject> GetAdventurers() => _tableTop.GetAdventurers();
     public List<EnemyObject> GetEnemies() => _tableTop.GetEnemies();
     public void AddTriggeredEffect(TriggeredEffectData triggeredEffect) => _triggeredEffectController.AddTriggeredEffect(triggeredEffect);
+    public void ToggleCamera() => _cameraController.Toggle();
+    public void StartWiggle(AdventurerData aData) => _tableTop.StartWiggle(aData);
+    public void StopWiggle(AdventurerData aData) => _tableTop.StopWiggle(aData);
 
-    protected override void Awake() {
+    protected override void Awake()
+    {
         base.Awake();
         i = this;
     }
@@ -76,7 +81,7 @@ public class CardGameManager : GameManager
         if (OverworldManager.i) OverworldManager.i.ShowOverworldObjects();
         else SceneManager.LoadScene(1);
     }
-    
+
     public async void StartCombat(Combat combat)
     {
         _tableTop.SpawnCombatants(combat);
@@ -87,20 +92,23 @@ public class CardGameManager : GameManager
         StartPlayerTurn();
     }
 
-    public void StartPlayerTurn() {
+    public void StartPlayerTurn()
+    {
         CurrCombatState = CombatState.PlayerTurn;
         Actions = _maxActions;
-        OnStartPlayerTurn.Invoke();        
+        OnStartPlayerTurn.Invoke();
     }
 
-    public void EndPlayerTurn() {
+    public void EndPlayerTurn()
+    {
         CurrCombatState = CombatState.Idle;
 
         OnEndPlayerTurn.Invoke();
         StartEnemyTurn();
     }
 
-    public async void StartEnemyTurn() {
+    public async void StartEnemyTurn()
+    {
         CurrCombatState = CombatState.EnemyTurn;
 
         OnStartEnemyTurn.Invoke();
@@ -121,6 +129,8 @@ public class CardGameManager : GameManager
         CurrentPlayedCard = cardObject;
         var data = cardObject.CardInstance;
         var playData = data.GetPlayData(GetOwnerAdventurer(cardObject));
+        _currentCardPlayData = playData;
+        _tableTop.StopAllWiggles();
 
         StartSelectingTargets(playData);
 
@@ -129,14 +139,13 @@ public class CardGameManager : GameManager
 
     private void StartSelectingTargets(CardPlayData playData)
     {
-        _currentCardPlayData = playData;
         if (playData.TargetTypes.Count > 0) _tableTop.StartSelectingTargets(playData.TargetTypes);
         else DoCurrentCardFunction(new List<Creature>());
     }
 
     public async void DoCurrentCardFunction(List<Creature> targets)
     {
-        foreach (var function in _currentCardPlayData.CardFunctionData) await EvaluateFunction(function, targets);
+        foreach (var f in _currentCardPlayData.CardFunctionData) await EvaluateFunction(f, targets);
 
         CardEndsPlay(CurrentPlayedCard);
     }
@@ -168,17 +177,18 @@ public class CardGameManager : GameManager
         }
     }
 
-    public void CardEndsPlay(CardObject cardObject) {
+    public void CardEndsPlay(CardObject cardObject)
+    {
         CurrentPlayedCard = null;
-        
-        DeselectAllCreatures();
+
         DecrementActionPoints();
 
         ui.HideInstructions();
 
         if (Actions == 0) {
             EndPlayerTurn();
-        } else {
+        }
+        else {
             CurrCombatState = CombatState.PlayerTurn;
         }
 
@@ -186,22 +196,11 @@ public class CardGameManager : GameManager
         Destroy(cardObject.gameObject);
     }
 
-    public void MoveCardFromDisplay() {
+    public void MoveCardFromDisplay()
+    {
         ui.MoveCardFromDisplay(CurrentPlayedCard);
 
         CurrentPlayedCard = null;
-    }
-    
-    public void DeselectCreature(Creature creature) {
-        SelectedCreatures.Remove(creature);
-
-        Destroy(creature.SelectedCreatureHighlight);
-    }
-
-    public void DeselectAllCreatures() {
-        while (SelectedCreatures.Count > 0) {
-            DeselectCreature(SelectedCreatures[0]);
-        }
     }
 }
 

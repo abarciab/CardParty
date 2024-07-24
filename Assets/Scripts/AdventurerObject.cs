@@ -39,7 +39,7 @@ public class AdventurerObject : Creature
         float t = Vector3.Dot(transform.position - R.origin, PN) / Vector3.Dot(R.direction, PN); // plane vs. line intersection in algebric form. It find t as distance from the camera of the new point in the ray's direction.
         Vector3 P = R.origin + R.direction * t; // Find the new point.
 
-        transform.position = new Vector3(P.x, 5, P.z);
+        transform.position = new Vector3(P.x, 2, P.z);
     }
 
     public void Initialize(AdventurerData data)

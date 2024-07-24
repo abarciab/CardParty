@@ -17,18 +17,26 @@ public class Creature : MonoBehaviour
     [SerializeField] private int _maxHealth;
     [SerializeField, ConditionalField(nameof(_gameRunning)), ReadOnly] private int _block = 0;
     [SerializeField] private int _maxBlock;
+    [SerializeField] protected Transform _model;
+
+    [Header("Animation")]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private string _animWiggleBoolString = "wiggle";
+
 
     [HideInInspector] public CombatSlot CombatSlot;
     protected bool _isStunned = false;
     private Dictionary<StatusEffectTriggerTime, List<StatusEffect>> _statusEffects = new Dictionary<StatusEffectTriggerTime, List<StatusEffect>>();
 
-    public GameObject SelectedCreatureHighlight;
+    //public GameObject SelectedCreatureHighlight;
     protected TabletopController Controller;
 
     [SerializeField, HideInInspector] private bool _gameRunning;
     [HideInInspector] public UnityEvent<float> OnHealthPercentChanged;
     [HideInInspector] public UnityEvent<float> OnBlockPercentChanged;
     private bool _isSelectable;
+
+    public void SetWiggle(bool state) => _animator.SetBool(_animWiggleBoolString, state);
 
     private void OnValidate()
     {
@@ -87,7 +95,7 @@ public class Creature : MonoBehaviour
     }
 
     public virtual async void Die() {
-        await Utilities.LerpScale(gameObject, Vector3.zero);
+        await Utilities.LerpScale(gameObject, Vector3.zero, 0.45f);
         await Task.Delay(500);
         Controller.RemoveCreature(this);
         Destroy(gameObject);

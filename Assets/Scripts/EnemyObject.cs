@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
-using TMPro.EditorUtilities;
 
 public enum EnemyActionType {None, Attack}
 public enum EnemyType {Goblin}
@@ -26,6 +25,7 @@ public class EnemyObject : Creature
     [SerializeField] private GameObject _attackArrowPrefab;
     public AttackArrow AttackArrow;
     [SerializeField] private float _attackDamage;
+
     public async Task Action(List<AdventurerObject> adventurers, List<EnemyObject> enemies) {
         if (_isStunned || _nextAction.Action == EnemyActionType.None) return;
 
@@ -75,10 +75,10 @@ public class EnemyObject : Creature
     {
         if (!_nextAction.TargetSlot) return;
 
-        var euler = transform.localEulerAngles;
-        transform.LookAt(_nextAction.TargetSlot.transform.position);
-        euler.y = transform.localEulerAngles.y;
-        transform.localEulerAngles = euler;
+        var euler = _model.localEulerAngles;
+        _model.LookAt(_nextAction.TargetSlot.transform.position);
+        euler.y = _model.localEulerAngles.y;
+        _model.localEulerAngles = euler;
     }
 
     private void DrawArrow() {
@@ -107,5 +107,12 @@ public class EnemyObject : Creature
     {
         _nextAction.TargetSlot = newTarget;
         UpdateVisuals();
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        Controller.RemoveAttackArrow(AttackArrow);
+
     }
 }

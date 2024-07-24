@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class Utilities
 {
@@ -23,17 +26,17 @@ public class Utilities
 
     public static string Parenthize<t>(t input) => "(" + input + ")";
 
-    public static IEnumerator LerpToAndBack(GameObject obj, Vector3 target, float time = OBJECT_LERP_TIME) {
+    public static async Task LerpToAndBack(GameObject obj, Vector3 target, float time = OBJECT_LERP_TIME) {
         Vector3 initObjPos = obj.transform.position;
         Quaternion initObjRot = obj.transform.rotation;
-        yield return GameManager.i.StartCoroutine(LerpObject(obj, target, obj.transform.rotation, time : time));
-        yield return GameManager.i.StartCoroutine(LerpObject(obj, initObjPos, initObjRot, time : time));
+        await LerpObject(obj, target, obj.transform.rotation, time : time);
+        await LerpObject(obj, initObjPos, initObjRot, time : time);
     }
 
-    public static IEnumerator LerpObject(GameObject obj, Transform target, float time = OBJECT_LERP_TIME) {
+    public static async Task LerpObject(GameObject obj, Transform target, float time = OBJECT_LERP_TIME) {
         if (obj == null) {
             Debug.Log("cancelled shake because of null obj");
-            yield break;
+            return;
         }
 
         Vector3 initObjPos = obj.transform.position;
@@ -43,7 +46,7 @@ public class Utilities
         while (Time.time - startTime < time) {
             if (obj == null) {
                 Debug.Log("cancelled shake because of null obj");
-                yield break;
+                return;
             }
 
             float completed = (Time.time - startTime) / time;
@@ -51,17 +54,17 @@ public class Utilities
             obj.transform.position = Vector3.Lerp(initObjPos, target.position, completed);
             obj.transform.rotation = Quaternion.Lerp(initObjRot, target.rotation, completed);
             
-            yield return 0;
+            await Task.Delay(1);
         }
 
         obj.transform.position = target.position;
         obj.transform.rotation = target.rotation;
     }
 
-    public static IEnumerator LerpObject(GameObject obj, Vector3 targetPos, Quaternion targetRot, float time = OBJECT_LERP_TIME) {
+    public static async Task LerpObject(GameObject obj, Vector3 targetPos, Quaternion targetRot, float time = OBJECT_LERP_TIME) {
         if (obj == null) {
             Debug.Log("cancelled shake because of null obj");
-            yield break;
+            return;
         }
 
         Vector3 initObjPos = obj.transform.position;
@@ -71,7 +74,7 @@ public class Utilities
         while (Time.time - startTime < time) {
             if (obj == null) {
                 Debug.Log("cancelled shake because of null obj");
-                yield break;
+                return;
             }
 
             float completed = (Time.time - startTime) / time;
@@ -79,17 +82,17 @@ public class Utilities
             obj.transform.position = Vector3.Lerp(initObjPos, targetPos, completed);
             obj.transform.rotation = Quaternion.Lerp(initObjRot, targetRot, completed);
             
-            yield return 0;
+            await Task.Delay(1);
         }
 
         obj.transform.position = targetPos;
         obj.transform.rotation = targetRot;
     }
 
-    public static IEnumerator LerpObjectLocal(GameObject obj, Vector3 targetPos, Quaternion targetRot, float time = OBJECT_LERP_TIME) {
+    public static async Task LerpObjectLocal(GameObject obj, Vector3 targetPos, Quaternion targetRot, float time = OBJECT_LERP_TIME) {
         if (obj == null) {
             Debug.Log("cancelled shake because of null obj");
-            yield break;
+            return;
         }
 
         Vector3 initObjPos = obj.transform.localPosition;
@@ -99,7 +102,7 @@ public class Utilities
         while (Time.time - startTime < time) {
             if (obj == null) {
                 Debug.Log("cancelled shake because of null obj");
-                yield break;
+                return;
             }
 
             float completed = (Time.time - startTime) / time;
@@ -107,38 +110,38 @@ public class Utilities
             obj.transform.localPosition = Vector3.Lerp(initObjPos, targetPos, completed);
             obj.transform.localRotation = Quaternion.Lerp(initObjRot, targetRot, completed);
             
-            yield return 0;
+            await Task.Delay(1);
         }
 
         obj.transform.localPosition = targetPos;
         obj.transform.localRotation = targetRot;
     }
 
-    public static IEnumerator LerpScale(GameObject obj, Vector3 targetScale, float time = OBJECT_LERP_TIME) {
-        if (obj == null) yield break;
+    public static async Task LerpScale(GameObject obj, Vector3 targetScale, float time = OBJECT_LERP_TIME) {
+        if (obj == null) return;
 
         Vector3 initScale = obj.transform.localScale;
 
         float startTime = Time.time;
         while (Time.time - startTime < time) {
-            if (obj == null) yield break;
+            if (obj == null) return;
 
             float completed = (Time.time - startTime) / time;
 
             obj.transform.localScale = Vector3.Lerp(initScale, targetScale, completed);
             
-            yield return 0;
+            await Task.Delay(1);
         }
     }
 
-    public static IEnumerator ShakeObject(GameObject obj) {
+    public static async Task ShakeObject(GameObject obj) {
         Vector3 initPos = obj.transform.localPosition;
         Quaternion initRot = obj.transform.localRotation;
         Vector3 targetPos = initPos + OBJECT_SHAKE_MAGNITUDE * 1f * Camera.main.scaledPixelWidth
-        * new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0).normalized;
-        Quaternion targetRot = Quaternion.Euler(0, 0, OBJECT_SHAKE_MAGNITUDE * Random.Range(-1f, 1f));
+        * new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0).normalized;
+        Quaternion targetRot = Quaternion.Euler(0, 0, OBJECT_SHAKE_MAGNITUDE * UnityEngine.Random.Range(-1f, 1f));
 
-        yield return GameManager.i.StartCoroutine(LerpObjectLocal(obj, targetPos, targetRot, OBJECT_SHAKE_TIME / 2));
-        yield return GameManager.i.StartCoroutine(LerpObjectLocal(obj, initPos, initRot, OBJECT_SHAKE_TIME / 2));
+        await LerpObjectLocal(obj, targetPos, targetRot, OBJECT_SHAKE_TIME / 2);
+        await LerpObjectLocal(obj, initPos, initRot, OBJECT_SHAKE_TIME / 2);
     }
 }

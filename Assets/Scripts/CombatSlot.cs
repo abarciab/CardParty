@@ -1,36 +1,54 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CombatSlot : MonoBehaviour
 {
-    public Creature Creature = null;
+    [HideInInspector] public Creature Creature { get; private set; }
 
     public bool IsBlockSlot = false;
     public AttackArrow AttackArrow;
+    [SerializeField, ReadOnly] TabletopController _controller;
+    [SerializeField] private GameObject _model;
 
-    public void SetCreature(Creature creature, CombatSlot targetSlot = null) {
-        if (!targetSlot) targetSlot = this;
+    public void Initialize(GameObject creaturePrefab, TabletopController controller, bool isBlockSlot = false)
+    {
+        var creatureObject = Instantiate(creaturePrefab, transform);
+        Creature = creatureObject.GetComponent<Creature>();
+        Creature.Initialize(controller);
+        Creature.CombatSlot = this;
+        Initialize(controller, isBlockSlot);
+    }
+
+    public void Initialize(TabletopController controller, bool isBlockSlot = false)
+    {
+        _controller = controller;
+        IsBlockSlot = isBlockSlot;
+        if (IsBlockSlot) gameObject.name = "Block Slot";
+    }
+
+    public void SetCreature(Creature creature) {
 
         CombatSlot oldSlot = creature.CombatSlot;
         oldSlot.Creature = null;
-        if (targetSlot.Creature) {
-            SetCreature(targetSlot.Creature, oldSlot);
+        if (Creature) {
+            oldSlot.SetCreature(Creature);
         }
 
-        targetSlot.Creature = creature;
-        creature.CombatSlot = targetSlot;
+        Creature = creature;
+        creature.CombatSlot = this;
 
-        creature.transform.SetParent(targetSlot.transform);
+        creature.transform.SetParent(transform);
         creature.transform.localPosition = Vector3.zero;
-        
-        if (targetSlot.IsBlockSlot) CardGameManager.i.UpdateAttackArrow(targetSlot);
-        if (oldSlot.IsBlockSlot) CardGameManager.i.UpdateAttackArrow(oldSlot);
+
+        if (IsBlockSlot) _controller.UpdateAttackArrows(this);
+        if (oldSlot.IsBlockSlot) _controller.UpdateAttackArrows(oldSlot);
     }
 
     public void MoveCreature() {
         if (!Creature) return;
-        print(CardGameManager.i.GetRandomAdventurerSlot(empty: true));
-        SetCreature(Creature, targetSlot: CardGameManager.i.GetRandomAdventurerSlot(empty: true));
+        SetCreature(Creature);
     }
+    public void HideVisuals() => _model.SetActive(false);
 }

@@ -4,53 +4,136 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 using UnityEngine.EventSystems;
+using System;
+using System.Threading.Tasks;
+using System.Linq;
+using UnityEngine.Events;
+using MyBox;
 
 public class Creature : MonoBehaviour
 {
-    public Canvas Canvas;
-    public CombatSlot CombatSlot;
-    [SerializeField] private Slider _healthSlider;
-    [SerializeField] private Slider _blockSlider;
-    [SerializeField] private int _health;
+    [SerializeField] private CreatureObjectUIController _ui;
+    [SerializeField, ConditionalField(nameof(_gameRunning)), ReadOnly] private int _health;
     [SerializeField] private int _maxHealth;
-    [SerializeField] private int _block = 0;
+    [SerializeField, ConditionalField(nameof(_gameRunning)), ReadOnly] private int _block = 0;
     [SerializeField] private int _maxBlock;
 
-    public GameObject SelectedCreatureHighlight;
+    [HideInInspector] public CombatSlot CombatSlot;
+    protected bool _isStunned = false;
+    private Dictionary<StatusEffectTriggerTime, List<StatusEffect>> _statusEffects = new Dictionary<StatusEffectTriggerTime, List<StatusEffect>>();
 
-    public void Select() {
-        CardGameManager.i.SelectCreature(this);
+    public GameObject SelectedCreatureHighlight;
+    protected TabletopController Controller;
+
+    [SerializeField, HideInInspector] private bool _gameRunning;
+    [HideInInspector] public UnityEvent<float> OnHealthPercentChanged;
+    [HideInInspector] public UnityEvent<float> OnBlockPercentChanged;
+    private bool _isSelectable;
+
+    private void OnValidate()
+    {
+        _health = _maxHealth;
+        _block = 0;
     }
 
-    public void Deselect() {
-        CardGameManager.i.DeselectCreature(this);
+    private void Start()
+    {
+        _gameRunning = true;
+    }
+
+    public void MakeSelectable()
+    {
+        _isSelectable = true;
+    }
+
+    public void MakeUnselectable()
+    {
+        _isSelectable = false;
+    }
+
+    public override string ToString()
+    {
+        return gameObject.name;
+    }
+
+    public void ClickOn()
+    {
+        if (!_isSelectable) return;
+
+        Controller.AddToSelectedTargets(this);
+    }
+
+    public void Initialize(TabletopController controller)
+    {
+        Controller = controller;
+        _health = _maxHealth;
+        _ui.Initialize(this);
     }
 
     public virtual void TakeDamage(float damage) {
-        _block = _block - (int)damage;
+        _block -= Mathf.RoundToInt(damage);
         if (_block < 0) {
             _health += _block;
             _block = 0;
         }
-        _healthSlider.value = ((float)_health / (float)_maxHealth);
-        _blockSlider.value = ((float)_block / (float)_maxBlock);
+        OnHealthPercentChanged.Invoke(_health / (float) _maxHealth);
 
-        if (_health <= 0) {
-            Die();
-        }
+        if (_health <= 0) Die();
     }
 
-    public virtual void AddBlock(float block) {
-        _block += (int)block;
-        _blockSlider.value = ((float)_block / (float)_maxBlock);
+    public virtual void AddBlock(float blockDelta) {
+        _block += Mathf.RoundToInt(blockDelta);
+        OnBlockPercentChanged.Invoke(_block / (float)_maxBlock);
     }
 
-    public void Die() { StartCoroutine(Die_Coroutine()); }
-
-    protected virtual IEnumerator Die_Coroutine() {
-        yield return StartCoroutine(Utilities.LerpScale(gameObject, Vector3.zero));
-        yield return new WaitForSeconds(0.5f);
-        CardGameManager.i.RemoveCreature(this);
+    public virtual async void Die() {
+        await Utilities.LerpScale(gameObject, Vector3.zero);
+        await Task.Delay(500);
+        Controller.RemoveCreature(this);
         Destroy(gameObject);
+    }
+
+    public void AddStatusEffect(StatusEffectData statusEffectData) {
+        StatusEffect newStatus = new StatusEffect(statusEffectData);
+        StatusEffectTriggerTime newTime = newStatus.TriggerTime;
+
+        if (!_statusEffects.Keys.Contains(newTime)) {
+            _statusEffects.Add(newTime, new List<StatusEffect>());
+        } else {
+            for (int i = 0; i < _statusEffects[newTime].Count; i++) {
+                if (newStatus.Type == _statusEffects[newTime][i].Type) {
+                    _statusEffects[newTime][i] = _statusEffects[newTime][i] + newStatus;
+                    return;
+                }
+            }
+        }
+        _statusEffects[newTime].Add(newStatus);
+        _statusEffects[newTime].OrderBy(x => (int)x.Type);
+    }
+
+    private void RemoveStatusEffect(StatusEffect status) {
+        _statusEffects[status.TriggerTime].Remove(status);
+    }
+
+    public void TriggerStatusEffects(StatusEffectTriggerTime time) {
+        if (!_statusEffects.Keys.Contains(time)) return;
+
+        List<StatusEffect> toRemove = new List<StatusEffect>();
+
+        foreach (StatusEffect status in _statusEffects[time]) {
+            if (status.Type == StatusEffectType.STUN) {
+                if (status.Duration == 0) {
+                    _isStunned = false;
+                    toRemove.Add(status);
+                } else {
+                    _isStunned = true;
+                    status.Duration--;
+                }
+            }
+        }
+
+        foreach (StatusEffect status in toRemove) {
+            RemoveStatusEffect(status);
+        }
     }
 }

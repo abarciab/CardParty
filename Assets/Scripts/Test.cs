@@ -5,6 +5,5 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    //public void PRINT() => print("HI");
-
+    public void PRINT() => print(gameObject.name + ": HI");
 }

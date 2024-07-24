@@ -15,11 +15,13 @@ MonoBehaviour:
   Name: Attack
   Sprite: {fileID: 21300000, guid: 3c440cce6fcc77e41bde3d735f5663b6, type: 3}
   Description: hiyyaaaa!
-  _function: 1
-  _amount: 50
-  _hasSpecial: 0
-  _specialData:
-    _type: 0
-    _amount: 0
+  _cardFunctionData:
+  - Function: 1
+    Amount: 50
+    CardSpecialData:
+      _type: 0
+      _amount: 0
+      _targetAll: 0
+  _targetAll: 0
   _exhaust: 0
   CardObject: {fileID: 0}

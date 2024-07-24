@@ -30,20 +30,14 @@ public class OnClickOnCollider : MonoBehaviour
 
     private void CheckIfClickedOn()
     {
-        bool justClicked = Input.GetMouseButtonDown(0);
+        var currentHovered = GameManager.i.CurrentHoveredOnCollider;
 
-        var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        bool hitPoint = Physics.Raycast(mouseRay, out var hitData);
-        if (!hitPoint) {
-            if (_isMouseOver) OnPointerExit.Invoke();
-            return;
-        }
-
-        var OnClick = hitData.collider.GetComponentInParent<OnClickOnCollider>();
-        if (OnClick == this) {
-            if (justClicked) OnClickOn.Invoke();
+        if (currentHovered == this) {
             if (!_isMouseOver) OnPointerEnter.Invoke();
+            if (Input.GetMouseButtonDown(0)) OnClickOn.Invoke();
         }
-        else if (_isMouseOver) OnPointerExit.Invoke();
+        else { 
+            if (_isMouseOver) OnPointerExit.Invoke();
+        }
     }
 }

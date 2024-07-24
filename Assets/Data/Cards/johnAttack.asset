@@ -15,10 +15,13 @@ MonoBehaviour:
   Name: Attack
   Sprite: {fileID: 21300000, guid: f60d7d97a6600134f8a7536e4a48590c, type: 3}
   Description: John waves his hands like 'oooo' and it spooks tf out of everyone
-  _function: 1
-  _amount: 10
-  _specialData:
-    _type: 0
-    _amount: 5
+  _cardFunctionData:
+  - Function: 1
+    Amount: 0
+    CardSpecialData:
+      _type: 0
+      _amount: 0
+      _targetAll: 0
+  _targetAll: 0
   _exhaust: 0
   CardObject: {fileID: 0}

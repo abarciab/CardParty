@@ -247,6 +247,8 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (!Input.GetMouseButton(0)) return;
+
         if (Disabled) return;
         if (Selected && _toggleOnClick && _deselectOnClick) {
             Deselect();

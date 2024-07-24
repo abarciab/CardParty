@@ -17,61 +17,38 @@ public class CardGameManager : GameManager
 
     [Header("References")]
     [SerializeField] private TabletopController _tableTop;
+    [SerializeField] private TriggeredEffectController _triggeredEffectController;
 
-    [Space()]
-    [SerializeField] private Transform _enemyContainer;
-    [SerializeField] private Transform _adventurerContainer;
-    [SerializeField] private GameObject _selectedCreatureHighlight;
-    [SerializeField] private GameObject _combatSlotPrefab;
+    [Header("Stats")]
+    [SerializeField] private int _maxActions = 3; //move to playerInfo.Stats eventually
 
     [HideInInspector] public List<Creature> SelectedCreatures = new List<Creature>();
-    [HideInInspector] public CardObject CurrPlayedCard;
+    [HideInInspector] public CardObject CurrentPlayedCard;
     [HideInInspector] public UnityEvent OnStartCombat = new UnityEvent();
-    [HideInInspector] public UnityEvent OnStartEnemyTurn = new UnityEvent();
     [HideInInspector] public UnityEvent OnStartPlayerTurn = new UnityEvent();
-    [HideInInspector] public UnityEvent OnEndEnemyTurn = new UnityEvent();
     [HideInInspector] public UnityEvent OnEndPlayerTurn = new UnityEvent();
+    [HideInInspector] public UnityEvent OnStartEnemyTurn = new UnityEvent();
+    [HideInInspector] public UnityEvent OnEndEnemyTurn = new UnityEvent();
 
     [HideInInspector] public CombatState CurrCombatState { get; private set; }
     [HideInInspector]public int Actions { get; private set; }
-    [SerializeField] private int _maxActions = 3;
     [HideInInspector] public int MaxActions => _maxActions;
 
-    private List<System.Type> _currValidSelectTargets = new List<System.Type>();
-    private System.Random _r = new System.Random();
+    private CardPlayData _currentCardPlayData;
 
     private const int TURN_WAIT_TIME = 1000;
-    private const float CREATURE_SPACING = 10f;
 
     private CardGameUIManager ui => CardGameUIManager.i;
-    public AdventurerObject GetOwnerAdventurer(CardObject cardObject) => GetOwnerAdventurer(cardObject.CardData);
-    public AdventurerObject GetOwnerAdventurer(CardData cardData) => _tableTop.GetAdventurerObject(cardData.Owner);
+    public AdventurerObject GetOwnerAdventurer(CardObject cardObject) => GetOwnerAdventurer(cardObject.CardInstance);
+    public AdventurerObject GetOwnerAdventurer(CardInstance inst) => _tableTop.GetAdventurerObject(inst.Owner);
     public AdventurerObject GetAdventurerObject(AdventurerData ownerData) => _tableTop.GetAdventurerObject(ownerData);
     public List<AdventurerObject> GetAdventurers() => _tableTop.GetAdventurers();
     public List<EnemyObject> GetEnemies() => _tableTop.GetEnemies();
+    public void AddTriggeredEffect(TriggeredEffectData triggeredEffect) => _triggeredEffectController.AddTriggeredEffect(triggeredEffect);
 
     protected override void Awake() {
         base.Awake();
         i = this;
-    }
-
-    protected override void Update() {
-        base.Update();
-        TryToSelectTargets();
-    }
-
-    private void TryToSelectTargets()
-    {
-        if (!CurrPlayedCard || !Input.GetMouseButtonDown(0)) return;
-        RaycastHit[] hits = Physics.RaycastAll(Camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition), 50);
-
-        foreach (RaycastHit hit in hits) {
-            Creature creature = hit.collider.gameObject.GetComponent<Creature>();
-            if (!creature) continue;
-
-            if (SelectedCreatures.Contains(creature)) creature.Deselect();
-            else creature.Select();
-        }
     }
 
     private void DecrementActionPoints() => ChangeActionNum(-1);
@@ -141,44 +118,58 @@ public class CardGameManager : GameManager
 
     public void PlayCard(CardObject cardObject)
     {
-        CurrPlayedCard = cardObject;
-        var data = cardObject.CardData;
-        var owner = GetOwnerAdventurer(cardObject);
-        var playData = data.GetPlayData(owner);
+        CurrentPlayedCard = cardObject;
+        var data = cardObject.CardInstance;
+        var playData = data.GetPlayData(GetOwnerAdventurer(cardObject));
 
-        CardPlayFunction_Async(cardObject, playData);
+        StartSelectingTargets(playData);
+
+        //CardPlayFunction_Async(cardObject, playData);
     }
 
-    public async void CardPlayFunction_Async(CardObject cardObject, CardPlayData cardPlayData) {
-        foreach (CardFunctionData cardFunctionData in cardPlayData.CardFunctionData) {
-            if (!cardPlayData.Owner) break;
+    private void StartSelectingTargets(CardPlayData playData)
+    {
+        _currentCardPlayData = playData;
+        if (playData.TargetTypes.Count > 0) _tableTop.StartSelectingTargets(playData.TargetTypes);
+        else DoCurrentCardFunction(new List<Creature>());
+    }
 
-            List<System.Type> requiredTargets = cardFunctionData.Targets;
-            List<Creature> selectedTargets = await SelectTargets(requiredTargets);
+    public async void DoCurrentCardFunction(List<Creature> targets)
+    {
+        foreach (var function in _currentCardPlayData.CardFunctionData) await EvaluateFunction(function, targets);
 
-            if (cardFunctionData.Function == Function.ATTACK) {
-                await Utilities.LerpToAndBack(cardPlayData.Owner.gameObject, selectedTargets[0].transform.position);
-                selectedTargets[0].TakeDamage(cardFunctionData.Amount);
-            }
-            else if (cardFunctionData.Function == Function.BLOCK) {
-                cardPlayData.Owner.AddBlock(cardFunctionData.Amount);
-            }
-            else if (cardFunctionData.Function == Function.DRAW) {
-                CardGameUIManager.i.Draw((int)cardFunctionData.Amount);
-            }
-            else if (cardFunctionData.Function == Function.ADDCARDS) {
-                CardGameUIManager.i.AddToDeck(cardFunctionData.CardData, count : (int)cardFunctionData.Amount);
-            }
-            else if (cardFunctionData.Function == Function.STATUS) {
-                selectedTargets[0].AddStatusEffect(cardFunctionData.StatusEffectData);
-            }
+        CardEndsPlay(CurrentPlayedCard);
+    }
+
+    private async Task EvaluateFunction(CardFunctionData function, List<Creature> targets)
+    {
+        var playData = _currentCardPlayData;
+        if (!playData.Owner) return;
+
+        if (function.Function == Function.ATTACK) {
+            await Utilities.LerpToAndBack(playData.Owner.gameObject, targets[0].transform.position);
+            targets[0].TakeDamage(function.Amount);
         }
-
-        CardEndsPlay(cardObject);
+        else if (function.Function == Function.BLOCK) {
+            playData.Owner.AddBlock(function.Amount);
+        }
+        else if (function.Function == Function.DRAW) {
+            ui.Draw((int)function.Amount);
+        }
+        else if (function.Function == Function.ADDCARDS) {
+            CardInstance newInst = CurrentPlayedCard.CardInstance.Copy(); //just a shallow copy
+            ui.AddToDeck(newInst, count: (int)function.Amount);
+        }
+        else if (function.Function == Function.STATUS) {
+            targets[0].AddStatusEffect(function.StatusEffectData);
+        }
+        else if (function.Function == Function.TRIGGEREDEFFECT) {
+            AddTriggeredEffect(function.TriggeredEffectData);
+        }
     }
 
     public void CardEndsPlay(CardObject cardObject) {
-        CurrPlayedCard = null;
+        CurrentPlayedCard = null;
         
         DeselectAllCreatures();
         DecrementActionPoints();
@@ -191,44 +182,14 @@ public class CardGameManager : GameManager
             CurrCombatState = CombatState.PlayerTurn;
         }
 
-        CardGameUIManager.i.AddToDiscardPile(cardObject.CardData);
+        CardGameUIManager.i.AddToDiscardPile(cardObject.CardInstance);
         Destroy(cardObject.gameObject);
     }
 
     public void MoveCardFromDisplay() {
-        ui.MoveCardFromDisplay(CurrPlayedCard);
+        ui.MoveCardFromDisplay(CurrentPlayedCard);
 
-        CurrPlayedCard = null;
-    }
-
-    public async Task<List<Creature>> SelectTargets(List<System.Type> requiredTargets) {
-        ui.SetInstructionsText("Select Targets");
-
-        DeselectAllCreatures();
-        _currValidSelectTargets = requiredTargets;
-        while(!CompareListsByType<Creature>(requiredTargets, SelectedCreatures)) await Task.Delay(1);
-        
-        return SelectedCreatures;
-    }
-
-    bool CompareListsByType<T>(List<System.Type> listA, List<T> listB) {
-        foreach (System.Type type in listA.Distinct().ToList()) {
-            if (listA.Count(x => x == type) != listB.Count(x => x.GetType() == type)) return false;
-        }
-        return true;
-    }
-
-    public void SelectCreature(Creature creature) {
-        if (_currValidSelectTargets.Count == 0) return;
-
-        // if you've already selected enough creatures of this type, deselect the oldest
-        if (SelectedCreatures.Count > 0 && SelectedCreatures.Count(x => x.GetType() == creature.GetType()) >= _currValidSelectTargets.Count(x => x.GetType() == creature.GetType())) {
-            DeselectCreature(SelectedCreatures.FirstOrDefault(x => x.GetType() == creature.GetType()));
-        }
-
-        SelectedCreatures.Add(creature);
-        
-        //creature.SelectedCreatureHighlight = Instantiate(_selectedCreatureHighlight, creature.Canvas.gameObject.transform);
+        CurrentPlayedCard = null;
     }
     
     public void DeselectCreature(Creature creature) {

@@ -2,9 +2,11 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TabletopController : MonoBehaviour
 {
@@ -29,29 +31,78 @@ public class TabletopController : MonoBehaviour
 
     private const int MAX_PARTY_SIZE = 3;
 
+    private List<Creature> _selectedCreatures = new List<Creature>();
+    private List<System.Type> _targetSelectedCreatures = new List<System.Type>();
+
     private void Start()
     {
         CardGameManager.i.OnStartPlayerTurn.AddListener(StartPlayerTurn);
     }
 
+    public void StartSelectingTargets(List<System.Type> types)
+    {
+        _targetSelectedCreatures = types.OrderBy(x => x.Name).ToList();
+        _selectedCreatures.Clear();
+
+        var validCreatures = new List<Creature>();
+
+        if (types.Contains(typeof(AdventurerObject))) validCreatures.AddRange(_adventurerObjs);
+        if (types.Contains(typeof(EnemyObject))) validCreatures.AddRange(_enemyObjs);
+
+        foreach (var creature in validCreatures) creature.MakeSelectable();
+    }
+
+    public void AddToSelectedTargets(Creature selected)
+    {
+        if (_selectedCreatures.Contains(selected)) return;
+
+        _selectedCreatures.Add(selected);
+        //print(selected + " added to selection. currentSelection: " + string.Join(", ", selected));
+
+        var types = _selectedCreatures.Select(x => x.GetType()).OrderBy(x => x.Name).ToList();
+        if (AreListsEqual(types, _targetSelectedCreatures)) {
+            MakeAllCreaturesUnselectable();
+            CardGameManager.i.DoCurrentCardFunction(_selectedCreatures);
+        }
+        //else print("current selected: " + string.Join(", ", types.Select(x => x.Name)) + ", target: " + string.Join(", ", _targetSelectedCreatures.Select(x => x.Name)));
+    }
+
+    private void MakeAllCreaturesUnselectable()
+    {
+        var allCreadtures = new List<Creature>(_enemyObjs);
+        allCreadtures.AddRange(_adventurerObjs);
+
+        foreach (var c in allCreadtures) c.MakeUnselectable();
+    }
+
+    private bool AreListsEqual(List<System.Type> list1, List<System.Type> list2)
+    {
+        for (int i = 0; i < list1.Count; i++) {
+            if (list1[i] != list2[i]) return false;
+        }
+        return true;
+    }
+
     public CombatSlot SpawnBlockSlot(Vector3 position)
     {
+        var existing = ExistingBlockSlotInPosition(position);
+        if (existing) return existing;
+
+        var slot = Instantiate(_combatSlotPrefab, position, Quaternion.identity, _enemyParent).GetComponent<CombatSlot>();
+        slot.Initialize(this, true);
+        _blockCombatSlots.Add(slot);
+
+        return slot;
+    }
+
+    private CombatSlot ExistingBlockSlotInPosition(Vector3 pos)
+    {
         _blockCombatSlots = _blockCombatSlots.Where(x => x != null).ToList();
-
         foreach (var blockSlot in _blockCombatSlots) {
-            var dist = Vector3.Distance(blockSlot.transform.position, position);
-            if (dist < 0.1f) {
-                print("found overlap");
-                return blockSlot;
-            }
+            var dist = Vector3.Distance(blockSlot.transform.position, pos);
+            if (dist < 0.1f) return blockSlot;
         }
-
-        GameObject newBlocKSlot = Instantiate(_combatSlotPrefab, _enemyParent);
-        newBlocKSlot.transform.position = position;
-        newBlocKSlot.GetComponent<CombatSlot>().IsBlockSlot = true;
-        _blockCombatSlots.Add(newBlocKSlot.GetComponent<CombatSlot>());
-
-        return newBlocKSlot.GetComponent<CombatSlot>();
+        return null;
     }
 
     public void ClearBlockSlot(CombatSlot blockSlot)
@@ -69,6 +120,13 @@ public class TabletopController : MonoBehaviour
         else {
             blockSlot.AttackArrow.Initialize(blockSlot.AttackArrow.Owner.transform.position, blockSlot.AttackArrow.Owner.GetTarget().transform.position);
         }
+    }
+
+    public void RemoveAttackArrow(AttackArrow arrow) {
+        _blockCombatSlots.Remove(arrow.BlockSlot);
+        ClearBlockSlot(arrow.BlockSlot);
+        if (arrow.BlockSlot) Destroy(arrow.BlockSlot.gameObject);
+        Destroy(arrow.gameObject);
     }
 
     public async Task TakeEnemyActions(int TURN_WAIT_TIME)
@@ -114,25 +172,32 @@ public class TabletopController : MonoBehaviour
 
     private void AddCreatureToSlot<t>(CombatSlot slot, GameObject prefab, ref List<t> list)
     {
-        slot.InitializeWithCreature(prefab, this);
+        slot.Initialize(prefab, this);
         var creature = slot.Creature.GetComponent<t>();
         list.Add(creature);
     }
 
-    private void MakeNewAdventurerSlot() => MakeNewSlot(_adventurerParent, ref _adventurerCombatSlots, _leftAdventurerLimit, _rightAdventurerLimit);
+    private void MakeNewAdventurerSlot()
+    {
+        var slot = MakeNewSlot(_adventurerParent, ref _adventurerCombatSlots, _leftAdventurerLimit, _rightAdventurerLimit);
+        slot.gameObject.name = "adventurer slot";
+
+    }
     private void MakeNewEnemySlot()
     {
         var slot = MakeNewSlot(_enemyParent, ref _enemyCombatSlots, _leftEnemyLimit, _rightEnemyLimit);
+        slot.gameObject.name = "enemy slot";
         slot.HideVisuals();
     }
 
 
     private CombatSlot MakeNewSlot(Transform parent, ref List<CombatSlot> slots, Transform leftLimit, Transform rightLimit)
     {
-        var newCombatSlot = Instantiate(_combatSlotPrefab, parent).GetComponent<CombatSlot>();
-        slots.Add(newCombatSlot);
+        var newSlot = Instantiate(_combatSlotPrefab, parent).GetComponent<CombatSlot>();
+        newSlot.Initialize(this);
+        slots.Add(newSlot);
         RearrangeList(slots, leftLimit.position, rightLimit.position);
-        return newCombatSlot;
+        return newSlot;
     }
 
     private void RearrangeList(List<CombatSlot> slots, Vector3 leftPos, Vector3 rightPos)
@@ -150,7 +215,7 @@ public class TabletopController : MonoBehaviour
         foreach (AdventurerObject adventurer in _adventurerObjs) {
             if (adventurer.AdventurerData == adventurerData) return adventurer;
         }
-        print("didn't find adventurer for data: " + adventurerData);
+        //print("didn't find adventurer for data: " + adventurerData);
         return null;
     }
 

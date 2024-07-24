@@ -15,10 +15,9 @@ public class Hand : MonoBehaviour
     [SerializeField] private int _maxHandSize = 6;
     [SerializeField] private Deck _deck;
 
-    public void AddCards(List<CardData> newCards) {
-
+    public void AddCards(List<CardInstance> newCards) {
         List<GameObject> placeHolderCards = new List<GameObject>();
-        foreach(CardData card in newCards) {
+        foreach(CardInstance card in newCards) {
             GameObject newCardCoord = Instantiate(_playableCardPrefab, _cardListParent);
             var cardController = newCardCoord.GetComponent<CardObject>();
             cardController.Initialize(card, this);

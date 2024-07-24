@@ -21,7 +21,7 @@ public class CardObject: MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private string _shakingAnimString = "shaking";
 
-    [HideInInspector] public CardData CardData { get; private set; }
+    [HideInInspector] public CardInstance CardInstance { get; private set; }
 
     private bool _isBeingdragged = false;
     private float _startY;
@@ -74,7 +74,7 @@ public class CardObject: MonoBehaviour
  
     void Update()
     {
-        if (_selectable.Hovered && Input.GetMouseButtonDown(1)) CardGameUIManager.i.DisplayCardInfo(CardData);
+        if (_selectable.Hovered && Input.GetMouseButtonDown(1)) CardGameUIManager.i.DisplayCardInfo(CardInstance);
         if (_isBeingdragged) UpdateDrag(); 
     }
 
@@ -84,11 +84,11 @@ public class CardObject: MonoBehaviour
         if (Input.GetMouseButtonUp(0)) EndDrag();
     }
 
-    public void Initialize(CardData data, Hand handController)
+    public void Initialize(CardInstance inst, Hand handController)
     {
-        CardData = data;
+        CardInstance = inst;
         _handController = handController;
-        _display.Initialize(data);
+        _display.Initialize(inst.CardData);
         transform.localScale = Vector3.one;
         transform.localEulerAngles = Vector3.forward * Random.Range(_randomRotRange.x, _randomRotRange.y);
         _handGridParent = transform.parent;
@@ -137,10 +137,6 @@ public class CardObject: MonoBehaviour
         _handController.RemoveCard(this);
         CardGameUIManager.i.MoveToDisplay(this);
         CardGameManager.i.PlayCard(this);
-    }
-
-    public void CancelPlay() {
-        CardData.CancelPlay();
     }
 
     public void MoveFromDisplay() {

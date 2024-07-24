@@ -41,9 +41,7 @@ public class EnemyObject : Creature
             break;
         }
 
-        Controller.ClearBlockSlot(AttackArrow.BlockSlot);
-        Destroy(AttackArrow.BlockSlot.gameObject);
-        Destroy(AttackArrow.gameObject);
+        Controller.RemoveAttackArrow(AttackArrow);
     }
 
     public void ShowIntent() {

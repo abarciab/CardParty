@@ -12,6 +12,7 @@ public class AdventurerData : ScriptableObject
     [TextArea(3,10)] public string Description;
     public GameObject AdventurerPrefab;
     [DisplayInspector] public List<CardData> Cards = new List<CardData>();
+
     public int MaxHealth;
 
     public AdventurerStats Stats => PlayerInfo.Party.GetStats(this);

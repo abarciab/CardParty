@@ -21,11 +21,12 @@ public class OverworldManager : GameManager
 
     [HideInInspector] public UnityEvent OnNewTileEntered;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         _UIManager = UIManager.i;
         _AudioManager = AudioManager.i;
-        
+
         print("initializing playerInfo");
         PlayerInfo.InitializeEmpty();
     }

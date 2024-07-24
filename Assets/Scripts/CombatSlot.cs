@@ -1,3 +1,4 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,16 +9,23 @@ public class CombatSlot : MonoBehaviour
 
     public bool IsBlockSlot = false;
     public AttackArrow AttackArrow;
-    TabletopController _controller;
+    [SerializeField, ReadOnly] TabletopController _controller;
     [SerializeField] private GameObject _model;
 
-    public void InitializeWithCreature(GameObject creaturePrefab, TabletopController controller)
+    public void Initialize(GameObject creaturePrefab, TabletopController controller, bool isBlockSlot = false)
     {
-        _controller = controller;
         var creatureObject = Instantiate(creaturePrefab, transform);
         Creature = creatureObject.GetComponent<Creature>();
         Creature.Initialize(controller);
         Creature.CombatSlot = this;
+        Initialize(controller, isBlockSlot);
+    }
+
+    public void Initialize(TabletopController controller, bool isBlockSlot = false)
+    {
+        _controller = controller;
+        IsBlockSlot = isBlockSlot;
+        if (IsBlockSlot) gameObject.name = "Block Slot";
     }
 
     public void SetCreature(Creature creature) {
@@ -33,7 +41,7 @@ public class CombatSlot : MonoBehaviour
 
         creature.transform.SetParent(transform);
         creature.transform.localPosition = Vector3.zero;
-        
+
         if (IsBlockSlot) _controller.UpdateAttackArrows(this);
         if (oldSlot.IsBlockSlot) _controller.UpdateAttackArrows(oldSlot);
     }

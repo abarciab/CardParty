@@ -28,6 +28,7 @@ public class Creature : MonoBehaviour
     [SerializeField, HideInInspector] private bool _gameRunning;
     [HideInInspector] public UnityEvent<float> OnHealthPercentChanged;
     [HideInInspector] public UnityEvent<float> OnBlockPercentChanged;
+    private bool _isSelectable;
 
     private void OnValidate()
     {
@@ -40,19 +41,33 @@ public class Creature : MonoBehaviour
         _gameRunning = true;
     }
 
+    public void MakeSelectable()
+    {
+        _isSelectable = true;
+    }
+
+    public void MakeUnselectable()
+    {
+        _isSelectable = false;
+    }
+
+    public override string ToString()
+    {
+        return gameObject.name;
+    }
+
+    public void ClickOn()
+    {
+        if (!_isSelectable) return;
+
+        Controller.AddToSelectedTargets(this);
+    }
+
     public void Initialize(TabletopController controller)
     {
         Controller = controller;
         _health = _maxHealth;
         _ui.Initialize(this);
-    }
-
-    public void Select() {
-        CardGameManager.i.SelectCreature(this);
-    }
-
-    public void Deselect() {
-        CardGameManager.i.DeselectCreature(this);
     }
 
     public virtual void TakeDamage(float damage) {
@@ -80,24 +95,24 @@ public class Creature : MonoBehaviour
 
     public void AddStatusEffect(StatusEffectData statusEffectData) {
         StatusEffect newStatus = new StatusEffect(statusEffectData);
-        StatusEffectTriggerTime newTime = newStatus.StatusEffectTriggerTime;
+        StatusEffectTriggerTime newTime = newStatus.TriggerTime;
 
         if (!_statusEffects.Keys.Contains(newTime)) {
             _statusEffects.Add(newTime, new List<StatusEffect>());
         } else {
             for (int i = 0; i < _statusEffects[newTime].Count; i++) {
-                if (newStatus.StatusEffectType == _statusEffects[newTime][i].StatusEffectType) {
+                if (newStatus.Type == _statusEffects[newTime][i].Type) {
                     _statusEffects[newTime][i] = _statusEffects[newTime][i] + newStatus;
                     return;
                 }
             }
         }
         _statusEffects[newTime].Add(newStatus);
-        _statusEffects[newTime].OrderBy(x => (int)x.StatusEffectType);
+        _statusEffects[newTime].OrderBy(x => (int)x.Type);
     }
 
     private void RemoveStatusEffect(StatusEffect status) {
-        _statusEffects[status.StatusEffectTriggerTime].Remove(status);
+        _statusEffects[status.TriggerTime].Remove(status);
     }
 
     public void TriggerStatusEffects(StatusEffectTriggerTime time) {
@@ -106,7 +121,7 @@ public class Creature : MonoBehaviour
         List<StatusEffect> toRemove = new List<StatusEffect>();
 
         foreach (StatusEffect status in _statusEffects[time]) {
-            if (status.StatusEffectType == StatusEffectType.STUN) {
+            if (status.Type == StatusEffectType.STUN) {
                 if (status.Duration == 0) {
                     _isStunned = false;
                     toRemove.Add(status);

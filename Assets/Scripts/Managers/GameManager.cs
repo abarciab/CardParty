@@ -11,10 +11,31 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] protected MusicPlayer Music;
     public Transform Camera;
+    private Camera _cam;
+
+    [HideInInspector] public OnClickOnCollider CurrentHoveredOnCollider;
+
+    protected virtual void Start()
+    {
+        _cam = Camera.GetComponentInChildren<Camera>();
+    }
 
     protected virtual void Update()
     {
         if (InputController.GetDown(Control.PAUSE)) TogglePause();
+        CheckForCurrentHovered();
+    }
+
+    private void CheckForCurrentHovered()
+    {
+        var mouseRay = _cam.ScreenPointToRay(Input.mousePosition);
+        bool hitPoint = Physics.Raycast(mouseRay, out var hitData);
+        if (!hitPoint) CurrentHoveredOnCollider = null;
+        else {
+            //print("new hovered: " + hitData.collider.gameObject.name);
+            var OnClick = hitData.collider.GetComponentInParent<OnClickOnCollider>();
+            CurrentHoveredOnCollider = OnClick;
+        }
     }
 
     void TogglePause()

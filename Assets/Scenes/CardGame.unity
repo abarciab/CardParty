@@ -448,6 +448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _testItemSet: []
   _testParty:
+  - {fileID: 11400000, guid: c966d071a36a69046b98aa1f1d4a9096, type: 2}
   - {fileID: 11400000, guid: 18abc88bd85dee948b189dd72b0de879, type: 2}
   TestCombat: {fileID: 11400000, guid: 6c88b8bf8adddfd4bb984b13f5d81fbb, type: 2}
   _testEquipmentLoad:
@@ -723,6 +724,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1300685290}
   - component: {fileID: 1300685291}
+  - component: {fileID: 1300685292}
+  - component: {fileID: 1300685293}
   m_Layer: 0
   m_Name: Tabletop
   m_TagString: Untagged
@@ -771,6 +774,30 @@ MonoBehaviour:
   _adventurerObjs: []
   _enemyObjs: []
   _blockCombatSlots: []
+--- !u!114 &1300685292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300685289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b154074876cc3ec4cb15b05e918aa2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1300685293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300685289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f68da46b019de3643a8a817eefffa5df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1394376997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1212,21 +1239,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1796550059665186450, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1796550059665186450, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 4477373111428093606}
-    - target: {fileID: 1796550059665186450, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 4477373111428093606}
-    - target: {fileID: 1796550059665186450, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadOverworld
-      objectReference: {fileID: 0}
     - target: {fileID: 4048078271618638687, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
       propertyPath: m_Name
       value: UI
@@ -1312,17 +1327,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7814046397301264288, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7814046397301264288, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 4477373111428093606}
-    - target: {fileID: 7814046397301264288, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadOverworld
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1428,6 +1435,10 @@ PrefabInstance:
       propertyPath: _adventurers.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2416307582939499252, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
+      propertyPath: _triggeredEffectController
+      value: 
+      objectReference: {fileID: 1300685293}
     - target: {fileID: 8793712921560076685, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
       propertyPath: m_Name
       value: CardGameManager

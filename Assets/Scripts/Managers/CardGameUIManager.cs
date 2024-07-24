@@ -27,8 +27,8 @@ public class CardGameUIManager : UIManager
     private CardGameManager gMan => CardGameManager.i;
     
     public void Draw(int count = 1) => _deck.Draw(count: count);
-    public void AddToDiscardPile(CardData data, int count = 1) => _deck.AddToDiscard(data, count: count);
-    public void AddToDeck(CardData data, int count = 1, bool random = true) => _deck.AddToDeck(data, count: count, random: random);
+    public void AddToDiscardPile(CardInstance inst, int count = 1) => _deck.AddToDiscard(inst, count: count);
+    public void AddToDeck(CardInstance inst, int count = 1, bool random = true) => _deck.AddToDeck(inst, count: count, random: random);
     public void HideInstructions() => _instructionsParent.SetActive(false);
     public void DisplayVictoryScreen() => _victoryScreen.SetActive(true);
     public void DisplayDefeatScreen() => _defeatScreen.SetActive(true);
@@ -52,10 +52,10 @@ public class CardGameUIManager : UIManager
         _bottomBar.SetActive(true);
     }
 
-    public void DisplayCardInfo(CardData data)
+    public void DisplayCardInfo(CardInstance inst)
     {
         _cardInfoParent.SetActive(true);
-        _cardInfo.Initialize(data);
+        _cardInfo.Initialize(inst);
     }
 
     private void StartEnemyTurn()

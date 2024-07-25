@@ -35,6 +35,8 @@ public class CardGameUIManager : UIManager
     public void DisplayVictoryScreen() => _victoryScreen.SetActive(true);
     public void DisplayDefeatScreen() => _defeatScreen.SetActive(true);
     public void ToggleCameraPerspective() => gMan.ToggleCamera();
+    public void StopPlayingCards() => _hand.StopPlayingCards();
+    public void EndTurn() => gMan.EndPlayerTurn();
 
     public void MoveCardFromDisplay(CardObject cardObj)
     {
@@ -94,7 +96,6 @@ public class CardGameUIManager : UIManager
 
     public async void MoveToDisplay(CardObject cardObject)
     {
-        print("moving card");
         cardObject.transform.SetParent(_currentPlayedCardParent);
         await Task.Delay(1);
         if (cardObject == null) return;

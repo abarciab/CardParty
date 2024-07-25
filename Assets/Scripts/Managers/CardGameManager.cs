@@ -127,8 +127,6 @@ public class CardGameManager : GameManager
 
     public void PlayCard(CardObject cardObject)
     {
-        print("Playing card: " + cardObject.CardInstance.Name);
-
         CurrentPlayedCard = cardObject;
         var data = cardObject.CardInstance;
         var playData = data.GetPlayData(GetOwnerAdventurer(cardObject));
@@ -192,7 +190,7 @@ public class CardGameManager : GameManager
         ui.HideInstructions();
 
         if (Actions == 0) {
-            EndPlayerTurn();
+            ui.StopPlayingCards();  
         }
         else {
             CurrCombatState = CombatState.PlayerTurn;

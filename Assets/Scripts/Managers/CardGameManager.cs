@@ -43,6 +43,7 @@ public class CardGameManager : GameManager
     public AdventurerObject GetOwnerAdventurer(CardObject cardObject) => GetOwnerAdventurer(cardObject.CardInstance);
     public AdventurerObject GetOwnerAdventurer(CardInstance inst) => _tableTop.GetAdventurerObject(inst.Owner);
     public AdventurerObject GetAdventurerObject(AdventurerData ownerData) => _tableTop.GetAdventurerObject(ownerData);
+    public AdventurerData GetAdventurerData(AdventurerObject adventurerObject) => _tableTop.GetAdventurerData(adventurerObject);
     public List<AdventurerObject> GetAdventurers() => _tableTop.GetAdventurers();
     public List<EnemyObject> GetEnemies() => _tableTop.GetEnemies();
     public void AddTriggeredEffect(TriggeredEffectData triggeredEffect) => _triggeredEffectController.AddTriggeredEffect(triggeredEffect);
@@ -155,7 +156,7 @@ public class CardGameManager : GameManager
     private async Task EvaluateFunction(CardFunctionData function, List<Creature> targets)
     {
         var playData = _currentCardPlayData;
-        if (!playData.Owner) return;
+        if (!playData.Owner) throw new Exception("card does not have an owner!");
 
         if (function.Function == Function.ATTACK) {
             await Utilities.LerpToAndBack(playData.Owner.gameObject, targets[0].transform.position);
@@ -171,7 +172,7 @@ public class CardGameManager : GameManager
             targets[0].RestoreHealth((int)function.Amount);
         }
         else if (function.Function == Function.ADDCARDS) {
-            CardInstance newInst = CurrentPlayedCard.CardInstance.Copy(); //just a shallow copy
+            CardInstance newInst = new CardInstance(function.CardData, GetAdventurerData(playData.Owner));
             ui.AddToDeck(newInst, count: (int)function.Amount);
         }
         else if (function.Function == Function.STATUS) {

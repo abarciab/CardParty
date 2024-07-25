@@ -39,9 +39,13 @@ public class Hand : MonoBehaviour
     }
 
     public void Discard(int count = 1) {
-        CardObject card = _cards[Random.Range(0, _cards.Count)];
-        _cards.Remove(card);
-        Destroy(card.gameObject);
+        if (count == -1) count = _cards.Count;
+
+        for (int i = 0; i < count; i++) {
+            CardObject card = _cards[Random.Range(0, _cards.Count)];
+            _cards.Remove(card);
+            Destroy(card.gameObject);
+        }
     }
 
     public void RemoveCard(CardObject cardObject) {

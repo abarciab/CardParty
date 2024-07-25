@@ -40,6 +40,7 @@ public class Deck : MonoBehaviour
         List<CardInstance> tempList = new List<CardInstance>();
         for(int i = 0; i < count; i++) {
             if (_cards.Count == 0) ShuffleDiscardPileIntoDrawPile();
+            if (_cards.Count == 0) break; //nothing left to draw idiot
             tempList.Add(_cards[0]);
             _cards.RemoveAt(0);
         }

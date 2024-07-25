@@ -229,11 +229,22 @@ public class TabletopController : MonoBehaviour
 
     public AdventurerObject GetAdventurerObject(AdventurerData adventurerData)
     {
+        if (!adventurerData) throw new System.Exception("adventurerData is null");
+
         foreach (AdventurerObject adventurer in _adventurerObjs) {
             if (adventurer.AdventurerData == adventurerData) return adventurer;
         }
-        //print("didn't find adventurer for data: " + adventurerData);
-        return null;
+        throw new System.Exception("didn't find AdventurerObject for AdventurerData " + adventurerData);
+    }
+
+    public AdventurerData GetAdventurerData(AdventurerObject adventurerObject) {
+        if (!adventurerObject) throw new System.Exception("adventurerObject is null");
+
+        foreach (AdventurerObject adventurer in _adventurerObjs) {
+            if (adventurer == adventurerObject) return adventurer.AdventurerData;
+        }
+        throw new System.Exception("didn't find AdventurerData for AdventurerObject " + adventurerObject);
+
     }
 
     public CombatSlot GetValidAttackTarget(CombatSlot _enemyPos)

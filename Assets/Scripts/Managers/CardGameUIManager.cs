@@ -46,6 +46,7 @@ public class CardGameUIManager : UIManager
     {
         gMan.OnStartCombat.AddListener(StartCombat);
         gMan.OnStartPlayerTurn.AddListener(StartPlayerTurn);
+        gMan.OnEndPlayerTurn.AddListener(EndPlayerTurn);
         gMan.OnStartEnemyTurn.AddListener(StartEnemyTurn);
     }
 
@@ -73,6 +74,10 @@ public class CardGameUIManager : UIManager
         _hand.DrawUntilFull();
         HideInstructions();
         _bottomBar.SetActive(true);
+    }
+
+    private void EndPlayerTurn() {
+        _hand.Discard(-1);
     }
 
     public void SetInstructionsText(string text)

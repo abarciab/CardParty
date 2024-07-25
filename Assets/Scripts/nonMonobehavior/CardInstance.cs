@@ -56,6 +56,19 @@ public class CardInstance
         CardData = data;
     }
 
+    public CardInstance (CardData data, AdventurerData newOwner = null) {
+        Name = data.Name;
+        Sprite = data.Sprite;
+        Description = data.Description;
+        _cardFunctionData = data.CardFunctionData;
+        _targetAll = data.TargetAll;
+        _exhaust = data.Exhaust;
+        CardData = data;
+
+        if (newOwner == null) Owner = data.Owner;
+        else Owner = newOwner;
+    }
+
     public CardInstance Copy() {
         return (CardInstance)this.MemberwiseClone();
     }

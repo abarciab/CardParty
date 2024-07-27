@@ -71,12 +71,14 @@ public class CardGameUIManager : UIManager
 
     private void StartPlayerTurn()
     {
+        print("start player turn");
         _hand.DrawUntilFull();
         HideInstructions();
         _bottomBar.SetActive(true);
     }
 
     private void EndPlayerTurn() {
+        print("end of player turn");
         _hand.Discard(-1);
     }
 
@@ -94,7 +96,6 @@ public class CardGameUIManager : UIManager
 
     public async void MoveToDisplay(CardObject cardObject)
     {
-        print("moving card");
         cardObject.transform.SetParent(_currentPlayedCardParent);
         await Task.Delay(1);
         if (cardObject == null) return;

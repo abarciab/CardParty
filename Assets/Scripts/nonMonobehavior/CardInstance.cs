@@ -102,6 +102,7 @@ public class CardInstance
                 break;
             } else if (f.Function == Function.HEAL) {
                 playData.TargetTypes = new List<System.Type>() {typeof(AdventurerObject)};
+                break;
             }
         }
 

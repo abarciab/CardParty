@@ -17,16 +17,13 @@ public class AdventurerData : ScriptableObject
 
     public AdventurerStats Stats => PlayerInfo.Party.GetStats(this);
 
-    public List<CardData> GetInnateCards(int total)
-    {
-        var list = new List<CardData>(Cards);
-        while (list.Count < total) {
-            foreach (var card in Cards) {
-                if (list.Count < total) list.Add(card);
-            }
-        }
-        list = list.OrderBy(x => x.Name).ToList();
+    public List<CardData> GetInnateCards() {
+        return Cards.OrderBy(x => x.Name).ToList();
+    }
 
-        return list;
+    public List<CardData> GetUniqueCards() {
+        var newList = Cards;
+        newList.Reverse();
+        return newList.GetRange(0, 3).ToList();
     }
 }

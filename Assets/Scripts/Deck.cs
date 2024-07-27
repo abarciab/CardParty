@@ -29,14 +29,20 @@ public class Deck : MonoBehaviour
 
     public void AddToDiscard(CardInstance inst, int count = 1)
     {
+        print("discard pile size: " + _discardPile.Count);
+        print("adding to discard pile from play");
         _discardPileObj.SetActive(true);
 
         for (int i = 0; i < count; i++) {
             _discardPile.Add(inst);
         }
+        print(_discardPile.Count);
     }
 
     public void Draw(int count = 1) {
+        print("_deckSize: " + _cards.Count);
+        print("_discardSize: " + _discardPile.Count);
+        print("drawing " + count);
         List<CardInstance> tempList = new List<CardInstance>();
         for(int i = 0; i < count; i++) {
             if (_cards.Count == 0) ShuffleDiscardPileIntoDrawPile();
@@ -47,11 +53,21 @@ public class Deck : MonoBehaviour
 
         _drawPileObj.SetActive(_cards.Count > 0);
         _hand.AddCards(tempList);
+
+        print("_deckSize: " + _cards.Count);
+        print("_discardSize: " + _discardPile.Count);
     }
 
     private void ShuffleDiscardPileIntoDrawPile()
     {
+        print("_deckSize: " + _cards.Count);
+        print("_discardSize: " + _discardPile.Count);
+        print("shuffling " + _discardPile.Count + " cards from discard into draw pile");
         _cards.AddRange(new List<CardInstance>(_discardPile.Shuffle()));
-        _discardPileObj.SetActive(false);
+        _drawPileObj.SetActive(_cards.Count > 0);
+        _discardPile = new List<CardInstance>();
+        _discardPileObj.SetActive(_discardPile.Count > 0);
+        print("_deckSize: " + _cards.Count);
+        print("_discardSize: " + _discardPile.Count);
     }
 }

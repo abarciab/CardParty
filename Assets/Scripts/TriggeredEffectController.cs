@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
+using System.Threading.Tasks;
+using System;
 
 public class TriggeredEffectController : MonoBehaviour
 {
@@ -15,7 +17,6 @@ public class TriggeredEffectController : MonoBehaviour
     }
 
     public void AddTriggeredEffect(TriggeredEffectData effectData) {
-        print("adding triggered effect");
         TriggeredEffect newEffect = new TriggeredEffect(effectData);
         TriggeredEffectTriggerTime newTime = newEffect.TriggerTime;
 
@@ -32,7 +33,8 @@ public class TriggeredEffectController : MonoBehaviour
         _triggeredEffects[newTime].OrderBy(x => (int)x.Type);
     }
 
-    private void TriggerEffects(TriggeredEffectTriggerTime time) {
+    private async void TriggerEffects(TriggeredEffectTriggerTime time) {
+        await Task.Delay(1000);
         if (!_triggeredEffects.ContainsKey(time)) {
             _triggeredEffects.Add(time, new List<TriggeredEffect>());
         }

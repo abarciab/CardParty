@@ -106,6 +106,7 @@ public class Creature : MonoBehaviour
     }
 
     public void AddStatusEffect(StatusEffectData statusEffectData) {
+
         StatusEffect newStatus = new StatusEffect(statusEffectData);
         StatusEffectTriggerTime newTime = newStatus.TriggerTime;
 

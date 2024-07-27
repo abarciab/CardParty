@@ -66,7 +66,7 @@ public class TabletopController : MonoBehaviour
     }
 
     public void AddToSelectedTargets(Creature selected)
-    {
+    {        
         if (_selectedCreatures.Contains(selected)) return;
 
         _selectedCreatures.Add(selected);

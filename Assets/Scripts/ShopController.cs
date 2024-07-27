@@ -53,8 +53,8 @@ public class ShopController : MonoBehaviour
         _adventurerName.text = _potentialNewHire.Name;
         _adventurerHealth.text = "Health: " + _potentialNewHire.MaxHealth;
         _adventurerDescription.text = _potentialNewHire.Description;
-        var cards = _potentialNewHire.GetInnateCards(3);
-        for (int i = 0; i < 3; i++) {
+        var cards = _potentialNewHire.GetUniqueCards();
+        for (int i = 0; i < cards.Count; i++) {
             _adventurerCards[i].Initialize(cards[i]);
         }
     }

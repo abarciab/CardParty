@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Attack
   Sprite: {fileID: 21300000, guid: a1005633eeb6185478aa9402d37dc531, type: 3}
-  Description: oh shit he does like 54 damage
+  Description: oh gosh he does like 54 damage
   CardFunctionData:
   - Function: 1
     Amount: 54

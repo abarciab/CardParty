@@ -30,6 +30,10 @@ public class AdventurerObject : Creature
         if (_isBeingDragged) DoDrag(); 
     }
 
+    public override string GetName() {
+        return AdventurerData.Name;
+    }
+
     private void DoDrag()
     {
         var pos = GetMouseRayPoint();
@@ -50,6 +54,7 @@ public class AdventurerObject : Creature
     {
         AdventurerData = data;
         gameObject.name = data.name;
+        UI.Initialize(this);
     }
 
     private bool IsHover() {

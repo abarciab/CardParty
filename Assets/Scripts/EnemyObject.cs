@@ -44,6 +44,14 @@ public class EnemyObject : Creature
         Controller.RemoveAttackArrow(AttackArrow);
     }
 
+    public void Initialize() {
+        UI.Initialize(this);
+    }
+
+    public override string GetName() {
+        return EnemyType.ToString();
+    }
+
     public void ShowIntent() {
         _nextAction = GetAction();
         UpdateVisuals();

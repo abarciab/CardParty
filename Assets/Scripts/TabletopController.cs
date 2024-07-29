@@ -173,7 +173,7 @@ public class TabletopController : MonoBehaviour
     private void AddAdventurerToCombat(AdventurerData data)
     {
         var emptySlots = _adventurerCombatSlots.Where(x => !x.Creature).ToList();
-        var slot = emptySlots[0];
+        var slot = emptySlots[Mathf.RoundToInt((emptySlots.Count - 1) / 2)];
 
         AddCreatureToSlot(slot, data.AdventurerPrefab, ref _adventurerObjs);
         slot.Creature.GetComponent<AdventurerObject>().Initialize(data);
@@ -185,6 +185,7 @@ public class TabletopController : MonoBehaviour
         var slot = emptySlots[Mathf.RoundToInt((emptySlots.Count-1) / 2)];
 
         AddCreatureToSlot(slot, enemyPrefab, ref _enemyObjs);
+        slot.Creature.GetComponent<EnemyObject>().Initialize();
     }
 
     private void AddCreatureToSlot<t>(CombatSlot slot, GameObject prefab, ref List<t> list)

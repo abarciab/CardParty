@@ -191,7 +191,7 @@ public class CardGameManager : GameManager
         ui.HideInstructions();
 
         if (Actions == 0) {
-            EndPlayerTurn();
+            ui.StopPlayingCards();  
         }
         else {
             CurrCombatState = CombatState.PlayerTurn;

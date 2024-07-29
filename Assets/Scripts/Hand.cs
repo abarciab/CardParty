@@ -15,6 +15,10 @@ public class Hand : MonoBehaviour
     [SerializeField] private int _maxHandSize = 6;
     [SerializeField] private Deck _deck;
 
+    private void Start() {
+        CardGameManager.i.OnStartPlayerTurn.AddListener(EnableCards);
+    }
+
     public void AddCards(List<CardInstance> newCards) {
         List<GameObject> placeHolderCards = new List<GameObject>();
         foreach(CardInstance card in newCards) {
@@ -28,6 +32,14 @@ public class Hand : MonoBehaviour
         }
 
         DisableCardInteractionForSeconds(Utilities.OBJECT_LERP_TIME + Utilities.OBJECT_SHAKE_TIME * 1.2f);
+    }
+
+    public void EnableCards() => SetCardsEnabled(true);
+
+    public void StopPlayingCards() => SetCardsEnabled(false);
+
+    private void SetCardsEnabled(bool state) {
+        foreach (var cardObj in _cards) cardObj.SetEnabled(state);
     }
 
     public void AddCard(CardObject cardObject) {
@@ -44,7 +56,7 @@ public class Hand : MonoBehaviour
 
         for (int i = 0; i < count; i++) {
             CardObject card = _cards[Random.Range(0, _cards.Count)];
-            _deck.AddToDiscard(card.CardInstance);
+            CardGameUIManager.i.AddToDiscardPile(card.CardInstance);
             _cards.Remove(card);
             Destroy(card.gameObject);
         }

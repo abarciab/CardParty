@@ -43,6 +43,10 @@ public class CardObject: MonoBehaviour
         _selectable.OnSelect.AddListener(StartDrag);
     }
 
+    public void SetEnabled(bool state) {
+        _selectable.SetEnabled(state);
+    }
+
     private void EndHover()
     {
         _animator.SetBool(_shakingAnimString, false);

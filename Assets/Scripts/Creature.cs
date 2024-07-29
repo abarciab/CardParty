@@ -10,9 +10,9 @@ using System.Linq;
 using UnityEngine.Events;
 using MyBox;
 
-public class Creature : MonoBehaviour
+public abstract class Creature : MonoBehaviour
 {
-    [SerializeField] private CreatureObjectUIController _ui;
+    [SerializeField] protected CreatureObjectUIController UI;
     [SerializeField, ConditionalField(nameof(_gameRunning)), ReadOnly] private int _health;
     [SerializeField] private int _maxHealth;
     [SerializeField, ConditionalField(nameof(_gameRunning)), ReadOnly] private int _block = 0;
@@ -49,6 +49,8 @@ public class Creature : MonoBehaviour
         _gameRunning = true;
     }
 
+    public abstract string GetName();
+
     public void MakeSelectable()
     {
         _isSelectable = true;
@@ -75,7 +77,6 @@ public class Creature : MonoBehaviour
     {
         Controller = controller;
         _health = _maxHealth;
-        _ui.Initialize(this);
     }
 
     public virtual void TakeDamage(float damage) {

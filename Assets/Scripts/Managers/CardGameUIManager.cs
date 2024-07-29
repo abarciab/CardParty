@@ -71,14 +71,12 @@ public class CardGameUIManager : UIManager
 
     private void StartPlayerTurn()
     {
-        print("start player turn");
         _hand.DrawUntilFull();
         HideInstructions();
         _bottomBar.SetActive(true);
     }
 
     private void EndPlayerTurn() {
-        print("end of player turn");
         _hand.Discard(-1);
     }
 

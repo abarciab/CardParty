@@ -40,9 +40,6 @@ public class Hand : MonoBehaviour
     }
 
     public void Discard(int count = 1) {
-        print("cards in hand: " + _cards.Count);
-        print("discarding " + count + " cards");
-
         if (count == -1) count = _cards.Count;
 
         for (int i = 0; i < count; i++) {
@@ -51,8 +48,6 @@ public class Hand : MonoBehaviour
             _cards.Remove(card);
             Destroy(card.gameObject);
         }
-
-        print("cards in hand: " + _cards.Count);
     }
 
     public void RemoveCard(CardObject cardObject) {

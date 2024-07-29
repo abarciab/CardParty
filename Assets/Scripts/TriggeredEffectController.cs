@@ -34,7 +34,6 @@ public class TriggeredEffectController : MonoBehaviour
     }
 
     private async void TriggerEffects(TriggeredEffectTriggerTime time) {
-        await Task.Delay(1000);
         if (!_triggeredEffects.ContainsKey(time)) {
             _triggeredEffects.Add(time, new List<TriggeredEffect>());
         }

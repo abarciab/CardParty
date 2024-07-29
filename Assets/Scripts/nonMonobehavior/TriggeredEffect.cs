@@ -13,6 +13,7 @@ public class TriggeredEffect
     public int Amount = 0;
 
     public TriggeredEffect(TriggeredEffectData data) {
+        Type = data.Type;
         TriggerTime = data.TriggerTime;
         NumTriggers = data.NumTriggers;
         Amount = data.Amount;

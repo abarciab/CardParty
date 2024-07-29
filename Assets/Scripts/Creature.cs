@@ -80,6 +80,9 @@ public class Creature : MonoBehaviour
 
     public virtual void TakeDamage(float damage) {
         _block -= Mathf.RoundToInt(damage);
+
+        OnBlockPercentChanged.Invoke(_block / (float)_maxBlock);
+
         if (_block < 0) {
             _health += _block;
             _block = 0;

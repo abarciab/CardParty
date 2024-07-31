@@ -66,7 +66,7 @@ public class TabletopController : MonoBehaviour
     }
 
     public void AddToSelectedTargets(Creature selected)
-    {
+    {        
         if (_selectedCreatures.Contains(selected)) return;
 
         _selectedCreatures.Add(selected);
@@ -179,13 +179,13 @@ public class TabletopController : MonoBehaviour
         slot.Creature.GetComponent<AdventurerObject>().Initialize(data);
     }
 
-    private void AddEnemyToCombat(GameObject enemyPrefab)
+    private void AddEnemyToCombat(EnemyData enemyData)
     {
         var emptySlots = _enemyCombatSlots.Where(x => !x.Creature).ToList();
         var slot = emptySlots[Mathf.RoundToInt((emptySlots.Count-1) / 2)];
 
-        AddCreatureToSlot(slot, enemyPrefab, ref _enemyObjs);
-        slot.Creature.GetComponent<EnemyObject>().Initialize();
+        AddCreatureToSlot(slot, enemyData.Prefab, ref _enemyObjs);
+        slot.Creature.GetComponent<EnemyObject>().Initialize(enemyData);
     }
 
     private void AddCreatureToSlot<t>(CombatSlot slot, GameObject prefab, ref List<t> list)

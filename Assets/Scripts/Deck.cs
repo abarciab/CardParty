@@ -52,6 +52,8 @@ public class Deck : MonoBehaviour
     private void ShuffleDiscardPileIntoDrawPile()
     {
         _cards.AddRange(new List<CardInstance>(_discardPile.Shuffle()));
-        _discardPileObj.SetActive(false);
+        _drawPileObj.SetActive(_cards.Count > 0);
+        _discardPile = new List<CardInstance>();
+        _discardPileObj.SetActive(_discardPile.Count > 0);
     }
 }

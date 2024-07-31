@@ -127,6 +127,7 @@ public class CardGameManager : GameManager
 
     public void PlayCard(CardObject cardObject)
     {
+
         CurrentPlayedCard = cardObject;
         var data = cardObject.CardInstance;
         var playData = data.GetPlayData(GetOwnerAdventurer(cardObject));

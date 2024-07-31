@@ -15,4 +15,4 @@ MonoBehaviour:
   difficulty: 0
   frequency: 0
   enemies:
-  - {fileID: 5954159574823729094, guid: aee4b4e4c3f64d0498b6674ffba75b5b, type: 3}
+  - {fileID: 11400000, guid: 9686b017877f5054484050f2903ad0a5, type: 2}

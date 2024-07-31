@@ -13,10 +13,10 @@ using MyBox;
 public abstract class Creature : MonoBehaviour
 {
     [SerializeField] protected CreatureObjectUIController UI;
-    [SerializeField, ConditionalField(nameof(_gameRunning)), ReadOnly] private int _health;
-    [SerializeField] private int _maxHealth;
+    [SerializeField, ConditionalField(nameof(_gameRunning)), ReadOnly] protected int _health;
+    [SerializeField] protected int _maxHealth;
     [SerializeField, ConditionalField(nameof(_gameRunning)), ReadOnly] private int _block = 0;
-    [SerializeField] private int _maxBlock;
+    [SerializeField] protected int _maxBlock;
     [SerializeField] protected Transform _model;
 
     [Header("Animation")]
@@ -81,10 +81,14 @@ public abstract class Creature : MonoBehaviour
 
     public virtual void TakeDamage(float damage) {
         _block -= Mathf.RoundToInt(damage);
+
+        OnBlockPercentChanged.Invoke(_block / (float)_maxBlock);
+
         if (_block < 0) {
             _health += _block;
             _block = 0;
         }
+
         OnHealthPercentChanged.Invoke(_health / (float) _maxHealth);
 
         if (_health <= 0) Die();
@@ -107,6 +111,7 @@ public abstract class Creature : MonoBehaviour
     }
 
     public void AddStatusEffect(StatusEffectData statusEffectData) {
+
         StatusEffect newStatus = new StatusEffect(statusEffectData);
         StatusEffectTriggerTime newTime = newStatus.TriggerTime;
 

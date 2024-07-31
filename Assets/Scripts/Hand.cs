@@ -67,6 +67,7 @@ public class Hand : MonoBehaviour
 
             var cardController = newCardCoord.GetComponent<CardObject>();
             cardController.Initialize(card, this);
+
             _cards.Add(cardController);
 
             placeHolderCards.Add(newCardCoord);
@@ -113,5 +114,4 @@ public class Hand : MonoBehaviour
     }
 
     private void DisableCardInteractionForSeconds(float duration) { }
-
 }

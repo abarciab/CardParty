@@ -7,8 +7,7 @@ using System.Linq;
 using System;
 using System.Threading.Tasks;
 
-public enum EnemyActionType {None, Attack}
-public enum EnemyType {Goblin}
+public enum EnemyActionType {None, Attack, Block, Wait}
 public class EnemyAction {
     public EnemyActionType Action;
     public CombatSlot TargetSlot;
@@ -24,28 +23,37 @@ public class EnemyObject : Creature
     private EnemyAction _nextAction;
     [SerializeField] private GameObject _attackArrowPrefab;
     public AttackArrow AttackArrow;
-    [SerializeField] private float _attackDamage;
+    private float _attackDamage;
+    private float _blockAmount;
+
+    public void Initialize(EnemyData data) {
+        EnemyType = data.EnemyType;
+        _maxHealth = data.MaxHealth;
+        _health = _maxHealth;
+        _maxBlock = data.MaxBlock;
+        _attackDamage = data.AttackDamage;
+        _blockAmount = data.BlockAmount;
+
+        UI.Initialize(this);
+    }
 
     public async Task Action(List<AdventurerObject> adventurers, List<EnemyObject> enemies) {
-        if (_isStunned || _nextAction.Action == EnemyActionType.None) return;
+        AdventurerObject target = (AdventurerObject)_nextAction.TargetSlot.Creature;
+        if (!(_isStunned || _nextAction.Action == EnemyActionType.None || target == null)) {
 
-        switch(_nextAction.Action) {
-            case EnemyActionType.Attack: {
-                AdventurerObject target = (AdventurerObject)_nextAction.TargetSlot.Creature;
-                    if (target == null) break;
+            if (_nextAction.Action == EnemyActionType.Attack) {
                 if (AttackArrow.BlockSlot.Creature) target = (AdventurerObject)AttackArrow.BlockSlot.Creature;
 
                 await Utilities.LerpToAndBack(gameObject, target.transform.position);
                 target.TakeDamage(_attackDamage);
+            } else if (_nextAction.Action == EnemyActionType.Block) {
+                AddBlock((_blockAmount));
+            } else if (_nextAction.Action == EnemyActionType.Wait) {
+                //pass
             }
-            break;
         }
 
         Controller.RemoveAttackArrow(AttackArrow);
-    }
-
-    public void Initialize() {
-        UI.Initialize(this);
     }
 
     public override string GetName() {
@@ -58,11 +66,15 @@ public class EnemyObject : Creature
     }
 
     private EnemyAction GetAction() {
-        switch(EnemyType) {
-            case EnemyType.Goblin: {
-                    var target = Controller.GetValidAttackTarget(CombatSlot);
-                    if (target == null) break;
-                return new EnemyAction(EnemyActionType.Attack, target);
+        if (EnemyType == EnemyType.Goblin_Swordsman) {
+            var target = Controller.GetValidAttackTarget(CombatSlot);
+            if (target != null) return new EnemyAction(EnemyActionType.Attack, target);
+
+        } else if (EnemyType == EnemyType.Goblin_Mage) {
+            var target = Controller.GetValidAttackTarget(CombatSlot);
+            if (target != null) {
+                if (_nextAction == null || _nextAction.Action == EnemyActionType.Attack) return new EnemyAction(EnemyActionType.Wait, target);
+                if (_nextAction.Action == EnemyActionType.Wait) return new EnemyAction(EnemyActionType.Attack, target);
             }
         }
 

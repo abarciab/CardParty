@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2138b7b908aeb249a12b0d3409b68a2, type: 3}
-  m_Name: Stun
+  m_Script: {fileID: 11500000, guid: da9310c538ee1c44687fbffcf5992ce4, type: 3}
+  m_Name: Goblin_Swordsman
   m_EditorClassIdentifier: 
-  Type: 1
-  TriggerTime: 0
-  Amount: 0
-  Duration: 1
+  EnemyType: 0
+  Prefab: {fileID: 5954159574823729094, guid: aee4b4e4c3f64d0498b6674ffba75b5b, type: 3}
+  MaxHealth: 0
+  MaxBlock: 0
+  AttackDamage: 0
+  BlockAmount: 0

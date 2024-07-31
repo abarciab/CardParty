@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[CreateAssetMenu(fileName = "Combat", menuName = "Encounter/Combat")]
-public class Combat : Encounter
+[CreateAssetMenu(fileName = "Combat", menuName = "Combat")]
+public class Combat : ScriptableObject
 {
     public float difficulty;
     public float frequency;
-    public GameObject[] enemies;
+    public EnemyData[] enemies;
 }

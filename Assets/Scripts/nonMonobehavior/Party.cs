@@ -16,7 +16,6 @@ public class Party
     private const int _ornamentIndex = 0;
     private const int _armorIndex = 1;
     private const int _mainIndex = 2;
-    private const int _innateCardTotal = 6;
 
     public override string ToString()
     {
@@ -56,7 +55,7 @@ public class Party
             var adventurer = entry.Key;
             var equipmentList = entry.Value; 
             
-            deck.AddRange(adventurer.GetInnateCards(_innateCardTotal));
+            deck.AddRange(adventurer.GetInnateCards());
             foreach (var equipment in equipmentList) {
                 if (equipment != null) deck.AddRange(equipment.Cards);
             }

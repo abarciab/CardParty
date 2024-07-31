@@ -2139,7 +2139,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97b42e1d0a1f9134a8eea6a44a4403ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _testItemSet: []
+  _testItemSet:
+  - {fileID: 11400000, guid: 5987b17e34ef0e84fa85a9d12296e3bf, type: 2}
+  - {fileID: 11400000, guid: 96ff5fca0007a164383e83875a382b53, type: 2}
+  - {fileID: 11400000, guid: a51a4a8ac31a0e14697da0ac666e444a, type: 2}
+  - {fileID: 11400000, guid: 5da3ecee90120d646a5bb73d30ee4ff9, type: 2}
+  - {fileID: 11400000, guid: 21e1008972c9bc14988f93767e2b2a5a, type: 2}
+  - {fileID: 11400000, guid: 2de8024b63ae12e4bad2c116ccc08917, type: 2}
+  - {fileID: 11400000, guid: 359fe01e39dc7b446a08605805765fca, type: 2}
+  - {fileID: 11400000, guid: ae3ba4ddd4f34d14786d0e4115d8a4e0, type: 2}
+  - {fileID: 11400000, guid: f7bc7f5795fefe447b512a62e6735912, type: 2}
+  - {fileID: 11400000, guid: 86c8df9cbf0825148a88f6dc530d3114, type: 2}
+  - {fileID: 11400000, guid: f104abc2cb1d90a43a37304933f01828, type: 2}
+  - {fileID: 11400000, guid: 2904710ee6573f449b10ea52989a89f7, type: 2}
+  - {fileID: 11400000, guid: 494c2b8b6b72262499b68b679efbe6ba, type: 2}
+  - {fileID: 11400000, guid: a4c7608b5c24b644cb62330d60518630, type: 2}
+  - {fileID: 11400000, guid: 4c8c7a1f1fbb31d4cb2001cb2c2d0348, type: 2}
   _testAdventurerList:
   - {fileID: 11400000, guid: 18abc88bd85dee948b189dd72b0de879, type: 2}
   _testEquipmentLoad: []

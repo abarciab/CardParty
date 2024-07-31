@@ -60,7 +60,7 @@ public class CardObject: MonoBehaviour
         _animator.SetBool(_shakingAnimString, true);
         SetWidth(_hoveredWidth);
         SetY(_startY + _hoverJumpUpDist);
-        CardGameManager.i.StartWiggle(CardInstance.Owner);
+        _handController.StartHoverCard(this);
     }
 
     private void SetY(float y)
@@ -107,7 +107,7 @@ public class CardObject: MonoBehaviour
         _selectable.SetEnabled(false);
 
         _isBeingdragged = true;
-        transform.SetParent(transform.parent.parent);
+        transform.SetParent(_handController.transform);
     }
 
     void EndDrag() {

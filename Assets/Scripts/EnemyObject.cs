@@ -104,7 +104,7 @@ public class EnemyObject : Creature
         AttackArrow = Instantiate(_attackArrowPrefab, transform.parent).GetComponent<AttackArrow>();
 
         var blockPos = Vector3.Lerp(start, end, 0.5f);
-        CombatSlot newCombatSlot = Controller.SpawnBlockSlot(blockPos);
+        CombatSlot newCombatSlot = Controller.SpawnBlockSlot(blockPos, this);
 
         newCombatSlot.AttackArrow = AttackArrow;
         AttackArrow.BlockSlot = newCombatSlot;

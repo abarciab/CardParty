@@ -99,13 +99,13 @@ public class TabletopController : MonoBehaviour
         return true;
     }
 
-    public CombatSlot SpawnBlockSlot(Vector3 position)
+    public CombatSlot SpawnBlockSlot(Vector3 position, EnemyObject enemy)
     {
         var existing = ExistingBlockSlotInPosition(position);
         if (existing) return existing;
 
         var slot = Instantiate(_combatSlotPrefab, position, Quaternion.identity, _enemyParent).GetComponent<CombatSlot>();
-        slot.Initialize(this, true);
+        slot.Initialize(this, enemy);
         _blockCombatSlots.Add(slot);
 
         return slot;

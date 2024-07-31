@@ -15,14 +15,56 @@ public class Hand : MonoBehaviour
     [SerializeField] private int _maxHandSize = 6;
     [SerializeField] private Deck _deck;
 
+    [SerializeField] private Scrollbar _scrollbar;
+    [SerializeField] private ScrollRect _scrollRect;
+
     private void Start() {
         CardGameManager.i.OnStartPlayerTurn.AddListener(EnableCards);
+    }
+
+    public void StartHoverCard(CardObject cardObj)
+    {
+        CardGameManager.i.StartWiggle(cardObj.CardInstance.Owner);
+        PutCardInCenterOfHand(cardObj.transform);
+    }
+
+    private void PutCardInCenterOfHand(Transform card)
+    {
+        Vector3[] itemCorners = new Vector3[4];
+        (card as RectTransform).GetWorldCorners(itemCorners);
+
+        Vector3[] contentCorners = new Vector3[4];
+        _cardListParent.GetComponent<RectTransform>().GetWorldCorners(contentCorners);
+
+        float itemCenterX = (itemCorners[0].x + itemCorners[2].x) / 2;
+        float contentWidth = contentCorners[2].x - contentCorners[0].x;
+        float viewportWidth = _scrollRect.viewport.rect.width;
+
+        float normalizedPosition = (itemCenterX - contentCorners[0].x - viewportWidth / 2) / (contentWidth - viewportWidth);
+
+        normalizedPosition = Mathf.Clamp01(normalizedPosition);
+        LerpScrollRect(normalizedPosition, 0.1f);
+    }
+
+    private async void LerpScrollRect(float targetValue, float duration)
+    {
+        float startValue = _scrollRect.horizontalNormalizedPosition;
+        float timePassed = 0;
+        while (timePassed < duration) {
+            _scrollRect.horizontalNormalizedPosition = Mathf.Lerp(startValue, targetValue, timePassed / duration);
+            timePassed += Time.deltaTime;
+            await Task.Delay(Mathf.RoundToInt(Time.deltaTime * 1000));
+        }
+        _scrollRect.horizontalNormalizedPosition = targetValue;
     }
 
     public void AddCards(List<CardInstance> newCards) {
         List<GameObject> placeHolderCards = new List<GameObject>();
         foreach(CardInstance card in newCards) {
             GameObject newCardCoord = Instantiate(_playableCardPrefab, _cardListParent);
+            int siblingIndex = _cardListParent.childCount - 2;
+            newCardCoord.transform.SetSiblingIndex(siblingIndex);
+
             var cardController = newCardCoord.GetComponent<CardObject>();
             cardController.Initialize(card, this);
             _cards.Add(cardController);

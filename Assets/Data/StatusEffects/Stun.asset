@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2138b7b908aeb249a12b0d3409b68a2, type: 3}
   m_Name: Stun
   m_EditorClassIdentifier: 
-  StatusEffectType: 1
-  StatusEffectTriggerTime: 0
+  Type: 1
+  TriggerTime: 1
   Amount: 0
   Duration: 1

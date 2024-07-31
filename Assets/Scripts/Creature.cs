@@ -20,7 +20,7 @@ public abstract class Creature : MonoBehaviour
     [SerializeField] protected Transform _model;
 
     [Header("Animation")]
-    [SerializeField] private Animator _animator;
+    [SerializeField] protected Animator Animator;
     [SerializeField] private string _animWiggleBoolString = "wiggle";
 
 
@@ -36,7 +36,7 @@ public abstract class Creature : MonoBehaviour
     [HideInInspector] public UnityEvent<float> OnBlockPercentChanged;
     private bool _isSelectable;
 
-    public void SetWiggle(bool state) => _animator.SetBool(_animWiggleBoolString, state);
+    public void SetWiggle(bool state) => Animator.SetBool(_animWiggleBoolString, state);
 
     private void OnValidate()
     {

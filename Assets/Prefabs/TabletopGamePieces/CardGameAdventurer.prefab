@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 503142253857486860}
   - component: {fileID: 6449656698193423352}
   - component: {fileID: 4936590728334464692}
+  - component: {fileID: 5215813724519407301}
   m_Layer: 0
   m_Name: CardGameAdventurer
   m_TagString: Untagged
@@ -74,7 +75,7 @@ MonoBehaviour:
   _block: 0
   _maxBlock: 100
   _model: {fileID: 6891132370209724010}
-  _animator: {fileID: 3698366410602308706}
+  Animator: {fileID: 3698366410602308706}
   _animWiggleBoolString: wiggle
   CombatSlot: {fileID: 0}
   _gameRunning: 0
@@ -84,6 +85,54 @@ MonoBehaviour:
   OnBlockPercentChanged:
     m_PersistentCalls:
       m_Calls: []
+  _startDragSound: {fileID: 11400000, guid: 5538fd634108c8e4a8ab28226897db93, type: 2}
+  _endDragSound: {fileID: 11400000, guid: 6c17f1b25dc0a984a8164918829b64c9, type: 2}
+  _animPlaceTriggerString: place
+--- !u!114 &5215813724519407301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4531924361357938381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc6c4fa470fb7c4cb09bebbb8e09160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnClickOn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointerEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7402962957898601719}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  OnPointerExit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7402962957898601719}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6458941003965888815
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,6 +165,89 @@ Transform:
   - {fileID: 7765052835054353120}
   m_Father: {fileID: 503142253857486860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7402962957898601719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2507169899260239236}
+  - component: {fileID: 7392406619372074734}
+  - component: {fileID: 3374694924363637252}
+  m_Layer: 0
+  m_Name: highlight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2507169899260239236
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7402962957898601719}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.000048197, y: -0.09, z: -0.020045}
+  m_LocalScale: {x: 1.0354, y: 1.0354, z: 1.0354}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3958582166696146263}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &7392406619372074734
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7402962957898601719}
+  m_Mesh: {fileID: -1388485733357891733, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
+--- !u!23 &3374694924363637252
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7402962957898601719}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7ad35cdaa7ff41e4d94cbfe09cde5545, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1001 &7802973527882112267
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -184,14 +316,26 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 31d67ec9fb7203f499b8f5d44cd94b08, type: 2}
+    - target: {fileID: 7953606483559150473, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -2691447693167941540, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2507169899260239236}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3698366410602308706}
   m_SourcePrefab: {fileID: 100100000, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
+--- !u!4 &3958582166696146263 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2691447693167941540, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
+  m_PrefabInstance: {fileID: 7802973527882112267}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6956041368246263898 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}

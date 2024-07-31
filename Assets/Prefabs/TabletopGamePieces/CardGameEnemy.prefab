@@ -75,7 +75,7 @@ MonoBehaviour:
   _block: 0
   _maxBlock: 0
   _model: {fileID: 3293890517728105478}
-  _animator: {fileID: 6349669091669604474}
+  Animator: {fileID: 6349669091669604474}
   _animWiggleBoolString: wiggle
   CombatSlot: {fileID: 0}
   _gameRunning: 0

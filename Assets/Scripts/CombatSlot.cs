@@ -12,20 +12,29 @@ public class CombatSlot : MonoBehaviour
     [SerializeField, ReadOnly] TabletopController _controller;
     [SerializeField] private GameObject _model;
 
-    public void Initialize(GameObject creaturePrefab, TabletopController controller, bool isBlockSlot = false)
+    private EnemyObject _enemyObject;
+    public EnemyObject EnemyObject => IsBlockSlot ? _enemyObject : null;
+
+    public void Initialize(GameObject creaturePrefab, TabletopController controller)
     {
         var creatureObject = Instantiate(creaturePrefab, transform);
         Creature = creatureObject.GetComponent<Creature>();
         Creature.Initialize(controller);
         Creature.CombatSlot = this;
-        Initialize(controller, isBlockSlot);
+        Initialize(controller);
     }
 
-    public void Initialize(TabletopController controller, bool isBlockSlot = false)
+    public void Initialize(TabletopController controller, EnemyObject _enemy)
+    {
+        _enemyObject = _enemy;
+        IsBlockSlot = true;
+        if (IsBlockSlot) gameObject.name = "Block Slot";
+        Initialize(controller);
+    }
+
+    public void Initialize(TabletopController controller)
     {
         _controller = controller;
-        IsBlockSlot = isBlockSlot;
-        if (IsBlockSlot) gameObject.name = "Block Slot";
     }
 
     public void SetCreature(Creature creature) {

@@ -283,7 +283,6 @@ public class TabletopController : MonoBehaviour
         if (creature.GetType() == typeof(EnemyObject)) {
             _enemyObjs.Remove((EnemyObject)creature);
 
-
             if (_enemyObjs.Count == 0) {
                 CardGameUIManager.i.DisplayVictoryScreen();
             }

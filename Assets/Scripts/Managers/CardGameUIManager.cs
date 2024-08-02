@@ -24,6 +24,7 @@ public class CardGameUIManager : UIManager
     [SerializeField] private GameObject _bottomBar;
     [SerializeField] private GameObject _cardInfoParent;
     [SerializeField] private PlayableCardDisplay _cardInfo;
+    [SerializeField] private Slider _actionPointsSlider;
 
     private CardGameManager gMan => CardGameManager.i;
     
@@ -92,6 +93,7 @@ public class CardGameUIManager : UIManager
     public void UpdateActionDisplay()
     {
         _actionsPointsText.text = gMan.Actions + "/" + gMan.MaxActions;
+        _actionPointsSlider.value = gMan.Actions / (float) gMan.MaxActions;
     }
 
     public async void MoveToDisplay(CardObject cardObject)

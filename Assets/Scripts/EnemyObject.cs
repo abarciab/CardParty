@@ -131,8 +131,7 @@ public class EnemyObject : Creature
 
     public override void Die()
     {
-        base.Die();
         Controller.RemoveAttackArrow(AttackArrow);
-
+        base.Die();
     }
 }

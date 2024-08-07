@@ -107,7 +107,7 @@ public abstract class Creature : MonoBehaviour
         await Utilities.LerpScale(gameObject, Vector3.zero, 0.45f);
         await Task.Delay(500);
         Controller.RemoveCreature(this);
-        if (gameObject != null) Destroy(gameObject);
+        if (this != null && gameObject != null) Destroy(gameObject);
     }
 
     public void AddStatusEffect(StatusEffectData statusEffectData) {

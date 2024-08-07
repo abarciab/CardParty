@@ -3,12 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class ControlDefinition : MonoBehaviour
 {
     [SerializeField] private List<string> _testList = new List<string>();
+
+    private void OnValidate()
+    {
+        for (int i = 0; i < _testList.Count; i++) {
+            _testList[i] = _testList[i].Replace(" ", "_");
+            _testList[i] = _testList[i].Replace("/", "_");
+        }
+    }
 
     [ButtonMethod]
     private void WriteToFile()
@@ -22,7 +30,9 @@ public class ControlDefinition : MonoBehaviour
         writer.WriteLine(line);
         writer.Close();
 
-        AssetDatabase.Refresh();
+#if UNITY_EDITOR
+        UnityEditor.AssetDatabase.Refresh();
+#endif
 
         Debug.Log("File written successfully.");
 

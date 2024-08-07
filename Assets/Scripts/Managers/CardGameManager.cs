@@ -127,6 +127,9 @@ public class CardGameManager : GameManager
 
     public void PlayCard(CardObject cardObject)
     {
+        if (Actions == 1) {
+            ui.StopPlayingCards();
+        }
 
         CurrentPlayedCard = cardObject;
         var data = cardObject.CardInstance;
@@ -190,12 +193,8 @@ public class CardGameManager : GameManager
 
         ui.HideInstructions();
 
-        if (Actions == 0) {
-            ui.StopPlayingCards();  
-        }
-        else {
-            CurrCombatState = CombatState.PlayerTurn;
-        }
+        CurrCombatState = CombatState.PlayerTurn;
+        
 
         CardGameUIManager.i.AddToDiscardPile(cardObject.CardInstance);
         Destroy(cardObject.gameObject);

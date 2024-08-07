@@ -139,6 +139,7 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     [Header("Debug")]
     [SerializeField] private bool _printSelections;
+    [SerializeField, ReadOnly] private bool _disabled;
 
     public bool Selected { get; private set; }
     public bool Hovered { get; private set; }
@@ -157,8 +158,13 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (_selectSound) _selectSound = Instantiate(_selectSound);
         if (_deselectSound) _deselectSound = Instantiate(_deselectSound);
 
-        Disabled = false;
+        //Disabled = false;
         if (_deselectOnStart) Deselect();
+    }
+
+    private void Update()
+    {
+        _disabled = Disabled;
     }
 
     [ButtonMethod]
@@ -207,6 +213,7 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void SetEnabled(bool enabled)
     {
+        print(gameObject.name + " setting enabled: " + enabled);
         Disabled = !enabled;
         UpdateVisuals();
     }

@@ -1,1 +1,1 @@
-public enum Control {NONE, PAUSE, MOVE_FORWARD, MOVE_BACK, MOVE_LEFT, MOVE_RIGHT}
+public enum Control {NONE, PAUSE, THIRD_OPTION, JUMP}

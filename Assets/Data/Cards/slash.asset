@@ -15,12 +15,6 @@ MonoBehaviour:
   Name: slash
   Sprite: {fileID: 21300000, guid: f2c500fee78cd5e478cbee3e6d546915, type: 3}
   Description: typical.
-  _function: 1
-  _amount: 15
-  _specialData:
-    _type: 0
-    _amount: 3
-    _targetAll: 1
-  _targetAll: 0
-  _exhaust: 0
-  CardObject: {fileID: 0}
+  CardFunctionData: []
+  TargetAll: 0
+  Exhaust: 0

@@ -20,7 +20,7 @@ MonoBehaviour:
     Looping: 0
   _volume: 1
   _pitch: 1
-  _randomizePitch: 0
-  _pitchRandomizeAmount: 0
+  _randomizePitch: 1
+  _pitchRandomizeAmount: 0.019
   AudioSource: {fileID: 0}
   Instantialized: 0

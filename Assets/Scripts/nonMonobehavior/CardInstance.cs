@@ -6,7 +6,7 @@ using MyBox;
 using System.Reflection;
 using System.Threading.Tasks;
 
-public enum Function { NONE, ATTACK, BLOCK, DRAW, HEAL, ADDCARDS, STATUS, TRIGGEREDEFFECT}
+public enum Function { NONE, ATTACK, BLOCK, DRAW, HEAL, ADDCARDS, STATUS, TRIGGEREDEFFECT, THEVESSEL, ARCHMAGEPROT, WHEEL, REMOVESTATUS}
 
 [Serializable]
 public class CardPlayData {
@@ -27,8 +27,9 @@ public class CardFunctionData {
     public Function Function;
     [ConditionalField (nameof(Function), inverse:true, Function.NONE)] public float Amount = 50;
     [ConditionalField (nameof(Function), inverse:false, Function.ADDCARDS)] public CardData CardData;
-    [ConditionalField (nameof(Function), inverse:false, Function.STATUS)] public StatusEffectData StatusEffectData;
+    [ConditionalField (nameof(Function), inverse:false, Function.STATUS, Function.THEVESSEL)] public StatusEffectData StatusEffectData;
     [ConditionalField (nameof(Function), inverse:false, Function.TRIGGEREDEFFECT)] public TriggeredEffectData TriggeredEffectData;
+    [ConditionalField (nameof(Function), inverse:false, Function.STATUS)] public bool TargetSelf = false;
 }
 
 [Serializable]
@@ -96,13 +97,16 @@ public class CardInstance
         List<CardFunctionData> functions = new List<CardFunctionData>(_cardFunctionData);
         var playData = new CardPlayData(CardGameManager.i.GetAdventurerObject(Owner), functions);
 
-        foreach (var f in functions) { 
-            if (f.Function == Function.ATTACK || f.Function == Function.STATUS) {
+        foreach (var f in functions) {
+            if (f.Function == Function.ATTACK || f.Function == Function.THEVESSEL) {
                 playData.TargetTypes = new List<System.Type>() { typeof(EnemyObject) };
                 break;
-            } else if (f.Function == Function.HEAL) {
+            } else if (f.Function == Function.HEAL || f.Function == Function.REMOVESTATUS) {
                 playData.TargetTypes = new List<System.Type>() {typeof(AdventurerObject)};
                 break;
+            } else if (f.Function == Function.STATUS) {
+                if (f.TargetSelf) break;
+                playData.TargetTypes = new List<System.Type>() { typeof(EnemyObject) };
             }
         }
 

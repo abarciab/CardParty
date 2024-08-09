@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class CardGameTestHarness : MonoBehaviour
 {
-    [SerializeField] private List<Equipment> _testItemSet = new List<Equipment>();
+    [SerializeField] private List<EquipmentData> _testItemSet = new List<EquipmentData>();
     [SerializeField] private List<AdventurerData> _testParty = new List<AdventurerData>();
-    public Combat TestCombat;
-    [SerializeField] private List<Equipment> _testEquipmentLoad = new List<Equipment>();
+    public CombatData TestCombat;
+    [SerializeField] private List<EquipmentData> _testEquipmentLoad = new List<EquipmentData>();
 
     [SerializeField] private int _testDamage;
 

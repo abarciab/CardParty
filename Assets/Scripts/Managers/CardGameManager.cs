@@ -23,7 +23,7 @@ public class CardGameManager : GameManager
     [Header("Stats")]
     [SerializeField] private int _maxActions = 3; //move to playerInfo.Stats eventually
 
-    [HideInInspector] public List<Creature> SelectedCreatures = new List<Creature>();
+    [HideInInspector] public List<CreatureObject> SelectedCreatures = new List<CreatureObject>();
     [HideInInspector] public CardObject CurrentPlayedCard;
     [HideInInspector] public UnityEvent OnStartCombat = new UnityEvent();
     [HideInInspector] public UnityEvent OnStartPlayerTurn = new UnityEvent();
@@ -83,7 +83,7 @@ public class CardGameManager : GameManager
         else SceneManager.LoadScene(1);
     }
 
-    public async void StartCombat(Combat combat)
+    public async void StartCombat(CombatData combat)
     {
         _tableTop.SpawnCombatants(combat);
 
@@ -118,10 +118,12 @@ public class CardGameManager : GameManager
 
         await _tableTop.TakeEnemyActions(TURN_WAIT_TIME);
 
+        _tableTop.RemoveAdventurerBlock();
+        
         OnEndEnemyTurn.Invoke();
 
         CurrCombatState = CombatState.Idle;
-
+        
         StartPlayerTurn();
     }
 
@@ -145,24 +147,32 @@ public class CardGameManager : GameManager
     private void StartSelectingTargets(CardPlayData playData)
     {
         if (playData.TargetTypes.Count > 0) _tableTop.StartSelectingTargets(playData.TargetTypes);
-        else DoCurrentCardFunction(new List<Creature>());
+        else DoCurrentCardFunction(new List<CreatureObject>());
     }
 
-    public async void DoCurrentCardFunction(List<Creature> targets)
+    public async void DoCurrentCardFunction(List<CreatureObject> targets)
     {
         foreach (var f in _currentCardPlayData.CardFunctionData) await EvaluateFunction(f, targets);
 
         CardEndsPlay(CurrentPlayedCard);
     }
 
-    private async Task EvaluateFunction(CardFunctionData function, List<Creature> targets)
+    private async Task EvaluateFunction(CardFunctionData function, List<CreatureObject> targets)
     {
         var playData = _currentCardPlayData;
         if (!playData.Owner) throw new Exception("card does not have an owner!");
 
+        CreatureObject currTarget;
+
+        if (function.TargetSelf) {
+            currTarget = playData.Owner;
+        } else if (targets.Count > 0) {
+            currTarget = targets[0];
+        } else currTarget = null;
+
         if (function.Function == Function.ATTACK) {
-            await Utilities.LerpToAndBack(playData.Owner.gameObject, targets[0].transform.position);
-            targets[0].TakeDamage(function.Amount);
+            await Utilities.LerpToAndBack(playData.Owner.gameObject, currTarget.transform.position);
+            currTarget.TakeDamage(function.Amount + playData.Owner.GetBonusDamage());
         }
         else if (function.Function == Function.BLOCK) {
             playData.Owner.AddBlock(function.Amount);
@@ -171,17 +181,37 @@ public class CardGameManager : GameManager
             ui.Draw((int)function.Amount);
         }
         else if (function.Function == Function.HEAL) {
-            targets[0].RestoreHealth((int)function.Amount);
+            currTarget.RestoreHealth((int)function.Amount);
         }
         else if (function.Function == Function.ADDCARDS) {
             CardInstance newInst = new CardInstance(function.CardData, GetAdventurerData(playData.Owner));
             ui.AddToDeck(newInst, count: (int)function.Amount);
         }
         else if (function.Function == Function.STATUS) {
-            targets[0].AddStatusEffect(function.StatusEffectData);
+            currTarget.AddStatusEffect(function.StatusEffectData);
         }
         else if (function.Function == Function.TRIGGEREDEFFECT) {
             AddTriggeredEffect(function.TriggeredEffectData);
+        }
+        else if (function.Function == Function.THEVESSEL) {
+            await Utilities.LerpToAndBack(playData.Owner.gameObject, currTarget.transform.position);
+            currTarget.TakeDamage(function.Amount + playData.Owner.GetBonusDamage());
+            if (currTarget.IsLethalDamage((int)function.Amount + playData.Owner.GetBonusDamage())) {
+                foreach (AdventurerObject adventurer in GetAdventurers()) {
+                    adventurer.AddStatusEffect(function.StatusEffectData);
+                }
+            }
+        }
+        else if (function.Function == Function.ARCHMAGEPROT) {
+            playData.Owner.AddBlock(2 * CardGameUIManager.i.GetHandSize());
+        }
+        else if (function.Function == Function.WHEEL) {
+            int handSize = CardGameUIManager.i.GetHandSize();
+            CardGameUIManager.i.Discard(handSize);
+            CardGameUIManager.i.Draw(handSize);
+        }
+        else if (function.Function == Function.REMOVESTATUS) {
+            targets[0].RemoveAllStatusEffects();
         }
     }
 

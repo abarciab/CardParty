@@ -165,7 +165,7 @@ public class ShopController : MonoBehaviour
         _gridItems.Clear();
     }
 
-    private void ShowItem(Equipment item)
+    private void ShowItem(EquipmentData item)
     {
         var newGridItem = Instantiate(_gridItemPrefab, _gridParent);
         var itemScript = newGridItem.GetComponent<ShopGridItem>();
@@ -175,7 +175,7 @@ public class ShopController : MonoBehaviour
 
     public void BuyItem(ShopGridItem gridItem)
     {
-        var toBuy = gridItem.Equipment;
+        var toBuy = gridItem.EquipmentData;
         Destroy(gridItem.gameObject);
 
         PlayerInfo.Stats.Money -= toBuy.Cost;

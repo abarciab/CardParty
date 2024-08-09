@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class AdventurerObject : Creature
+public class AdventurerObject : CreatureObject
 {
     [Header("Sounds")]
     [SerializeField] private Sound _startDragSound;
@@ -153,5 +153,20 @@ public class AdventurerObject : Creature
         _isBeingDragged = false;
         transform.localPosition = Vector3.zero;
         _endDragSound.Play();
+    }
+
+    public void RemoveBlock() {
+        foreach (List<StatusEffect> statusList in _statusEffects.Values) {
+            foreach(StatusEffect status in statusList) {
+                if (status.Type == StatusEffectType.RETAINBLOCK) {
+                    status.Duration--;
+                    return;
+                }
+            }
+        }
+
+        _block = 0;
+        OnBlockPercentChanged.Invoke(_block / (float)_maxBlock);
+        return;
     }
 }

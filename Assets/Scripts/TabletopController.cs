@@ -31,7 +31,7 @@ public class TabletopController : MonoBehaviour
 
     private const int MAX_PARTY_SIZE = 3;
 
-    private List<Creature> _selectedCreatures = new List<Creature>();
+    private List<CreatureObject> _selectedCreatures = new List<CreatureObject>();
     private List<System.Type> _targetSelectedCreatures = new List<System.Type>();
 
     public void StopWiggle(AdventurerData aData) => GetAdventurerObject(aData).SetWiggle(false);
@@ -57,7 +57,7 @@ public class TabletopController : MonoBehaviour
         _targetSelectedCreatures = types.OrderBy(x => x.Name).ToList();
         _selectedCreatures.Clear();
 
-        var validCreatures = new List<Creature>();
+        var validCreatures = new List<CreatureObject>();
 
         if (types.Contains(typeof(AdventurerObject))) validCreatures.AddRange(_adventurerObjs);
         if (types.Contains(typeof(EnemyObject))) validCreatures.AddRange(_enemyObjs);
@@ -65,7 +65,7 @@ public class TabletopController : MonoBehaviour
         foreach (var creature in validCreatures) creature.MakeSelectable();
     }
 
-    public void AddToSelectedTargets(Creature selected)
+    public void AddToSelectedTargets(CreatureObject selected)
     {        
         if (_selectedCreatures.Contains(selected)) return;
 
@@ -78,9 +78,9 @@ public class TabletopController : MonoBehaviour
         }
     }
 
-    private List<Creature> GetAllCreaturesList()
+    private List<CreatureObject> GetAllCreaturesList()
     {
-        var allCreatures = new List<Creature>(_enemyObjs);
+        var allCreatures = new List<CreatureObject>(_enemyObjs);
         allCreatures.AddRange(_adventurerObjs);
         return allCreatures;
     }
@@ -159,7 +159,7 @@ public class TabletopController : MonoBehaviour
         foreach (var e in _enemyObjs) e.ShowIntent();
     }
 
-    public void SpawnCombatants(Combat combat)
+    public void SpawnCombatants(CombatData combat)
     {
         for (int i = 0; i < MAX_PARTY_SIZE; i++) {
             MakeNewAdventurerSlot();
@@ -278,7 +278,7 @@ public class TabletopController : MonoBehaviour
         return _enemyObjs;
     }
 
-    public void RemoveCreature(Creature creature)
+    public void RemoveCreature(CreatureObject creature)
     {
         if (creature.GetType() == typeof(EnemyObject)) {
             _enemyObjs.Remove((EnemyObject)creature);
@@ -292,6 +292,12 @@ public class TabletopController : MonoBehaviour
             if (_adventurerObjs.Count == 0) {
                 CardGameUIManager.i.DisplayDefeatScreen();
             }
+        }
+    }
+
+    public void RemoveAdventurerBlock() {
+        foreach(AdventurerObject adventurer in _adventurerObjs) {
+            adventurer.RemoveBlock();
         }
     }
 }

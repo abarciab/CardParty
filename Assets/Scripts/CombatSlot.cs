@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CombatSlot : MonoBehaviour
 {
-    [HideInInspector] public Creature Creature { get; private set; }
+    [HideInInspector] public CreatureObject Creature { get; private set; }
 
     public bool IsBlockSlot = false;
     public AttackArrow AttackArrow;
@@ -18,7 +18,7 @@ public class CombatSlot : MonoBehaviour
     public void Initialize(GameObject creaturePrefab, TabletopController controller)
     {
         var creatureObject = Instantiate(creaturePrefab, transform);
-        Creature = creatureObject.GetComponent<Creature>();
+        Creature = creatureObject.GetComponent<CreatureObject>();
         Creature.Initialize(controller);
         Creature.CombatSlot = this;
         Initialize(controller);
@@ -37,7 +37,7 @@ public class CombatSlot : MonoBehaviour
         _controller = controller;
     }
 
-    public void SetCreature(Creature creature) {
+    public void SetCreature(CreatureObject creature) {
 
         CombatSlot oldSlot = creature.CombatSlot;
         oldSlot.Creature = null;

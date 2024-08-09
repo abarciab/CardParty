@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da9310c538ee1c44687fbffcf5992ce4, type: 3}
+  m_Name: Goblin_Brute
+  m_EditorClassIdentifier: 
+  EnemyType: 4
+  Prefab: {fileID: 5954159574823729094, guid: aee4b4e4c3f64d0498b6674ffba75b5b, type: 3}
+  MaxHealth: 80
+  MaxBlock: 80
+  ActionData:
+  - ActionType: 1
+    Amount:
+    - 15
+    StatusEffectData: {fileID: 11400000, guid: fa1c2082926d922489140b15f47ee732, type: 2}
+  - ActionType: 6
+    Amount: []
+    StatusEffectData: {fileID: 11400000, guid: dcf61e5d3710ec14f86e3ff3b01d3bc8, type: 2}

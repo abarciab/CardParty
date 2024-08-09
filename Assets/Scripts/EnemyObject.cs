@@ -7,17 +7,22 @@ using System.Linq;
 using System;
 using System.Threading.Tasks;
 
-public enum EnemyActionType {None, Attack, Block, Wait}
+public enum EnemyType {Goblin_Swordsman, Goblin_Mage, Snake, Wolf, Goblin_Brute}
+public enum EnemyActionType {None, Attack, Block, Wait, Status, BuffAllies, Stun}
 public class EnemyAction {
-    public EnemyActionType Action;
+    public List<EnemyActionType> Actions;
     public CombatSlot TargetSlot;
+    public EnemyAction(List<EnemyActionType> newActions, CombatSlot newTargetSlot) {
+        Actions = newActions;
+        TargetSlot = newTargetSlot;
+    }
     public EnemyAction(EnemyActionType newAction, CombatSlot newTargetSlot) {
-        Action = newAction;
+        Actions = new List<EnemyActionType>(){newAction};
         TargetSlot = newTargetSlot;
     }
 }
 
-public class EnemyObject : Creature
+public class EnemyObject : CreatureObject
 {
     public EnemyType EnemyType;
     private EnemyAction _nextAction;
@@ -25,31 +30,42 @@ public class EnemyObject : Creature
     public AttackArrow AttackArrow;
     private float _attackDamage;
     private float _blockAmount;
+    private Dictionary<EnemyActionType, EnemyActionData> _actionData = new Dictionary<EnemyActionType, EnemyActionData>();
 
     public void Initialize(EnemyData data) {
         EnemyType = data.EnemyType;
         _maxHealth = data.MaxHealth;
         _health = _maxHealth;
         _maxBlock = data.MaxBlock;
-        _attackDamage = data.AttackDamage;
-        _blockAmount = data.BlockAmount;
+        
+        foreach(EnemyActionData actionData in data.ActionData) {
+            _actionData.Add(actionData.ActionType, actionData);
+        }
 
         UI.Initialize(this);
     }
 
     public async Task Action(List<AdventurerObject> adventurers, List<EnemyObject> enemies) {
         AdventurerObject target = (AdventurerObject)_nextAction.TargetSlot.Creature;
-        if (!(_isStunned || _nextAction.Action == EnemyActionType.None || target == null)) {
+        if (!(_isStunned || _nextAction.Actions[0] == EnemyActionType.None || target == null)) {
 
-            if (_nextAction.Action == EnemyActionType.Attack) {
-                if (AttackArrow.BlockSlot.Creature) target = (AdventurerObject)AttackArrow.BlockSlot.Creature;
+            foreach(EnemyActionType type in _nextAction.Actions) {
+                if (type == EnemyActionType.Attack) {
+                    if (AttackArrow.BlockSlot.Creature) target = (AdventurerObject)AttackArrow.BlockSlot.Creature;
 
-                await Utilities.LerpToAndBack(gameObject, target.transform.position);
-                target.TakeDamage(_attackDamage);
-            } else if (_nextAction.Action == EnemyActionType.Block) {
-                AddBlock((_blockAmount));
-            } else if (_nextAction.Action == EnemyActionType.Wait) {
-                //pass
+                    await Utilities.LerpToAndBack(gameObject, target.transform.position);
+                    target.TakeDamage(_actionData[EnemyActionType.Attack].Amount[0]);
+                } else if (type == EnemyActionType.Block) {
+                    AddBlock(_actionData[EnemyActionType.Block].Amount[0]);
+                } else if (type == EnemyActionType.Wait) {
+                    //pass
+                } else if (type == EnemyActionType.Status) {
+                    target.AddStatusEffect(_actionData[EnemyActionType.Status].StatusEffectData);
+                } else if (type == EnemyActionType.BuffAllies) {
+                    foreach(EnemyObject enemy in CardGameManager.i.GetEnemies()) {
+                        enemy.AddStatusEffect(_actionData[EnemyActionType.Status].StatusEffectData);
+                    }
+                }
             }
         }
 
@@ -73,8 +89,42 @@ public class EnemyObject : Creature
         } else if (EnemyType == EnemyType.Goblin_Mage) {
             var target = Controller.GetValidAttackTarget(CombatSlot);
             if (target != null) {
-                if (_nextAction == null || _nextAction.Action == EnemyActionType.Attack) return new EnemyAction(EnemyActionType.Wait, target);
-                if (_nextAction.Action == EnemyActionType.Wait) return new EnemyAction(EnemyActionType.Attack, target);
+                if (_nextAction == null || _nextAction.Actions[0] == EnemyActionType.Attack) return new EnemyAction(EnemyActionType.Wait, target);
+                if (_nextAction.Actions[0] == EnemyActionType.Wait) return new EnemyAction(EnemyActionType.Attack, target);
+            }
+        }
+        else if (EnemyType == EnemyType.Snake) {
+            var target = Controller.GetValidAttackTarget(CombatSlot);
+            if (target != null) {
+                if (_nextAction == null) return new EnemyAction(EnemyActionType.Status, target);
+                if (_nextAction.Actions[0] == EnemyActionType.Block) return new EnemyAction(EnemyActionType.Status, target);
+                if (_nextAction.Actions[0] == EnemyActionType.Status) return new EnemyAction(EnemyActionType.Block, target);
+            }
+        }
+        else if (EnemyType == EnemyType.Wolf) {
+            var target = Controller.GetValidAttackTarget(CombatSlot);
+            if (target == null) {
+                return new EnemyAction(EnemyActionType.BuffAllies, target);
+            } else {
+                float rand = UnityEngine.Random.Range(0, 3);
+                if (rand < 1) {
+                    return new EnemyAction(EnemyActionType.BuffAllies, target);
+                } else if (rand < 2) {
+                    return new EnemyAction(EnemyActionType.Attack, target);
+                } else {
+                    return new EnemyAction(EnemyActionType.Block, target);
+                }
+            }
+        }
+        else if (EnemyType == EnemyType.Goblin_Brute) {
+            var target = Controller.GetValidAttackTarget(CombatSlot);
+            if (target == null) {
+                return new EnemyAction(EnemyActionType.BuffAllies, target);
+            } else {
+                return new EnemyAction(new List<EnemyActionType>() {
+                    EnemyActionType.Attack,
+                    EnemyActionType.Status
+                }, target);
             }
         }
 

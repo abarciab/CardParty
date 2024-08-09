@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class OverworldTestHarness : MonoBehaviour
 {
-    [SerializeField] private List<Equipment> _testItemSet = new List<Equipment>();
+    [SerializeField] private List<EquipmentData> _testItemSet = new List<EquipmentData>();
     [SerializeField] private List<AdventurerData> _testAdventurerList = new List<AdventurerData>();
-    [SerializeField] private List<Equipment> _testEquipmentLoad = new List<Equipment>();
+    [SerializeField] private List<EquipmentData> _testEquipmentLoad = new List<EquipmentData>();
 
     [SerializeField] private string _inputString = "banana";
     [SerializeField] private string _searchTerm = "b";

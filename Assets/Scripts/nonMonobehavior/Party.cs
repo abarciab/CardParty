@@ -10,7 +10,7 @@ public class Party
 {
     public List<AdventurerData> Adventurers = new List<AdventurerData>();
 
-    private Dictionary<AdventurerData, List<Equipment>> _equipmentDict = new Dictionary<AdventurerData, List<Equipment>>();
+    private Dictionary<AdventurerData, List<EquipmentData>> _equipmentDict = new Dictionary<AdventurerData, List<EquipmentData>>();
     private Dictionary<AdventurerData, AdventurerStats> _statsDict = new Dictionary<AdventurerData, AdventurerStats>();
 
     private const int _ornamentIndex = 0;
@@ -64,22 +64,22 @@ public class Party
         return deck.Shuffle().ToList();
     }
 
-    public List<Equipment> GetAllEquippedItems()
+    public List<EquipmentData> GetAllEquippedItems()
     {
-        var list = new List<Equipment>();
+        var list = new List<EquipmentData>();
         foreach (var equipmentList in _equipmentDict.Values) {
             foreach (var e in equipmentList) if (e != null) list.Add(e); 
         }
         return list;
     }
 
-    public Equipment GetCurrentEquipment(AdventurerData adventurer, EquipmentSlot slot)
+    public EquipmentData GetCurrentEquipment(AdventurerData adventurer, EquipmentSlot slot)
     {
         int index = SlotToIndex(slot);
         return _equipmentDict[adventurer][index];
     }
 
-    public AdventurerData GetOwner(Equipment equipment)
+    public AdventurerData GetOwner(EquipmentData equipment)
     {
         foreach (var info in _equipmentDict) {
             if (info.Value.Contains(equipment)) return info.Key;
@@ -108,7 +108,7 @@ public class Party
     private void ClearData()
     {
         Adventurers.Clear();
-        _equipmentDict = new Dictionary<AdventurerData, List<Equipment>>();
+        _equipmentDict = new Dictionary<AdventurerData, List<EquipmentData>>();
         _statsDict = new Dictionary<AdventurerData, AdventurerStats>();
     }
 
@@ -121,16 +121,16 @@ public class Party
     {
         if (Adventurers.Contains(adventurer)) return;
         Adventurers.Add(adventurer);
-        _equipmentDict.Add(adventurer, new List<Equipment>(){null, null, null});
+        _equipmentDict.Add(adventurer, new List<EquipmentData>(){null, null, null});
         _statsDict.Add(adventurer, new AdventurerStats(adventurer.MaxHealth));
     }
 
-    public List<Equipment> GetEquipment(AdventurerData adventurer)
+    public List<EquipmentData> GetEquipment(AdventurerData adventurer)
     {
         return _equipmentDict[adventurer];
     }
 
-    public void SetEquipment(AdventurerData adventurer, Equipment equipment, EquipmentSlot slot)
+    public void SetEquipment(AdventurerData adventurer, EquipmentData equipment, EquipmentSlot slot)
     {
         foreach (var entry in _equipmentDict) {
             for (int i = 0; i < entry.Value.Count; i++) {

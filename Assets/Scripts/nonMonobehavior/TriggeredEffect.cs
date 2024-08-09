@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //effects trigger in the left -> right defined order
-public enum TriggeredEffectTriggerType { DRAW, DISCARD }
+public enum TriggeredEffectTriggerType { DRAW, DISCARD, RUMMAGE }
 public enum TriggeredEffectTriggerTime { STARTOFPLAYERTURN, ENDOFPLAYERTURN, STARTOFENEMYTURN, ENDOFENEMYTURN }
 public class TriggeredEffect
 {
@@ -51,6 +51,9 @@ public class TriggeredEffect
             CardGameUIManager.i.Draw(Amount);
         } else if (Type == TriggeredEffectTriggerType.DISCARD) {
             CardGameUIManager.i.Discard(Amount);
+        } else if (Type == TriggeredEffectTriggerType.RUMMAGE) {
+            CardGameUIManager.i.Discard(Amount);
+            CardGameUIManager.i.Draw(2);
         }
     }
 }

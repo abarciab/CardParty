@@ -117,4 +117,10 @@ public class Hand : MonoBehaviour
         cardObject.transform.SetParent(transform);
         AddCard(cardObject);
     }
+
+    private void DisableCardInteractionForSeconds(float duration) { }
+
+    public int GetHandSize() {
+        return _cards.Count;
+    }
 }

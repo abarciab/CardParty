@@ -13,7 +13,7 @@ public class InventoryGridItem : MonoBehaviour
     
     private float _startY;
     private InventoryUI _inventoryUI;
-    public Equipment Data { get; private set; }
+    public EquipmentData Data { get; private set; }
 
     private void Start()
     {
@@ -21,7 +21,7 @@ public class InventoryGridItem : MonoBehaviour
         _startY = transform.GetChild(0).localPosition.y;
     }
 
-    public void Initialize(Equipment data, InventoryUI controller)
+    public void Initialize(EquipmentData data, InventoryUI controller)
     {
         _inventoryUI = controller;
         Data = data;

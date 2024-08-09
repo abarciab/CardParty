@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a82f428b23c4e40b3a2fd4a3f84be8, type: 3}
+  m_Name: Eternal Guardian
+  m_EditorClassIdentifier: 
+  Name: Eternal Guardian
+  Sprite: {fileID: 0}
+  Description: The wearer does not rest while innocents  are threatened.
+  CardFunctionData:
+  - Function: 2
+    Amount: 10
+    CardData: {fileID: 0}
+    StatusEffectData: {fileID: 11400000, guid: e5b5265d8f6ae814b9500a647e38f322, type: 2}
+    TriggeredEffectData: {fileID: 0}
+    TargetSelf: 1
+  - Function: 6
+    Amount: 0
+    CardData: {fileID: 0}
+    StatusEffectData: {fileID: 11400000, guid: e5b5265d8f6ae814b9500a647e38f322, type: 2}
+    TriggeredEffectData: {fileID: 0}
+    TargetSelf: 1
+  TargetAll: 0
+  Exhaust: 0

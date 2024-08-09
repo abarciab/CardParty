@@ -11,13 +11,13 @@ public class ShopGridItem : MonoBehaviour
     [SerializeField] private Image _itemImg;
     [SerializeField] private TextMeshProUGUI _priceText;
     [SerializeField] private SelectableItem _button;
-    [HideInInspector] public Equipment Equipment;
+    [HideInInspector] public EquipmentData EquipmentData;
     private ShopController _controller;
 
-    public void Initialize(Equipment data, ShopController controller)
+    public void Initialize(EquipmentData data, ShopController controller)
     {
         _controller = controller;
-        Equipment = data;
+        EquipmentData = data;
 
         _descriptionText.text = data.Description;
         _nameText.text = data.Name;
@@ -31,17 +31,17 @@ public class ShopGridItem : MonoBehaviour
 
     public void ClickToBuy()
     {
-        _controller.StopShowingCard(Equipment.Cards[0]);
+        _controller.StopShowingCard(EquipmentData.Cards[0]);
         _controller.BuyItem(this);
     }
 
     private void Update()
     {
-        if (!_button.Hovered) _controller.StopShowingCard(Equipment.Cards[0]);
+        if (!_button.Hovered) _controller.StopShowingCard(EquipmentData.Cards[0]);
     }
 
     public void ShowCard()
     {
-        _controller.ShowCard(Equipment.Cards[0]);
+        _controller.ShowCard(EquipmentData.Cards[0]);
     }
 }

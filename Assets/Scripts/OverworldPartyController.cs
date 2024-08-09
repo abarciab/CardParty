@@ -43,7 +43,7 @@ public class OverworldPartyController : MonoBehaviour
         UpdateDisplay();
     }
 
-    public void SetEquipmentForCurrentAdventurer(Equipment data = null)
+    public void SetEquipmentForCurrentAdventurer(EquipmentData data = null)
     {
         if (data != null) PlayerInfo.Party.SetEquipment(CurrentAdventurer, data, data.Slot);
         UpdateDisplay();

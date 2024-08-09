@@ -10,9 +10,9 @@ public class EquipmentSelectable : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _name;
     [SerializeField] private TextMeshProUGUI _currentlyWornText;
     [SerializeField] private PlayableCardDisplay _playableCard;
-    private Equipment _data;
+    private EquipmentData _data;
 
-    public void Initialize(Equipment data, AdventurerData currentUser)
+    public void Initialize(EquipmentData data, AdventurerData currentUser)
     {
         _data = data;
         _image.sprite = data.Sprite;

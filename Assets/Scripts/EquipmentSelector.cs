@@ -12,7 +12,7 @@ public class EquipmentSelector : MonoBehaviour
     private int _currentPage;
     private int _maxPages;
     private const int _equipmentPerPage = 5;
-    List<Equipment> _currentList = new List<Equipment>();
+    List<EquipmentData> _currentList = new List<EquipmentData>();
     private bool _selecting;
 
     public void OpenOrnamentSelector() => OpenSelector(EquipmentSlot.ORNAMENT);
@@ -22,7 +22,7 @@ public class EquipmentSelector : MonoBehaviour
     private void OpenSelector (EquipmentSlot slot)
     {
         _selecting = true;
-        _currentList = new List<Equipment> (PlayerInfo.Inventory.GetValidItems(slot));
+        _currentList = new List<EquipmentData> (PlayerInfo.Inventory.GetValidItems(slot));
         if (_currentList.Count <= 0) return;
 
         _maxPages = Mathf.CeilToInt(_currentList.Count / (float)_equipmentPerPage);
@@ -68,7 +68,7 @@ public class EquipmentSelector : MonoBehaviour
         }
     }
 
-    public void SelectEquipment(Equipment data, AdventurerData oldUser = null)
+    public void SelectEquipment(EquipmentData data, AdventurerData oldUser = null)
     {
         _controller.SetEquipmentForCurrentAdventurer(data);
         _selecting = false;

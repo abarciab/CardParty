@@ -5,26 +5,26 @@ using UnityEngine;
 
 public class PlayerInventory
 {
-    public List<Equipment> Equipment = new List<Equipment>();
+    public List<EquipmentData> EquipmentData = new List<EquipmentData>();
 
     public override string ToString()
     {
-        return string.Join(", ", Equipment);
+        return string.Join(", ", EquipmentData);
     }
 
-    public void AddEquipment(Equipment equipment)
+    public void AddEquipment(EquipmentData equipment)
     {
-        Equipment.Add(Object.Instantiate(equipment));
+        EquipmentData.Add(Object.Instantiate(equipment));
     }
 
-    public void LoadItemList(List<Equipment> equipmentList)
+    public void LoadItemList(List<EquipmentData> equipmentList)
     {
-        Equipment = new List<Equipment>(equipmentList);
+        EquipmentData = new List<EquipmentData>(equipmentList);
     }
     
-    public List<Equipment> GetValidItems(EquipmentSlot slot)
+    public List<EquipmentData> GetValidItems(EquipmentSlot slot)
     {
-        var list = Equipment.Where(x => x.Slot == slot).ToList();
-        return new List<Equipment>(list); 
+        var list = EquipmentData.Where(x => x.Slot == slot).ToList();
+        return new List<EquipmentData>(list); 
     }
 }

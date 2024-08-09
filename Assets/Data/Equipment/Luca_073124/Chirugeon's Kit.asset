@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44892d4b8dcb154408f7912a8210bb18, type: 3}
+  m_Name: Chirugeon's Kit
+  m_EditorClassIdentifier: 
+  Name: Chirugeon's Kit
+  Sprite: {fileID: 0}
+  Description: Modern medicine has introduced cure-all treatments that will fix all
+    that ails you. Unfortunately, it will fix EVERYTHING that affects you.
+  WornByString: Worn By
+  Slot: 0
+  Cost: 0
+  Rarity: 1
+  Cards:
+  - {fileID: 11400000, guid: 54fea7820c234334da3586b6a662be4e, type: 2}

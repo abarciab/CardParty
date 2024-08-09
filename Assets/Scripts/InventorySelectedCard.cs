@@ -17,7 +17,7 @@ public class InventorySelectedCard : MonoBehaviour
     [Header("PlayCard")]
     [SerializeField] private PlayableCardDisplay _pCardDisplay;
 
-    public void Initialize(Equipment data)
+    public void Initialize(EquipmentData data)
     {
         _eCardNameText.text = data.Name;
         _eCardImg.sprite = data.Sprite;

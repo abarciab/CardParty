@@ -86,7 +86,7 @@ public class InventoryUI : MonoBehaviour
         _gridItems.Clear();
 
         gameObject.SetActive(true);
-        var equipment = PlayerInfo.Inventory.Equipment;
+        var equipment = PlayerInfo.Inventory.EquipmentData;
         foreach (var e in equipment) InitializeEquipment(e);
         _filteredList = new List<InventoryGridItem>(_gridItems);
         _currentPage = 0;
@@ -96,7 +96,7 @@ public class InventoryUI : MonoBehaviour
         UpdateDisplay();
     }
 
-    private void InitializeEquipment(Equipment data)
+    private void InitializeEquipment(EquipmentData data)
     {
         var newGridItem = Instantiate(_equipmentGridItemPrefab, _gridParent);
         float tiltAmount = Random.Range(0f, 1f);
@@ -140,7 +140,7 @@ public class InventoryUI : MonoBehaviour
         foreach (var item in _gridItems) item.gameObject.SetActive(false);
     }
 
-    public void ShowItemDetails(Equipment equipment)
+    public void ShowItemDetails(EquipmentData equipment)
     {
         _itemSelection.SetActive(true);
         _selectedCardController.Initialize(equipment);

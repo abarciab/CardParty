@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44892d4b8dcb154408f7912a8210bb18, type: 3}
+  m_Name: Paladin's Vestige
+  m_EditorClassIdentifier: 
+  Name: Paladin's Vestige
+  Sprite: {fileID: 0}
+  Description: A white and gold mail adorned with the procession of angels. It strikes
+    a peculiar terror in all who gaze upon it.
+  WornByString: Worn By
+  Slot: 1
+  Cost: 0
+  Rarity: 2
+  Cards:
+  - {fileID: 11400000, guid: d4beef4e5e8d01245a5ad22fd5f91059, type: 2}

@@ -10,10 +10,10 @@ public class PartyEquipmentUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private PlayableCardDisplay _cardDisplay;
 
-    private Equipment _data;
+    private EquipmentData _data;
     private OverworldPartyController _controller;
 
-    public void Initialize(Equipment data, OverworldPartyController controller)
+    public void Initialize(EquipmentData data, OverworldPartyController controller)
     {
         _data = data;
         _controller = controller;

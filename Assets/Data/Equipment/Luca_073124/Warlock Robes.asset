@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44892d4b8dcb154408f7912a8210bb18, type: 3}
+  m_Name: Warlock Robes
+  m_EditorClassIdentifier: 
+  Name: Warlock Robes
+  Sprite: {fileID: 0}
+  Description: Once worn by an adventurer that bartered for great power at the cost
+    of their own life.
+  WornByString: Worn By
+  Slot: 1
+  Cost: 0
+  Rarity: 1
+  Cards:
+  - {fileID: 11400000, guid: f2e741420f5817247a33be71928bd92d, type: 2}

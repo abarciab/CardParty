@@ -9,7 +9,7 @@ public class SpecialEventOutcome
 {
     public EventOutcomeType Type;
     [SerializeField, ConditionalField(nameof(Type), false, false, EventOutcomeType.MONEY)] private int _moneyDelta;
-    [SerializeField, ConditionalField(nameof(Type), false, false, EventOutcomeType.EQUIPMENT)] private Equipment _equipment;
+    [SerializeField, ConditionalField(nameof(Type), false, false, EventOutcomeType.EQUIPMENT)] private EquipmentData _equipment;
     [SerializeField, ConditionalField(nameof(Type), false, false, EventOutcomeType.ADVENTURER_HIRE)] private AdventurerData _newHire;
     [SerializeField, ConditionalField(nameof(Type), false, false, EventOutcomeType.ADVENTURER_DAMAGE)] private int _damageAmount;
     [SerializeField, ConditionalField(nameof(Type), false, false, EventOutcomeType.MAP_REVEAL)] private int _numMapTiles;

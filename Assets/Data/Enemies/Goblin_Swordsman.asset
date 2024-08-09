@@ -14,7 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyType: 0
   Prefab: {fileID: 5954159574823729094, guid: aee4b4e4c3f64d0498b6674ffba75b5b, type: 3}
-  MaxHealth: 50
+  MaxHealth: 20
   MaxBlock: 20
-  AttackDamage: 15
-  BlockAmount: 20
+  ActionData:
+  - ActionType: 1
+    Amount:
+    - 5
+    StatusEffectData: {fileID: 0}
+  - ActionType: 2
+    Amount:
+    - 5
+    StatusEffectData: {fileID: 0}

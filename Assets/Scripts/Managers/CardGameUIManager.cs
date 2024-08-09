@@ -38,6 +38,7 @@ public class CardGameUIManager : UIManager
     public void ToggleCameraPerspective() => gMan.ToggleCamera();
     public void StopPlayingCards() => _hand.StopPlayingCards();
     public void EndTurn() => gMan.EndPlayerTurn();
+    public int GetHandSize() => _hand.GetHandSize();
 
     public void MoveCardFromDisplay(CardObject cardObj)
     {

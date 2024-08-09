@@ -67,7 +67,7 @@ public class Hand : MonoBehaviour
             int siblingIndex = _cardListParent.childCount - 2;
             newCardCoord.transform.SetSiblingIndex(siblingIndex);
 
-            print("adding new cards. enabledState: " + _cardsEnabled);
+            //print("adding new cards. enabledState: " + _cardsEnabled);
             var cardController = newCardCoord.GetComponent<CardObject>();
             cardController.Initialize(card, this);
             cardController.SetEnabled(false);
@@ -84,7 +84,7 @@ public class Hand : MonoBehaviour
     public void StopPlayingCards() => SetCardsEnabled(false);
 
     private void SetCardsEnabled(bool state) {
-        print("setting cards enabled: " + state);
+        //print("setting cards enabled: " + state);
         _cardsEnabled = state;
         foreach (var cardObj in _cards) cardObj.SetEnabled(state);
     }

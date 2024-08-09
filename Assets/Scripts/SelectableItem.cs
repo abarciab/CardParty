@@ -213,7 +213,7 @@ public class SelectableItem : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void SetEnabled(bool enabled)
     {
-        print(gameObject.name + " setting enabled: " + enabled);
+        //print(gameObject.name + " setting enab    xled: " + enabled);
         Disabled = !enabled;
         UpdateVisuals();
     }

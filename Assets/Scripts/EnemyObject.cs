@@ -8,6 +8,7 @@ using System;
 using System.Threading.Tasks;
 
 public enum EnemyType {Goblin_Swordsman, Goblin_Mage, Snake, Wolf, Goblin_Brute}
+
 public enum EnemyActionType {None, Attack, Block, Wait, Status, BuffAllies, Stun}
 public class EnemyAction {
     public List<EnemyActionType> Actions;

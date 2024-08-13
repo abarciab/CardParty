@@ -98,6 +98,12 @@ public abstract class CreatureObject : MonoBehaviour
 
         OnBlockPercentChanged.Invoke(_block / (float)_maxBlock);
     }
+
+    public virtual void RemoveBlock() {
+        _block = 0;
+        OnBlockPercentChanged.Invoke(_block / (float)_maxBlock);
+    }
+
     public virtual void RestoreHealth(int health) {
         _health += health;
         _health = Mathf.Clamp(_health, 0, _maxHealth);

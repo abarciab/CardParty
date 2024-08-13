@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 public enum EnemyType {Goblin_Swordsman, Goblin_Mage, Snake, Wolf, Goblin_Brute}
 
-public enum EnemyActionType {None, Attack, Block, Wait, Status, BuffAllies, Stun}
+public enum EnemyActionType {None, Attack, Block, Wait, Status, BuffAllies}
+
 public class EnemyAction {
     public List<EnemyActionType> Actions;
     public CombatSlot TargetSlot;
@@ -55,7 +56,7 @@ public class EnemyObject : CreatureObject
                     if (AttackArrow.BlockSlot.Creature) target = (AdventurerObject)AttackArrow.BlockSlot.Creature;
 
                     await Utilities.LerpToAndBack(gameObject, target.transform.position);
-                    target.TakeDamage(_actionData[EnemyActionType.Attack].Amount[0]);
+                    target.TakeDamage(_actionData[EnemyActionType.Attack].Amount[0] + GetBonusDamage());
                 } else if (type == EnemyActionType.Block) {
                     AddBlock(_actionData[EnemyActionType.Block].Amount[0]);
                 } else if (type == EnemyActionType.Wait) {
@@ -64,7 +65,7 @@ public class EnemyObject : CreatureObject
                     target.AddStatusEffect(_actionData[EnemyActionType.Status].StatusEffectData);
                 } else if (type == EnemyActionType.BuffAllies) {
                     foreach(EnemyObject enemy in CardGameManager.i.GetEnemies()) {
-                        enemy.AddStatusEffect(_actionData[EnemyActionType.Status].StatusEffectData);
+                        enemy.AddStatusEffect(_actionData[EnemyActionType.BuffAllies].StatusEffectData);
                     }
                 }
             }
@@ -154,6 +155,8 @@ public class EnemyObject : CreatureObject
 
     private void DrawArrow() {
         if (!_nextAction.TargetSlot) return;
+
+        if (!(new EnemyActionType[]{EnemyActionType.Attack, EnemyActionType.Status}.Contains(_nextAction.Actions[0]))) return;
 
         var arrowStart = transform.position;
         var arrowEnd = _nextAction.TargetSlot.transform.position;

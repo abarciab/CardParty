@@ -300,4 +300,10 @@ public class TabletopController : MonoBehaviour
             adventurer.RemoveBlock();
         }
     }
+
+    public void RemoveEnemyBlock() {
+        foreach(EnemyObject enemy in _enemyObjs) {
+            enemy.RemoveBlock();
+        }
+    }
 }

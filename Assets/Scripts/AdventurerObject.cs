@@ -155,7 +155,7 @@ public class AdventurerObject : CreatureObject
         _endDragSound.Play();
     }
 
-    public void RemoveBlock() {
+    public override void RemoveBlock() {
         foreach (List<StatusEffect> statusList in _statusEffects.Values) {
             foreach(StatusEffect status in statusList) {
                 if (status.Type == StatusEffectType.RETAINBLOCK) {
@@ -168,5 +168,9 @@ public class AdventurerObject : CreatureObject
         _block = 0;
         OnBlockPercentChanged.Invoke(_block / (float)_maxBlock);
         return;
+    }
+
+    public bool CanPlayCards() {
+        return !_isStunned;
     }
 }

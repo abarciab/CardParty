@@ -105,6 +105,9 @@ public class CardGameManager : GameManager
         CurrCombatState = CombatState.Idle;
 
         OnEndPlayerTurn.Invoke();
+
+        _tableTop.RemoveEnemyBlock();
+
         StartEnemyTurn();
     }
 
@@ -235,6 +238,12 @@ public class CardGameManager : GameManager
         ui.MoveCardFromDisplay(CurrentPlayedCard);
 
         CurrentPlayedCard = null;
+    }
+
+    public bool IsPlayable(CardObject card) {
+        if (CardGameManager.i.CurrentPlayedCard) return false;
+        if (!GetOwnerAdventurer(card)) return false;
+        return GetOwnerAdventurer(card).CanPlayCards();
     }
 }
 

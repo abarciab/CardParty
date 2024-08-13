@@ -113,7 +113,7 @@ public class CardObject: MonoBehaviour
     void EndDrag() {
         _isBeingdragged = false;
 
-        if (IsCurrentlyInPlayZone()) PlayCard();
+        if (IsCurrentlyInPlayZone() && CardGameManager.i.IsPlayable(this)) PlayCard();
         else ReturnToHand();
     }
 

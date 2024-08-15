@@ -18,12 +18,20 @@ public class TileController : MonoBehaviour
     [SerializeField] private List<EntranceData> _entraces = new List<EntranceData>();
     public List<EntranceData> Entrances => _entraces;
 
+    [SerializeField] private GameObject _decorationParent;
+
     private TileGridController _gridController;
     private TileInteractable _interactable;
     private Direction _initialEntranceDir;
     private bool _isUnlocked;
+    private bool _isCenter;
+    private bool _isWin;
 
-    [SerializeField, ReadOnly] private int _turns; 
+    [SerializeField, ReadOnly] private int _turns;
+    [SerializeField, ReadOnly] private string _interactableName;
+    [SerializeField, ReadOnly, Range(0, 1)] private float _difficulty;
+
+    private bool _isActive => OverworldManager.i.Player.GetCurrentTile() == this;
 
     private void OnValidate()
     {
@@ -32,14 +40,22 @@ public class TileController : MonoBehaviour
 
     private void OnEnable()
     {
-        UpdateEntranceVisuals();
-        if (!_interactable) _interactable = GetComponentInChildren<TileInteractable>();
-        _interactable.gameObject.SetActive(!_isUnlocked);
+        UpdateVisuals();
     }
 
     private void Start()
     {
         _interactable.gameObject.SetActive(false);
+        UpdateVisuals();
+
+    }
+
+    private void UpdateVisuals()
+    {
+        UpdateEntranceVisuals();
+        if (!_interactable) _interactable = GetComponentInChildren<TileInteractable>();
+        _interactable.gameObject.SetActive(!_isUnlocked && _isActive);
+        _decorationParent.SetActive(_isActive);
     }
 
     public void ShowOnMap()
@@ -58,14 +74,19 @@ public class TileController : MonoBehaviour
         transf.localScale = Vector3.one * 3;
     }
 
-    public void Initialize(int x, int y, bool _isCenter, TileGridController gridController, Quaternion rot, TileInteractableData interactableData)
+    public void Initialize(int x, int y, bool isCenter, bool isWin, TileGridController gridController, Quaternion rot, TileInteractableData interactableData, float difficulty)
     {
+        _isWin = isWin;
+        _isCenter = isCenter;
+
+
         GridPos = new Vector2Int(x, y);
         _gridController = gridController;
         gameObject.name = "tile (" + x + ", " + y + ")" + (_isCenter ? "(Middle)" : "");
         if (_isCenter) OverworldManager.i.Player.SetCurrentTile(this);
 
         if (_isCenter) {
+            _isUnlocked = true;
             ShowAllEntrances();
             _interactable.gameObject.SetActive(false);
 
@@ -77,6 +98,11 @@ public class TileController : MonoBehaviour
         SetRotation(rot);
         WFCInfo.Rotate(rot);
         _interactable.Initialize(interactableData, this, rot);
+        _interactableName = interactableData.Name;
+        _difficulty = difficulty;
+
+        UpdateVisuals();
+        if (isWin) ShowOnMap();
     }
 
     private void SetRotation(Quaternion rot)
@@ -119,11 +145,12 @@ public class TileController : MonoBehaviour
 
         OverworldUIManager.i.EnterTileOnMap(GridPos);
         ShowOnMap();
+        UpdateVisuals();
     }
 
     public void UpdateEntranceVisuals()
     {
-        if (OverworldManager.i.Player.GetCurrentTile() != this) HideAllEntrances();
+        if (!_isActive) HideAllEntrances();
         else foreach (var e in _entraces) e.Door.SetActive(_isUnlocked || e.Dir == _initialEntranceDir); 
     }
 
@@ -131,7 +158,8 @@ public class TileController : MonoBehaviour
     {
         _isUnlocked = true;
 
-        var pos = _interactable.GetCurrentObjPos();
+        var walkPos = _interactable.GetCurrentObjTargetPos();
+        var lookPos = _interactable.GetCurrentObjPos();
         var outcome = data.Outcome;
         UnityAction callback = null;
         var player = OverworldManager.i.Player;
@@ -139,8 +167,9 @@ public class TileController : MonoBehaviour
         if (outcome == TileInteractableOutcome.FIGHT) callback = StartFightFromInteractable;
         if (outcome == TileInteractableOutcome.EVENT) callback = StartEventFromInteractable;
         if (outcome == TileInteractableOutcome.SHOP) callback = () => OpenShopFromInteractable(data.ShopData);
+        if (_isWin) callback = () => GameManager.i.EndGame();
 
-        player.MoveToTargetWithCallback(pos, callback);
+        player.MoveToTargetWithCallback(walkPos, lookPos, callback);
     }
 
     private void StartFightFromInteractable()

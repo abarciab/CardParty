@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2017198050032475821}
   - component: {fileID: 2338869402711754110}
+  - component: {fileID: 1755032547159289019}
   m_Layer: 3
   m_Name: AllGrass(DATA)
   m_TagString: Untagged
@@ -52,6 +53,28 @@ MonoBehaviour:
   _left: G
   _showWarning: 0
   _warning: 
+--- !u!64 &1755032547159289019
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261168660518803307}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1001 &1854394991707437826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -100,6 +123,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: dda6bc25caf8caf40873551a3075ab9e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 92ca44eceb875b54987e6ae72a6787e0, type: 2}
     - target: {fileID: 919132149155446097, guid: dda6bc25caf8caf40873551a3075ab9e, type: 3}
       propertyPath: m_Name
       value: GGGG

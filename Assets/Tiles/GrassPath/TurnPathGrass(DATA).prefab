@@ -100,6 +100,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7629696617815504859, guid: c528a95900385c44aa1f546ff8873e6d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9e4018e6dece92843947b44c5f19cd17, type: 2}
+    - target: {fileID: -7511558181221131132, guid: c528a95900385c44aa1f546ff8873e6d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9e4018e6dece92843947b44c5f19cd17, type: 2}
     - target: {fileID: 919132149155446097, guid: c528a95900385c44aa1f546ff8873e6d, type: 3}
       propertyPath: m_Name
       value: PPGG
@@ -114,7 +122,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c528a95900385c44aa1f546ff8873e6d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6672689774131719129}
+      addedObject: {fileID: 992784112066716832}
   m_SourcePrefab: {fileID: 100100000, guid: c528a95900385c44aa1f546ff8873e6d, type: 3}
 --- !u!4 &7485247531913541417 stripped
 Transform:
@@ -126,8 +134,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c528a95900385c44aa1f546ff8873e6d, type: 3}
   m_PrefabInstance: {fileID: 6947446213925802178}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &6672689774131719129
-BoxCollider:
+--- !u!64 &992784112066716832
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -144,6 +152,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3335047689853489178, guid: c528a95900385c44aa1f546ff8873e6d, type: 3}

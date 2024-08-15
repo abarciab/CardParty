@@ -17,14 +17,24 @@ public class CardGameUIManager : UIManager
     [Header("References")]
     [SerializeField] private TextMeshProUGUI _instructionsText;
     [SerializeField] private GameObject _instructionsParent;
-    [SerializeField] private TMP_Text _actionsPointsText;
     [SerializeField] private GameObject _victoryScreen;
     [SerializeField] private GameObject _defeatScreen;
     [SerializeField] private Transform _currentPlayedCardParent;
     [SerializeField] private GameObject _bottomBar;
     [SerializeField] private GameObject _cardInfoParent;
     [SerializeField] private PlayableCardDisplay _cardInfo;
+
+    [Header("backings")]
+    [SerializeField] private List<SelectableItem> _bottomBarBackings = new List<SelectableItem>();
+
+    [Header("AP meter")]
+    [SerializeField] private TMP_Text _actionsPointsText;
     [SerializeField] private Slider _actionPointsSlider;
+    [SerializeField] private GameObject _ApSliderParent;
+
+    [Header("Combat log")]
+    [SerializeField] private TextMeshProUGUI _combatLogPreviewText;
+    [SerializeField] private TextMeshProUGUI _combatLogMainText;
 
     private CardGameManager gMan => CardGameManager.i;
     
@@ -40,19 +50,28 @@ public class CardGameUIManager : UIManager
     public void EndTurn() => gMan.EndPlayerTurn();
     public int GetHandSize() => _hand.GetHandSize();
 
-    public void MoveCardFromDisplay(CardObject cardObj)
-    {
-        HideInstructions();
-        cardObj.ReturnToHand();
-    }
-
     private void Start()
     {
         gMan.OnStartCombat.AddListener(StartCombat);
         gMan.OnStartPlayerTurn.AddListener(StartPlayerTurn);
         gMan.OnEndPlayerTurn.AddListener(EndPlayerTurn);
         gMan.OnStartEnemyTurn.AddListener(StartEnemyTurn);
+
+        _combatLogMainText.text = _combatLogPreviewText.text = "";
     }
+
+    public void LogMove(string move)
+    {
+        _combatLogPreviewText.text = move;
+        _combatLogMainText.text += "\n" + move;
+    }
+
+    public void MoveCardFromDisplay(CardObject cardObj)
+    {
+        HideInstructions();
+        cardObj.ReturnToHand();
+    }
+
 
     private void StartCombat()
     {
@@ -69,12 +88,17 @@ public class CardGameUIManager : UIManager
 
     private void StartEnemyTurn()
     {
-        SetInstructionsText("Enemy turn");
-        _bottomBar.SetActive(false);
+        _ApSliderParent.SetActive(false);
+        foreach (var b in _bottomBarBackings) b.SetEnabled(false);
+        //SetInstructionsText("Enemy turn");
+        //_bottomBar.SetActive(false);
+        
     }
 
     private void StartPlayerTurn()
     {
+        foreach (var b in _bottomBarBackings) b.SetEnabled(true);
+        _ApSliderParent.SetActive(true);
         _hand.DrawUntilFull();
         HideInstructions();
         _bottomBar.SetActive(true);

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da9310c538ee1c44687fbffcf5992ce4, type: 3}
   m_Name: Goblin_Mage
   m_EditorClassIdentifier: 
+  Name: Goblin Mage
   EnemyType: 1
   Prefab: {fileID: 5954159574823729094, guid: aee4b4e4c3f64d0498b6674ffba75b5b, type: 3}
   MaxHealth: 15

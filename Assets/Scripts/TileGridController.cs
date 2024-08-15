@@ -15,7 +15,7 @@ public class TileGridController : MonoBehaviour
     [ButtonMethod]
     private void RevealEntireMap()
     {
-        foreach (var t in _tiles) t.ShowOnMap();
+        foreach (var t in _tiles) if (t) t.ShowOnMap();
     }
 
     public TileController GetTile(Vector2Int ID)

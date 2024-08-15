@@ -95,7 +95,7 @@ public class Party
             }
         }
 
-        Debug.Log("didn't find adventurerOwner for: " + data.Name);
+        //Debug.Log("didn't find adventurerOwner for: " + data.Name);
         return null;
     }
 

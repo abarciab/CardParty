@@ -17,7 +17,7 @@ public class OverworldPlayer : MonoBehaviour
     [SerializeField] private float _maxSpeed = 10;
     [SerializeField] private float _minSpeed = 2;
     [SerializeField] private AnimationCurve _speedCurve;
-    [SerializeField, ConditionalField(nameof(_showDebug))] private float _distThreshold = 0.05f;
+    [SerializeField] private float _distThreshold = 0.5f;
     [SerializeField] private Transform _model;
     [SerializeField] private float _turnLerpFactor = 5;
 
@@ -40,6 +40,9 @@ public class OverworldPlayer : MonoBehaviour
     private TileController _currentTile;
     private bool _isBeingControlled;
     private UnityAction _callbackOnTargetReached;
+
+    private bool _hasLookTarget;
+    private Vector3 _lookTarget;
 
     private void Start()
     {
@@ -76,18 +79,39 @@ public class OverworldPlayer : MonoBehaviour
 
     private void FinishControl()
     {
-        if (_callbackOnTargetReached != null) _callbackOnTargetReached.Invoke();
+        if (_callbackOnTargetReached != null) {
+            if (_hasLookTarget) {
+                var dir = (_lookTarget - transform.position).normalized;
+                dir.y = 0;
+                FaceDir(dir);
+                var angleToTarget = Vector3.Angle(_model.forward, dir);
+                if (angleToTarget > 10) return;
+                else _hasLookTarget = false;
+            }
+            _callbackOnTargetReached.Invoke();
+        }
         _callbackOnTargetReached = null;
         _isBeingControlled = false;
     }
 
-    public void MoveToTargetWithCallback(Vector3 newTarget, UnityAction callback)
+    public void MoveToTargetWithCallback(Vector3 newTarget, UnityAction callback) => MoveToTargetWithCallback(newTarget, newTarget, callback);
+
+    public void MoveToTargetWithCallback(Vector3 newTarget, Vector3 lookTarget, UnityAction callback)
     {
         _playerMoveSound.Play();
         _isBeingControlled = true;
         newTarget.y = transform.position.y;
         _currentTarget = newTarget;
         _callbackOnTargetReached = callback;
+
+        if (Vector3.Distance(lookTarget, newTarget) > 0.01f) SetLookTarget(lookTarget);
+        else _hasLookTarget = false;
+    }
+
+    private void SetLookTarget(Vector3 newLookTarget)
+    {
+        _lookTarget = newLookTarget;
+        _hasLookTarget = true;
     }
 
     public void MoveToNewTile(TileController newTile, Direction dir)
@@ -129,7 +153,6 @@ public class OverworldPlayer : MonoBehaviour
     {
         if (!Input.GetMouseButtonDown(0)) return;
 
-
         var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool hitPoint = Physics.Raycast(mouseRay, out var hitData, 300, _walkableLayers);
         if (!hitPoint) return;
@@ -151,8 +174,9 @@ public class OverworldPlayer : MonoBehaviour
     {
         var dir = (_currentTarget - transform.position).normalized;
         var delta = _speed * Time.deltaTime * dir;
-        transform.position += delta;
-        FaceMoveDir(delta.normalized);
+        FaceDir(delta.normalized);
+        dir = _model.forward.normalized;
+        transform.position += _speed * Time.deltaTime * dir;
         PlaceModelOnGround();
     }
 
@@ -164,11 +188,11 @@ public class OverworldPlayer : MonoBehaviour
         _model.transform.position = pos;
     }
 
-    private void FaceMoveDir(Vector3 normalizedDelta)
+    private void FaceDir(Vector3 dir)
     {
         var euler = _model.localEulerAngles;
         var target = _model.localEulerAngles;
-        _model.LookAt(transform.position + normalizedDelta);
+        _model.LookAt(transform.position + dir);
         target.y = _model.localEulerAngles.y;
         var newRot = Quaternion.Lerp(Quaternion.Euler(euler), Quaternion.Euler(target), _turnLerpFactor * Time.deltaTime);
         _model.localRotation = newRot;

@@ -14,6 +14,7 @@ public class EnemyActionData {
 [CreateAssetMenu(fileName = "EnemyData")]
 public class EnemyData : ScriptableObject
 {
+    public string Name;
     public EnemyType EnemyType;
     public GameObject Prefab;
     public int MaxHealth;

@@ -119,7 +119,7 @@ public class MapController : MonoBehaviour
     {
         if (_imageGrid[ID.x, ID.y].sprite == sprite) return;
 
-        //print("updating tile: " + ID + ". sprite: " + sprite.name);
+        print("updating tile: " + ID + ". sprite: " + sprite.name + ", name of mapTile at that pos: " + _imageGrid[ID.x, ID.y].transform.parent.gameObject.name);
         _imageGrid[ID.x, ID.y].sprite = sprite;
         Rotate(_imageGrid[ID.x, ID.y].transform, turns);
     }

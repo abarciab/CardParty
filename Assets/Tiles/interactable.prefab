@@ -427,7 +427,13 @@ MonoBehaviour:
     _fromRight: {fileID: 0}
     _fromTop: {fileID: 0}
     _fromLeft: {fileID: 0}
-  _label: {fileID: 5749730854484513908}
+  Data:
+    Name: 
+    Difficulty: 0
+    Type: 0
+    Outcome: 0
+    ShopData: {fileID: 0}
+  _targetSpotTag: 
 --- !u!1 &7657167577222471818
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,8 +540,8 @@ RectTransform:
   m_GameObject: {fileID: 7669833734727190928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0142025, y: 0.0142025, z: 0.0142025}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7927131234473055753}
   m_Father: {fileID: 7225383124779746922}
@@ -615,7 +621,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7669833734727190928}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e06500115b785f499ab2ecefeb70cc6, type: 3}
   m_Name: 
@@ -629,7 +635,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7669833734727190928}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 651357574d9fad3479fef9e32e0e98bd, type: 3}
   m_Name: 

@@ -166,55 +166,67 @@ public class CardGameManager : GameManager
         if (!playData.Owner) throw new Exception("card does not have an owner!");
 
         CreatureObject currTarget;
-
         if (function.TargetSelf) {
             currTarget = playData.Owner;
         } else if (targets.Count > 0) {
             currTarget = targets[0];
         } else currTarget = null;
 
-        if (function.Function == Function.ATTACK) {
+        string ownerName = playData.Owner.GetName();
+        string targetName = function.TargetSelf || currTarget == null ? "" : currTarget.GetName();
+        float amount = function.Amount;
+        int intAmount = (int)amount;
+        Function funct = function.Function;
+
+        bool doesAttack = function.Function == Function.ATTACK || function.Function == Function.THEVESSEL;
+        int attackDamage = intAmount + playData.Owner.GetBonusDamage();
+        int blockAmount = funct == Function.ARCHMAGEPROT ? 2 * CardGameUIManager.i.GetHandSize() : intAmount;
+
+
+        if (doesAttack) {
+            ui.LogMove(ownerName + " attacked " + targetName + " for " + attackDamage + " damage");
             await Utilities.LerpToAndBack(playData.Owner.gameObject, currTarget.transform.position);
-            currTarget.TakeDamage(function.Amount + playData.Owner.GetBonusDamage());
-        }
-        else if (function.Function == Function.BLOCK) {
-            playData.Owner.AddBlock(function.Amount);
-        }
-        else if (function.Function == Function.DRAW) {
-            ui.Draw((int)function.Amount);
-        }
-        else if (function.Function == Function.HEAL) {
-            currTarget.RestoreHealth((int)function.Amount);
-        }
-        else if (function.Function == Function.ADDCARDS) {
-            CardInstance newInst = new CardInstance(function.CardData, GetAdventurerData(playData.Owner));
-            ui.AddToDeck(newInst, count: (int)function.Amount);
-        }
-        else if (function.Function == Function.STATUS) {
-            currTarget.AddStatusEffect(function.StatusEffectData);
-        }
-        else if (function.Function == Function.TRIGGEREDEFFECT) {
-            AddTriggeredEffect(function.TriggeredEffectData);
-        }
-        else if (function.Function == Function.THEVESSEL) {
-            await Utilities.LerpToAndBack(playData.Owner.gameObject, currTarget.transform.position);
-            currTarget.TakeDamage(function.Amount + playData.Owner.GetBonusDamage());
-            if (currTarget.IsLethalDamage((int)function.Amount + playData.Owner.GetBonusDamage())) {
+            currTarget.TakeDamage(attackDamage);
+
+            if (funct == Function.THEVESSEL && currTarget.IsDead) {
                 foreach (AdventurerObject adventurer in GetAdventurers()) {
                     adventurer.AddStatusEffect(function.StatusEffectData);
                 }
             }
         }
-        else if (function.Function == Function.ARCHMAGEPROT) {
-            playData.Owner.AddBlock(2 * CardGameUIManager.i.GetHandSize());
+        if (funct == Function.BLOCK) {
+            ui.LogMove(ownerName + " gained " + blockAmount + " block");
+            playData.Owner.AddBlock(blockAmount);
         }
-        else if (function.Function == Function.WHEEL) {
+        if (funct == Function.DRAW) {
+            ui.LogMove(ownerName + " drew " + intAmount + (intAmount > 1 ? " cards" : "card"));
+            ui.Draw(intAmount);
+        }
+        if (funct == Function.HEAL) {
+            ui.LogMove(ownerName + " healed " + (string.IsNullOrEmpty(targetName) ? "" : targetName) + " for " + intAmount + " health");
+            currTarget.RestoreHealth(intAmount);
+        }
+        if (funct == Function.ADDCARDS) {
+            ui.LogMove(ownerName + " added " + function.CardData.Name + " to the deck");
+            CardInstance newInst = new CardInstance(function.CardData, GetAdventurerData(playData.Owner));
+            ui.AddToDeck(newInst, count: (int)function.Amount);
+        }
+        if (funct == Function.STATUS) {
+            ui.LogMove(ownerName + " inflicted " + function.StatusEffectData.Name + " on " + currTarget);
+            currTarget.AddStatusEffect(function.StatusEffectData);
+        }
+        if (funct == Function.REMOVESTATUS) {
+            ui.LogMove(ownerName + "removed all effects from " + targetName);
+            targets[0].RemoveAllStatusEffects();
+        }
+
+        if (funct == Function.TRIGGEREDEFFECT) {
+            AddTriggeredEffect(function.TriggeredEffectData);
+        }
+        if (funct == Function.WHEEL) {
             int handSize = CardGameUIManager.i.GetHandSize();
             CardGameUIManager.i.Discard(handSize);
             CardGameUIManager.i.Draw(handSize);
-        }
-        else if (function.Function == Function.REMOVESTATUS) {
-            targets[0].RemoveAllStatusEffects();
         }
     }
 

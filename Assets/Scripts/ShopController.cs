@@ -171,6 +171,7 @@ public class ShopController : MonoBehaviour
         var itemScript = newGridItem.GetComponent<ShopGridItem>();
         itemScript.Initialize(item, this);
         _gridItems.Add(itemScript);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_gridParent.GetComponent<RectTransform>());
     }
 
     public void BuyItem(ShopGridItem gridItem)

@@ -33,13 +33,14 @@ public class EnemyObject : CreatureObject
     private float _attackDamage;
     private float _blockAmount;
     private Dictionary<EnemyActionType, EnemyActionData> _actionData = new Dictionary<EnemyActionType, EnemyActionData>();
+    private EnemyData _data;
 
     public void Initialize(EnemyData data) {
-        EnemyType = data.EnemyType;
         _maxHealth = data.MaxHealth;
         _health = _maxHealth;
         _maxBlock = data.MaxBlock;
-        
+        _data = data;
+
         foreach(EnemyActionData actionData in data.ActionData) {
             _actionData.Add(actionData.ActionType, actionData);
         }
@@ -47,7 +48,7 @@ public class EnemyObject : CreatureObject
         UI.Initialize(this);
     }
 
-    public async Task Action(List<AdventurerObject> adventurers, List<EnemyObject> enemies) {
+    public async Task TakeAction() {
         AdventurerObject target = (AdventurerObject)_nextAction.TargetSlot.Creature;
         if (!(_isStunned || _nextAction.Actions[0] == EnemyActionType.None || target == null)) {
 
@@ -74,8 +75,38 @@ public class EnemyObject : CreatureObject
         Controller.RemoveAttackArrow(AttackArrow);
     }
 
+    private async Task EvaluateAction(AdventurerObject target)
+    {
+        var uiMan = CardGameUIManager.i;
+
+        foreach (EnemyActionType type in _nextAction.Actions) {
+            if (type == EnemyActionType.Attack) {
+                if (AttackArrow.BlockSlot.Creature) target = (AdventurerObject)AttackArrow.BlockSlot.Creature;
+
+                uiMan.LogMove(_data.Name + " attacked " + target.GetName() + " for " + _actionData[EnemyActionType.Attack].Amount[0] + " damage");
+                await Utilities.LerpToAndBack(gameObject, target.transform.position);
+                target.TakeDamage(_actionData[EnemyActionType.Attack].Amount[0]);
+
+            }
+            else if (type == EnemyActionType.Block) {
+                uiMan.LogMove(_data.Name + " gained " + _actionData[EnemyActionType.Block].Amount[0] + " block");
+                AddBlock(_actionData[EnemyActionType.Block].Amount[0]);
+            }
+            else if (type == EnemyActionType.Status) {
+                uiMan.LogMove(_data.Name + " inflicted " + _actionData[EnemyActionType.Status].StatusEffectData.Name + " on " + target.GetName());
+                target.AddStatusEffect(_actionData[EnemyActionType.Status].StatusEffectData);
+            }
+            else if (type == EnemyActionType.BuffAllies) {
+                uiMan.LogMove(_data.Name + " buffed their allies");
+                foreach (EnemyObject enemy in CardGameManager.i.GetEnemies()) {
+                    enemy.AddStatusEffect(_actionData[EnemyActionType.Status].StatusEffectData);
+                }
+            }
+        }
+    }
+
     public override string GetName() {
-        return EnemyType.ToString();
+        return _data.Name;
     }
 
     public void ShowIntent() {

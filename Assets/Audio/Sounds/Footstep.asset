@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93e0513045be1974d934eb6431407da8, type: 3}
+  m_Name: Footstep
+  m_EditorClassIdentifier: 
+  Type: 0
+  Unpauseable: 0
+  _clips:
+  - Name: footstep1
+    Clip: {fileID: 8300000, guid: 15d37da4a47ce024789cfe1ec769e92b, type: 3}
+    Looping: 0
+  - Name: footstep2
+    Clip: {fileID: 8300000, guid: af73954ee456a0b47bcdad5b3208677d, type: 3}
+    Looping: 0
+  - Name: footstep3
+    Clip: {fileID: 8300000, guid: 5b42f4bd8f64a8d49a42dcdb35433cd5, type: 3}
+    Looping: 0
+  - Name: footstep4
+    Clip: {fileID: 8300000, guid: 7e70b6e577120fe4f953ed8ca9749b63, type: 3}
+    Looping: 0
+  - Name: footstep5
+    Clip: {fileID: 8300000, guid: c20a977412b96014599a7dfd6976b41d, type: 3}
+    Looping: 0
+  - Name: footstep6
+    Clip: {fileID: 8300000, guid: 328cca50154a8034e875c820fb69560f, type: 3}
+    Looping: 0
+  _volume: 1
+  _pitch: 1.13
+  _randomizePitch: 1
+  _pitchRandomizeAmount: 0.019
+  AudioSource: {fileID: 0}
+  Instantialized: 0

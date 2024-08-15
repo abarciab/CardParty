@@ -40,10 +40,16 @@ public class CardData : ScriptableObject
     }
 
     public static bool operator !=(CardData a, CardData b) {
-        foreach (PropertyInfo propertyInfo in typeof(CardData).GetProperties()) {
-            if (propertyInfo.Name == "Owner") continue; // we don't care about owner, and this is also not logically cohesive with Owner initial value
-            if (propertyInfo.GetValue(a, null) != propertyInfo.GetValue(b, null)) return true;
+        if (a == b) return false;
+        return true;
+
+        /*if (a == null || b == null) return true;
+        foreach (PropertyInfo propInfo in typeof(CardData).GetProperties()) {
+            if (propInfo.Name == "Owner") continue; // we don't care about owner, and this is also not logically cohesive with Owner initial value
+            //Debug.Log("checking property: " + propertyInfo.Name);
+            if (propInfo.Name == null) continue;
+            if (propInfo.GetValue(a, null) != propInfo.GetValue(b, null)) return true;
         }
-        return false;
+        return false;*/
     }
 }

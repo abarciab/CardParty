@@ -149,7 +149,7 @@ public class TabletopController : MonoBehaviour
     public async Task TakeEnemyActions(int TURN_WAIT_TIME)
     {
         foreach (EnemyObject enemy in _enemyObjs) {
-            await enemy.Action(_adventurerObjs, _enemyObjs);
+            await enemy.TakeAction();
             await Task.Delay(TURN_WAIT_TIME);
         }
     }

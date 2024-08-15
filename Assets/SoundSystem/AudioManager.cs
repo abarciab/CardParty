@@ -101,20 +101,20 @@ public class AudioManager : MonoBehaviour
         musicVolume = vol;
         SetMixerVolumes();
     }
+    public void SetAmbientVolume(float vol)
+    {
+        ambientVolume = vol;
+        SetMixerVolumes();
+    }
 
     void SetMixerVolumes()
     {
         mixer.SetFloat("masterVolume", Mathf.Log10(masterVolume) * 20);
         mixer.SetFloat("sfxVolume", Mathf.Log10(sfxVolume) * 20);
         mixer.SetFloat("musicVolume", Mathf.Log10(musicVolume) * 20);
+        mixer.SetFloat("ambientVolume", Mathf.Log10(ambientVolume) * 20);
 
         SaveVolume();
-    }
-
-    public void SetAmbientVolume(float vol)
-    {
-        ambientVolume = vol;
-        mixer.SetFloat("ambientVolume", Mathf.Log10(ambientVolume) * 20);
     }
 
     public void PlaySound(Sound sound, Transform caller, bool restart = true)

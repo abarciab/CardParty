@@ -53,6 +53,7 @@ public class Hand : MonoBehaviour
         float startValue = _scrollRect.horizontalNormalizedPosition;
         float timePassed = 0;
         while (timePassed < duration) {
+            if (!_scrollRect) return;
             _scrollRect.horizontalNormalizedPosition = Mathf.Lerp(startValue, targetValue, timePassed / duration);
             timePassed += Time.deltaTime;
             await Task.Delay(Mathf.RoundToInt(Time.deltaTime * 1000));
@@ -70,7 +71,7 @@ public class Hand : MonoBehaviour
             //print("adding new cards. enabledState: " + _cardsEnabled);
             var cardController = newCardCoord.GetComponent<CardObject>();
             cardController.Initialize(card, this);
-            cardController.SetEnabled(false);
+            cardController.SetEnabled(_cardsEnabled);
 
             _cards.Add(cardController);
 

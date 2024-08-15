@@ -1,6 +1,7 @@
 using MyBox;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -44,7 +45,7 @@ public class OverworldManager : GameManager
         UIManager.i.FadeFromBlack();
         Player.enabled = true;
     }
-
+        
     private void RestoreSingletons()
     {
         Awake();
@@ -52,11 +53,16 @@ public class OverworldManager : GameManager
         UIManager.i = _UIManager;
     }
 
-    public void LoadCardGame()
+    public async void LoadCardGame(CombatData combat)
     {
         Player.enabled = false;
         UIManager.i.FadeToBlack();
         StartCoroutine(HideAndLoadCardGameAfterFade());
+        while (CardGameManager.i == null) {
+            await Task.Delay(100);
+        }
+        await Task.Delay(250);
+        CardGameManager.i.StartCombat(combat);
     }
 
     private IEnumerator HideAndLoadCardGameAfterFade()

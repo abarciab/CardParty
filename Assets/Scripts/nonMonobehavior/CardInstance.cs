@@ -88,6 +88,15 @@ public class CardInstance
             if (cardFunctionData.Function == Function.ATTACK) output.Add("Attack " + (_targetAll ? "all " : "") + Utilities.Parenthize(cardFunctionData.Amount));
             if (cardFunctionData.Function == Function.BLOCK) output.Add("Block " + Utilities.Parenthize(cardFunctionData.Amount));
             if (cardFunctionData.Function == Function.DRAW) output.Add("Draw  " + Utilities.Parenthize(cardFunctionData.Amount));
+            if (cardFunctionData.Function == Function.HEAL) output.Add("Heal  " + Utilities.Parenthize(cardFunctionData.Amount));
+            if (cardFunctionData.Function == Function.ADDCARDS) output.Add("Add  " + (int) cardFunctionData.Amount + " " + cardFunctionData.CardData.Name + " to deck");
+            if (cardFunctionData.Function == Function.STATUS) output.Add(cardFunctionData.StatusEffectData.Name + " " + Utilities.Parenthize(cardFunctionData.Amount));
+            if (cardFunctionData.Function == Function.TRIGGEREDEFFECT) output.Add(cardFunctionData.TriggeredEffectData.Name + " " + (cardFunctionData.Amount > 0 ? Utilities.Parenthize(cardFunctionData.Amount) : ""));
+            if (cardFunctionData.Function == Function.REMOVESTATUS) output.Add("Remove status effects");
+
+            if (cardFunctionData.Function == Function.THEVESSEL) output.Add("aidan forgot what this does");
+            if (cardFunctionData.Function == Function.ARCHMAGEPROT) output.Add("aidan forgot what this does");
+            if (cardFunctionData.Function == Function.WHEEL) output.Add("aidan forgot what this does");
         }
         if (_exhaust) output.Add("Exhaust");
         return string.Join("\n", output);

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2138b7b908aeb249a12b0d3409b68a2, type: 3}
   m_Name: AttackBuff
   m_EditorClassIdentifier: 
+  Name: Strength
   Type: 4
   TriggerTime: 1
   Amount: 5

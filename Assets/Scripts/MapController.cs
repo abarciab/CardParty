@@ -102,8 +102,11 @@ public class MapController : MonoBehaviour
 
     public void revealRandomTiles(int numTiles)
     {
+        int triesLeft = numTiles * 2;
         var IDs = new List<Vector2Int>();
         while (IDs.Count < numTiles) {
+            triesLeft -= 1;
+            if (triesLeft <= 0) break;
             var option = new Vector2Int(Random.Range(0, _dimensions.x), Random.Range(0, _dimensions.y));
             if (!IDs.Contains(option)) IDs.Add(option);
         }
@@ -119,7 +122,7 @@ public class MapController : MonoBehaviour
     {
         if (_imageGrid[ID.x, ID.y].sprite == sprite) return;
 
-        print("updating tile: " + ID + ". sprite: " + sprite.name + ", name of mapTile at that pos: " + _imageGrid[ID.x, ID.y].transform.parent.gameObject.name);
+        //print("updating tile: " + ID + ". sprite: " + sprite.name + ", name of mapTile at that pos: " + _imageGrid[ID.x, ID.y].transform.parent.gameObject.name);
         _imageGrid[ID.x, ID.y].sprite = sprite;
         Rotate(_imageGrid[ID.x, ID.y].transform, turns);
     }

@@ -81,6 +81,8 @@ public class CardGameManager : GameManager
 
         if (OverworldManager.i) OverworldManager.i.ShowOverworldObjects();
         else SceneManager.LoadScene(1);
+
+        CardGameManager.i = null;
     }
 
     public async void StartCombat(CombatData combat)

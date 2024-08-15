@@ -16,8 +16,10 @@ public class CardGameTestHarness : MonoBehaviour
 
     private void Start()
     {
-        if (!OverworldManager.i) LoadTestData();
-        if (_startTestEncounterOnStart) StartTestEncounter();
+        if (!OverworldManager.i) {
+            LoadTestData();
+            if (_startTestEncounterOnStart) StartTestEncounter();
+        }
     }
 
     private void StartTestEncounter()

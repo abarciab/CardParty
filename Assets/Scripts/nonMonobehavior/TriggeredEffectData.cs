@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TriggeredEffectData")]
 public class TriggeredEffectData : ScriptableObject
 {
+    public string Name;
     public TriggeredEffectTriggerType Type;
     public TriggeredEffectTriggerTime TriggerTime;
     public int NumTriggers = -1; //indefinite

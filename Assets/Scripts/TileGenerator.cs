@@ -51,7 +51,7 @@ public class TileGenerator : MonoBehaviour
     {
         foreach (var option in _tileInteractableOptions) {
             var validOptions = GetInteractOptionsByDifficulty(option.Difficulty);
-            option._actualChance = (float)option.Frequency / validOptions.Count;
+            option.ActualChance = (float)option.Frequency / validOptions.Count;
         }
     }
 

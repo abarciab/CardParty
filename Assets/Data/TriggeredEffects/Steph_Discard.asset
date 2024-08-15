@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bf5b72f9304524284b0efc178cc540, type: 3}
   m_Name: Steph_Discard
   m_EditorClassIdentifier: 
+  Name: discard??
   Type: 1
   TriggerTime: 0
   NumTriggers: -1

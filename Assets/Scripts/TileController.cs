@@ -79,7 +79,6 @@ public class TileController : MonoBehaviour
         _isWin = isWin;
         _isCenter = isCenter;
 
-
         GridPos = new Vector2Int(x, y);
         _gridController = gridController;
         gameObject.name = "tile (" + x + ", " + y + ")" + (_isCenter ? "(Middle)" : "");
@@ -164,19 +163,19 @@ public class TileController : MonoBehaviour
         UnityAction callback = null;
         var player = OverworldManager.i.Player;
 
-        if (outcome == TileInteractableOutcome.FIGHT) callback = StartFightFromInteractable;
-        if (outcome == TileInteractableOutcome.EVENT) callback = StartEventFromInteractable;
+        if (outcome == TileInteractableOutcome.FIGHT) callback = () => StartFightFromInteractable(data.CombatOptions.items);
+        if (outcome == TileInteractableOutcome.EVENT) callback = () => StartEventFromInteractable(data.EventOptions.items);
         if (outcome == TileInteractableOutcome.SHOP) callback = () => OpenShopFromInteractable(data.ShopData);
         if (_isWin) callback = () => GameManager.i.EndGame();
 
         player.MoveToTargetWithCallback(walkPos, lookPos, callback);
     }
 
-    private void StartFightFromInteractable()
+    private void StartFightFromInteractable(List<CombatData> combatOptions)
     {
         UpdateEntranceVisuals();
         _interactable.gameObject.SetActive(!_isUnlocked);
-        OverworldManager.i.LoadCardGame();
+        OverworldManager.i.LoadCardGame(combatOptions[Random.Range(0, combatOptions.Count)]);
     }
 
     private void OpenShopFromInteractable(ShopData data)
@@ -186,11 +185,11 @@ public class TileController : MonoBehaviour
         OverworldUIManager.i.OpenShop(data);
     }
 
-    private void StartEventFromInteractable()
+    private void StartEventFromInteractable(List<SpecialEventData> options)
     {
         UpdateEntranceVisuals();
         _interactable.gameObject.SetActive(!_isUnlocked);
-        OverworldUIManager.i.StartRandomEvent();
+        OverworldUIManager.i.StartEvent(options[Random.Range(0, options.Count)]);
     }
 
     public Vector3 GetEntrancePos(Direction dir)

@@ -13,7 +13,9 @@ public class OverworldDeckController : MonoBehaviour
     [SerializeField] private List<GameObject> _spawnedRows = new List<GameObject>();
     [SerializeField] private Transform _endSpacer;
     [SerializeField] private GameObject _selectedCardParent;
+    [SerializeField] private GameObject _extraCardParent;
     [SerializeField] private PlayableCardDisplay _selectedCardDisplay;
+    [SerializeField] private PlayableCardDisplay _extraCardDisplay;
 
     private const int _cardsPerRow = 5;
 
@@ -33,6 +35,13 @@ public class OverworldDeckController : MonoBehaviour
     {
         _selectedCardParent.SetActive(true);
         _selectedCardDisplay.Initialize(toSelect, toSelect.Owner.Name);
+
+        _extraCardParent.SetActive(false);
+        foreach (var function in toSelect.CardFunctionData) {
+            if (function.Function == Function.ADDCARDS) {
+                _extraCardDisplay.Initialize(function.CardData);
+            }
+        }
     }
 
     private void Clear()

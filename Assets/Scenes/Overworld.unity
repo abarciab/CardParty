@@ -16023,7 +16023,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[5]._frequency
-      value: 1
+      value: 79
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[6].Difficulty
@@ -16031,7 +16031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[6]._frequency
-      value: 1
+      value: 85
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[7].Difficulty
@@ -16039,39 +16039,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[7]._frequency
-      value: 1
+      value: 107
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[0].ActualChance
-      value: 0.5
+      value: 0.0125
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[1].ActualChance
-      value: 0.2
+      value: 0.011235955
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[2].ActualChance
-      value: 0.2
+      value: 0.009009009
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[3].ActualChance
-      value: 0.6
+      value: 0.036144577
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[4].ActualChance
-      value: 0.6
+      value: 0.027027028
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[5].ActualChance
-      value: 0.2
+      value: 0.9518072
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[6].ActualChance
-      value: 0.5
+      value: 0.9883721
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[7].ActualChance
-      value: 0.2
+      value: 0.963964
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[0]._actualChance

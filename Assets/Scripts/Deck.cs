@@ -14,7 +14,7 @@ public class Deck : MonoBehaviour
 
     public void Initialize()
     {
-        foreach (CardData data in PlayerInfo.Party.GetDeck()) {
+        foreach (CardData data in PlayerInfo.Party.GetDeckShuffled()) {
             _cards.Add(new CardInstance(data));
         }
         _drawPileObj.SetActive(true);

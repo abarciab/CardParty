@@ -12,19 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a82f428b23c4e40b3a2fd4a3f84be8, type: 3}
   m_Name: Mia_Prayer
   m_EditorClassIdentifier: 
-  Name: Pray
+  Name: Healing Prayer
   Sprite: {fileID: 0}
-  Description: ':pray: :pensive:'
+  Description: My god will answer my prayers
   CardFunctionData:
   - Function: 4
     Amount: 4
     CardData: {fileID: 0}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 0}
+    TargetSelf: 0
   - Function: 7
     Amount: 0
     CardData: {fileID: 0}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 11400000, guid: 9daf2ba4887b6be439812f2bb7214c8f, type: 2}
+    TargetSelf: 0
   TargetAll: 0
   Exhaust: 0

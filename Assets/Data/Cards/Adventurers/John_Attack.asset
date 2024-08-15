@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: John_Attack
   m_EditorClassIdentifier: 
   Name: Pound
-  Sprite: {fileID: 21300000, guid: f60d7d97a6600134f8a7536e4a48590c, type: 3}
+  Sprite: {fileID: 21300000, guid: a1005633eeb6185478aa9402d37dc531, type: 3}
   Description: I always attack without hesitation. One blow from my hammer is usually
     all I need.
   CardFunctionData:
   - Function: 1
-    Amount: 80
+    Amount: 8
     CardData: {fileID: 0}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 0}

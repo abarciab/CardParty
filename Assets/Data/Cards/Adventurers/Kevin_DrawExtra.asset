@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a82f428b23c4e40b3a2fd4a3f84be8, type: 3}
   m_Name: Kevin_DrawExtra
   m_EditorClassIdentifier: 
-  Name: Draw Improvement
+  Name: Illumination
   Sprite: {fileID: 21300000, guid: ade10f0a8f3670f4c8b9d4bffa41161b, type: 3}
-  Description: Draw +1 card per turn!
+  Description: Allow me to show you all the options available...
   CardFunctionData:
   - Function: 7
     Amount: 0
     CardData: {fileID: 0}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 11400000, guid: 8d399d738bf92e046a7198db5749a508, type: 2}
+    TargetSelf: 0
   TargetAll: 0
   Exhaust: 0

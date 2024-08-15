@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a82f428b23c4e40b3a2fd4a3f84be8, type: 3}
   m_Name: Kevin_Attack
   m_EditorClassIdentifier: 
-  Name: Attack
+  Name: righteous anger
   Sprite: {fileID: 21300000, guid: a1005633eeb6185478aa9402d37dc531, type: 3}
-  Description: oh gosh he does like 7 damage
+  Description: I can't let this stand. I hope they're ready
   CardFunctionData:
   - Function: 1
     Amount: 7

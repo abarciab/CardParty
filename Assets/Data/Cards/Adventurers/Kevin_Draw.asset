@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a82f428b23c4e40b3a2fd4a3f84be8, type: 3}
   m_Name: Kevin_Draw
   m_EditorClassIdentifier: 
-  Name: Draw
+  Name: inspiration
   Sprite: {fileID: 21300000, guid: e59afbe37c5f3ed489675a1d207dbe1f, type: 3}
-  Description: kevin magically turns 1 card into 2
+  Description: I think there might be another way out of this situation
   CardFunctionData:
   - Function: 3
     Amount: 2
     CardData: {fileID: 0}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 0}
+    TargetSelf: 0
   TargetAll: 0
   Exhaust: 0

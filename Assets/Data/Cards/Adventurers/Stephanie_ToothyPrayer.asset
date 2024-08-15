@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Toothy Prayer
   Sprite: {fileID: 21300000, guid: 792f366b576d0af4aa335fb870977961, type: 3}
-  Description: Heal target +4 hp. Discard a card each turn.
+  Description: The spirits will save us... at a cost. Be careful what you wish for
   CardFunctionData:
   - Function: 4
     Amount: 4

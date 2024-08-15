@@ -47,20 +47,25 @@ public class Party
         return _statsDict[adventurer];
     }
 
-    public List<CardData> GetDeck()
+    public List<CardData> GetDeckSorted()
     {
         var deck = new List<CardData>();
 
         foreach (var entry in _equipmentDict) {
             var adventurer = entry.Key;
-            var equipmentList = entry.Value; 
-            
+            var equipmentList = entry.Value;
+
             deck.AddRange(adventurer.GetInnateCards());
             foreach (var equipment in equipmentList) {
                 if (equipment != null) deck.AddRange(equipment.Cards);
             }
         }
+        return deck.ToList();
+    }
 
+    public List<CardData> GetDeckShuffled()
+    {
+        var deck = GetDeckSorted();
         return deck.Shuffle().ToList();
     }
 

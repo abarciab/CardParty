@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Forge Blocks
   Sprite: {fileID: 21300000, guid: cb35130af9f30fc42a2ff3d68e50c256, type: 3}
-  Description: 
+  Description: Give me just a moment and I'll forge something for protection
   CardFunctionData:
   - Function: 5
-    Amount: 2
+    Amount: 1
     CardData: {fileID: 11400000, guid: eda4864243c1f44479d24945949625e1, type: 2}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 0}
+    TargetSelf: 0
   TargetAll: 0
   Exhaust: 0

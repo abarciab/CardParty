@@ -52,7 +52,7 @@ public class OverworldDeckController : MonoBehaviour
 
     private void ShowCards()
     {
-        var deck = PlayerInfo.Party.GetDeck();
+        var deck = PlayerInfo.Party.GetDeckSorted();
         int numRows = Mathf.CeilToInt(deck.Count / (float) _cardsPerRow);
         for (int i = 0; i < numRows; i++) {
             SpawnRow(deck, i * _cardsPerRow);

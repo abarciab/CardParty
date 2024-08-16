@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: A huge, gleaming blade held in two hands.
   WornByString: Wielded by
   Slot: 2
-  Cost: 0
+  Cost: 100
   Rarity: 0
   Cards:
   - {fileID: 11400000, guid: 5b1537719ff5d034aa6c6e94b42a43d1, type: 2}

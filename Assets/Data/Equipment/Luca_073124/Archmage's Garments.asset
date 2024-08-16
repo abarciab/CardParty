@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: Robes etched with glowing runes mapping the stars.
   WornByString: Worn By
   Slot: 1
-  Cost: 0
+  Cost: 100
   Rarity: 0
   Cards:
   - {fileID: 11400000, guid: de0b6cc77f1f6c64c9db169bff0908b0, type: 2}

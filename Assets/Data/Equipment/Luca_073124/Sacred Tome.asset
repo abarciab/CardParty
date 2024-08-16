@@ -18,6 +18,7 @@ MonoBehaviour:
     harmony. Reading from this sacriligeous book is forbidden.
   WornByString: Held by
   Slot: 0
-  Cost: 0
+  Cost: 250
   Rarity: 2
-  Cards: []
+  Cards:
+  - {fileID: 11400000, guid: 503d40283b534cf46bf3a6ca6aac4495, type: 2}

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: AttackBuff
   m_EditorClassIdentifier: 
   Type: 4
-  TriggerTime: 1
+  TriggerTime: 0
   Amount: 5
   Duration: -1

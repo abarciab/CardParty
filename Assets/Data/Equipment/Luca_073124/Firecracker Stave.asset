@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: The intersection of the arcane and the engineered.
   WornByString: Wielded by
   Slot: 2
-  Cost: 0
+  Cost: 100
   Rarity: 0
   Cards:
   - {fileID: 11400000, guid: 2eee2896a0631cb41a623c571c4b8561, type: 2}

@@ -114,7 +114,7 @@ public class TileGenerator : MonoBehaviour
             _failed = true;
             return;
         }
-        var selectedInteractable = _tileInteractableOptions[Random.Range(0, _tileInteractableOptions.Count)]; 
+        var selectedInteractable = _tileInteractableOptions[Random.Range(0, _tileInteractableOptions.Count)];
 
         var newTileObj = Instantiate(prefabData.Item1, pos, prefabData.Item2, _transform);
         var newTile = newTileObj.GetComponent<TileController>();

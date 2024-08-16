@@ -18,7 +18,7 @@ MonoBehaviour:
     grants penance to its wielder.
   WornByString: Wielded by
   Slot: 2
-  Cost: 0
+  Cost: 250
   Rarity: 2
   Cards:
   - {fileID: 11400000, guid: b81f665742d5771428652575fb70d2f8, type: 2}

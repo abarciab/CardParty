@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: The sidearm for every situation.
   WornByString: Worn By
   Slot: 0
-  Cost: 0
+  Cost: 100
   Rarity: 0
   Cards:
   - {fileID: 11400000, guid: eab93cde4624d954a914adb7748a232b, type: 2}

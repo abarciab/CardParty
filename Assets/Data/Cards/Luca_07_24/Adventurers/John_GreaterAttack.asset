@@ -14,17 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Greater Attack
   Sprite: {fileID: 21300000, guid: e81051fdd2e70cc4b9678b719d0866a1, type: 3}
-  Description: 
+  Description: Face me and perish!
   CardFunctionData:
   - Function: 1
     Amount: 5
     CardData: {fileID: 0}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 0}
+    TargetSelf: 0
   - Function: 1
     Amount: 5
     CardData: {fileID: 0}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 0}
+    TargetSelf: 0
   TargetAll: 0
   Exhaust: 0
+  Cost: 1

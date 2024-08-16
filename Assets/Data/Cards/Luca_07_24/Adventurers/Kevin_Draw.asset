@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Draw
   Sprite: {fileID: 21300000, guid: e59afbe37c5f3ed489675a1d207dbe1f, type: 3}
-  Description: kevin magically turns 1 card into 2
+  Description: The tactical advantage is always underestimated.
   CardFunctionData:
   - Function: 3
     Amount: 2
     CardData: {fileID: 0}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 0}
+    TargetSelf: 0
   TargetAll: 0
   Exhaust: 0
+  Cost: 0

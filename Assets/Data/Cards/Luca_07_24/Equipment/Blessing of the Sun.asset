@@ -24,3 +24,4 @@ MonoBehaviour:
     TargetSelf: 0
   TargetAll: 0
   Exhaust: 1
+  Cost: 1

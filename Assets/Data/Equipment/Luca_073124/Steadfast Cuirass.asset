@@ -18,7 +18,7 @@ MonoBehaviour:
     in battle.
   WornByString: Worn By
   Slot: 1
-  Cost: 0
+  Cost: 100
   Rarity: 0
   Cards:
   - {fileID: 11400000, guid: acd073c54396b10489337f9fadfbceeb, type: 2}

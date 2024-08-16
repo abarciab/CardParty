@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: What if things had gone just a little differently?
   WornByString: Worn By
   Slot: 0
-  Cost: 0
+  Cost: 150
   Rarity: 1
   Cards:
   - {fileID: 11400000, guid: ecae3037a8baf7e408113155fee6b545, type: 2}

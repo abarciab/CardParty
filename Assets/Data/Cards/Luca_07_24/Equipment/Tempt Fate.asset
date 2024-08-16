@@ -18,3 +18,4 @@ MonoBehaviour:
   CardFunctionData: []
   TargetAll: 0
   Exhaust: 0
+  Cost: 1

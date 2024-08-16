@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: A hollow wooden rod equipped with poisoned darts.
   WornByString: Wielded by
   Slot: 2
-  Cost: 0
+  Cost: 100
   Rarity: 0
   Cards:
   - {fileID: 11400000, guid: 42d886cf98fb03d4cacba1c1ebd5c86f, type: 2}

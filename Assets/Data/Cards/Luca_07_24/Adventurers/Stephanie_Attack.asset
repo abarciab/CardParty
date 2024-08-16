@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Stephanie's Attack
   Sprite: {fileID: 21300000, guid: 3c440cce6fcc77e41bde3d735f5663b6, type: 3}
-  Description: 
+  Description: Begone! Leave these lands!
   CardFunctionData:
   - Function: 1
     Amount: 4
     CardData: {fileID: 0}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 0}
+    TargetSelf: 0
   TargetAll: 0
   Exhaust: 0
+  Cost: 1

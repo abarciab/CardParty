@@ -18,6 +18,7 @@ public class CardData : ScriptableObject
     public bool TargetAll;
     public bool Exhaust;
     public AdventurerData Owner => PlayerInfo.Party.GetOwner(this);
+    public int Cost = 1;
 
     public override bool Equals(object other)
     {

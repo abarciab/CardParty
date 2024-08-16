@@ -18,7 +18,7 @@ MonoBehaviour:
     of their own life.
   WornByString: Worn By
   Slot: 1
-  Cost: 0
+  Cost: 150
   Rarity: 1
   Cards:
   - {fileID: 11400000, guid: f2e741420f5817247a33be71928bd92d, type: 2}

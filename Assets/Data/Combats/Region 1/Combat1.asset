@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9a3ab4f09cb7b44caa45e7837daf439, type: 3}
   m_Name: Combat1
   m_EditorClassIdentifier: 
-  difficulty: 1
-  frequency: 0
-  enemies:
+  Difficulty: 1
+  Frequency: 0
+  Enemies:
   - {fileID: 11400000, guid: 9686b017877f5054484050f2903ad0a5, type: 2}

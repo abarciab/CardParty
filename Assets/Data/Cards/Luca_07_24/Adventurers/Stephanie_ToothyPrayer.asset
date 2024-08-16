@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Toothy Prayer
   Sprite: {fileID: 21300000, guid: 792f366b576d0af4aa335fb870977961, type: 3}
-  Description: Heal target +4 hp. Discard a card each turn.
+  Description: These people will not suffer in my prescence. As a druid and speaker
+    of the earth, I bring life back to you!
   CardFunctionData:
   - Function: 4
     Amount: 4
@@ -30,3 +31,4 @@ MonoBehaviour:
     TargetSelf: 0
   TargetAll: 0
   Exhaust: 0
+  Cost: 1

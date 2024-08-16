@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: A ritual dagger and wide-mouthed chalice. It must be filled.
   WornByString: Wielded by
   Slot: 2
-  Cost: 0
+  Cost: 150
   Rarity: 1
   Cards:
   - {fileID: 11400000, guid: bfb7fd8080db30747b4ea06cb405b8a7, type: 2}

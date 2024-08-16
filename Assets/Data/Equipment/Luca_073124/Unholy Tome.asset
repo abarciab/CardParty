@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: 
   WornByString: Wielded by
   Slot: 2
-  Cost: 0
+  Cost: 100
   Rarity: 0
   Cards:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: ffdbf4d57d148cb41b984c742861ad11, type: 2}

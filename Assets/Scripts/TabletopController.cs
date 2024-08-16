@@ -167,7 +167,7 @@ public class TabletopController : MonoBehaviour
         }
 
         foreach (var a in PlayerInfo.Party.Adventurers) AddAdventurerToCombat(a);
-        foreach (var e in combat.enemies) AddEnemyToCombat(e);
+        foreach (var e in combat.Enemies) AddEnemyToCombat(e);
     }
 
     private void AddAdventurerToCombat(AdventurerData data)

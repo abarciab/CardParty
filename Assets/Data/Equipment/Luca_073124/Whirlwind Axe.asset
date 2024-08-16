@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: An enormous, gleaming double-headed axe.
   WornByString: Wielded by
   Slot: 2
-  Cost: 0
+  Cost: 100
   Rarity: 0
   Cards:
   - {fileID: 11400000, guid: 7b6efdc0f726f7848b2a37fda567db58, type: 2}

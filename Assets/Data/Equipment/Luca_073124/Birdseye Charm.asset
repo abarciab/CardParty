@@ -18,7 +18,7 @@ MonoBehaviour:
     the wearer.
   WornByString: Worn By
   Slot: 0
-  Cost: 0
+  Cost: 100
   Rarity: 0
   Cards:
   - {fileID: 11400000, guid: 5423d7a8cc2b93343959e4c4c9349355, type: 2}

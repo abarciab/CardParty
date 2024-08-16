@@ -23,6 +23,8 @@ public class CardGameManager : GameManager
     [Header("Stats")]
     [SerializeField] private int _maxActions = 3; //move to playerInfo.Stats eventually
 
+    [SerializeField] private List<EquipmentData> _equipmentData;
+
     [HideInInspector] public List<CreatureObject> SelectedCreatures = new List<CreatureObject>();
     [HideInInspector] public CardObject CurrentPlayedCard;
     [HideInInspector] public UnityEvent OnStartCombat = new UnityEvent();
@@ -36,6 +38,7 @@ public class CardGameManager : GameManager
     [HideInInspector] public int MaxActions => _maxActions;
 
     private CardPlayData _currentCardPlayData;
+    private CombatData _currCombatData;
 
     private const int TURN_WAIT_TIME = 1000;
 
@@ -57,12 +60,42 @@ public class CardGameManager : GameManager
         i = this;
     }
 
-    private void DecrementActionPoints() => ChangeActionNum(-1);
-
     public void ChangeActionNum(int actionDelta)
     {
         Actions = Mathf.Max(0, Actions + actionDelta);
         CardGameUIManager.i.UpdateActionDisplay();
+    }
+
+    public (EquipmentData, int) GetLoot(CombatData combat = null) {
+        if (combat == null) combat = _currCombatData;
+
+        (EquipmentData, int) res = (null, 0);
+        float r = UnityEngine.Random.Range(0, 1);
+        if (r < 0.1) {
+            EquipmentRarity rarity = EquipmentRarity.Common;
+            r = UnityEngine.Random.Range(0, 1);
+            if (combat.Difficulty < 5) {
+                if (r < 0.3) rarity = EquipmentRarity.Uncommon;
+                else rarity = EquipmentRarity.Common;
+            } else if (combat.Difficulty <= 9) {
+                if (r < 0.1) rarity = EquipmentRarity.Rare;
+                else if (r < 0.4) rarity = EquipmentRarity.Uncommon;
+                else rarity = EquipmentRarity.Common;
+            } else if (combat.Difficulty <= 12) {
+                if (r < 0.2) rarity = EquipmentRarity.Rare;
+                else if (r < 0.5) rarity = EquipmentRarity.Uncommon;
+                else rarity = EquipmentRarity.Common;
+            }
+            foreach(EquipmentData equipment in _equipmentData.Shuffle()) {
+                if (equipment.Rarity == rarity) {
+                    res.Item1 = equipment;
+                    break;
+                }
+            }
+        } else {
+            res.Item2 = 22 + UnityEngine.Random.Range(-5, 5);
+        }
+        return res;
     }
 
     public void LoadOverworld()
@@ -85,6 +118,8 @@ public class CardGameManager : GameManager
 
     public async void StartCombat(CombatData combat)
     {
+        _currCombatData = combat;
+
         _tableTop.SpawnCombatants(combat);
 
         OnStartCombat.Invoke();
@@ -132,7 +167,7 @@ public class CardGameManager : GameManager
 
     public void PlayCard(CardObject cardObject)
     {
-        if (Actions == 1) {
+        if (Actions == 1 && cardObject.CardInstance.CardData.Cost > 0) {
             ui.StopPlayingCards();
         }
 
@@ -222,7 +257,7 @@ public class CardGameManager : GameManager
     {
         CurrentPlayedCard = null;
 
-        DecrementActionPoints();
+        ChangeActionNum(cardObject.CardInstance.CardData.Cost);
 
         ui.HideInstructions();
 

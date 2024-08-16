@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Fire The Crossbow!
   Sprite: {fileID: 0}
-  Description: pew pew
+  Description: Loose bolts!
   CardFunctionData:
   - Function: 1
     Amount: 12
@@ -24,3 +24,4 @@ MonoBehaviour:
     TargetSelf: 0
   TargetAll: 0
   Exhaust: 0
+  Cost: 0

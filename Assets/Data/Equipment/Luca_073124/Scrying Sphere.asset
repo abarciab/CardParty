@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: Allows the user to draw on far more tactical options in battle.
   WornByString: Carried by
   Slot: 0
-  Cost: 0
+  Cost: 100
   Rarity: 0
   Cards:
   - {fileID: 11400000, guid: 21077fba3a0e85442b38a0bd437f3529, type: 2}

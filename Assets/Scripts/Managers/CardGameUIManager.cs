@@ -25,6 +25,7 @@ public class CardGameUIManager : UIManager
     [SerializeField] private GameObject _cardInfoParent;
     [SerializeField] private PlayableCardDisplay _cardInfo;
     [SerializeField] private Slider _actionPointsSlider;
+    [SerializeField] private TMP_Text _victoryScreenTempText;
 
     private CardGameManager gMan => CardGameManager.i;
     
@@ -33,7 +34,6 @@ public class CardGameUIManager : UIManager
     public void AddToDiscardPile(CardInstance inst, int count = 1) => _deck.AddToDiscard(inst, count: count);
     public void AddToDeck(CardInstance inst, int count = 1, bool random = true) => _deck.AddToDeck(inst, count: count, random: random);
     public void HideInstructions() => _instructionsParent.SetActive(false);
-    public void DisplayVictoryScreen() => _victoryScreen.SetActive(true);
     public void DisplayDefeatScreen() => _defeatScreen.SetActive(true);
     public void ToggleCameraPerspective() => gMan.ToggleCamera();
     public void StopPlayingCards() => _hand.StopPlayingCards();
@@ -106,5 +106,20 @@ public class CardGameUIManager : UIManager
         cardObject.transform.localPosition = Vector3.zero;
         cardObject.transform.localScale = Vector3.one;
         cardObject.transform.localEulerAngles = Vector3.zero;
+    }
+
+    public void DisplayVictoryScreen() {
+        (EquipmentData, int) loot = CardGameManager.i.GetLoot();
+
+        if (loot.Item1) PlayerInfo.Inventory.AddEquipment(loot.Item1);
+        PlayerInfo.Stats.Money += loot.Item2;
+
+        string text = "You Obtained:\n";
+        if (loot.Item1) text += loot.Item1.Name + "\n";
+        if (loot.Item2 != 0) text += loot.Item2 + " Gold\n";
+        
+        _victoryScreenTempText.text = text;
+
+        _victoryScreen.SetActive(true);
     }
 }

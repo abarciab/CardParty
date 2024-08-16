@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Attack
   Sprite: {fileID: 21300000, guid: a1005633eeb6185478aa9402d37dc531, type: 3}
-  Description: oh gosh he does like 7 damage
+  Description: Magic missiles, rip them to shreds!
   CardFunctionData:
   - Function: 1
     Amount: 7
@@ -24,3 +24,4 @@ MonoBehaviour:
     TargetSelf: 0
   TargetAll: 0
   Exhaust: 0
+  Cost: 1

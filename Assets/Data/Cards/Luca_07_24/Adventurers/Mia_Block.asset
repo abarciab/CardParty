@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Mia's Block
   Sprite: {fileID: 21300000, guid: 982a01a80c4af4f4f8ab17ee2645e505, type: 3}
-  Description: 
+  Description: How clumsy. You could never hit a trained fighter.
   CardFunctionData:
   - Function: 2
     Amount: 5
     CardData: {fileID: 0}
     StatusEffectData: {fileID: 0}
     TriggeredEffectData: {fileID: 0}
+    TargetSelf: 0
   TargetAll: 0
   Exhaust: 0
+  Cost: 1

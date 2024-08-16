@@ -18,7 +18,7 @@ MonoBehaviour:
     feel strikes against this metallic monolith.
   WornByString: Worn By
   Slot: 1
-  Cost: 0
+  Cost: 150
   Rarity: 1
   Cards:
   - {fileID: 11400000, guid: 23dbc2ddb6ef9c1459be1635db258b12, type: 2}

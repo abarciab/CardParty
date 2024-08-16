@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: Allows the wearer to command powerful healing abilities.
   WornByString: Worn by
   Slot: 0
-  Cost: 0
+  Cost: 100
   Rarity: 0
   Cards:
   - {fileID: 11400000, guid: 56fb2d910ff02e945b8b18571a1b3a70, type: 2}

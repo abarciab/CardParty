@@ -18,7 +18,7 @@ MonoBehaviour:
     a peculiar terror in all who gaze upon it.
   WornByString: Worn By
   Slot: 1
-  Cost: 0
+  Cost: 250
   Rarity: 2
   Cards:
   - {fileID: 11400000, guid: d4beef4e5e8d01245a5ad22fd5f91059, type: 2}

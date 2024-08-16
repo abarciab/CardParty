@@ -18,7 +18,7 @@ MonoBehaviour:
     that ails you. Unfortunately, it will fix EVERYTHING that affects you.
   WornByString: Worn By
   Slot: 0
-  Cost: 0
+  Cost: 150
   Rarity: 1
   Cards:
   - {fileID: 11400000, guid: 54fea7820c234334da3586b6a662be4e, type: 2}

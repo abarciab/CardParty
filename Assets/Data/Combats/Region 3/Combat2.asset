@@ -15,6 +15,6 @@ MonoBehaviour:
   difficulty: 12
   frequency: 0
   enemies:
-  - {fileID: 11400000, guid: 9686b017877f5054484050f2903ad0a5, type: 2}
-  - {fileID: 11400000, guid: 9686b017877f5054484050f2903ad0a5, type: 2}
   - {fileID: 11400000, guid: 8047181ac6d37e8479b88fd73f8cf1d4, type: 2}
+  - {fileID: 11400000, guid: 9686b017877f5054484050f2903ad0a5, type: 2}
+  - {fileID: 11400000, guid: 9686b017877f5054484050f2903ad0a5, type: 2}

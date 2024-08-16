@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Stephanie's Block
   Sprite: {fileID: 21300000, guid: 16d27e709354ee34ea266616eabf258e, type: 3}
-  Description: 
+  Description: I will not fall before you, while I stand amongst my allies!
   CardFunctionData:
   - Function: 2
     Amount: 4
@@ -24,3 +24,4 @@ MonoBehaviour:
     TargetSelf: 0
   TargetAll: 0
   Exhaust: 0
+  Cost: 1

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Pact of Blood
   Sprite: {fileID: 0}
-  Description: The greatest price.
+  Description: The greatest power at an unforgiving price.
   CardFunctionData:
   - Function: 1
     Amount: 15
@@ -30,3 +30,4 @@ MonoBehaviour:
     TargetSelf: 1
   TargetAll: 0
   Exhaust: 0
+  Cost: 1

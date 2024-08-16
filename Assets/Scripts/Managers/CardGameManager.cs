@@ -211,11 +211,12 @@ public class CardGameManager : GameManager
 
         string ownerName = playData.Owner.GetName();
         string targetName = function.TargetSelf || currTarget == null ? "" : currTarget.GetName();
-        float amount = function.Amount;
-        int intAmount = (int)amount;
-        Function funct = function.Function;
 
+        float amount = function.Amount;
+        Function funct = function.Function;
         bool doesAttack = function.Function == Function.ATTACK || function.Function == Function.THEVESSEL;
+
+        int intAmount = (int)amount;
         int attackDamage = intAmount + playData.Owner.GetBonusDamage();
         int blockAmount = funct == Function.ARCHMAGEPROT ? 2 * CardGameUIManager.i.GetHandSize() : intAmount;
 
@@ -274,9 +275,7 @@ public class CardGameManager : GameManager
         ChangeActionNum(cardObject.CardInstance.CardData.Cost);
 
         ui.HideInstructions();
-
         CurrCombatState = CombatState.PlayerTurn;
-        
 
         CardGameUIManager.i.AddToDiscardPile(cardObject.CardInstance);
         Destroy(cardObject.gameObject);
@@ -285,12 +284,11 @@ public class CardGameManager : GameManager
     public void MoveCardFromDisplay()
     {
         ui.MoveCardFromDisplay(CurrentPlayedCard);
-
         CurrentPlayedCard = null;
     }
 
     public bool IsPlayable(CardObject card) {
-        if (CardGameManager.i.CurrentPlayedCard) return false;
+        if (i.CurrentPlayedCard) return false;
         if (!GetOwnerAdventurer(card)) return false;
         return GetOwnerAdventurer(card).CanPlayCards();
     }

@@ -21,7 +21,11 @@ public class InteractableTypeGameObjectWrapper
     [SerializeField, ConditionalField(nameof(_altViewVersions))] private GameObject _fromLeft;
     private int _selected = 0;
 
-    private List<GameObject> GetAllVersions() => new List<GameObject>() { _fromDown, _fromRight, _fromTop, _fromLeft };
+    private List<GameObject> GetAllVersions()
+    {
+        if (!_altViewVersions) return new List<GameObject>() { _fromDown, null, null, null };
+        return new List<GameObject>() { _fromDown, _fromRight, _fromTop, _fromLeft };
+    }
 
     public void Initialize(Quaternion rot)
     {
@@ -79,10 +83,11 @@ public class TileInteractable : MonoBehaviour
         Data = data;
 
         foreach (var o in _objects) {
+            o.HideAll();
             if (o.Type == Data.Type) {
                 o.Initialize(rot);
+                o.GameObject.SetActive(true);
             }
-            o.HideAll();
             o.GameObject.SetActive(o.Type == data.Type);
         }
 

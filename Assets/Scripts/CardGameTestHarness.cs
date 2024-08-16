@@ -7,7 +7,7 @@ public class CardGameTestHarness : MonoBehaviour
 {
     [SerializeField] private List<EquipmentData> _testItemSet = new List<EquipmentData>();
     [SerializeField] private List<AdventurerData> _testParty = new List<AdventurerData>();
-    public CombatData TestCombat;
+    [DisplayInspector] public CombatData TestCombat;
     [SerializeField] private List<EquipmentData> _testEquipmentLoad = new List<EquipmentData>();
 
     [SerializeField] private int _testDamage;
@@ -16,12 +16,15 @@ public class CardGameTestHarness : MonoBehaviour
 
     private void Start()
     {
-        if (!OverworldManager.i) LoadTestData();
-        if (_startTestEncounterOnStart) StartTestEncounter();
+        if (!OverworldManager.i) {
+            LoadTestData();
+            if (_startTestEncounterOnStart) StartTestEncounter();
+        }
     }
 
     private void StartTestEncounter()
     {
+        print("Starting test encounter");
         CardGameManager.i.StartCombat(TestCombat);
     }
 

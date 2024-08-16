@@ -6,6 +6,7 @@ using System;
 [CreateAssetMenu(fileName = "StatusEffectData")]
 public class StatusEffectData : ScriptableObject
 {
+    public string Name;
     public StatusEffectType Type = StatusEffectType.NONE;
     public StatusEffectTriggerTime TriggerTime = StatusEffectTriggerTime.ENDOFTURN;
     public int Amount = 0;

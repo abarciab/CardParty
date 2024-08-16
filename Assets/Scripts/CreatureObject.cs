@@ -34,6 +34,7 @@ public abstract class CreatureObject : MonoBehaviour
     [HideInInspector] public UnityEvent<float> OnBlockPercentChanged;
     private bool _isSelectable;
 
+    public bool IsDead => _health <= 0;
     public void SetWiggle(bool state) => Animator.SetBool(_animWiggleBoolString, state);
 
     private void OnValidate()
@@ -112,6 +113,8 @@ public abstract class CreatureObject : MonoBehaviour
     }
 
     public virtual async void Die() {
+        CardGameUIManager.i.LogMove(GetName() + " died");
+
         await Utilities.LerpScale(gameObject, Vector3.zero, 0.45f);
         await Task.Delay(500);
         Controller.RemoveCreature(this);

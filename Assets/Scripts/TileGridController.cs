@@ -15,7 +15,7 @@ public class TileGridController : MonoBehaviour
     [ButtonMethod]
     private void RevealEntireMap()
     {
-        foreach (var t in _tiles) t.ShowOnMap();
+        foreach (var t in _tiles) if (t) t.ShowOnMap();
     }
 
     public TileController GetTile(Vector2Int ID)
@@ -31,7 +31,7 @@ public class TileGridController : MonoBehaviour
         if (dir == Direction.DOWN) targetID.y -= 1;
         if (dir == Direction.LEFT) targetID.x -= 1;
 
-        if (targetID.x >= _tiles.GetLength(0) || targetID.y >= _tiles.GetLength(1) || targetID.x == 0 || targetID.y == 0) return null;
+        if (targetID.x >= _tiles.GetLength(0) || targetID.y >= _tiles.GetLength(1) || targetID.x < 0 || targetID.y < 0) return null;
         return _tiles[targetID.x, targetID.y];
     }
 

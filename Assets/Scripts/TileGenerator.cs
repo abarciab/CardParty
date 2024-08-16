@@ -2,6 +2,7 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -22,7 +23,7 @@ public class TileGenerator : MonoBehaviour
     [Header("Special tiles")]
     [SerializeField] private GameObject _startTile;
     [SerializeField] private GameObject _winTile;
-    [SerializeField] private float _winTileMinDist;
+    [SerializeField, Range(0, 1)] private float _winTileMinDist;
 
     private TileController[,] _tileGrid;
 
@@ -36,8 +37,23 @@ public class TileGenerator : MonoBehaviour
     private int _numFails;
 
     private Vector2Int _centerPos => new Vector2Int((int)_gridDimenstions.x / 2, (int)_gridDimenstions.y / 2);
-
+    private float _maxDist => _centerPos.magnitude;
     public Vector2Int Dimensions => new Vector2Int((int)_gridDimenstions.x, (int)_gridDimenstions.y);
+    private float GetNormalizedDistanceFromCenter(int x, int y) => GetNormalizedDistanceFromCenter(new Vector2Int(x, y));
+    private float GetNormalizedDistanceFromCenter(Vector2Int pos) => Vector2.Distance(pos, _centerPos) / _maxDist;
+
+    private void OnValidate()
+    {
+        CalculateActualFrequencies();
+    }
+
+    private void CalculateActualFrequencies()
+    {
+        foreach (var option in _tileInteractableOptions) {
+            var validOptions = GetInteractOptionsByDifficulty(option.Difficulty);
+            option.ActualChance = (float)option.Frequency / validOptions.Count;
+        }
+    }
 
     private void Start()
     {
@@ -71,6 +87,8 @@ public class TileGenerator : MonoBehaviour
             PlaceTile(current.x, current.y, current == _centerPos);
             if (_failed) {
                 print("failed, trying again...");
+                FindObjectOfType<MapController>(true).Initialize();
+
                 _numFails += 1;
                 if (_numFails == _maxTries) {
                     print("Failed 10 times :(");
@@ -93,6 +111,7 @@ public class TileGenerator : MonoBehaviour
         }
         _gridController.SetTiles(_tileGrid);
 
+        print("Completed. placed win tile: " + _placedWinTile);
         if (_numFails > 0) print("Failed: " + _numFails + " times");
     }
 
@@ -102,6 +121,7 @@ public class TileGenerator : MonoBehaviour
         _placedWinTile = false;
         _failed = false;
     }
+
 
     private void PlaceTile(int x, int y, bool isCenter)
     {
@@ -114,15 +134,37 @@ public class TileGenerator : MonoBehaviour
             _failed = true;
             return;
         }
-        var selectedInteractable = _tileInteractableOptions[Random.Range(0, _tileInteractableOptions.Count)];
+        var selectedTile = prefabData.Item1;
+        var rot = prefabData.Item2;
 
-        var newTileObj = Instantiate(prefabData.Item1, pos, prefabData.Item2, _transform);
-        var newTile = newTileObj.GetComponent<TileController>();
+        float difficulty = GetNormalizedDistanceFromCenter(new Vector2Int(x, y));
+        var selectedInteractable = SelectInteractable(selectedTile.GetComponent<TileController>(), difficulty);
+        selectedInteractable = new TileInteractableData(selectedInteractable);
 
-        newTile.Initialize(x, y, isCenter, _gridController, prefabData.Item2, new TileInteractableData(selectedInteractable));
+        var newTile = Instantiate(selectedTile, pos, rot, _transform).GetComponent<TileController>();
+
+        bool isWin = selectedTile == _winTile;
+        newTile.Initialize(x, y, isCenter, isWin, _gridController, rot, selectedInteractable, difficulty);
 
         _tileGrid[x,y] = newTile;
         CountPaths();
+    }
+
+    private List<TileInteractableData> GetInteractOptionsByDifficulty(float difficulty)
+    {
+        float threshold = 0.2f;
+        var listWithDuplicates = new List<TileInteractableData>();
+        var interactableOptions = _tileInteractableOptions.Where(x => Mathf.Abs(difficulty - x.Difficulty) < threshold).ToList();
+        foreach (var option in interactableOptions) for (int i = 0; i < option.Frequency; i++) listWithDuplicates.Add(option);
+        return listWithDuplicates;
+    }
+
+    private TileInteractableData SelectInteractable(TileController tileController, float difficulty)
+    {
+        var options = GetInteractOptionsByDifficulty(difficulty);
+        if (options.Count > 0) return options[Random.Range(0, options.Count)];
+        print("could not find valid interactable for tile with difficultyRating: " + difficulty);
+        return null;
     }
 
     private void CountPaths()
@@ -181,9 +223,9 @@ public class TileGenerator : MonoBehaviour
 
     private bool ShouldPlaceWinTile(int x, int y) {
         if (_placedWinTile) return false;
-        var distance = Vector2Int.Distance(new Vector2Int(x, y), _centerPos);
-        if (distance < _winTileMinDist) return false;
         if (x == _gridDimenstions.x - 1 && y == _gridDimenstions.y - 1) return true;
+        var distance = GetNormalizedDistanceFromCenter(x, y);
+        if (distance < _winTileMinDist) return false;
         else return (Random.Range(0f, 1) < 0.1f);
     }
 

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a2b95ae081ff5d46a5f0693040c489f, type: 3}
+  m_Name: shopHard
+  m_EditorClassIdentifier: 
+  NumItems: 4
+  ItemOptions:
+  - {fileID: 11400000, guid: 397fc3c58a447f744ab3dcb15ee0eb8c, type: 2}
+  - {fileID: 11400000, guid: 8cf954eef265c0441899d3097b344045, type: 2}
+  - {fileID: 11400000, guid: 3e7677b9a519b3540920f4eeeb5f3c51, type: 2}
+  - {fileID: 11400000, guid: a780038c41386b0419bdfb7cb2a6763b, type: 2}
+  - {fileID: 11400000, guid: f57dc0485cfc6c649b5c319dcdbfb77f, type: 2}
+  - {fileID: 11400000, guid: 7cc465b5ef8073b4a88970fd73c8f2c5, type: 2}
+  - {fileID: 11400000, guid: 2f9804fa19e7b3a4f89f44a91f4d07a1, type: 2}
+  - {fileID: 11400000, guid: f1c2af9bbfb62e241be76e4e97dfa974, type: 2}
+  - {fileID: 11400000, guid: 35f5ab54cddd5914297eb0f4098267a3, type: 2}
+  - {fileID: 11400000, guid: 489ece16e8095e943ae761be2add392d, type: 2}
+  - {fileID: 11400000, guid: 911eb0dbe14bd0b40bb6ef3729c7ca12, type: 2}
+  - {fileID: 11400000, guid: 61accb713a3332744a8b2974da5551c8, type: 2}
+  - {fileID: 11400000, guid: 93d653a8080460e458f4d1e3fb1981c2, type: 2}
+  - {fileID: 11400000, guid: 04196eaa82097dc49a06451dffc2868c, type: 2}
+  - {fileID: 11400000, guid: d8266512bbb15a043a70316c36c26155, type: 2}
+  - {fileID: 11400000, guid: f4282c744ea1ce2488c35188cec34cd4, type: 2}
+  - {fileID: 11400000, guid: 4f6516dd6989c2443b2ac138e10ab4e2, type: 2}
+  - {fileID: 11400000, guid: 0a029e9be0a6b8c40a09aa00be394539, type: 2}
+  - {fileID: 11400000, guid: 24fdc5a70b9dea34bbe3ad1503ce501a, type: 2}
+  - {fileID: 11400000, guid: 01fb9d4c799070c43bba7e2c83573624, type: 2}
+  - {fileID: 11400000, guid: 23b23b1688387eb4293b3026e111cf14, type: 2}
+  AdventurerOptions:
+  - {fileID: 11400000, guid: c966d071a36a69046b98aa1f1d4a9096, type: 2}
+  - {fileID: 11400000, guid: 18abc88bd85dee948b189dd72b0de879, type: 2}
+  - {fileID: 11400000, guid: b202140e289432e4fafe9afbad030611, type: 2}
+  - {fileID: 11400000, guid: 09cca3cee14488d48a2037300e5593ec, type: 2}
+  AdventuerOptionUsed: 0

@@ -1,6 +1,6 @@
 public enum Direction { UP, RIGHT, DOWN, LEFT }
 public enum EventOutcomeType {NONE, MONEY, EQUIPMENT, FIGHT, ADVENTURER_KILL, PARTY_FULL_HEAL, ADVENTURER_HIRE, MAP_REVEAL, ADVENTURER_DAMAGE}   
-public enum TileInteractableType { NONE, FARM_STAND, GREMLIN, CRATE}
+public enum TileInteractableType { NONE, FARM_STAND, GREMLIN, CRATE, FARM_STAND_EASY, FARM_STAND_HARD, GREMLIN_KING, CRATE_PILE, HUGE_CRATE_PILE}
 public enum TileInteractableOutcome { NONE, FIGHT, EVENT, SHOP}
 public enum SortOrderType { ALPHABET, VALUE, RECENCY}
 public enum EquipmentSlot { ORNAMENT, ARMOR, MAIN}

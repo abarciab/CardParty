@@ -48,8 +48,8 @@ public class TileInteractable : MonoBehaviour
 {
     [SerializeField] private List<InteractableTypeGameObjectWrapper> _objects = new List<InteractableTypeGameObjectWrapper>();
     [ReadOnly] public TileInteractableData Data;
-    [SerializeField] private Transform _label;
     private OnClickOnCollider _collider;
+    [SerializeField, MyBox.Tag] private string _targetSpotTag;
 
     private void OnValidate()
     {
@@ -59,6 +59,13 @@ public class TileInteractable : MonoBehaviour
     private InteractableTypeGameObjectWrapper GetCurrentObject()
     {
         return _objects.Where(x => x.Type == Data.Type).First();
+    }
+
+    public Vector3 GetCurrentObjTargetPos()
+    {
+        var current = GetCurrentObject();
+        foreach (Transform child in current.GameObject.transform) if (child.gameObject.CompareTag(_targetSpotTag)) return child.position;
+        return current.GameObject.transform.position;
     }
 
     public Vector3 GetCurrentObjPos()
@@ -74,18 +81,12 @@ public class TileInteractable : MonoBehaviour
         foreach (var o in _objects) {
             if (o.Type == Data.Type) {
                 o.Initialize(rot);
-                var pos = _label.position;
-                pos.x = o.GameObject.transform.position.x;
-                pos.z = o.GameObject.transform.position.z;
-                _label.position = pos;
-                _label.GetComponentInChildren<TextMeshProUGUI>().text = data.Name;
-                _label.gameObject.SetActive(data.Name.Length > 0);
             }
             o.HideAll();
             o.GameObject.SetActive(o.Type == data.Type);
         }
 
-        if (!_collider) _collider = transform.parent.GetComponentInChildren<OnClickOnCollider>();
+        if (!_collider) _collider = GetComponent<OnClickOnCollider>();
         _collider.OverrideOnClickOn(() => controller.ClickOnInteractable(data));
     }
 

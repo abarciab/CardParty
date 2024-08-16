@@ -15,8 +15,14 @@ MonoBehaviour:
   Type: 1
   Unpauseable: 0
   _clips:
-  - Name: mainMusic
-    Clip: {fileID: 8300000, guid: 2b0f5182d295544439e3186beee2ad0d, type: 3}
+  - Name: guitarSong1
+    Clip: {fileID: 8300000, guid: 9dd634add33a0c64fbd8777cc970e92f, type: 3}
+    Looping: 1
+  - Name: spanishGuitarSong
+    Clip: {fileID: 8300000, guid: 2d0066ddd175f0c45891d034d9fc4c84, type: 3}
+    Looping: 1
+  - Name: frenchGuitarSong
+    Clip: {fileID: 8300000, guid: 0a88e832dd20eee48ad3e07e006a0057, type: 3}
     Looping: 1
   _volume: 1
   _pitch: 1

@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Walk
-      takeName: Walk
+      name: Manager|Walk v2.0
+      takeName: Manager|Walk v2.0
       internalID: 2667949614841947897
       firstFrame: 0
-      lastFrame: 39
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -56,14 +56,28 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0
+        functionName: PlaySound1
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 84290f47aa953c44fa7fb737318241ca, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5203252
+        functionName: PlaySound1
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 84290f47aa953c44fa7fb737318241ca, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Idle
-      takeName: Idle
+      name: Manager|Idle
+      takeName: Manager|Idle
       internalID: -3100369314251171874
       firstFrame: 0
       lastFrame: 39

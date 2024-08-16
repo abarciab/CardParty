@@ -37,7 +37,7 @@ public class ShopGridItem : MonoBehaviour
 
     private void Update()
     {
-        if (!_button.Hovered) _controller.StopShowingCard(EquipmentData.Cards[0]);
+        if (!_button.Hovered && EquipmentData.Cards.Count > 0) _controller.StopShowingCard(EquipmentData.Cards[0]);
     }
 
     public void ShowCard()

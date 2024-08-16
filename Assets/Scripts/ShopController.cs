@@ -32,10 +32,33 @@ public class ShopController : MonoBehaviour
     [SerializeField] private GameObject _orText;
     [SerializeField] private GameObject _hireNewButton;
 
+    [Header("Misc")]
+    [SerializeField] private TextMeshProUGUI _playerMoneyText;
+
     private List<ShopGridItem> _gridItems = new List<ShopGridItem>();
     private CardData _currentHoveredCard;
     private AdventurerData _potentialNewHire;
     private ShopData _currentShopData;
+
+    public void OpenShop(ShopData data)
+    {
+        _playerMoneyText.text = PlayerInfo.Stats.Money.ToString();
+
+        ClearGridItems();
+        if (data.ItemOptions.Count > data.NumItems) data.initializeItemList();
+
+        _currentShopData = data;
+        var options = data.ItemOptions;
+        foreach (var item in options) ShowItem(item);
+
+        if (data.AdventuerOptionUsed) _adventurerSectionParent.SetActive(false);
+        else {
+            _adventurerSectionParent.SetActive(true);
+            ConfigureAdventurerTab(data.AdventurerOptions);
+        }
+
+        gameObject.SetActive(true);
+    }
 
     private void Start()
     {
@@ -109,23 +132,6 @@ public class ShopController : MonoBehaviour
         _currentShopData.AdventuerOptionUsed = true;
     }
 
-    public void OpenShop(ShopData data)
-    {
-        ClearGridItems();
-        if (data.ItemOptions.Count > data.NumItems) data.initializeItemList();
-
-        _currentShopData = data;
-        var options = data.ItemOptions;
-        foreach (var item in options) ShowItem(item);
-
-        if (data.AdventuerOptionUsed) _adventurerSectionParent.SetActive(false);
-        else {
-            _adventurerSectionParent.SetActive(true);
-            ConfigureAdventurerTab(data.AdventurerOptions);
-        }
-
-        gameObject.SetActive(true);
-    }
 
     private void ConfigureAdventurerTab(List<AdventurerData> adventurers)
     {

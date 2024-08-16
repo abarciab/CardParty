@@ -129,6 +129,14 @@ PrefabInstance:
       propertyPath: _objects.Array.data[0]._altViewVersions
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1283265885414422954, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
+      propertyPath: _objects.Array.data[1]._altViewVersions
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1283265885414422954, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
+      propertyPath: _objects.Array.data[2]._altViewVersions
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3446277853018002120, guid: 31320588e430b2e40afa5aa915c91c9d, type: 3}
       propertyPath: m_Name
       value: TJunctionPathGrass(PREFAB)

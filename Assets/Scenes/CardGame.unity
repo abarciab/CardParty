@@ -227,17 +227,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 45212132}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &174189779 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2252331712318082492, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-  m_PrefabInstance: {fileID: 4161269081424006120}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &206409467 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2416307582939499252, guid: 761c92138e1fca144bd6ed4fb7bf61d9, type: 3}
@@ -1281,21 +1270,9 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 206409467}
-    - target: {fileID: 1796550059665186450, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadOverworld
-      objectReference: {fileID: 0}
     - target: {fileID: 4048078271618638687, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
       propertyPath: m_Name
       value: UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 4053033568020086970, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_Size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4053033568020086970, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_Value
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4950539945871100339, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1303,10 +1280,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4950539945871100339, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4950539945871100339, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5608970089441596813, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
@@ -1389,10 +1362,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5718491276641915308, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: _victoryScreenTempText
-      value: 
-      objectReference: {fileID: 174189779}
     - target: {fileID: 5826661075410439630, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1413,18 +1382,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6735798472981628587, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6735798472981628587, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6735798472981628587, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8361772225860254959, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1447,18 +1404,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8369480711297661751, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8783693107328453200, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8783693107328453200, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_EffectDistance.y
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8931401178212042274, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -102,7 +102,9 @@ public class CardInstance
         return string.Join("\n", output);
     }
 
-    public CardPlayData GetPlayData(AdventurerObject OwnerAdventurer) {
+    public CardPlayData GetPlayData(AdventurerObject OwnerAdventurer = null) {
+        if (OwnerAdventurer == null) OwnerAdventurer = CardGameManager.i.GetOwnerAdventurer(this);
+
         List<CardFunctionData> functions = new List<CardFunctionData>(_cardFunctionData);
         var playData = new CardPlayData(CardGameManager.i.GetAdventurerObject(Owner), functions);
 
@@ -120,6 +122,10 @@ public class CardInstance
         }
 
         return playData;
+    }
+
+    public bool HasTargets() {
+        return GetPlayData().TargetTypes.Count > 0;
     }
 
     public override string ToString() {

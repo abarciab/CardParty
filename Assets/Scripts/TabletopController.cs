@@ -66,16 +66,25 @@ public class TabletopController : MonoBehaviour
     }
 
     public void AddToSelectedTargets(CreatureObject selected)
-    {        
+    {
+        print(selected.GetComponent<CreatureObject>().GetType());
         if (_selectedCreatures.Contains(selected)) return;
 
         _selectedCreatures.Add(selected);
+    }
 
+    public void PlayIfValidTargets() {
         var types = _selectedCreatures.Select(x => x.GetType()).OrderBy(x => x.Name).ToList();
         if (AreListsEqual(types, _targetSelectedCreatures)) {
             MakeAllCreaturesUnselectable();
             CardGameManager.i.DoCurrentCardFunction(_selectedCreatures);
         }
+    }
+
+    public void RemoveFromSelectedTargets(CreatureObject selected) {
+        if (!_selectedCreatures.Contains(selected)) return;
+
+        _selectedCreatures.Remove(selected);
     }
 
     private List<CreatureObject> GetAllCreaturesList()

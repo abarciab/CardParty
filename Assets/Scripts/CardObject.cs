@@ -81,13 +81,18 @@ public class CardObject: MonoBehaviour
     void Update()
     {
         if (_selectable.Hovered && Input.GetMouseButtonDown(1)) CardGameUIManager.i.DisplayCardInfo(CardInstance);
-        if (_isBeingdragged) UpdateDrag(); 
+        if (_isBeingdragged) UpdateDrag();
     }
 
     private void UpdateDrag()
     {
+        //this is now a targeting arrow being dragged around, not the card itself
         if (Input.GetMouseButtonUp(0)) EndDrag();
-        transform.position = Input.mousePosition;
+        if (CardInstance.HasTargets()) {
+            CardGameUIManager.i.UpdateTargetingArrow(this, Input.mousePosition);
+        } else {
+            transform.position = Input.mousePosition;
+        }
     }
 
     public void Initialize(CardInstance inst, Hand handController)
@@ -108,13 +113,34 @@ public class CardObject: MonoBehaviour
 
         _isBeingdragged = true;
         transform.SetParent(_handController.transform);
+
+        CardGameManager.i.UpdateCurrPlayedCardData(this);
+
+        if (!CardGameManager.i.IsPlayable(this)) {
+            ReturnToHand();
+            return;
+        }
+
+        if (CardInstance.HasTargets()) {
+            CardGameUIManager.i.MoveToDisplay(this);
+            CardGameManager.i.StartSelectingTargets(CardInstance.GetPlayData());
+        }
     }
 
     void EndDrag() {
         _isBeingdragged = false;
 
-        if (IsCurrentlyInPlayZone() && CardGameManager.i.IsPlayable(this)) PlayCard();
-        else ReturnToHand();
+        ReturnToHand();
+
+        if (!IsCurrentlyInPlayZone()) return;
+
+        if (!CardInstance.HasTargets()) {
+            CardGameManager.i.PlayCard(this);
+            _handController.RemoveCard(this);
+        } else {
+            CardGameManager.i.PlayIfValidTargets();
+            CardGameUIManager.i.DestroyTargetingArrow();
+        }
     }
 
     private bool IsCurrentlyInPlayZone()
@@ -137,11 +163,5 @@ public class CardObject: MonoBehaviour
         transform.SetSiblingIndex(_handSiblingIndex);
         _selectable.SetEnabled(true);
         transform.localScale = Vector3.one;
-    }
-
-    private void PlayCard() {
-        _handController.RemoveCard(this);
-        CardGameUIManager.i.MoveToDisplay(this);
-        CardGameManager.i.PlayCard(this);
     }
 }

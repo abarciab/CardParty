@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 public class CardGameUIManager : UIManager
 {
     public new static CardGameUIManager i;
-    protected override void Awake() { base.Awake(); i = this; }
 
     [Header("Submenus")]
     [SerializeField] private Deck _deck;
@@ -23,6 +22,7 @@ public class CardGameUIManager : UIManager
     [SerializeField] private GameObject _bottomBar;
     [SerializeField] private GameObject _cardInfoParent;
     [SerializeField] private PlayableCardDisplay _cardInfo;
+    [SerializeField] private DeckDisplayController _deckDisplayController;
 
     [Header("backings")]
     [SerializeField] private List<SelectableItem> _bottomBarBackings = new List<SelectableItem>();
@@ -37,6 +37,10 @@ public class CardGameUIManager : UIManager
     [SerializeField] private TextMeshProUGUI _combatLogPreviewText;
     [SerializeField] private TextMeshProUGUI _combatLogMainText;
 
+    [Header("Card Targeting")]
+    [SerializeField] private GameObject _targetingArrowPrefab;
+    [SerializeField] private GameObject _currTargetingArrow;
+
     private CardGameManager gMan => CardGameManager.i;
     
     public void Draw(int count = 1) => _deck.Draw(count: count);
@@ -49,9 +53,14 @@ public class CardGameUIManager : UIManager
     public void StopPlayingCards() => _hand.StopPlayingCards();
     public void EndTurn() => gMan.EndPlayerTurn();
     public int GetHandSize() => _hand.GetHandSize();
-
-    private void Start()
+    public List<CardInstance> GetDrawPile() => _deck.GetDrawPile();
+    public List<CardInstance> GetDiscardPile() => _deck.GetDiscardPile();
+    protected override void Awake()
     {
+        base.Awake();
+        i = this;
+
+        print("adding start combat listener");
         gMan.OnStartCombat.AddListener(StartCombat);
         gMan.OnStartPlayerTurn.AddListener(StartPlayerTurn);
         gMan.OnEndPlayerTurn.AddListener(EndPlayerTurn);
@@ -75,6 +84,7 @@ public class CardGameUIManager : UIManager
 
     private void StartCombat()
     {
+        print("responding to start combat listener");
         _deck.Initialize();
         HideInstructions();
         _bottomBar.SetActive(true);
@@ -145,5 +155,27 @@ public class CardGameUIManager : UIManager
         _victoryScreenTempText.text = text;
 
         _victoryScreen.SetActive(true);
+    }
+
+    public void UpdateTargetingArrow(CardObject cardObject, Vector3 newPos) {
+        if (!_currTargetingArrow) _currTargetingArrow = GameObject.Instantiate(_targetingArrowPrefab, transform);
+
+        _currTargetingArrow.transform.position = newPos;
+    }
+
+    public void DestroyTargetingArrow() {
+        if (!_currTargetingArrow) return;
+        
+        Destroy(_currTargetingArrow);
+    }
+
+    public void OpenDeck(DeckDisplayTypeEnum type) {
+        OpenMenus += 1;
+        _deckDisplayController.Open(type);
+    }
+
+    public void CloseDeck() {
+        OpenMenus -= 1;
+        _deckDisplayController.Close();
     }
 }

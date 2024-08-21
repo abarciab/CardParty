@@ -15,7 +15,7 @@ public class OverworldUIManager : UIManager
     [SerializeField] private ShopController _shop;
     [SerializeField] private MapController _map;
     [SerializeField] private OverworldPartyController _party;
-    [SerializeField] private OverworldDeckController _deck;
+    [SerializeField] private DeckDisplayController _deck;
 
     public void RevealRandomMapTiles(int numTiles) => _map.revealRandomTiles(numTiles);
     public void RevealMapSprite(Vector2Int ID, Sprite sprite, int turns) => _map.RevealTile(ID, sprite, turns);

@@ -37,7 +37,7 @@ public class CardGameManager : GameManager
     [HideInInspector] public int Actions { get; private set; }
     [HideInInspector] public int MaxActions => _maxActions;
 
-    private CardPlayData _currentCardPlayData;
+    [SerializeField] private CardPlayData _currentCardPlayData;
     private CombatData _currCombatData;
 
     private const int TURN_WAIT_TIME = 1000;
@@ -53,6 +53,7 @@ public class CardGameManager : GameManager
     public void ToggleCamera() => _cameraController.Toggle();
     public void StartWiggle(AdventurerData aData) => _tableTop.StartWiggle(aData);
     public void StopWiggle(AdventurerData aData) => _tableTop.StopWiggle(aData);
+    public void PlayIfValidTargets() => _tableTop.PlayIfValidTargets();
 
     protected override void Awake()
     {
@@ -120,10 +121,12 @@ public class CardGameManager : GameManager
 
     public async void StartCombat(CombatData combat)
     {
+        print("calling startCombat");
         _currCombatData = combat;
 
         _tableTop.SpawnCombatants(combat);
 
+        print("invoking start combat event");
         OnStartCombat.Invoke();
         await Task.Delay(Mathf.RoundToInt(TURN_WAIT_TIME / 2));
 
@@ -167,7 +170,7 @@ public class CardGameManager : GameManager
         StartPlayerTurn();
     }
 
-    public void PlayCard(CardObject cardObject)
+    public void UpdateCurrPlayedCardData(CardObject cardObject)
     {
         if (Actions == 1 && cardObject.CardInstance.CardData.Cost > 0) {
             ui.StopPlayingCards();
@@ -179,15 +182,16 @@ public class CardGameManager : GameManager
         _currentCardPlayData = playData;
         //_tableTop.StopAllWiggles();
 
-        StartSelectingTargets(playData);
-
         //CardPlayFunction_Async(cardObject, playData);
     }
 
-    private void StartSelectingTargets(CardPlayData playData)
+    public void PlayCard(CardObject cardObject) {
+        DoCurrentCardFunction(new List<CreatureObject>());
+    }
+
+    public void StartSelectingTargets(CardPlayData playData)
     {
         if (playData.TargetTypes.Count > 0) _tableTop.StartSelectingTargets(playData.TargetTypes);
-        else DoCurrentCardFunction(new List<CreatureObject>());
     }
 
     public async void DoCurrentCardFunction(List<CreatureObject> targets)
@@ -288,7 +292,6 @@ public class CardGameManager : GameManager
     }
 
     public bool IsPlayable(CardObject card) {
-        if (i.CurrentPlayedCard) return false;
         if (!GetOwnerAdventurer(card)) return false;
         return GetOwnerAdventurer(card).CanPlayCards();
     }

@@ -65,11 +65,16 @@ public abstract class CreatureObject : MonoBehaviour
         return gameObject.name;
     }
 
-    public void ClickOn()
-    {
+    public void OnPointerEnter() {
         if (!_isSelectable) return;
 
         Controller.AddToSelectedTargets(this);
+    }
+
+    public void OnPointerExit() {
+        if (!_isSelectable) return;
+
+        Controller.RemoveFromSelectedTargets(this);
     }
 
     public void Initialize(TabletopController controller)

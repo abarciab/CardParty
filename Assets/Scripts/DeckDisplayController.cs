@@ -6,7 +6,7 @@ using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OverworldDeckController : MonoBehaviour
+public class DeckDisplayController : MonoBehaviour
 {
     [SerializeField] private GameObject _horizontalListPrefab;
     [SerializeField] private Transform _listParent;
@@ -19,10 +19,10 @@ public class OverworldDeckController : MonoBehaviour
 
     private const int _cardsPerRow = 5;
 
-    public void Open()
+    public void Open(DeckDisplayTypeEnum type = null)
     {
         Clear();
-        ShowCards();
+        ShowCards(type);
         gameObject.SetActive(true);
     }
 
@@ -50,9 +50,24 @@ public class OverworldDeckController : MonoBehaviour
         _spawnedRows.Clear();
     }
 
-    private void ShowCards()
+    private void ShowCards(DeckDisplayTypeEnum type)
     {
-        var deck = PlayerInfo.Party.GetDeckSorted();
+        List<CardData> deck = new List<CardData>();
+
+        if (type == null || type.DeckDisplayType == DeckDisplayType.FullDeck) {
+            deck = PlayerInfo.Party.GetDeckSorted();
+        } else {
+            List<CardInstance> temp = new List<CardInstance>();
+            if (type.DeckDisplayType == DeckDisplayType.DrawPile) {
+                temp = CardGameUIManager.i.GetDrawPile();
+            } else if (type.DeckDisplayType == DeckDisplayType.DiscardPile) {
+                temp = CardGameUIManager.i.GetDiscardPile();
+            }
+            foreach (CardInstance card in temp) {
+                deck.Add(card.CardData);
+            }
+        }
+
         int numRows = Mathf.CeilToInt(deck.Count / (float) _cardsPerRow);
         for (int i = 0; i < numRows; i++) {
             SpawnRow(deck, i * _cardsPerRow);

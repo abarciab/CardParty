@@ -56,4 +56,12 @@ public class Deck : MonoBehaviour
         _discardPile = new List<CardInstance>();
         _discardPileObj.SetActive(_discardPile.Count > 0);
     }
+
+    public List<CardInstance> GetDrawPile() {
+        return _cards;
+    }
+
+    public List<CardInstance> GetDiscardPile() {
+        return _discardPile;
+    }
 }

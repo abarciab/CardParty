@@ -67,7 +67,6 @@ public class TabletopController : MonoBehaviour
 
     public void AddToSelectedTargets(CreatureObject selected)
     {
-        print(selected.GetComponent<CreatureObject>().GetType());
         if (_selectedCreatures.Contains(selected)) return;
 
         _selectedCreatures.Add(selected);
@@ -102,6 +101,8 @@ public class TabletopController : MonoBehaviour
 
     private bool AreListsEqual(List<System.Type> list1, List<System.Type> list2)
     {
+        if (list1.Count != list2.Count) return false;
+        
         for (int i = 0; i < list1.Count; i++) {
             if (list1[i] != list2[i]) return false;
         }

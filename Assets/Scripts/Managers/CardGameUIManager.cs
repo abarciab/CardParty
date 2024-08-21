@@ -60,7 +60,6 @@ public class CardGameUIManager : UIManager
         base.Awake();
         i = this;
 
-        print("adding start combat listener");
         gMan.OnStartCombat.AddListener(StartCombat);
         gMan.OnStartPlayerTurn.AddListener(StartPlayerTurn);
         gMan.OnEndPlayerTurn.AddListener(EndPlayerTurn);
@@ -84,7 +83,6 @@ public class CardGameUIManager : UIManager
 
     private void StartCombat()
     {
-        print("responding to start combat listener");
         _deck.Initialize();
         HideInstructions();
         _bottomBar.SetActive(true);

@@ -132,7 +132,10 @@ public class CardObject: MonoBehaviour
 
         ReturnToHand();
 
-        if (!IsCurrentlyInPlayZone()) return;
+        if (!IsCurrentlyInPlayZone()) {
+            CardGameUIManager.i.DestroyTargetingArrow();
+            return;
+        }
 
         if (!CardInstance.HasTargets()) {
             CardGameManager.i.PlayCard(this);

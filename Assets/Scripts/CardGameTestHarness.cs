@@ -24,7 +24,6 @@ public class CardGameTestHarness : MonoBehaviour
 
     private void StartTestEncounter()
     {
-        print("Starting test encounter");
         CardGameManager.i.StartCombat(TestCombat);
     }
 

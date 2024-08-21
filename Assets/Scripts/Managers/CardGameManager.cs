@@ -121,12 +121,10 @@ public class CardGameManager : GameManager
 
     public async void StartCombat(CombatData combat)
     {
-        print("calling startCombat");
         _currCombatData = combat;
 
         _tableTop.SpawnCombatants(combat);
 
-        print("invoking start combat event");
         OnStartCombat.Invoke();
         await Task.Delay(Mathf.RoundToInt(TURN_WAIT_TIME / 2));
 

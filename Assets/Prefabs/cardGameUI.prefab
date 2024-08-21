@@ -2345,9 +2345,11 @@ MonoBehaviour:
   _bottomBar: {fileID: 4391139369183272802}
   _cardInfoParent: {fileID: 7549074746152936809}
   _cardInfo: {fileID: 2908193079930878435}
+  _bottomBarBackings: []
   _actionsPointsText: {fileID: 4479236479915821569}
   _actionPointsSlider: {fileID: 5595450816720942080}
-  _ApSliderParent: {fileID: 0}
+  _victoryScreenTempText: {fileID: 2252331712318082492}
+  _ApSliderParent: {fileID: 669029947744187526}
   _combatLogPreviewText: {fileID: 5771384278608068830}
   _combatLogMainText: {fileID: 8828216051203282314}
 --- !u!1 &4119643233187930881

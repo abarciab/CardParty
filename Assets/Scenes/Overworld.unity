@@ -15304,7 +15304,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _testItemSet: []
   _testAdventurerList:
-  - {fileID: 11400000, guid: 09cca3cee14488d48a2037300e5593ec, type: 2}
+  - {fileID: 11400000, guid: 18abc88bd85dee948b189dd72b0de879, type: 2}
+  - {fileID: 11400000, guid: c966d071a36a69046b98aa1f1d4a9096, type: 2}
+  - {fileID: 11400000, guid: b202140e289432e4fafe9afbad030611, type: 2}
+  - {fileID: 11400000, guid: b306f28b654a99c4e9489f5e981453f2, type: 2}
   _testEquipmentLoad: []
   _inputString: banana
   _searchTerm: b
@@ -15807,11 +15810,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 104d7b6b04d2f7e4e97fc3cb70dc998a, type: 2}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[0].Difficulty
-      value: 0.037
+      value: 0.031
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[0]._frequency
-      value: 138
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[1].Difficulty
@@ -15835,7 +15838,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[3]._frequency
-      value: 3
+      value: 203
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[4].Difficulty
@@ -15871,11 +15874,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[0].ActualChance
-      value: 0.9928058
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[1].ActualChance
-      value: 0.2
+      value: 0.004878049
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[2].ActualChance
@@ -15883,7 +15886,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[3].ActualChance
-      value: 0.6
+      value: 0.9902439
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[4].ActualChance
@@ -15891,7 +15894,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[5].ActualChance
-      value: 0.0070422534
+      value: 0.004878049
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[6].ActualChance
@@ -15947,7 +15950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[3].CombatOptions.items.Array.size
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
       propertyPath: _tileInteractableOptions.Array.data[4].CombatOptions.items.Array.size
@@ -16366,6 +16369,10 @@ PrefabInstance:
     - target: {fileID: 1864202030768323235, guid: 00cd81b21769e6d4d95c9ba644738e91, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4664603880329016412, guid: 00cd81b21769e6d4d95c9ba644738e91, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5025282982711438586, guid: 00cd81b21769e6d4d95c9ba644738e91, type: 3}
       propertyPath: m_AnchorMax.y

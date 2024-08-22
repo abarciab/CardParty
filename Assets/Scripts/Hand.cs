@@ -106,7 +106,7 @@ public class Hand : MonoBehaviour
             CardObject card = _cards[Random.Range(0, _cards.Count)];
             CardGameUIManager.i.AddToDiscardPile(card.CardInstance);
             _cards.Remove(card);
-            Destroy(card.gameObject);
+            if (card) Destroy(card.gameObject);
         }
     }
 

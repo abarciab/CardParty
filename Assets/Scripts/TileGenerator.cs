@@ -139,7 +139,7 @@ public class TileGenerator : MonoBehaviour
         var selectedTile = prefabData.Item1;
         var rot = prefabData.Item2;
 
-        float difficulty = GetNormalizedDistanceFromCenter(new Vector2Int(x, y));
+        int difficulty = (int)GetNormalizedDistanceFromCenter(new Vector2Int(x, y));
         var selectedInteractable = SelectInteractable(selectedTile.GetComponent<TileController>(), difficulty);
         selectedInteractable = new TileInteractableData(selectedInteractable);
 

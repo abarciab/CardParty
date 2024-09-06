@@ -141,10 +141,8 @@ public class CardGameUIManager : UIManager
     }
 
     public void DisplayVictoryScreen() {
-        Loot loot = CardGameManager.i.GetLoot();
-
-        if (loot.Equipment) PlayerInfo.Inventory.AddEquipment(loot.Equipment);
-        PlayerInfo.Stats.Money += loot.Gold;
+        Loot loot = CardGameManager.i.GetLoot(); 
+        PlayerInfo.AddLoot(loot);
 
         string text = "You Obtained:\n";
         if (loot.Equipment) text += loot.Equipment.Name + "\n";

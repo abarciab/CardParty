@@ -14,4 +14,9 @@ public static class PlayerInfo
         Inventory = new PlayerInventory();
         Party = new Party();
     }
+
+    public static void AddLoot(Loot loot) {
+        if (loot.Equipment) Inventory.AddEquipment(loot.Equipment);
+        Stats.Money += loot.Gold;
+    }
 }

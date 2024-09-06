@@ -29,7 +29,7 @@ public class TileController : MonoBehaviour
 
     [SerializeField, ReadOnly] private int _turns;
     [SerializeField, ReadOnly] private string _interactableName;
-    [SerializeField, ReadOnly, Range(0, 1)] private float _difficulty;
+    [SerializeField, ReadOnly, Range(0, 1)] private int _difficulty;
 
     private bool _isActive => OverworldManager.i.Player.GetCurrentTile() == this;
 
@@ -74,7 +74,7 @@ public class TileController : MonoBehaviour
         transf.localScale = Vector3.one * 3;
     }
 
-    public void Initialize(int x, int y, bool isCenter, bool isWin, TileGridController gridController, Quaternion rot, TileInteractableData interactableData, float difficulty)
+    public void Initialize(int x, int y, bool isCenter, bool isWin, TileGridController gridController, Quaternion rot, TileInteractableData interactableData, int difficulty)
     {
         _isWin = isWin;
         _isCenter = isCenter;
@@ -217,4 +217,6 @@ public class TileController : MonoBehaviour
         Direction entranceDir = (Direction)(((int)exitDir + 2) % 4);
         nextTile.EnterTile(entranceDir);
     }
+
+    public int GetDifficulty() {return _difficulty;}
 }

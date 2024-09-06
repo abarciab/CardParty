@@ -22,6 +22,8 @@ public class OverworldManager : GameManager
 
     [HideInInspector] public UnityEvent OnNewTileEntered;
 
+    public TileController GetCurrentPlayerTile() => Player.GetCurrentTile();
+
     protected override void Start()
     {
         base.Start();

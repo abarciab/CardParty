@@ -18,6 +18,7 @@ public class SpecialEventOutcome
     {
         if (Type == EventOutcomeType.MONEY) PlayerInfo.Stats.Money += MoneyDelta;
         if (Type == EventOutcomeType.EQUIPMENT) PlayerInfo.Inventory.AddEquipment(_equipment);
+        if (Type == EventOutcomeType.LOOT) PlayerInfo.AddLoot(Loot.GetLoot(OverworldManager.i.GetCurrentPlayerTile().GetDifficulty()));
         //if (Type == EventOutcomeType.FIGHT) OverworldManager.i.LoadCardGame();
         if (Type == EventOutcomeType.FIGHT) Debug.Log("no combat selected");
         if (Type == EventOutcomeType.ADVENTURER_KILL) PlayerInfo.Party.KillRandomAdventurer();

@@ -25,7 +25,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: c719d7f8da65b5643ac02375bd666dfb, type: 2}
     - {fileID: 11400000, guid: 491c9766a41b36a41af83a59f13dbd01, type: 2}
     - {fileID: 11400000, guid: af15763c75d83de45b5312ecb76cf782, type: 2}
-    - {fileID: 11400000, guid: d4cb853c5872eb54bb987799a1925a0a, type: 2}
     - {fileID: 11400000, guid: 64cf1d3bd61ab434ca0012448f965b50, type: 2}
     - {fileID: 11400000, guid: cd40f60715bcc284783d6d3e5a7e528a, type: 2}
     - {fileID: 11400000, guid: 56b46df07b802cd47b489f6386f80558, type: 2}
@@ -38,4 +37,4 @@ MonoBehaviour:
   CombatOptions:
     items: []
   _frequency: 100
-  ActualChance: 0
+  ActualChance: 0.47619048

@@ -15,7 +15,7 @@ public class CombatData : ScriptableObject
     {EnemyType.Wolf, 4},
     {EnemyType.Goblin_Brute, 10}
     };
-    public float Difficulty;
+    public int Difficulty;
     public float Frequency;
     public List<EnemyData> Enemies = new List<EnemyData>();
 

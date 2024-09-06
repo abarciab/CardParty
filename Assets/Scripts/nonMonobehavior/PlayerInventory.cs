@@ -5,26 +5,78 @@ using UnityEngine;
 
 public class PlayerInventory
 {
-    public List<EquipmentData> EquipmentData = new List<EquipmentData>();
+    public List<EquipmentData> Equipments = new List<EquipmentData>();
 
     public override string ToString()
     {
-        return string.Join(", ", EquipmentData);
+        return string.Join(", ", Equipments);
     }
 
-    public void AddEquipment(EquipmentData equipment)
+    public void AddLoot() {
+        Loot res = Loot.GetLoot(0);
+
+        PlayerInfo.Stats.Money += res.Gold;
+        if (res.Equipment) AddEquipment(res.Equipment);
+    }
+
+    public void AddEquipment(EquipmentData equipment, int difficulty = -1)
     {
-        EquipmentData.Add(Object.Instantiate(equipment));
+        if (!equipment) {
+            if (difficulty == -1) {
+                difficulty = Constants.MAX_DIFFICULTY;
+            }
+
+            equipment = EquipmentData.GetEquipment(difficulty);
+        }
+        Equipments.Add(Object.Instantiate(equipment));
+    }
+
+    public void DestroyEquipment(EquipmentData equipment = null) {        
+
+        if (!equipment) {
+            if (PlayerInfo.Party.GetEquippedEquipment()) {
+                Debug.Log("something is equipped");
+                equipment = PlayerInfo.Party.GetEquippedEquipment();
+            } else {
+                Debug.Log("nothing is equipped");
+                foreach(EquipmentData e in Equipments) {
+                    Debug.Log(e);
+                }
+                equipment = Equipments[Random.Range(0, Equipments.Count)];
+            }
+        }
+
+        if (!equipment) {
+            Debug.Log("failed");
+            return;
+        }
+
+        if (PlayerInfo.Party.GetEquippedEquipment()) PlayerInfo.Party.SetEquipment(PlayerInfo.Party.GetOwner(equipment), null, equipment.Slot);
+
+        Debug.Log("removing " + equipment.Name);
+        Equipments.Remove(equipment);
+    }
+
+    public void SwapEquipment(EquipmentData oldEquipment = null, EquipmentData newEquipment = null, int difficulty = -1) {
+        if (difficulty == -1) difficulty = Constants.MAX_DIFFICULTY;
+
+        if (!newEquipment) newEquipment = EquipmentData.GetEquipment(difficulty);
+
+        if (!oldEquipment) oldEquipment = PlayerInfo.Party.GetEquippedEquipment();
+
+        AddEquipment(newEquipment);
+
+        DestroyEquipment(oldEquipment);
     }
 
     public void LoadItemList(List<EquipmentData> equipmentList)
     {
-        EquipmentData = new List<EquipmentData>(equipmentList);
+        Equipments = new List<EquipmentData>(equipmentList);
     }
     
     public List<EquipmentData> GetValidItems(EquipmentSlot slot)
     {
-        var list = EquipmentData.Where(x => x.Slot == slot).ToList();
+        var list = Equipments.Where(x => x.Slot == slot).ToList();
         return new List<EquipmentData>(list); 
     }
 }

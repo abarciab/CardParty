@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 public enum Function { NONE, ATTACK, BLOCK, DRAW, HEAL, ADDCARDS, STATUS, TRIGGEREDEFFECT, THEVESSEL, ARCHMAGEPROT, WHEEL, REMOVESTATUS}
-
 [Serializable]
 public class CardPlayData {
     public AdventurerObject Owner;
@@ -102,28 +101,6 @@ public class CardInstance
         return string.Join("\n", output);
     }
 
-    public CardPlayData GetPlayData(AdventurerObject OwnerAdventurer = null) {
-        if (OwnerAdventurer == null) OwnerAdventurer = CardGameManager.i.GetOwnerAdventurer(this);
-
-        List<CardFunctionData> functions = new List<CardFunctionData>(_cardFunctionData);
-        var playData = new CardPlayData(CardGameManager.i.GetAdventurerObject(Owner), functions);
-
-        foreach (var f in functions) {
-            if (f.Function == Function.ATTACK || f.Function == Function.THEVESSEL) {
-                playData.TargetTypes = new List<System.Type>() { typeof(EnemyObject) };
-                break;
-            } else if (f.Function == Function.HEAL || f.Function == Function.REMOVESTATUS) {
-                playData.TargetTypes = new List<System.Type>() {typeof(AdventurerObject)};
-                break;
-            } else if (f.Function == Function.STATUS) {
-                if (f.TargetSelf) break;
-                playData.TargetTypes = new List<System.Type>() { typeof(EnemyObject) };
-            }
-        }
-
-        return playData;
-    }
-
     public bool HasTargets() {
         return GetPlayData().TargetTypes.Count > 0;
     }
@@ -146,6 +123,17 @@ public class CardInstance
             if (propertyInfo.GetValue(a, null) != propertyInfo.GetValue(b, null)) return true;
         }
         return false;
+    }
+
+    public CardPlayData GetPlayData(AdventurerObject OwnerAdventurer = null) {
+        if (OwnerAdventurer == null) OwnerAdventurer = CardGameManager.i.GetOwnerAdventurer(this);
+
+        List<CardFunctionData> functions = new List<CardFunctionData>(_cardFunctionData);
+        var playData = new CardPlayData(CardGameManager.i.GetAdventurerObject(Owner), functions);
+
+        playData.TargetTypes = CardData.GetTargets();
+
+        return playData;
     }
 
 }

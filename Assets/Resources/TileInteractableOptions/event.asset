@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1509cd68e6ccf4dbabf8b28d850268, type: 3}
+  m_Name: event
+  m_EditorClassIdentifier: 
+  Name: event
+  Difficulty: 0.1
+  Type: 3
+  Outcome: 2
+  ShopData: {fileID: 0}
+  EventOptions:
+    items:
+    - {fileID: 11400000, guid: 22ac4f2dcde0de44c8080c25a9fd287a, type: 2}
+    - {fileID: 11400000, guid: d5f0b15bf9cdcf842adf513edc16fe31, type: 2}
+    - {fileID: 11400000, guid: 67467bc1527098b49a053fa2a8b8417a, type: 2}
+    - {fileID: 11400000, guid: c719d7f8da65b5643ac02375bd666dfb, type: 2}
+    - {fileID: 11400000, guid: 491c9766a41b36a41af83a59f13dbd01, type: 2}
+    - {fileID: 11400000, guid: af15763c75d83de45b5312ecb76cf782, type: 2}
+    - {fileID: 11400000, guid: d4cb853c5872eb54bb987799a1925a0a, type: 2}
+    - {fileID: 11400000, guid: 64cf1d3bd61ab434ca0012448f965b50, type: 2}
+    - {fileID: 11400000, guid: cd40f60715bcc284783d6d3e5a7e528a, type: 2}
+    - {fileID: 11400000, guid: 56b46df07b802cd47b489f6386f80558, type: 2}
+    - {fileID: 11400000, guid: 455a9b86f1f4a6d4eb58b9c3e814efe4, type: 2}
+    - {fileID: 11400000, guid: 47afde18763eb9845988cd14578702c2, type: 2}
+    - {fileID: 11400000, guid: b7c7a9cab202889469808a69681e9073, type: 2}
+    - {fileID: 11400000, guid: d24f2d3c38f81834ea17c5dcd0cf6b2e, type: 2}
+    - {fileID: 11400000, guid: 3b8f6765d169e7e479d0428e30e4df1c, type: 2}
+    - {fileID: 11400000, guid: e0bf739e3568f04428d86295de09d832, type: 2}
+  CombatOptions:
+    items: []
+  _frequency: 100
+  ActualChance: 0

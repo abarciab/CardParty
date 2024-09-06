@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d779d4715048234dbbf2415be188cb0, type: 3}
+  m_Name: CoinGame
+  m_EditorClassIdentifier: 
+  Title: CoinGame
+  Prompt: At the intersection of two paths, you find a man sitting at a small table.
+    Glancing up at you, he asks "Would you like to play a game of chance? I'm going
+    to flip three coins. If you can correctly guess how many of them turn up heads,
+    I'll double your bet. Let's make the bet 22 gold."
+  Sprite: {fileID: 0}
+  ChoicesToDisplay: 4
+  Choices:
+  - Text: 1 head.
+    SuccessChance: 0.375
+    _successText: Money
+    SuccessOutcomeData:
+      Text: Good guess! I suppose I'm out of my luck for today. Gods bless ye.
+      Outcomes:
+      - Type: 1
+        MoneyDelta: 44
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+    FailureOutcomeData:
+      Text: Good guess! It looks like the gods favor me today. I'll be taking my
+        gold.
+      Outcomes:
+      - Type: 1
+        MoneyDelta: -22
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+  - Text: 2 heads.
+    SuccessChance: 0.375
+    _successText: Money
+    SuccessOutcomeData:
+      Text: Good guess! I suppose I'm out of my luck for today. Gods bless ye.
+      Outcomes:
+      - Type: 1
+        MoneyDelta: 44
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+    FailureOutcomeData:
+      Text: Good guess! It looks like the gods favor me today. I'll be taking my
+        gold.
+      Outcomes:
+      - Type: 1
+        MoneyDelta: -22
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+  - Text: I don't trust this man.
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: The man smiles wryly and looks back down. "I suppose you can't trust
+        strangers these days, stranger. That wariness might keep you safe for now,
+        but sometimes you need to take a risk to get ahead."
+      Outcomes: []
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []

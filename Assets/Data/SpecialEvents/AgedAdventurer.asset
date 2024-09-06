@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d779d4715048234dbbf2415be188cb0, type: 3}
+  m_Name: AgedAdventurer
+  m_EditorClassIdentifier: 
+  Title: AgedAdventurer
+  Prompt: You pass a horse-driven cart on the road, led by an ancient horse and even
+    older horsedriver. As you slow down to greet him, he frowns. "I know the look
+    of an unprepared novice. You'll soon get yourself killed on the road ahead."
+    He looks back at his wagon. "I could give you some old gear I have. I'm too old
+    to make use of it anyways."
+  Sprite: {fileID: 0}
+  ChoicesToDisplay: 1
+  Choices:
+  - Text: Accept the gift.
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: The old man reaches behind him and hands you a wrapped package. Tearing
+        away faded cloth, you reveal a suprisingly polished piece of adventuring
+        gear. Looking up at the man, he has a nostalgic look on his face. You thank
+        him, and go on your way.
+      Outcomes:
+      - Type: 2
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []

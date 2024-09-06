@@ -14,7 +14,7 @@ public class ShopData : ScriptableObject
 
     public void initializeItemList()
     {
-        var total = new List<EquipmentData>(ItemOptions.Where(x => !PlayerInfo.Inventory.EquipmentData.Contains(x)));
+        var total = new List<EquipmentData>(ItemOptions.Where(x => !PlayerInfo.Inventory.Equipments.Contains(x)));
         ItemOptions.Clear();
         total = total.Shuffle().ToList();
         for (int i = 0; i < NumItems; i++) if (i < total.Count) ItemOptions.Add(total[i]);

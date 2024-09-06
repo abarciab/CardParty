@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d779d4715048234dbbf2415be188cb0, type: 3}
+  m_Name: Merchant Store
+  m_EditorClassIdentifier: 
+  Title: Merchant Store
+  Prompt: Your party stays at a small wayside town, with nothing more remarkable
+    than a slew of peasants and a merchant's shop. Stepping inside the store, you're
+    greeted by a portly man with a fantastic hat and even more fantastical mustache.
+    He grins enormously. "Care to trade?"
+  Sprite: {fileID: 0}
+  ChoicesToDisplay: 2
+  Choices:
+  - Text: Offer some of your gear.
+    SuccessChance: 1
+    _successText: Gear
+    SuccessOutcomeData:
+      Text: The flamboyant merchant retrives a small parcel to trade for your gear.
+        "Here, this will better serve a man of your ambitions than it will sit in
+        my storeroom! Good luck on your journey."
+      Outcomes:
+      - Type: 11
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []
+  - Text: Politely decline.
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: The merchant maintains his cheshire smile for as long as you're in his
+        store. He refrains from making any further offers. No man can afford a hat
+        or mustache that incredible by making fair deals
+      Outcomes: []
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []

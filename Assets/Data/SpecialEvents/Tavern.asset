@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d779d4715048234dbbf2415be188cb0, type: 3}
+  m_Name: Tavern
+  m_EditorClassIdentifier: 
+  Title: Tavern
+  Prompt: After a day of hard riding, you finally reach your stop for the night -
+    a bustling tavern. Stepping inside, you're met with a commotion of travellers
+    much like yourself. You see travellers of every shape a size telling tales of
+    battle, discussing plans and forming adventuring parties. You realize this might
+    be an opportunity to recruit someone to join you. However, you're afraid that
+    an adventurer of your own might leave for better prospects.
+  Sprite: {fileID: 0}
+  ChoicesToDisplay: 2
+  Choices:
+  - Text: Find a new Companion!
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: You're lucky enough to find an ambitious new recruit to join you, and
+        celebrate into the night. The next morning, you realize that one of your
+        other companions has left you for better prospects.
+      Outcomes:
+      - Type: 10
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []
+  - Text: Camp outside.
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: It's really not as muddy as you had thought, and your party warms itself
+        by a large fire. You're happy with the friends you have.
+      Outcomes: []
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []

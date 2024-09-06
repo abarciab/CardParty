@@ -433,6 +433,12 @@ MonoBehaviour:
     Type: 0
     Outcome: 0
     ShopData: {fileID: 0}
+    EventOptions:
+      items: []
+    CombatOptions:
+      items: []
+    _frequency: 0
+    ActualChance: 0
   _targetSpotTag: 
 --- !u!1 &7657167577222471818
 GameObject:

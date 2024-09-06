@@ -2,6 +2,7 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public enum EquipmentRarity {Common, Uncommon, Rare}
 
@@ -18,6 +19,31 @@ public class EquipmentData : ScriptableObject
     [DisplayInspector] public List<CardData> Cards = new List<CardData>();
 
     public AdventurerData Owner => PlayerInfo.Party.GetOwner(this);
+
+    public static EquipmentData GetEquipment(int difficulty = -1) {
+        if (difficulty == -1) difficulty = Constants.MAX_DIFFICULTY;
+
+        EquipmentRarity rarity = EquipmentRarity.Common;
+        float r = UnityEngine.Random.Range(0, 1);
+        if (difficulty < 5) {
+            if (r < 0.3) rarity = EquipmentRarity.Uncommon;
+            else rarity = EquipmentRarity.Common;
+        } else if (difficulty <= 9) {
+            if (r < 0.1) rarity = EquipmentRarity.Rare;
+            else if (r < 0.4) rarity = EquipmentRarity.Uncommon;
+            else rarity = EquipmentRarity.Common;
+        } else if (difficulty <= 12) {
+            if (r < 0.2) rarity = EquipmentRarity.Rare;
+            else if (r < 0.5) rarity = EquipmentRarity.Uncommon;
+            else rarity = EquipmentRarity.Common;
+        }
+
+        foreach(EquipmentData equipment in Resources.LoadAll<EquipmentData>( "Equipment/").ToList().Shuffle()) {
+            if (equipment.Rarity == rarity) return equipment;
+        }
+
+        return null;
+    }
 
     public override string ToString()
     {

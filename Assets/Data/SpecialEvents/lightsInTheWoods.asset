@@ -10,67 +10,52 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d779d4715048234dbbf2415be188cb0, type: 3}
-  m_Name: lightsInTheWoods
+  m_Name: LightsInTheWoods
   m_EditorClassIdentifier: 
-  Title: Lights in the Woods woo!!!!!
-  Prompt: There are hella lights in the woods frfr
+  Title: LightsInTheWoods
+  Prompt: As the trees grow dense and the sun begins to hide from your view, a faint
+    blue glow begins to fill the woods. Several glowing spheres of light dance before
+    your party, beckoning deeper into the trees.
   Sprite: {fileID: 21300000, guid: 4d31e84cf0dd4bc4a9cbf4b1890ee6ba, type: 3}
   ChoicesToDisplay: 2
   Choices:
-  - Text: YES PLSSSS slay (me)
-    SuccessChance: 0.548
-    _successText: win
-    SuccessText: 'You went into the woods and whorshipped the lights very well :)
-
-      they
-      reward you with millions of dollars'
-    SucessOutcomes:
-    - Type: 1
-      _moneyDelta: 550
-      _equipment: {fileID: 0}
-      _newHire: {fileID: 0}
-      _damageAmount: 0
-      _numMapTiles: 0
-    FailText: 'they slay one of your adventurueres. damn that sucks ass '
-    FailureOutcomes:
-    - Type: 4
-      _moneyDelta: 0
-      _equipment: {fileID: 0}
-      _newHire: {fileID: 0}
-      _damageAmount: 0
-      _numMapTiles: 0
-  - Text: ohnoes not today!
-    SuccessChance: 0.727
-    _successText: get out!
-    SuccessText: you escape!
-    SucessOutcomes: []
-    FailText: 'you try to run but they cartch you anways. ooh that doesn''t look
-      good for you. The lights steal some of your money and laugh as you walk away. '
-    FailureOutcomes:
-    - Type: 1
-      _moneyDelta: -75
-      _equipment: {fileID: 0}
-      _newHire: {fileID: 0}
-      _damageAmount: 0
-      _numMapTiles: 0
-  - Text: shoot the lights
-    SuccessChance: 0.401
-    _successText: win
-    SuccessText: the lights are actually just fireflies, but your excellent aim impresses
-      a bystander. here's a free adventurer if you'd like
-    SucessOutcomes:
-    - Type: 6
-      _moneyDelta: 0
-      _equipment: {fileID: 0}
-      _newHire: {fileID: 11400000, guid: c966d071a36a69046b98aa1f1d4a9096, type: 2}
-      _damageAmount: 0
-      _numMapTiles: 0
-    FailText: your bullets bounce and hit all of your adventurers. they all take
-      damage
-    FailureOutcomes:
-    - Type: 8
-      _moneyDelta: 0
-      _equipment: {fileID: 0}
-      _newHire: {fileID: 0}
-      _damageAmount: 65
-      _numMapTiles: 0
+  - Text: Follow the lights!
+    SuccessChance: 0.55
+    _successText: Adventurer
+    SuccessOutcomeData:
+      Text: Pushing aside a dense net of branches, you come across a dishevelled
+        adventurer lying on the ground. They appear desperately lost, and welcome
+        your assistance in finding the path. It does not matter if you seek the same
+        gold or glory at the end of your adventure - you are stronger together, and
+        they offer to join your party.
+      Outcomes:
+      - Type: 5
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+    FailureOutcomeData:
+      Text: It's a fool's errand to venture off-trail following some strange spirits,
+        and only one of your adventurers is brave and stupid enough to dare doing
+        so. The rest of the party makes camp, and awaits their return. Minutes, and
+        eventually hours pass. The forest is quiet. As morning songbirds mockingly
+        sing their cheerful tunes, you must accept that your friend is gone forever.
+      Outcomes:
+      - Type: 4
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+  - Text: Stay on the path.
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: As you continue down the path, you can't help but feel that you made
+        the right decision. Far too many stories of poor travellers led astray by
+        malevolent spirits...
+      Outcomes: []
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []

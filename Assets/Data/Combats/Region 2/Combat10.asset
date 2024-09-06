@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9a3ab4f09cb7b44caa45e7837daf439, type: 3}
   m_Name: Combat10
   m_EditorClassIdentifier: 
-  difficulty: 7
-  frequency: 0
-  enemies:
+  Difficulty: 7
+  Frequency: 0
+  Enemies:
   - {fileID: 11400000, guid: f1630599777d1984fbc05952dddcf9b2, type: 2}
   - {fileID: 11400000, guid: f1630599777d1984fbc05952dddcf9b2, type: 2}
   - {fileID: 11400000, guid: 243a8f1cb9e4f6343a598fa458d76572, type: 2}

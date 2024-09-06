@@ -86,7 +86,7 @@ public class InventoryUI : MonoBehaviour
         _gridItems.Clear();
 
         gameObject.SetActive(true);
-        var equipment = PlayerInfo.Inventory.EquipmentData;
+        var equipment = PlayerInfo.Inventory.Equipments;
         foreach (var e in equipment) InitializeEquipment(e);
         _filteredList = new List<InventoryGridItem>(_gridItems);
         _currentPage = 0;

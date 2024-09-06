@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d779d4715048234dbbf2415be188cb0, type: 3}
+  m_Name: BloodSacrifice
+  m_EditorClassIdentifier: 
+  Title: BloodSacrifice
+  Prompt: An odd tree stands out from the rest, exuding a foul smell and looming
+    terrifyingly over its neighbors. The roots are stained a filthy mahogony red,
+    and an intricate dagger lies buried in the ground nearby
+  Sprite: {fileID: 0}
+  ChoicesToDisplay: 2
+  Choices:
+  - Text: Take the blade.
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: You all prick your fingers, and gasp as blood surges from the wounds.
+        An impossibly thick red flow pours onto the thirsty roots. Now a brilliant
+        red, the roots part to reveal a small treasure for you. The old gods reward
+        their loyal following.
+      Outcomes:
+      - Type: 8
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 4
+        _numMapTiles: 0
+      - Type: 9
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 4
+        _numMapTiles: 0
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []
+  - Text: Witchcraft and paganism.
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: As you walk away from the tree, you feel an increasing urge to run back
+        towards it and beg, stabbing yourself with the knife. The terror suddenly
+        subsides, and you're left with feelings of terror and doubt. You have to
+        remind yourself - the old gods have no power here, and those who worship
+        them are fools.
+      Outcomes: []
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []

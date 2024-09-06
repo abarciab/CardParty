@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9a3ab4f09cb7b44caa45e7837daf439, type: 3}
   m_Name: Combat2
   m_EditorClassIdentifier: 
-  difficulty: 12
-  frequency: 0
-  enemies:
+  Difficulty: 12
+  Frequency: 0
+  Enemies:
+  - {fileID: 11400000, guid: 9686b017877f5054484050f2903ad0a5, type: 2}
+  - {fileID: 11400000, guid: 9686b017877f5054484050f2903ad0a5, type: 2}
   - {fileID: 11400000, guid: 8047181ac6d37e8479b88fd73f8cf1d4, type: 2}
-  - {fileID: 11400000, guid: 9686b017877f5054484050f2903ad0a5, type: 2}
-  - {fileID: 11400000, guid: 9686b017877f5054484050f2903ad0a5, type: 2}

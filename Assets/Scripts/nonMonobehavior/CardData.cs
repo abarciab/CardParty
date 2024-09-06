@@ -53,4 +53,21 @@ public class CardData : ScriptableObject
         }
         return false;*/
     }
+
+    public List<System.Type> GetTargets() {
+        List<System.Type> res = new List<System.Type>();
+
+        foreach (var f in CardFunctionData) {
+            if (f.Function == Function.ATTACK || f.Function == Function.THEVESSEL) {
+                return new List<System.Type>() { typeof(EnemyObject) };
+            } else if (f.Function == Function.HEAL || f.Function == Function.REMOVESTATUS) {
+                return new List<System.Type>() {typeof(AdventurerObject)};
+            } else if (f.Function == Function.STATUS) {
+                if (f.TargetSelf) break;
+                return new List<System.Type>() { typeof(EnemyObject) };
+            }
+        }
+
+        return new List<System.Type>();
+    }
 }

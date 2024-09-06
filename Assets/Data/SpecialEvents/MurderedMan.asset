@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d779d4715048234dbbf2415be188cb0, type: 3}
+  m_Name: MurderedMan
+  m_EditorClassIdentifier: 
+  Title: MurderedMan
+  Prompt: You come across a slain man with a sword embedded in his back. Hunched
+    over him, a small boy digs through his belongings. He turns sharply as you approach,
+    and you see that he's not half large enough to wield the blade. "He's mine! I
+    found him first!" shouts the boy. He grips the man's bag, still struggling to
+    pull it from his body.
+  Sprite: {fileID: 0}
+  ChoicesToDisplay: 2
+  Choices:
+  - Text: '"I''ll pay you."'
+    SuccessChance: 0.82
+    _successText: 
+    SuccessOutcomeData:
+      Text: As you extend a palm full of gold, the boy eagerly grabs at the coins.
+        He dissappears off into the woods before you have the chance to ask any questions.
+        Examining the bag, you find that your gamble paid off.
+      Outcomes:
+      - Type: 1
+        _moneyDelta: -22
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+      - Type: 9
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+    FailureOutcomeData:
+      Text: The boy is quick to take your money, and vanishes without a trace. Upon
+        closer inspection, you find that the bag is empty. Whoever killed the man
+        must have looted his corpse.
+      Outcomes:
+      - Type: 1
+        _moneyDelta: -22
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+  - Text: Leave the boy alone.
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: 
+      Outcomes: []
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []

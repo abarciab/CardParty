@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d779d4715048234dbbf2415be188cb0, type: 3}
+  m_Name: Watchtower
+  m_EditorClassIdentifier: 
+  Title: Watchtower
+  Prompt: A watchtower peeks above the treetops, swaying with them in the wind. It's
+    been years since anyone has stood atop it, but it still provides a helpful vantage
+    point.
+  Sprite: {fileID: 0}
+  ChoicesToDisplay: 1
+  Choices:
+  - Text: Climb the tower.
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: Perched atop the towering structure, you see the path ahead laid out
+        in front of you.
+      Outcomes:
+      - Type: 6
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 5
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []

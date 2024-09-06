@@ -15,8 +15,8 @@ MonoBehaviour:
   Name: Wolf
   EnemyType: 3
   Prefab: {fileID: 5954159574823729094, guid: aee4b4e4c3f64d0498b6674ffba75b5b, type: 3}
-  MaxHealth: 60
-  MaxBlock: 60
+  MaxHealth: 50
+  MaxBlock: 50
   ActionData:
   - ActionType: 1
     Amount:

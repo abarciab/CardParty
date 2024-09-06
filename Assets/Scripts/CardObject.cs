@@ -137,13 +137,7 @@ public class CardObject: MonoBehaviour
             return;
         }
 
-        if (!CardInstance.HasTargets()) {
-            CardGameManager.i.PlayCard(this);
-            _handController.RemoveCard(this);
-        } else {
-            CardGameManager.i.PlayIfValidTargets();
-            CardGameUIManager.i.DestroyTargetingArrow();
-        }
+        CardGameManager.i.TryPlayCard(this);
     }
 
     private bool IsCurrentlyInPlayZone()

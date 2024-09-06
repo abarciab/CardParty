@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d779d4715048234dbbf2415be188cb0, type: 3}
+  m_Name: Storm
+  m_EditorClassIdentifier: 
+  Title: Storm
+  Prompt: As you settle into your tents for the night, you begin to hear a trickle
+    of rain. You sleep uneasily, and are soon awoken by a crash of thunder and sudden
+    explosive downpour. The horrific torrent tears open your tent, dousing your party
+    in frigid water. You are forced to make cover under an overhanging boulder, almost
+    freezing to death in the midnight chill. The next day, you are certainly worse
+    for the wear.
+  Sprite: {fileID: 0}
+  ChoicesToDisplay: 1
+  Choices:
+  - Text: Shiver.
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: The next morning is fortunately bright, and the sun warms the clothes
+        on your backs. Much of your gear and food managed to stay dry, and you reflect
+        that you've survived worse. Still, you all feel incredibly tired and beaten
+        down.
+      Outcomes:
+      - Type: 8
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 5
+        _numMapTiles: 0
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []

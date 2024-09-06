@@ -53,7 +53,7 @@ public class CardGameManager : GameManager
     public void ToggleCamera() => _cameraController.Toggle();
     public void StartWiggle(AdventurerData aData) => _tableTop.StartWiggle(aData);
     public void StopWiggle(AdventurerData aData) => _tableTop.StopWiggle(aData);
-    public void PlayIfValidTargets() => _tableTop.PlayIfValidTargets();
+    public bool CurrentCardHasValidTargets() => _tableTop.CurrentCardHasValidTargets();
 
     protected override void Awake()
     {
@@ -67,36 +67,10 @@ public class CardGameManager : GameManager
         CardGameUIManager.i.UpdateActionDisplay();
     }
 
-    public (EquipmentData, int) GetLoot(CombatData combat = null) {
+    public Loot GetLoot(CombatData combat = null) {
         if (combat == null) combat = _currCombatData;
 
-        (EquipmentData, int) res = (null, 0);
-        float r = UnityEngine.Random.Range(0, 1);
-        if (r < 0.1) {
-            EquipmentRarity rarity = EquipmentRarity.Common;
-            r = UnityEngine.Random.Range(0, 1);
-            if (combat.Difficulty < 5) {
-                if (r < 0.3) rarity = EquipmentRarity.Uncommon;
-                else rarity = EquipmentRarity.Common;
-            } else if (combat.Difficulty <= 9) {
-                if (r < 0.1) rarity = EquipmentRarity.Rare;
-                else if (r < 0.4) rarity = EquipmentRarity.Uncommon;
-                else rarity = EquipmentRarity.Common;
-            } else if (combat.Difficulty <= 12) {
-                if (r < 0.2) rarity = EquipmentRarity.Rare;
-                else if (r < 0.5) rarity = EquipmentRarity.Uncommon;
-                else rarity = EquipmentRarity.Common;
-            }
-            foreach(EquipmentData equipment in _equipmentData.Shuffle()) {
-                if (equipment.Rarity == rarity) {
-                    res.Item1 = equipment;
-                    break;
-                }
-            }
-        } else {
-            res.Item2 = 22 + UnityEngine.Random.Range(-5, 5);
-        }
-        return res;
+        return Loot.GetLoot(combat.Difficulty);
     }
 
     public void LoadOverworld()
@@ -170,10 +144,6 @@ public class CardGameManager : GameManager
 
     public void UpdateCurrPlayedCardData(CardObject cardObject)
     {
-        if (Actions == 1 && cardObject.CardInstance.CardData.Cost > 0) {
-            ui.StopPlayingCards();
-        }
-
         CurrentPlayedCard = cardObject;
         var data = cardObject.CardInstance;
         var playData = data.GetPlayData(GetOwnerAdventurer(cardObject));
@@ -183,8 +153,29 @@ public class CardGameManager : GameManager
         //CardPlayFunction_Async(cardObject, playData);
     }
 
+    public void TryPlayCard(CardObject cardObject) {
+        if (Actions < cardObject.CardInstance.CardData.Cost ||
+        !_tableTop.CurrentCardHasValidTargets()) {
+            CardGameUIManager.i.DestroyTargetingArrow();
+            return;
+        }
+
+        PlayCard(cardObject);
+    }
+
     public void PlayCard(CardObject cardObject) {
-        DoCurrentCardFunction(new List<CreatureObject>());
+        print(cardObject);
+
+        _tableTop.MakeAllCreaturesUnselectable();
+
+        List<CreatureObject> targets;
+        if (cardObject.CardInstance.CardData.GetTargets().Count == 0) targets = new List<CreatureObject>();
+        else {
+            targets = _tableTop.GetSelectedTargets();
+            CardGameUIManager.i.DestroyTargetingArrow();
+        }
+
+        DoCurrentCardFunction(targets);
     }
 
     public void StartSelectingTargets(CardPlayData playData)
@@ -225,6 +216,8 @@ public class CardGameManager : GameManager
 
         if (doesAttack) {
             ui.LogMove(ownerName + " attacked " + targetName + " for " + attackDamage + " damage");
+            print(playData);
+            print(currTarget);
             await Utilities.LerpToAndBack(playData.Owner.gameObject, currTarget.transform.position);
             currTarget.TakeDamage(attackDamage);
 
@@ -274,7 +267,7 @@ public class CardGameManager : GameManager
     {
         CurrentPlayedCard = null;
 
-        ChangeActionNum(cardObject.CardInstance.CardData.Cost);
+        ChangeActionNum(-1 * cardObject.CardInstance.CardData.Cost);
 
         ui.HideInstructions();
         CurrCombatState = CombatState.PlayerTurn;

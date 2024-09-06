@@ -2,7 +2,9 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
+[System.Serializable]
 public class OverworldTestHarness : MonoBehaviour
 {
     [SerializeField] private List<EquipmentData> _testItemSet = new List<EquipmentData>();
@@ -35,5 +37,24 @@ public class OverworldTestHarness : MonoBehaviour
     private void DamageFirstAdventurer()
     {
         PlayerInfo.Party.Adventurers[0].Stats.CurrentHealth -= _testDamage;
+    }
+
+    [ButtonMethod]
+    public void LoadNormalPlaythroughData() {
+        List<TileInteractableData> standardOptions = new List<TileInteractableData>();
+
+        standardOptions = Resources.LoadAll("TileInteractableOptions", typeof(TileInteractableData)).Cast<TileInteractableData>().ToList();
+
+        FindObjectOfType<TileGenerator>().SetTileInteractableOptions(standardOptions);
+
+        #if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(FindObjectOfType<TileGenerator>());
+        #endif
+    }
+
+    public void OnValidate() {
+        if (_testAdventurerList.Count > 0) _testAdventurerList.RemoveAll(x => x == null);
+        if (_testAdventurerList.Count > 3) _testAdventurerList.RemoveRange(2, _testAdventurerList.Count - 3);
+
     }
 }

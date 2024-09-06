@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d779d4715048234dbbf2415be188cb0, type: 3}
+  m_Name: EquipmentAltar
+  m_EditorClassIdentifier: 
+  Title: EquipmentAltar
+  Prompt: A small dirt trail leads off the road and to a decrepit stone altar. The
+    altar is a simple stone table shaped like an anvil, inscribed with runes made
+    illegible by years of aging. A large crack runs through the center of the altar.
+  Sprite: {fileID: 0}
+  ChoicesToDisplay: 2
+  Choices:
+  - Text: Place something on the altar
+    SuccessChance: 0.977
+    _successText: Duplicate
+    SuccessOutcomeData:
+      Text: The runes on the altar begin to glow, and you swear you can see moss
+        and dirt recede into the rock. The altar emits a low hum, and for a brief
+        moment you see it restored to its former glory. Seconds later, the altar
+        shatters and the noise fades. In the pile of ruined stone, you find a massive
+        pile of gold.
+      Outcomes:
+      - Type: 12
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+      - Type: 1
+        _moneyDelta: 100
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+    FailureOutcomeData:
+      Text: A sudden explosion of light erupts from the crevices in the stone, igniting
+        the altar in a wreath of flames. You watch in horror as some unknown power
+        consumes your adventuring gear.
+      Outcomes:
+      - Type: 12
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+  - Text: Speak a short prayer.
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: 
+      Outcomes: []
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []

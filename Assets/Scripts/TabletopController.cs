@@ -72,12 +72,13 @@ public class TabletopController : MonoBehaviour
         _selectedCreatures.Add(selected);
     }
 
-    public void PlayIfValidTargets() {
+    public List<CreatureObject> GetSelectedTargets() {
+        return _selectedCreatures;
+    }
+
+    public bool CurrentCardHasValidTargets() {
         var types = _selectedCreatures.Select(x => x.GetType()).OrderBy(x => x.Name).ToList();
-        if (AreListsEqual(types, _targetSelectedCreatures)) {
-            MakeAllCreaturesUnselectable();
-            CardGameManager.i.DoCurrentCardFunction(_selectedCreatures);
-        }
+        return AreListsEqual(types, _targetSelectedCreatures);
     }
 
     public void RemoveFromSelectedTargets(CreatureObject selected) {
@@ -93,7 +94,7 @@ public class TabletopController : MonoBehaviour
         return allCreatures;
     }
 
-    private void MakeAllCreaturesUnselectable()
+    public void MakeAllCreaturesUnselectable()
     {
         var allCreatures = GetAllCreaturesList();
         foreach (var c in allCreatures) c.MakeUnselectable();

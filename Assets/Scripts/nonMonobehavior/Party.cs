@@ -38,9 +38,10 @@ public class Party
         Adventurers.Remove(adventuer);
     }
 
-    public void HealAllAdventurers()
+    public void HealAllAdventurers(float percent = -1)
     {
-        foreach (var stat in _statsDict.Values) stat.CurrentHealth = stat.MaxHealth;
+        if (percent == -1) percent = 1;
+        foreach (var stat in _statsDict.Values) stat.CurrentHealth += (int)(percent * stat.MaxHealth);
     }
 
     public AdventurerStats GetStats(AdventurerData adventurer) {
@@ -76,6 +77,12 @@ public class Party
             foreach (var e in equipmentList) if (e != null) list.Add(e); 
         }
         return list;
+    }
+
+    public EquipmentData GetEquippedEquipment() {
+        List<EquipmentData> res = GetAllEquippedItems();
+
+        return res[Random.Range(0, res.Count)];
     }
 
     public EquipmentData GetCurrentEquipment(AdventurerData adventurer, EquipmentSlot slot)
@@ -117,17 +124,45 @@ public class Party
         _statsDict = new Dictionary<AdventurerData, AdventurerStats>();
     }
 
+    public void DamageSingle(int amount) {
+        var stat = _statsDict.Values.ToList()[Random.Range(0, _statsDict.Values.Count)];
+        stat.CurrentHealth = Mathf.Max(1, stat.CurrentHealth - amount);
+    }
+
     public void DamageAll(int amount)
     {
         foreach (var stat in _statsDict.Values) stat.CurrentHealth = Mathf.Max(1, stat.CurrentHealth - amount);
     }
 
-    public void AddAdventurer(AdventurerData adventurer)
+    public void AddAdventurer(AdventurerData adventurer = null, int difficulty = -1)
     {
-        if (Adventurers.Contains(adventurer)) return;
+        if (!adventurer) {
+            if (difficulty == -1) {
+                difficulty = Constants.MAX_DIFFICULTY;
+            }
+
+            adventurer = AdventurerData.GetAdventurer(difficulty);
+            while (Adventurers.Contains(adventurer)) {
+                adventurer = AdventurerData.GetAdventurer(difficulty);
+            }
+        } else {
+            if (Adventurers.Contains(adventurer)) return;
+        }
+
         Adventurers.Add(adventurer);
         _equipmentDict.Add(adventurer, new List<EquipmentData>(){null, null, null});
         _statsDict.Add(adventurer, new AdventurerStats(adventurer.MaxHealth));
+    }
+
+    public void SwapAdventurer(AdventurerData oldAdventurer = null, AdventurerData newAdventurer = null, int difficulty = -1) {
+        if (difficulty == -1) difficulty = Constants.MAX_DIFFICULTY;
+
+        if (!newAdventurer) newAdventurer = AdventurerData.GetAdventurer(difficulty);
+        if (!oldAdventurer) oldAdventurer = Adventurers[Random.Range(0, Adventurers.Count)];
+
+        AdventurerData temp = oldAdventurer;
+        oldAdventurer = newAdventurer;
+        newAdventurer = temp;
     }
 
     public List<EquipmentData> GetEquipment(AdventurerData adventurer)
@@ -152,9 +187,11 @@ public class Party
     private int SlotToIndex(EquipmentSlot slot )
     {
         int index = -1;
+
         if (slot == EquipmentSlot.ORNAMENT) index = _ornamentIndex;
         if (slot == EquipmentSlot.ARMOR) index = _armorIndex;
         if (slot == EquipmentSlot.MAIN) index = _mainIndex;
         return index;
     }
+
 }

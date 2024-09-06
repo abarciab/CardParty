@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d779d4715048234dbbf2415be188cb0, type: 3}
+  m_Name: BrokenEquipment
+  m_EditorClassIdentifier: 
+  Title: BrokenEquipment
+  Prompt: After serving you faithfully for many battles, your weapons begin to lose
+    their edge. Tragically, after your last battle, a piece of your gear breaks.
+  Sprite: {fileID: 0}
+  ChoicesToDisplay: 1
+  Choices:
+  - Text: Unfortunate.
+    SuccessChance: 1
+    _successText: 
+    SuccessOutcomeData:
+      Text: Sighing, you vow to take better care of your equipment in the future.
+        You don't have much to work with, and every loss is felt.
+      Outcomes:
+      - Type: 12
+        _moneyDelta: 0
+        _equipment: {fileID: 0}
+        _newHire: {fileID: 0}
+        _damageAmount: 0
+        _numMapTiles: 0
+    FailureOutcomeData:
+      Text: 
+      Outcomes: []

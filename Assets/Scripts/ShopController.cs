@@ -91,10 +91,13 @@ public class ShopController : MonoBehaviour
 
     public void HireNewAdventurer()
     {
+        if (!CanBuy(_potentialNewHire)) return;
+
         PlayerInfo.Party.AddAdventurer(_potentialNewHire);
         _adventurerSectionParent.SetActive(false);
         HideNewHire();
         _currentShopData.AdventuerOptionUsed = true;
+        PlayerInfo.Stats.Money -= _potentialNewHire.Cost;
     }
 
     public void ShowHealthStats()
@@ -182,6 +185,8 @@ public class ShopController : MonoBehaviour
 
     public void BuyItem(ShopGridItem gridItem)
     {
+        if (!CanBuy(gridItem)) return;
+
         var toBuy = gridItem.EquipmentData;
         Destroy(gridItem.gameObject);
 
@@ -200,5 +205,13 @@ public class ShopController : MonoBehaviour
     public void CloseShop()
     {
         OverworldUIManager.i.CloseShop();
+    }
+
+    private bool CanBuy(ShopGridItem item) {
+        return PlayerInfo.Stats.Money > item.EquipmentData.Cost;
+    }
+
+    private bool CanBuy(AdventurerData adventurer) {
+        return PlayerInfo.Stats.Money > adventurer.Cost;
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 [RequireComponent(typeof(TileGridController))]
+[System.Serializable]
 public class TileGenerator : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _prefabTiles = new List<GameObject>();
@@ -45,6 +46,7 @@ public class TileGenerator : MonoBehaviour
     private void OnValidate()
     {
         CalculateActualFrequencies();
+        _tileInteractableOptions = _tileInteractableOptions;
     }
 
     private void CalculateActualFrequencies()
@@ -352,5 +354,9 @@ public class TileGenerator : MonoBehaviour
             return new string(charArray);
         }
         else return edge;
+    }
+
+    public void SetTileInteractableOptions(List<TileInteractableData> list) {
+        _tileInteractableOptions = list;
     }
 }

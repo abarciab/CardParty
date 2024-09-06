@@ -28,8 +28,18 @@ public class SpecialEventController : MonoBehaviour
         _currentChoices = ShuffleList(data.Choices);
 
         for (int i = 0; i < _choices.Count; i++) {
-            if (data.ChoicesToDisplay > i) _choices[i].Initialize(_currentChoices[i]);
-            else _choices[i].gameObject.SetActive(false);
+            if (data.ChoicesToDisplay > i) {
+                _choices[i].Initialize(_currentChoices[i]);
+
+                if (_choices[i].Outcomes.Exists(x => x.Type == EventOutcomeType.MONEY && PlayerInfo.Stats.Money + x.MoneyDelta < 0)
+                || _choices[i].Outcomes.Exists(x => x.Type == EventOutcomeType.ADVENTURER_HIRE) && PlayerInfo.Party.Adventurers.Count == 3
+                || _choices[i].Outcomes.Exists(x => x.Type == EventOutcomeType.EQUIPMENT_DESTROY) && PlayerInfo.Party.GetAllEquippedItems().Count + PlayerInfo.Inventory.Equipments.Count < 1) {
+                    _choices[i].DisableChoice();
+                }
+            }
+            else {
+                _choices[i].gameObject.SetActive(false);
+            }
         }
     }
 
@@ -48,11 +58,18 @@ public class SpecialEventController : MonoBehaviour
     public void SelectChoice(int index)
     {
         var selectedChoice = _currentChoices[index];
+
+        foreach (SpecialEventChoice c in _choices) {
+            if (c.Data == selectedChoice) {
+                if (!c.IsEnabled) return;
+            }
+        }
+
         bool succeeded = Random.Range(0, 1f) < selectedChoice.SuccessChance;
 
-        _decidedOutcomes = succeeded ? selectedChoice.SucessOutcomes : selectedChoice.FailureOutcomes;
+        _decidedOutcomes = succeeded ? selectedChoice.SuccessOutcomeData.Outcomes : selectedChoice.FailureOutcomeData.Outcomes;
         _titleText.text = succeeded ? "Success" : "Failure";
-        _promptText.text = succeeded ? selectedChoice.SuccessText : selectedChoice.FailText;
+        _promptText.text = succeeded ? selectedChoice.SuccessOutcomeData.Text : selectedChoice.FailureOutcomeData.Text;
         foreach (var b in _choices) b.gameObject.SetActive(false);
         _continueButton.SetActive(true);
     }

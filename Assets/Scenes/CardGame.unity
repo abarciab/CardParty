@@ -4247,6 +4247,7 @@ MonoBehaviour:
   _movesText: {fileID: 2688219523265403250}
   _descriptionText: {fileID: 8532570294381072406}
   _itemText: {fileID: 6225130634273086146}
+  _apCost: {fileID: 0}
   _canBeClicked: 0
   _seletable: {fileID: 4646187867828177558}
 --- !u!114 &5166396090613749426
@@ -5645,6 +5646,7 @@ MonoBehaviour:
   _movesText: {fileID: 1575057832259953300}
   _descriptionText: {fileID: 5114968571066084336}
   _itemText: {fileID: 7417948644176027940}
+  _apCost: {fileID: 0}
   _canBeClicked: 0
   _seletable: {fileID: 8137811660341309808}
 --- !u!1 &8640244458452112185

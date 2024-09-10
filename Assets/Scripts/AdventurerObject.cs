@@ -117,6 +117,9 @@ public class AdventurerObject : CreatureObject
     {
         AdventurerData = data;
         gameObject.name = data.name;
+        _maxHealth = data.MaxHealth;
+        _health = PlayerInfo.Party.GetStats(data).CurrentHealth;
+
         UI.Initialize(this);
         UI.UpdateHealth(_health / _maxHealth);
         UI.UpdateBlock(_block / _maxBlock);

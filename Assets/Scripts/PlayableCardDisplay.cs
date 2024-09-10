@@ -13,6 +13,7 @@ public class PlayableCardDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _movesText;
     [SerializeField] private TextMeshProUGUI _descriptionText;
     [SerializeField] private TextMeshProUGUI _itemText;
+    [SerializeField] private TextMeshProUGUI _apCost;
     [SerializeField] private bool _canBeClicked;
     [SerializeField, ConditionalField(nameof(_canBeClicked))] private SelectableItem _seletable;
 
@@ -30,6 +31,8 @@ public class PlayableCardDisplay : MonoBehaviour
         _movesText.text = card.GetMoveData();
         _descriptionText.text = card.Description;
         _itemText.text = equipmentName;
+        _apCost.text = card.CardData.Cost.ToString();
+
         gameObject.SetActive(true);
     }
 

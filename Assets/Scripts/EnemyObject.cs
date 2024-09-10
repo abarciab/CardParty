@@ -46,6 +46,8 @@ public class EnemyObject : CreatureObject
         }
 
         UI.Initialize(this);
+        UI.UpdateBlock(_block / _maxBlock);
+        UI.UpdateHealth(_health / _maxHealth);
     }
 
     public async Task TakeAction() {
@@ -57,7 +59,7 @@ public class EnemyObject : CreatureObject
                     if (AttackArrow.BlockSlot.Creature) target = (AdventurerObject)AttackArrow.BlockSlot.Creature;
 
                     await Utilities.LerpToAndBack(gameObject, target.transform.position);
-                    target.TakeDamage(_actionData[EnemyActionType.Attack].Amount[0] + GetBonusDamage());
+                    target.TakeDamage((int) _actionData[EnemyActionType.Attack].Amount[0] + GetBonusDamage());
                 } else if (type == EnemyActionType.Block) {
                     AddBlock(_actionData[EnemyActionType.Block].Amount[0]);
                 } else if (type == EnemyActionType.Wait) {
@@ -85,7 +87,7 @@ public class EnemyObject : CreatureObject
 
                 uiMan.LogMove(_data.Name + " attacked " + target.GetName() + " for " + _actionData[EnemyActionType.Attack].Amount[0] + " damage");
                 await Utilities.LerpToAndBack(gameObject, target.transform.position);
-                target.TakeDamage(_actionData[EnemyActionType.Attack].Amount[0]);
+                target.TakeDamage((int) _actionData[EnemyActionType.Attack].Amount[0]);
 
             }
             else if (type == EnemyActionType.Block) {

@@ -20,7 +20,7 @@ MonoBehaviour:
   ActionData:
   - ActionType: 1
     Amount:
-    - 5
+    - 12
     StatusEffectData: {fileID: 0}
   - ActionType: 2
     Amount:

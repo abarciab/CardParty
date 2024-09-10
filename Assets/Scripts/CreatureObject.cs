@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEditor;
-using UnityEngine.EventSystems;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
@@ -37,8 +34,8 @@ public abstract class CreatureObject : MonoBehaviour
     public bool IsDead => _health <= 0;
     public void SetWiggle(bool state) => Animator.SetBool(_animWiggleBoolString, state);
 
-    public float GetHealth() => _health;
-    public float GetBlock() => _block;
+    public int Health => _health;
+    public int Block => _block;
 
     private void OnValidate()
     {
@@ -91,18 +88,17 @@ public abstract class CreatureObject : MonoBehaviour
         _health = _maxHealth;
     }
 
-    public virtual void TakeDamage(float damage) {
-        _block -= Mathf.RoundToInt(damage);
-
-        OnBlockPercentChanged.Invoke(_block / (float)_maxBlock);
-
-        if (_block < 0) {
-            _health += _block;
-            _block = 0;
+    public virtual void TakeDamage(int damage) {
+        if (_block > 0) {
+            var blockDamage = Mathf.Min(_block, damage);
+            _block -= blockDamage;
+            if (blockDamage > 0) OnBlockPercentChanged.Invoke(_block / (float)_maxBlock);
+            damage -= blockDamage;
         }
+        if (damage == 0) return;
 
+        _health -= damage;
         OnHealthPercentChanged.Invoke(_health / (float) _maxHealth);
-
         if (_health <= 0) Die();
     }
 

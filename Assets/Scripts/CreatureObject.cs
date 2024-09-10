@@ -37,6 +37,9 @@ public abstract class CreatureObject : MonoBehaviour
     public bool IsDead => _health <= 0;
     public void SetWiggle(bool state) => Animator.SetBool(_animWiggleBoolString, state);
 
+    public float GetHealth() => _health;
+    public float GetBlock() => _block;
+
     private void OnValidate()
     {
         _health = _maxHealth;
@@ -46,6 +49,7 @@ public abstract class CreatureObject : MonoBehaviour
     private void Start()
     {
         _gameRunning = true;
+        UI.SetLabelVisible(false);
     }
 
     public abstract string GetName();
@@ -65,13 +69,17 @@ public abstract class CreatureObject : MonoBehaviour
         return gameObject.name;
     }
 
-    public void OnPointerEnter() {
+    public void OnPointerEnter()
+    {
+        UI.SetLabelVisible(true);
         if (!_isSelectable) return;
 
         Controller.AddToSelectedTargets(this);
     }
 
-    public void OnPointerExit() {
+    public void OnPointerExit()
+    {
+        UI.SetLabelVisible(false);
         if (!_isSelectable) return;
 
         Controller.RemoveFromSelectedTargets(this);

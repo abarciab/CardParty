@@ -9,24 +9,35 @@ public class CreatureObjectUIController : MonoBehaviour
     [SerializeField] private Slider _hpSlider;
     [SerializeField] private Slider _blockSlider;
     [SerializeField] private TextMeshProUGUI _nameText;
+    [SerializeField] private TextMeshProUGUI _hpText;
+    [SerializeField] private TextMeshProUGUI _blockText;
+    [SerializeField] private GameObject _labelParent;
+
     private CreatureObject _creatureObj;
+
+    public void SetLabelVisible(bool visible) => _labelParent.SetActive(visible);
 
     public void Initialize(CreatureObject creatureObj)
     {
         _creatureObj = creatureObj;
 
-        _hpSlider.value = 1;
+        _hpSlider.value = 0.5f;
         _blockSlider.value = 0;
-        _creatureObj.OnHealthPercentChanged.AddListener((float newValue) => _hpSlider.value = newValue);
-        _creatureObj.OnBlockPercentChanged.AddListener((float newValue) => _blockSlider.value = newValue);
-        _blockSlider.onValueChanged.AddListener((float value) => UpdateVisuals());
-        _nameText.text = creatureObj.GetName();
+        _creatureObj.OnHealthPercentChanged.AddListener(UpdateHealth);
+        _creatureObj.OnBlockPercentChanged.AddListener(UpdateBlock);
 
-        UpdateVisuals();
+        _nameText.text = creatureObj.GetName();
     }
 
-    public void UpdateVisuals()
+    public void UpdateHealth(float percent)
     {
-        _blockSlider.gameObject.SetActive(_blockSlider.value > 0);
+        _hpSlider.value = percent * 0.5f;
+        _hpText.text = _creatureObj.GetHealth().ToString();
+    }
+
+    public void UpdateBlock(float percent)
+    {
+        _blockSlider.value = percent * 0.5f;
+        _blockText.text = _creatureObj.GetBlock().ToString();
     }
 }

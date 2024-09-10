@@ -219,4 +219,5 @@ public class EnemyObject : CreatureObject
         Controller.RemoveAttackArrow(AttackArrow);
         base.Die();
     }
+
 }

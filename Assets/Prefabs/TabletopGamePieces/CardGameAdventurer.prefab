@@ -411,22 +411,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
-    - target: {fileID: 2352594888030463812, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352594888030463812, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352594888030463812, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352594888030463812, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5609144415430926911, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

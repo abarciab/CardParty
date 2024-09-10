@@ -68,7 +68,7 @@ public class AdventurerObject : CreatureObject
                     direction.y = 0; 
 
                     Quaternion rotation = Quaternion.LookRotation(direction);
-                    transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
+                    _model.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
                 }
             }
         }
@@ -90,7 +90,7 @@ public class AdventurerObject : CreatureObject
 
         Quaternion rotation = Quaternion.LookRotation(direction);
         var targetRot = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, 3 * Time.deltaTime);
+        _model.rotation = Quaternion.Lerp(_model.rotation, targetRot, 3 * Time.deltaTime);
     }
 
     public override string GetName() {
@@ -118,6 +118,8 @@ public class AdventurerObject : CreatureObject
         AdventurerData = data;
         gameObject.name = data.name;
         UI.Initialize(this);
+        UI.UpdateHealth(_health / _maxHealth);
+        UI.UpdateBlock(_block / _maxBlock);
     }
 
     private bool IsHover() {

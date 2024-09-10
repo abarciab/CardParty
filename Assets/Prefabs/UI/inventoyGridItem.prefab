@@ -392,6 +392,7 @@ MonoBehaviour:
   _deselectOnExit: 1
   _hasHoverCooldown: 1
   _hoverCooldown: 0.05
+  _deselectOnStart: 1
   _data:
   - Name: backing
     _type: 0
@@ -405,6 +406,11 @@ MonoBehaviour:
     _hoveredState: 0
     _selectedState: 1
     _disabledState: 0
+    _group: {fileID: 0}
+    _normalAlpha: 0.3
+    _hoveredAlpha: 0.6
+    _selectedAlpha: 1
+    _disabledAlpha: 0.2
   - Name: actualName
     _type: 1
     _target: {fileID: 8200098224477108564}
@@ -417,6 +423,11 @@ MonoBehaviour:
     _hoveredState: 1
     _selectedState: 0
     _disabledState: 0
+    _group: {fileID: 0}
+    _normalAlpha: 0.3
+    _hoveredAlpha: 0.6
+    _selectedAlpha: 1
+    _disabledAlpha: 0.2
   - Name: previewName
     _type: 1
     _target: {fileID: 8200098224477108564}
@@ -429,6 +440,11 @@ MonoBehaviour:
     _hoveredState: 0
     _selectedState: 0
     _disabledState: 0
+    _group: {fileID: 0}
+    _normalAlpha: 0.3
+    _hoveredAlpha: 0.6
+    _selectedAlpha: 1
+    _disabledAlpha: 0.2
   _hasAnimation: 0
   _animator: {fileID: 0}
   _animationBool: Selected
@@ -452,10 +468,39 @@ MonoBehaviour:
         m_CallState: 2
   OnHover:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5900245981539716143}
+        m_TargetAssemblyTypeName: InventoryGridItem, Assembly-CSharp
+        m_MethodName: SetHover
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  OnEndHover:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5900245981539716143}
+        m_TargetAssemblyTypeName: InventoryGridItem, Assembly-CSharp
+        m_MethodName: SetHover
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDeselect:
     m_PersistentCalls:
       m_Calls: []
+  _printSelections: 0
+  _disabled: 0
 --- !u!222 &7057567572835261055
 CanvasRenderer:
   m_ObjectHideFlags: 0

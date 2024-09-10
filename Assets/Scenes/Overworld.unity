@@ -607,7 +607,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97b42e1d0a1f9134a8eea6a44a4403ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _testItemSet: []
+  _testItemSet:
+  - {fileID: 11400000, guid: 397fc3c58a447f744ab3dcb15ee0eb8c, type: 2}
+  - {fileID: 11400000, guid: 3e7677b9a519b3540920f4eeeb5f3c51, type: 2}
+  - {fileID: 11400000, guid: 489ece16e8095e943ae761be2add392d, type: 2}
   _testAdventurerList:
   - {fileID: 11400000, guid: 18abc88bd85dee948b189dd72b0de879, type: 2}
   _testEquipmentLoad: []

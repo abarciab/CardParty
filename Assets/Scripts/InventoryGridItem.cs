@@ -30,10 +30,10 @@ public class InventoryGridItem : MonoBehaviour
         _previewName.text = data.Name;
     }
 
-    private void Update()
+    public void SetHover(bool state)
     {
         var pos = transform.GetChild(0).localPosition;
-        pos.y = _startY + (_selector.Hovered ? _hoverJumpAmount : 0);
+        pos.y = _startY + (state ? _hoverJumpAmount : 0);
         transform.GetChild(0).localPosition = pos;
     }
 

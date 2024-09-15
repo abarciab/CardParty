@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 1197665058536048134}
   - component: {fileID: 1025920162282986656}
   - component: {fileID: 2414325570721934687}
+  - component: {fileID: 4205541818857944414}
   m_Layer: 0
   m_Name: creatureObjectUI
   m_TagString: Untagged
@@ -318,7 +319,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.81438, y: 0.81438, z: 0.81438}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6427867763915231902}
   - {fileID: 6221957452041060844}
@@ -413,6 +414,27 @@ MonoBehaviour:
   _updateTime: 0.5
   _hpCopySlider: {fileID: 3847852212822776859}
   _blockCopySlider: {fileID: 3007913130335917856}
+--- !u!95 &4205541818857944414
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060642872838605556}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2f322754e56a346459848ff4e98a5b99, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2626872441589101321
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,15 +577,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 115
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 719fc92c72dc8234cbaa56f46021431e, type: 2}
-  m_sharedMaterial: {fileID: -8042199609749969611, guid: 719fc92c72dc8234cbaa56f46021431e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a942f3548288d2d4598fb88eee9acbbc, type: 2}
+  m_sharedMaterial: {fileID: 8872127942831658900, guid: a942f3548288d2d4598fb88eee9acbbc, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4287027596
-  m_fontColor: {r: 0.5491363, g: 0.8490566, b: 0.5246529, a: 1}
+    rgba: 2995181964
+  m_fontColor: {r: 0.5491363, g: 0.8490566, b: 0.5246529, a: 0.69803923}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -580,13 +602,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 1.65
+  m_fontSize: 1.5
   m_fontSizeBase: 2
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 1.5
   m_fontSizeMax: 18
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -764,15 +786,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 89
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 719fc92c72dc8234cbaa56f46021431e, type: 2}
-  m_sharedMaterial: {fileID: -8042199609749969611, guid: 719fc92c72dc8234cbaa56f46021431e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a942f3548288d2d4598fb88eee9acbbc, type: 2}
+  m_sharedMaterial: {fileID: 8872127942831658900, guid: a942f3548288d2d4598fb88eee9acbbc, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4290689177
-  m_fontColor: {r: 0.60114807, g: 0.7222214, b: 0.745283, a: 1}
+    rgba: 2998843545
+  m_fontColor: {r: 0.60114807, g: 0.7222214, b: 0.745283, a: 0.69803923}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -789,13 +811,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 1.2
+  m_fontSize: 1.05
   m_fontSizeBase: 1.8
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 1
   m_fontSizeMax: 1.8
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

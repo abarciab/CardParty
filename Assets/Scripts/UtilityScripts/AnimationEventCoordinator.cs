@@ -7,6 +7,7 @@ public class AnimationEventCoordinator : MonoBehaviour
 {
     [SerializeField] private List<UnityEvent> _events = new List<UnityEvent>();
     [SerializeField] private List<Sound> _sounds = new List<Sound>();
+    [SerializeField] private GameObject _other;
 
     private void Start()
     {
@@ -15,6 +16,7 @@ public class AnimationEventCoordinator : MonoBehaviour
         }
     }
 
+    public void SetOtherActive() => _other?.SetActive(true);
     public void Disable() => gameObject.SetActive(false);
     public void Destroy() => Destroy(gameObject);
     public void TriggerEvent1() => TEvent(0);

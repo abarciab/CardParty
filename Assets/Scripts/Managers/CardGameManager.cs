@@ -216,8 +216,6 @@ public class CardGameManager : GameManager
 
         if (doesAttack) {
             ui.LogMove(ownerName + " attacked " + targetName + " for " + attackDamage + " damage");
-            print(playData);
-            print(currTarget);
             await Utilities.LerpToAndBack(playData.Owner.gameObject, currTarget.transform.position);
             currTarget.TakeDamage(attackDamage);
 

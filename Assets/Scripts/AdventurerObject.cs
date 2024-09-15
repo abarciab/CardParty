@@ -11,6 +11,7 @@ public class AdventurerObject : CreatureObject
     [Header("Sounds")]
     [SerializeField] private Sound _startDragSound;
     [SerializeField] private Sound _endDragSound;
+    [SerializeField] private Sound _lockedSound;
 
     [Header("Adventurer Animation")]
     [SerializeField] private string _animPlaceTriggerString = "place";
@@ -23,6 +24,8 @@ public class AdventurerObject : CreatureObject
     {
         _startDragSound = Instantiate(_startDragSound);
         _endDragSound = Instantiate(_endDragSound);
+        _lockedSound = Instantiate(_lockedSound);
+
         CardGameManager.i.OnStartPlayerTurn.AddListener(() => _facingMouse = true);
         CardGameManager.i.OnEndPlayerTurn.AddListener(OnEndTurn);
     }
@@ -45,35 +48,29 @@ public class AdventurerObject : CreatureObject
         transform.localRotation = Quaternion.identity;
     }
 
-    private void Update() {
+    private void Update()
+    {
+        if (CardGameManager.i.CurrCombatState != CombatState.PlayerTurn) return;
         if (_facingMouse) FaceMouse();
 
-        if (Input.GetMouseButtonDown(0)) {
-            if (CardGameManager.i.CurrCombatState == CombatState.PlayerTurn && !CardGameManager.i.CurrentPlayedCard && IsHover()) {
-                StartDrag();
-            }
+        if (CanBeDragged()) StartDrag();
+        if (_isBeingDragged) {
+            if (Input.GetMouseButtonUp(0)) EndDrag();
+            else DragPiece();
+        }
+    }
+
+    private bool CanBeDragged()
+    {
+        if (!Input.GetMouseButtonDown(0)) return false;
+        if (CardGameManager.i.CurrentPlayedCard) return false;
+        if (!IsHovered()) return false;
+        if (CombatSlot.IsLocked) {
+            _lockedSound.Play();
+            return false;
         }
 
-        if (Input.GetMouseButtonUp(0) && _isBeingDragged) {
-            CombatSlot slot = GetHoveredCombatSlot();
-            
-            EndDrag();
-            
-            if (slot) {
-                slot.SetCreature(this);
-                if (slot.IsBlockSlot) {
-                    _facingMouse = false;
-
-                    Vector3 direction = slot.EnemyObject.transform.position - transform.position;
-                    direction.y = 0; 
-
-                    Quaternion rotation = Quaternion.LookRotation(direction);
-                    _model.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
-                }
-            }
-        }
-
-        if (_isBeingDragged) DoDrag(); 
+        return true;
     }
 
     private void FaceMouse()
@@ -86,7 +83,7 @@ public class AdventurerObject : CreatureObject
 
         Vector3 hitPoint = ray.GetPoint(distance);
         Vector3 direction = hitPoint - transform.position;
-        direction.y = 0; // Keep direction on the Y axis
+        direction.y = 0; 
 
         Quaternion rotation = Quaternion.LookRotation(direction);
         var targetRot = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
@@ -97,7 +94,7 @@ public class AdventurerObject : CreatureObject
         return AdventurerData.Name;
     }
 
-    private void DoDrag()
+    private void DragPiece()
     {
         var pos = GetMouseRayPoint();
         transform.position = new Vector3(pos.x, 2, pos.z);
@@ -121,11 +118,11 @@ public class AdventurerObject : CreatureObject
         _health = PlayerInfo.Party.GetStats(data).CurrentHealth;
 
         UI.Initialize(this);
-        UI.UpdateHealth(_health / _maxHealth);
-        UI.UpdateBlock(_block / _maxBlock);
+        UpdateUI(false);
     }
 
-    private bool IsHover() {
+
+    private bool IsHovered() {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit[] hits;
         hits = Physics.RaycastAll(ray, 100);
@@ -153,11 +150,26 @@ public class AdventurerObject : CreatureObject
         _facingMouse = true;
     }
 
-    private void EndDrag() {
+    private void EndDrag()
+    {
+        CombatSlot slot = GetHoveredCombatSlot();
         Animator.SetTrigger(_animPlaceTriggerString);
         _isBeingDragged = false;
         transform.localPosition = Vector3.zero;
-        _endDragSound.Play();
+        _endDragSound.Play(); 
+        
+        if (slot) {
+            slot.SetCreature(this);
+            if (slot.IsBlockSlot) {
+                _facingMouse = false;
+
+                Vector3 direction = slot.EnemyObject.transform.position - transform.position;
+                direction.y = 0;
+
+                Quaternion rotation = Quaternion.LookRotation(direction);
+                _model.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
+            }
+        }
     }
 
     public override void RemoveBlock() {

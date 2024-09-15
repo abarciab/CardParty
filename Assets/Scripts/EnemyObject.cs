@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
@@ -14,6 +12,8 @@ public enum EnemyActionType {None, Attack, Block, Wait, Status, BuffAllies}
 public class EnemyAction {
     public List<EnemyActionType> Actions;
     public CombatSlot TargetSlot;
+    public bool needsArrow => TargetSlot && (Actions[0] == EnemyActionType.Attack || Actions[0] == EnemyActionType.Status);
+
     public EnemyAction(List<EnemyActionType> newActions, CombatSlot newTargetSlot) {
         Actions = newActions;
         TargetSlot = newTargetSlot;
@@ -29,11 +29,24 @@ public class EnemyObject : CreatureObject
     public EnemyType EnemyType;
     private EnemyAction _nextAction;
     [SerializeField] private GameObject _attackArrowPrefab;
-    public AttackArrow AttackArrow;
+    public AttackArrow attackArrow;
     private float _attackDamage;
     private float _blockAmount;
     private Dictionary<EnemyActionType, EnemyActionData> _actionData = new Dictionary<EnemyActionType, EnemyActionData>();
     private EnemyData _data;
+
+    [SerializeField] private Sound _attackSound;
+
+    public CombatSlot SpawnBlockSlot(Vector3 pos) => Controller.SpawnBlockSlot(pos, this);
+    public override string GetName() => _data.Name;
+
+    private CardGameManager _gMan => CardGameManager.i;
+
+    protected override void Start()
+    {
+        base.Start();
+        _attackSound = Instantiate(_attackSound);
+    }
 
     public void Initialize(EnemyData data) {
         _maxHealth = data.MaxHealth;
@@ -46,73 +59,36 @@ public class EnemyObject : CreatureObject
         }
 
         UI.Initialize(this);
-        UI.UpdateBlock(_block / _maxBlock);
-        UI.UpdateHealth(_health / _maxHealth);
+        UpdateUI(false);
     }
 
     public async Task TakeAction() {
-        AdventurerObject target = (AdventurerObject)_nextAction.TargetSlot.Creature;
-        if (!(_isStunned || _nextAction.Actions[0] == EnemyActionType.None || target == null)) {
+        AdventurerObject target = _nextAction.needsArrow ? attackArrow.TargetAdventurer : null;
+        if (_isStunned || _nextAction.Actions[0] == EnemyActionType.None) return;
 
-            foreach(EnemyActionType type in _nextAction.Actions) {
-                if (type == EnemyActionType.Attack) {
-                    if (AttackArrow.BlockSlot.Creature) target = (AdventurerObject)AttackArrow.BlockSlot.Creature;
-
-                    await Utilities.LerpToAndBack(gameObject, target.transform.position);
-                    target.TakeDamage((int) _actionData[EnemyActionType.Attack].Amount[0] + GetBonusDamage());
-                } else if (type == EnemyActionType.Block) {
-                    AddBlock(_actionData[EnemyActionType.Block].Amount[0]);
-                } else if (type == EnemyActionType.Wait) {
-                    //pass
-                } else if (type == EnemyActionType.Status) {
-                    target.AddStatusEffect(_actionData[EnemyActionType.Status].StatusEffectData);
-                } else if (type == EnemyActionType.BuffAllies) {
-                    foreach(EnemyObject enemy in CardGameManager.i.GetEnemies()) {
-                        enemy.AddStatusEffect(_actionData[EnemyActionType.BuffAllies].StatusEffectData);
-                    }
-                }
-            }
-        }
-
-        Controller.RemoveAttackArrow(AttackArrow);
+        foreach (EnemyActionType type in _nextAction.Actions) await EvaluateAction(type, target);
+        Controller.RemoveAttackArrow(attackArrow);
     }
 
-    private async Task EvaluateAction(AdventurerObject target)
+    private async Task EvaluateAction(EnemyActionType action, AdventurerObject target)
     {
-        var uiMan = CardGameUIManager.i;
-
-        foreach (EnemyActionType type in _nextAction.Actions) {
-            if (type == EnemyActionType.Attack) {
-                if (AttackArrow.BlockSlot.Creature) target = (AdventurerObject)AttackArrow.BlockSlot.Creature;
-
-                uiMan.LogMove(_data.Name + " attacked " + target.GetName() + " for " + _actionData[EnemyActionType.Attack].Amount[0] + " damage");
-                await Utilities.LerpToAndBack(gameObject, target.transform.position);
-                target.TakeDamage((int) _actionData[EnemyActionType.Attack].Amount[0]);
-
-            }
-            else if (type == EnemyActionType.Block) {
-                uiMan.LogMove(_data.Name + " gained " + _actionData[EnemyActionType.Block].Amount[0] + " block");
-                AddBlock(_actionData[EnemyActionType.Block].Amount[0]);
-            }
-            else if (type == EnemyActionType.Status) {
-                uiMan.LogMove(_data.Name + " inflicted " + _actionData[EnemyActionType.Status].StatusEffectData.Name + " on " + target.GetName());
-                target.AddStatusEffect(_actionData[EnemyActionType.Status].StatusEffectData);
-            }
-            else if (type == EnemyActionType.BuffAllies) {
-                uiMan.LogMove(_data.Name + " buffed their allies");
-                foreach (EnemyObject enemy in CardGameManager.i.GetEnemies()) {
-                    enemy.AddStatusEffect(_actionData[EnemyActionType.Status].StatusEffectData);
-                }
-            }
-        }
+        if (action == EnemyActionType.Block) AddBlock(_actionData[EnemyActionType.Block].Amount[0]);
+        if (action == EnemyActionType.Status) target.AddStatusEffect(_actionData[EnemyActionType.Status].StatusEffectData);
+        if (action == EnemyActionType.Attack) await AttackTarget(attackArrow.TargetAdventurer);
+        if (action == EnemyActionType.BuffAllies) foreach (var e in _gMan.GetEnemies()) e.AddStatusEffect(_actionData[EnemyActionType.BuffAllies].StatusEffectData);
     }
 
-    public override string GetName() {
-        return _data.Name;
+    private async Task AttackTarget(AdventurerObject target)
+    {
+        if (target == null) return;
+        _attackSound.Play();
+        await Utilities.LerpToAndBack(gameObject, target.transform.position);
+        target.TakeDamage((int)_actionData[EnemyActionType.Attack].Amount[0] + GetBonusDamage());
     }
 
     public void ShowIntent() {
         _nextAction = GetAction();
+        //if (_nextAction.TargetSlot) _nextAction.TargetSlot.IsLocked = true;
         UpdateVisuals();
     }
 
@@ -172,14 +148,12 @@ public class EnemyObject : CreatureObject
 
     public void UpdateVisuals()
     {
-        RotateToFaceTarget();
-        DrawArrow();
+        if (_nextAction.TargetSlot) RotateToFaceTarget();
+        if (_nextAction.needsArrow)DrawArrow();
     }
 
     private void RotateToFaceTarget()
     {
-        if (!_nextAction.TargetSlot) return;
-
         var euler = _model.localEulerAngles;
         _model.LookAt(_nextAction.TargetSlot.transform.position);
         euler.y = _model.localEulerAngles.y;
@@ -187,27 +161,8 @@ public class EnemyObject : CreatureObject
     }
 
     private void DrawArrow() {
-        if (!_nextAction.TargetSlot) return;
-
-        if (!(new EnemyActionType[]{EnemyActionType.Attack, EnemyActionType.Status}.Contains(_nextAction.Actions[0]))) return;
-
-        var arrowStart = transform.position;
-        var arrowEnd = _nextAction.TargetSlot.transform.position;
-
-        if (!AttackArrow) CreateAttackArrow(arrowStart, arrowEnd);
-        AttackArrow.Initialize(arrowStart, arrowEnd);
-    }
-
-    private void CreateAttackArrow(Vector3 start, Vector3 end)
-    {
-        AttackArrow = Instantiate(_attackArrowPrefab, transform.parent).GetComponent<AttackArrow>();
-
-        var blockPos = Vector3.Lerp(start, end, 0.5f);
-        CombatSlot newCombatSlot = Controller.SpawnBlockSlot(blockPos, this);
-
-        newCombatSlot.AttackArrow = AttackArrow;
-        AttackArrow.BlockSlot = newCombatSlot;
-        AttackArrow.Owner = this;
+        if (!attackArrow) attackArrow = Instantiate(_attackArrowPrefab, transform.parent).GetComponent<AttackArrow>();
+        attackArrow.Initialize(this, _nextAction.TargetSlot, (int)_actionData[EnemyActionType.Attack].Amount[0] + GetBonusDamage());
     }
 
     public void SetTargetSlot(CombatSlot newTarget)
@@ -218,7 +173,7 @@ public class EnemyObject : CreatureObject
 
     public override void Die()
     {
-        Controller.RemoveAttackArrow(AttackArrow);
+        Controller.RemoveAttackArrow(attackArrow);
         base.Die();
     }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +24,12 @@ public class CreatureObjectUIController : MonoBehaviour
     private int _currentHealthValue;
     private int _currentBlockValue;
 
+    private void OnEnable()
+    {
+        UpdateHealth(_creatureObj.HealthPercent);
+        UpdateBlock(_creatureObj.BlockPercent);
+    }
+
     public void Initialize(CreatureObject creatureObj)
     {
         _creatureObj = creatureObj;
@@ -38,15 +45,14 @@ public class CreatureObjectUIController : MonoBehaviour
     public void UpdateHealth(float percent)
     {
         var health = _creatureObj.Health;
-        StartCoroutine(UpdateVisuals(_hpText, _currentHealthValue, health, _hpSlider, percent * 0.5f, _hpCopySlider));
+        if (gameObject.activeInHierarchy) StartCoroutine(UpdateVisuals(_hpText, _currentHealthValue, health, _hpSlider, percent * 0.5f, _hpCopySlider));
         _currentHealthValue = health;
     }
 
     public void UpdateBlock(float percent)
     {
-        //_blockSlider.value = percent * 0.5f;
         var block = _creatureObj.Block;
-        StartCoroutine(UpdateVisuals(_blockText, _currentBlockValue, block, _blockSlider, percent * 0.5f, _blockCopySlider)) ;
+        if (gameObject.activeInHierarchy) StartCoroutine(UpdateVisuals(_blockText, _currentBlockValue, block, _blockSlider, percent * 0.5f, _blockCopySlider)) ;
         _currentBlockValue = block;
     }
 

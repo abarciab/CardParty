@@ -577,6 +577,7 @@ MonoBehaviour:
   _testParty:
   - {fileID: 11400000, guid: 18abc88bd85dee948b189dd72b0de879, type: 2}
   - {fileID: 11400000, guid: b306f28b654a99c4e9489f5e981453f2, type: 2}
+  - {fileID: 11400000, guid: c966d071a36a69046b98aa1f1d4a9096, type: 2}
   TestCombat: {fileID: 11400000, guid: 6c88b8bf8adddfd4bb984b13f5d81fbb, type: 2}
   _testEquipmentLoad: []
   _testDamage: 0
@@ -788,6 +789,8 @@ MonoBehaviour:
   _leftEnemyLimit: {fileID: 1904113426}
   _rightEnemyLimit: {fileID: 1394376998}
   _combatSlotPrefab: {fileID: 4769872348960886797, guid: 1c4f840b90ab4114d8877a8aa5d6a339, type: 3}
+  _enemyDelay: 0
+  _pieceDelay: 0.1
   _adventurerObjs: []
   _enemyObjs: []
   _blockCombatSlots: []

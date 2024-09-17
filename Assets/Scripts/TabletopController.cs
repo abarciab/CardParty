@@ -23,6 +23,11 @@ public class TabletopController : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject _combatSlotPrefab;
 
+    [Header("timing")]
+    [SerializeField] private float _enemyDelay = 1.5f;
+    [SerializeField] private float _pieceDelay = 0.5f;
+
+
     [SerializeField, ReadOnly] private List<AdventurerObject> _adventurerObjs = new List<AdventurerObject>();
     [SerializeField, ReadOnly] private List<EnemyObject> _enemyObjs = new List<EnemyObject>();
     private List<CombatSlot> _adventurerCombatSlots = new List<CombatSlot>();
@@ -68,7 +73,6 @@ public class TabletopController : MonoBehaviour
     public void AddToSelectedTargets(CreatureObject selected)
     {
         if (_selectedCreatures.Contains(selected)) return;
-
         _selectedCreatures.Add(selected);
     }
 
@@ -132,29 +136,8 @@ public class TabletopController : MonoBehaviour
         return null;
     }
 
-    public void ClearBlockSlot(CombatSlot blockSlot)
-    {
-        if (!blockSlot.Creature) return;
-        var emptyslot = GetRandomEmptyAdventurerSlot();
-        emptyslot.SetCreature(blockSlot.Creature);
-    }
-
-    public void UpdateAttackArrows(CombatSlot blockSlot)
-    {
-        if (blockSlot.Creature) {
-            blockSlot.AttackArrow.Initialize(blockSlot.AttackArrow.Owner.transform.position, blockSlot.transform.position);
-        }
-        else {
-            blockSlot.AttackArrow.Initialize(blockSlot.AttackArrow.Owner.transform.position, blockSlot.AttackArrow.Owner.GetTarget().transform.position);
-        }
-    }
-
     public void RemoveAttackArrow(AttackArrow arrow) {
-        if (arrow == null) return;
-        _blockCombatSlots.Remove(arrow.BlockSlot);
-        ClearBlockSlot(arrow.BlockSlot);
-        if (arrow.BlockSlot) Destroy(arrow.BlockSlot.gameObject);
-        Destroy(arrow.gameObject);
+        if (arrow) Destroy(arrow.gameObject);
     }
 
     public async Task TakeEnemyActions(int TURN_WAIT_TIME)
@@ -167,27 +150,51 @@ public class TabletopController : MonoBehaviour
 
     private void StartPlayerTurn()
     {
+        ResetSlots();
         foreach (var e in _enemyObjs) e.ShowIntent();
     }
 
-    public void SpawnCombatants(CombatData combat)
+    private void ResetSlots()
+    {
+        foreach (var s in _adventurerCombatSlots) s.Reset();
+        foreach (var a in _adventurerObjs) GetAdventurerSlot().SetCreature(a);
+        foreach (var s in _blockCombatSlots) Destroy(s.gameObject);
+        _blockCombatSlots.Clear();
+    }
+
+    public async void SpawnCombatants(CombatData combat)
     {
         for (int i = 0; i < MAX_PARTY_SIZE; i++) {
             MakeNewAdventurerSlot();
             MakeNewEnemySlot();
         }
 
-        foreach (var a in PlayerInfo.Party.Adventurers) AddAdventurerToCombat(a);
-        foreach (var e in combat.Enemies) AddEnemyToCombat(e);
+        foreach (var a in PlayerInfo.Party.Adventurers) {
+            AddAdventurerToCombat(a);
+            await Task.Delay((int)(_pieceDelay * 1000));
+        }
+
+        await Task.Delay((int) (_enemyDelay * 1000));
+
+        foreach (var e in combat.Enemies) {
+            AddEnemyToCombat(e);
+            await Task.Delay((int)(_pieceDelay * 1000));
+        }
     }
 
     private void AddAdventurerToCombat(AdventurerData data)
     {
-        var emptySlots = _adventurerCombatSlots.Where(x => !x.Creature).ToList();
-        var slot = emptySlots[Mathf.RoundToInt((emptySlots.Count - 1) / 2)];
+        var slot = GetAdventurerSlot();
 
         AddCreatureToSlot(slot, data.AdventurerPrefab, ref _adventurerObjs);
         slot.Creature.GetComponent<AdventurerObject>().Initialize(data);
+    }
+
+    private CombatSlot GetAdventurerSlot()
+    {
+        var emptySlots = _adventurerCombatSlots.Where(x => x.Creature == null).ToList();
+        var slot = emptySlots[Mathf.RoundToInt((emptySlots.Count - 1) / 2)];
+        return slot;
     }
 
     private void AddEnemyToCombat(EnemyData enemyData)
@@ -209,7 +216,7 @@ public class TabletopController : MonoBehaviour
     private void MakeNewAdventurerSlot()
     {
         var slot = MakeNewSlot(_adventurerParent, ref _adventurerCombatSlots, _leftAdventurerLimit, _rightAdventurerLimit);
-        slot.gameObject.name = "adventurer slot";
+        slot.gameObject.name = "adventurer slot " + _adventurerCombatSlots.Count;
 
     }
     private void MakeNewEnemySlot()
@@ -277,8 +284,8 @@ public class TabletopController : MonoBehaviour
 
     public CombatSlot GetRandomEmptyAdventurerSlot()
     {
-        List<CombatSlot> adventurerCombatSlots = _adventurerCombatSlots.Where(x => !x.Creature).ToList();
-        return adventurerCombatSlots[Random.Range(0, adventurerCombatSlots.Count)];
+        List<CombatSlot> EmptySlots = _adventurerCombatSlots.Where(x => !x.Creature).ToList();
+        return EmptySlots[Random.Range(0, EmptySlots.Count)];
     }
 
     public List<AdventurerObject> GetAdventurers() {

@@ -170,7 +170,8 @@ MonoBehaviour:
       m_Calls: []
   EnemyType: 0
   _attackArrowPrefab: {fileID: 8950550944644529447, guid: 014527dbbc63f8040b8f2a1d6d0331f8, type: 3}
-  AttackArrow: {fileID: 0}
+  attackArrow: {fileID: 0}
+  _attackSound: {fileID: 11400000, guid: 5b96bf91361ffca4d926e28a6b63f0ec, type: 2}
 --- !u!114 &7188108063214371538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,6 +363,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6349669091669604474}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7939694948334247155}
   m_SourcePrefab: {fileID: 100100000, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
 --- !u!4 &1527449041676022485 stripped
 Transform:
@@ -394,6 +398,35 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7939694948334247155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2195863684858538095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84290f47aa953c44fa7fb737318241ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _events:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2849880944713815048}
+        m_TargetAssemblyTypeName: CreatureObject, Assembly-CSharp
+        m_MethodName: UpdateUI
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  _sounds: []
+  _other: {fileID: 0}
 --- !u!4 &5196627474742476130 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2691447693167941540, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
@@ -434,6 +467,10 @@ PrefabInstance:
     - target: {fileID: 2352594888030463812, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4195456870778501191, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
+      propertyPath: m_FillAmount
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4298825501047042404, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
       propertyPath: m_Value

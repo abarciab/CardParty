@@ -36,6 +36,13 @@ public abstract class CreatureObject : MonoBehaviour
 
     public int Health => _health;
     public int Block => _block;
+    public float HealthPercent => Health / _maxHealth;
+    public float BlockPercent => Block / _maxBlock;
+
+    private void OnEnable()
+    {
+        UI.gameObject.SetActive(false);
+    }
 
     private void OnValidate()
     {
@@ -43,10 +50,17 @@ public abstract class CreatureObject : MonoBehaviour
         _block = 0;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         _gameRunning = true;
         UI.SetLabelVisible(false);
+    }
+
+    public  void UpdateUI(bool setActive = true)
+    {
+        if (setActive) UI.gameObject.SetActive(true);
+        UI.UpdateHealth(_health / _maxHealth);
+        UI.UpdateBlock(_block / _maxBlock);
     }
 
     public abstract string GetName();

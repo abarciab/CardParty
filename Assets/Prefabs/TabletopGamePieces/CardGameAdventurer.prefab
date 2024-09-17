@@ -55,8 +55,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.4000294, y: 6.681864, z: 2.539896}
-  m_Center: {x: 0, y: 2.840932, z: 0}
+  m_Size: {x: 2.4000294, y: 4.9424267, z: 2.539896}
+  m_Center: {x: 0, y: 1.9712133, z: 0}
 --- !u!114 &4936590728334464692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,6 +87,7 @@ MonoBehaviour:
       m_Calls: []
   _startDragSound: {fileID: 11400000, guid: 5538fd634108c8e4a8ab28226897db93, type: 2}
   _endDragSound: {fileID: 11400000, guid: 6c17f1b25dc0a984a8164918829b64c9, type: 2}
+  _lockedSound: {fileID: 11400000, guid: aaeb82a1a43f11944903a92620b4390e, type: 2}
   _animPlaceTriggerString: place
 --- !u!114 &5215813724519407301
 MonoBehaviour:
@@ -354,6 +355,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3698366410602308706}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7302956194580836855}
   m_SourcePrefab: {fileID: 100100000, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
 --- !u!4 &3958582166696146263 stripped
 Transform:
@@ -386,6 +390,35 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7302956194580836855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6956041368246263898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84290f47aa953c44fa7fb737318241ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _events:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4936590728334464692}
+        m_TargetAssemblyTypeName: CreatureObject, Assembly-CSharp
+        m_MethodName: UpdateUI
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  _sounds: []
+  _other: {fileID: 0}
 --- !u!4 &7765052835054353120 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 39bfb74bbbde0a64b93950ac4bd81c4e, type: 3}
@@ -399,6 +432,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 503142253857486860}
     m_Modifications:
+    - target: {fileID: 1812499544471700761, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1812499544471700761, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1890538668558792336, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -410,6 +451,14 @@ PrefabInstance:
     - target: {fileID: 2060642872838605556, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451405330044581906, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2451405330044581906, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5609144415430926911, guid: 97735bb0c2b81a647a599992a51aa41b, type: 3}
       propertyPath: m_AnchorMax.x

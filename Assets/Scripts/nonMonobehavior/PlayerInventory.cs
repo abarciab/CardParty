@@ -35,10 +35,8 @@ public class PlayerInventory
 
         if (!equipment) {
             if (PlayerInfo.Party.GetEquippedEquipment()) {
-                Debug.Log("something is equipped");
                 equipment = PlayerInfo.Party.GetEquippedEquipment();
             } else {
-                Debug.Log("nothing is equipped");
                 foreach(EquipmentData e in Equipments) {
                     Debug.Log(e);
                 }
@@ -78,5 +76,11 @@ public class PlayerInventory
     {
         var list = Equipments.Where(x => x.Slot == slot).ToList();
         return new List<EquipmentData>(list); 
+    }
+
+    public List<EquipmentData> GetAllEquipments() {
+        var temp = Equipments;
+        temp.AddRange(PlayerInfo.Party.GetAllEquippedItems());
+        return temp;
     }
 }

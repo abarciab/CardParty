@@ -189,7 +189,12 @@ public class TileController : MonoBehaviour
     {
         UpdateEntranceVisuals();
         _interactable.gameObject.SetActive(!_isUnlocked);
-        OverworldUIManager.i.StartEvent(options[Random.Range(0, options.Count)]);
+        
+        SpecialEventData chosenEvent = options[Random.Range(0, options.Count)];
+        while (!chosenEvent.IsValidEvent()) {
+            chosenEvent = options[Random.Range(0, options.Count)];
+        }
+        OverworldUIManager.i.StartEvent(chosenEvent);
     }
 
     public Vector3 GetEntrancePos(Direction dir)

@@ -161,14 +161,22 @@ public abstract class CreatureObject : MonoBehaviour
         }
         _statusEffects[newTime].Add(newStatus);
         _statusEffects[newTime].OrderBy(x => (int)x.Type);
+
+        UI.AddStatusEffectBubble(newStatus.Type);
     }
 
     public void RemoveStatusEffect(StatusEffect status) {
         _statusEffects[status.TriggerTime].Remove(status);
+
+        UI.RemoveStatusEffectBubble(status.Type);
     }
 
     public void RemoveAllStatusEffects() {
-        _statusEffects = new Dictionary<StatusEffectTriggerTime, List<StatusEffect>>();
+        foreach (List<StatusEffect> statusList in _statusEffects.Values) {
+            foreach (StatusEffect status in statusList) {
+                RemoveStatusEffect(status);
+            }
+        }
     }
 
     public void TriggerStatusEffects(StatusEffectTriggerTime time) {

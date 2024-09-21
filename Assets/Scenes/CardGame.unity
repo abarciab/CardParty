@@ -3164,6 +3164,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: LoadOverworld
       objectReference: {fileID: 0}
+    - target: {fileID: 2059690542352157892, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2059690542352157892, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2059690542352157892, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4048078271618638687, guid: 0e44239ea5802bc4e9af5a8e40946540, type: 3}
       propertyPath: m_Name
       value: UI

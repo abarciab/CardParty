@@ -19,8 +19,6 @@ public class SpecialEventOutcome
         if (Type == EventOutcomeType.MONEY) PlayerInfo.Stats.Money += MoneyDelta;
         if (Type == EventOutcomeType.EQUIPMENT) PlayerInfo.Inventory.AddEquipment(_equipment);
         if (Type == EventOutcomeType.LOOT) PlayerInfo.AddLoot(Loot.GetLoot(OverworldManager.i.GetCurrentPlayerTile().GetDifficulty()));
-        //if (Type == EventOutcomeType.FIGHT) OverworldManager.i.LoadCardGame();
-        if (Type == EventOutcomeType.FIGHT) Debug.Log("no combat selected");
         if (Type == EventOutcomeType.ADVENTURER_KILL) PlayerInfo.Party.KillRandomAdventurer();
         if (Type == EventOutcomeType.ADVENTURER_HIRE) PlayerInfo.Party.AddAdventurer(_newHire);
         if (Type == EventOutcomeType.ADVENTURER_DAMAGE) PlayerInfo.Party.DamageSingle(_damageAmount);
@@ -67,6 +65,25 @@ public class SpecialEventData : ScriptableObject
 
     public void OnValidate() {
         if (Title == "") Title = System.IO.Path.GetFileNameWithoutExtension(UnityEditor.AssetDatabase.GetAssetPath(this.GetInstanceID()));
+    }
+
+    public bool IsValidEvent() {
+        foreach (SpecialEventChoiceData choice in Choices) {
+            foreach (SpecialEventOutcomeData outcomeData in new List<SpecialEventOutcomeData>{choice.SuccessOutcomeData, choice.FailureOutcomeData}) {
+                foreach (SpecialEventOutcome outcome in outcomeData.Outcomes) {
+                    if (outcome.Type == EventOutcomeType.MONEY && PlayerInfo.Stats.Money < outcome.MoneyDelta + Constants.MONEY_VARIANCE) return false;
+                    if (outcome.Type == EventOutcomeType.ADVENTURER_KILL && PlayerInfo.Party.Adventurers.Count == 1) return false;
+                    if (outcome.Type == EventOutcomeType.ADVENTURER_DAMAGE && PlayerInfo.Party.GetPartyHealthPercent() < 0.2f) return false;
+                    if (outcome.Type == EventOutcomeType.ADVENTURER_DAMAGE_ALL && PlayerInfo.Party.GetPartyHealthPercent() < 0.2f) return false;
+                    if (outcome.Type == EventOutcomeType.HEAL_FULL_PARTY && PlayerInfo.Party.GetPartyHealthPercent() > 0.8f) return false;
+                    if (outcome.Type == EventOutcomeType.ADVENTURER_SWAP && PlayerInfo.Party.Adventurers.Count == 1) return false;
+                    if (outcome.Type == EventOutcomeType.EQUIPMENT_SWAP && PlayerInfo.Inventory.GetAllEquipments().Count == 0) return false;
+                    if (outcome.Type == EventOutcomeType.EQUIPMENT_DESTROY && PlayerInfo.Inventory.GetAllEquipments().Count == 0) return false;
+                    if (outcome.Type == EventOutcomeType.HEAL_PARTY && PlayerInfo.Party.GetPartyHealthPercent() > 0.8f) return false;
+                }
+            }
+        }
+        return true;
     }
 }
 

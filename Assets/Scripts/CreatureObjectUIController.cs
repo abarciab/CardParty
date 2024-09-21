@@ -17,6 +17,9 @@ public class CreatureObjectUIController : MonoBehaviour
     [SerializeField] private float _updateTime = 1;
     [SerializeField] private CopySlider _hpCopySlider;
     [SerializeField] private CopySlider _blockCopySlider;
+    [SerializeField] private Transform _statusEffectBubbleParent;
+    [SerializeField] private List<StatusEffectBubble> _statusEffectBubbles = new List<StatusEffectBubble>();
+    [SerializeField] private GameObject _statusEffectBubblePrefab;
 
     private CreatureObject _creatureObj;
 
@@ -74,5 +77,21 @@ public class CreatureObjectUIController : MonoBehaviour
 
         text.text = targetValue.ToString();
         copySlider.UpdateFollowWithDelay(targetSliderValue);
+    }
+
+    public void AddStatusEffectBubble(StatusEffectType type) {
+        GameObject newBubble = Instantiate(_statusEffectBubblePrefab, _statusEffectBubbleParent);
+        _statusEffectBubbles.Add(newBubble.GetComponent<StatusEffectBubble>());
+        newBubble.GetComponent<StatusEffectBubble>().Initialize(type);
+    }
+
+    public void RemoveStatusEffectBubble(StatusEffectType type) {
+        foreach (StatusEffectBubble bubble in _statusEffectBubbles) {
+            if (bubble.Type == type) {
+                Destroy(bubble);
+                return;
+            }
+        }
+        throw new System.Exception("Failed to remove status effect of type " + nameof(type) + " because it does not exist");
     }
 }

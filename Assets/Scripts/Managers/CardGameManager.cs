@@ -164,7 +164,6 @@ public class CardGameManager : GameManager
     }
 
     public void PlayCard(CardObject cardObject) {
-        print(cardObject);
 
         _tableTop.MakeAllCreaturesUnselectable();
 

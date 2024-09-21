@@ -194,4 +194,12 @@ public class Party
         return index;
     }
 
+    public float GetPartyHealthPercent() {
+        float val = 0;
+        foreach (AdventurerStats stats in _statsDict.Values) {
+            val += stats.CurrentHealth / stats.MaxHealth;
+        }
+        return val / Adventurers.Count;
+    }
+
 }

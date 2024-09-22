@@ -16,18 +16,46 @@ public class AdventurerObject : CreatureObject
     [Header("Adventurer Animation")]
     [SerializeField] private string _animPlaceTriggerString = "place";
 
+    [Header("model coloring")]
+    [SerializeField] private Material _normalMat;
+    [SerializeField] private Material _hoveredMat;
+    [SerializeField] private GameObject _characterModelParent;
+    [SerializeField] private Color _hoverColorAddition;
+    [SerializeField] private Gradient _colorRandomizationGradient;
+    [SerializeField] private float _randomColorFactor = 0.15f;
+
     [HideInInspector] public AdventurerData AdventurerData { get; private set; }
     private bool _isBeingDragged = false;
     private bool _facingMouse = true;
+    private List<MeshRenderer> _characterRenderers = new List<MeshRenderer>();
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
+        _characterRenderers = _characterModelParent.GetComponentsInChildren<MeshRenderer>().ToList();
+        Color randomColor = _colorRandomizationGradient.Evaluate(Random.Range(0f, 1));
+        foreach (var r in _characterRenderers) {
+            foreach (var m in r.materials) m.color = Color.Lerp(m.color, randomColor, _randomColorFactor);
+        }
+
+
         _startDragSound = Instantiate(_startDragSound);
         _endDragSound = Instantiate(_endDragSound);
         _lockedSound = Instantiate(_lockedSound);
 
         CardGameManager.i.OnStartPlayerTurn.AddListener(() => _facingMouse = true);
         CardGameManager.i.OnEndPlayerTurn.AddListener(OnEndTurn);
+    }
+
+    public void SetModelHovered(bool isHovered)
+    {
+        foreach (var r in _characterRenderers) {
+            foreach (var m in r.materials) {
+                if (isHovered) m.color += _hoverColorAddition;
+                else m.color -= _hoverColorAddition;
+            }
+        }
     }
 
     private void OnEndTurn()

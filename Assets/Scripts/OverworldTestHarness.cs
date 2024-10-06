@@ -41,15 +41,10 @@ public class OverworldTestHarness : MonoBehaviour
 
     [ButtonMethod]
     public void LoadNormalPlaythroughData() {
-        List<TileInteractableData> standardOptions = new List<TileInteractableData>();
-
-        standardOptions = Resources.LoadAll("TileInteractableOptions", typeof(TileInteractableData)).Cast<TileInteractableData>().ToList();
-
+        var standardOptions = Resources.LoadAll("TileInteractableOptions", typeof(TileInteractableData)).Cast<TileInteractableData>().ToList();
         FindObjectOfType<TileGenerator>().SetTileInteractableOptions(standardOptions);
 
-        #if UNITY_EDITOR
-        UnityEditor.EditorUtility.SetDirty(FindObjectOfType<TileGenerator>());
-        #endif
+        Utilities.SetDirty(FindObjectOfType<TileGenerator>());
     }
 
     public void OnValidate() {

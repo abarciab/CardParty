@@ -401,6 +401,7 @@ MonoBehaviour:
   _events: []
   _sounds:
   - {fileID: 11400000, guid: a62bff25d985a45429fe753eae47d464, type: 2}
+  _other: {fileID: 0}
 --- !u!1 &1184341014
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,9 +784,33 @@ PrefabInstance:
       value: tileGrid
       objectReference: {fileID: 0}
     - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
-      propertyPath: _tileInteractableOptions.Array.size
-      value: 3
+      propertyPath: _gridDimenstions.x
+      value: 23
       objectReference: {fileID: 0}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _gridDimenstions.y
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9c456a85a62dd9642b6c67bdfd9b79c4, type: 2}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 10eeb5fc58a57a14c8f013a859a51468, type: 2}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: b5fcb17eb15b7dc41b6a8d3094da600d, type: 2}
+    - target: {fileID: 6748409975408731911, guid: 7c660b04bba8e9d4d9b03f7fc352f77e, type: 3}
+      propertyPath: _tileInteractableOptions.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: aee27c97212a19d469d5cbca195540fe, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

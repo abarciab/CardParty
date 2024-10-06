@@ -19,7 +19,7 @@ public class TileGenerator : MonoBehaviour
     [SerializeField, Range(0, 1)] private float _largePatchChance = 0.5f;
 
     [Header("Interactables")]
-    [SerializeField] private List<TileInteractableData> _tileInteractableOptions = new List<TileInteractableData>();
+    [SerializeField, DisplayInspector] private List<TileInteractableData> _tileInteractableOptions = new List<TileInteractableData>();
 
     [Header("Special tiles")]
     [SerializeField] private GameObject _startTile;

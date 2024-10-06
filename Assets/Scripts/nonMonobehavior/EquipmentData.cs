@@ -38,7 +38,11 @@ public class EquipmentData : ScriptableObject
             else rarity = EquipmentRarity.Common;
         }
 
-        foreach(EquipmentData equipment in Resources.LoadAll<EquipmentData>( "Equipment/").ToList().Shuffle()) {
+        //var allEquipment = Resources.LoadAll<EquipmentData>("Equipment/").ToList().Shuffle();
+        var allEquipment = Resources.LoadAll("Data/Equipment", typeof(EquipmentData)).Cast<EquipmentData>().ToList().Shuffle();
+        Debug.Log("rarity: " + rarity + ", all equipment: " + string.Join(", ", allEquipment.Select(x => x.Name)));
+
+        foreach (EquipmentData equipment in allEquipment) {
             if (equipment.Rarity == rarity) return equipment;
         }
 

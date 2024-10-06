@@ -4,8 +4,6 @@ using UnityEngine;
 using System.Linq;
 using MyBox;
 
-
-
 public class Loot
 {
     public int Gold = 0;
@@ -18,11 +16,11 @@ public class Loot
     public static Loot GetLoot(int difficulty) {
         Loot res = new Loot();
 
-        float r = UnityEngine.Random.Range(0f, 1f);
-        if (r < 0.1) {
+        float r = Random.Range(0f, 1f);
+        if (true || r < 0.1) {
             res.Equipment = EquipmentData.GetEquipment(difficulty);
         } else {
-            res.Gold = 22 + UnityEngine.Random.Range(-5, 5);
+            res.Gold = 22 + Random.Range(-5, 5);
         }
         
         return res;

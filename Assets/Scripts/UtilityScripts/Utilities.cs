@@ -12,6 +12,13 @@ public class Utilities
     public const float OBJECT_SHAKE_TIME = 0.05f;
     const float OBJECT_SHAKE_MAGNITUDE = 0.01f;
 
+    public static void SetDirty(UnityEngine.Object o)
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(o);
+#endif
+    }
+
     public static int QuaternionToTurnCount(Quaternion quat)
     {
         if (Vector3.Distance(quat.eulerAngles, new Vector3(0, 270, 0)) < 0.1f) return 3;

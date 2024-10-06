@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1509cd68e6ccf4dbabf8b28d850268, type: 3}
+  m_Name: combat2
+  m_EditorClassIdentifier: 
+  Name: easyCombat
+  Difficulty: 0.1
+  Type: 2
+  Outcome: 1
+  ShopData: {fileID: 0}
+  EventOptions:
+    items: []
+  CombatOptions:
+    items:
+    - {fileID: 11400000, guid: c191d39f7c24a9147a7a0f91d2f2ab40, type: 2}
+    - {fileID: 11400000, guid: d9380addac9d1c140b01be9a435a315b, type: 2}
+    - {fileID: 11400000, guid: 57f28304694d3e94d81a665583ff93a4, type: 2}
+    - {fileID: 11400000, guid: 29c697585394546459201325d3e9affc, type: 2}
+    - {fileID: 11400000, guid: e778986d021e9a149b7501bcf4ff66db, type: 2}
+    - {fileID: 11400000, guid: cfebd6a387596254ca84d9e5bafe9bb4, type: 2}
+  _frequency: 100
+  ActualChance: 0
